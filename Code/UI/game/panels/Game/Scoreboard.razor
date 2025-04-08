@@ -8,14 +8,14 @@
 	{
 		<div class="player-list">
 			<div class="team-header">
-				<img class="icon-small" src="/icons/props.png" />
-				<div>@team.DisplayName</div>
-				<div class="remaining"><span class="count">@AllClients?.Where(x => x.Team == team).Count()</span>players remaining</div>
+				<img class="icon-small" src=@team.Image />
+				<div style="color: @team.Color.Hex">@team.DisplayName</div>
+				<div class="remaining"><span class="count" style="color: @team.Color.Hex">@AllClients?.Where(x => x.Team == team).Count()</span>players remaining</div>
 			</div>
 
-			<div class="divider"></div>
+			<div class="divider" style="background-color: rgba(@team.Color.Hex, 0.15);"></div>
 
-			<div class="entry key">
+			<div class="entry key" style="background-color: rgba(@team.Color.Hex, 0.25); color: rgba(@team.Color.Hex, 0.9);">
 				<div class="info" style="padding: 10px">#</div>
 				<div class="name" style="flex-grow: 1">
 					<img class="avatar" />

@@ -1,7 +1,7 @@
 {
   "DisplayName": "no team",
-  "Color": "0,0,0,0",
-  "Image": null,
+  "Color": "1,1,1,1",
+  "Image": "icons/kill methods/dead.png",
   "Objective": null,
   "PawnPrefab": "prefabs/exampleplayer.prefab",
   "__references": [],
