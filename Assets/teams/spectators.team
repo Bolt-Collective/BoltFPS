@@ -1,7 +1,7 @@
 {
   "DisplayName": "Spectator",
   "Color": "0.46977,0.46977,0.46977,1",
-  "Image": null,
+  "Image": "icons/spectator.png",
   "Objective": "Spectate!",
   "PawnPrefab": "prefabs/spectator.prefab",
   "__references": [],
