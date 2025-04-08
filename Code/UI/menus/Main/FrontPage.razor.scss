@@ -1,0 +1,92 @@
+@import "UI/_styles.scss";
+
+FrontPage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    font-family: "Integral CF";
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    padding: 80px;
+    pointer-events: all;
+
+  .exitButton {
+    width: 45%;
+    height: 75px;
+    align-items: center;
+    gap: 5px;
+
+    .text {
+      color: white;
+      opacity: 0.5;
+      font-size: 23px;
+      line-height: 16px;
+      text-transform: uppercase;
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      .text {
+        opacity: 1;
+      }
+    }
+  }
+
+  .button {
+    width: 45%;
+    height: 75px;
+    align-items: center;
+    gap: 5px;
+        .text {
+            color: white;
+            font-size: 25px;
+            line-height: 16px;
+            text-transform: uppercase;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-bottom: 5px;
+        }
+
+    img {
+      height: 25px;
+      width: 25px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sideBar {
+      height: 100%;
+      background-color: $color-2;
+      width: 0px;
+      opacity: 0;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+        &.invalid{
+            opacity:0.5;
+        }
+
+        &:hover {
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.0) 75%, rgba(0, 0, 0, 0) 100%);
+
+      .text {
+        transform: translateX(35px);
+        font-size: 30px;
+        color: $color-2;
+        text-shadow: 7px 0px 11 rgba(0, 0, 0, 0.25);
+      }
+
+      img {
+        transform: translateX(20px);
+        height: 30px;
+        width: 30px;
+      }
+
+      .sideBar {
+        width: 15px;
+        opacity: 1;
+      }
+    }
+  }
+}

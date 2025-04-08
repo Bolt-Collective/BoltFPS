@@ -1,0 +1,332 @@
+{
+  "__guid": "f0bc86d4-f036-4f90-8e0e-b4a5aac18ed2",
+  "GameObjects": [
+    {
+      "__guid": "bce4e289-5070-425d-9dc8-b8fde637a5c8",
+      "Flags": 0,
+      "Name": "2D Skybox",
+      "Position": "60.85344,48.29187,-56.94836",
+      "Tags": "skybox",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "Sandbox.SkyBox2D",
+          "__guid": "fc11f72a-309a-4df3-97fe-e76a5dbba0ce",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "SkyIndirectLighting": true,
+          "SkyMaterial": "materials/skybox/skybox_day_01.vmat",
+          "Tint": "1,1,1,1"
+        }
+      ]
+    },
+    {
+      "__guid": "9756bd1b-0e15-4679-a5e2-dcdcb044c6df",
+      "Flags": 0,
+      "Name": "Box",
+      "Position": "16,-32,0",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "Sandbox.MeshComponent",
+          "__guid": "59300359-988e-4166-ae7f-8db8dfa0cea5",
+          "Collision": "Mesh",
+          "Color": "1,1,1,1",
+          "Friction": null,
+          "HideInGame": false,
+          "IsTrigger": false,
+          "Mesh": {
+            "Topology": "H4sIAAAAAAAACk2OCQrAMAgEp1fS+/+/tQxViBAk7uxqA15g5i/7CjTgBG5gyldM1QNERDhf0mcVa1dX2zJz3OFc3Vkfcp3L7pkhe+Q9/tXVzNRvv4Zb5WX1VL63ukNdXlaPurv8f4zJgfQMAQAA",
+            "Position": "16,-32,0",
+            "Rotation": "0,0,0,1",
+            "Positions": [
+              "-656,-672,0",
+              "656,-672,0",
+              "656,672,0",
+              "-656,672,0",
+              "-656,672,253.5511",
+              "-656,-672,253.5511"
+            ],
+            "TextureCoord": [
+              "6.125,6.25",
+              "0,0",
+              "6.125,-4.25",
+              "0,0",
+              "-4.125,-4.25",
+              "0,0",
+              "-4.125,6.25",
+              "5,0",
+              "5,-1.980868",
+              "0,0",
+              "-5.5,-1.980868",
+              "0,0",
+              "-5.5,0",
+              "0,0"
+            ],
+            "TextureUAxis": [
+              "1,0,0",
+              "0,1,0"
+            ],
+            "TextureVAxis": [
+              "0,-1,0",
+              "0,0,-1"
+            ],
+            "TextureScale": [
+              "0.25,0.25",
+              "0.25,0.25"
+            ],
+            "TextureOffset": [
+              "448,384",
+              "0,0"
+            ],
+            "MaterialIndex": [
+              0,
+              0
+            ],
+            "EdgeFlags": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "Materials": [
+              "materials/dev/reflectivity_30.vmat"
+            ]
+          },
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "OnObjectTriggerEnter": null,
+          "OnObjectTriggerExit": null,
+          "OnTriggerEnter": null,
+          "OnTriggerExit": null,
+          "RenderType": "On",
+          "SmoothingAngle": 40,
+          "Static": true,
+          "Surface": null,
+          "SurfaceVelocity": "0,0,0"
+        }
+      ]
+    },
+    {
+      "__guid": "64140d84-8f58-446b-acef-2962c871b37b",
+      "Flags": 0,
+      "Name": "Network",
+      "Position": "0,0,119.4833",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "Seekers.BasicNetworkHelper",
+          "__guid": "d5d2f1fa-0c28-4042-8b98-6c05559ce096",
+          "DevMode": false,
+          "KickedPlayers": [],
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "PlayerPrefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/player.prefab"
+          },
+          "PlayerWhitelist": [
+            76561198043979097,
+            76561198193615491,
+            76561199407136830,
+            76561198289339378
+          ],
+          "StartServer": true
+        },
+        {
+          "__type": "Seekers.TeamManager",
+          "__guid": "168486c2-ebbe-41f6-9974-c6888eb25883",
+          "DefaultTeam": "teams/basic.team",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null
+        }
+      ]
+    },
+    {
+      "__guid": "b94d50e2-125f-48cf-bc96-1020807328bb",
+      "Flags": 0,
+      "Name": "UI",
+      "Position": "65.58156,825.8718,1353.204",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "Sandbox.ScreenPanel",
+          "__guid": "63b8bc28-ae9e-4156-9d38-e9d6113c2d5f",
+          "AutoScreenScale": true,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "Opacity": 1,
+          "Scale": 1,
+          "ScaleStrategy": "ConsistentHeight",
+          "TargetCamera": null,
+          "ZIndex": 100
+        },
+        {
+          "__type": "Seekers.RootHUD",
+          "__guid": "76c400a4-2ec1-4dff-800d-37042cda4aa1",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null
+        },
+        {
+          "__type": "Seekers.Crosshair",
+          "__guid": "562d84a6-a741-4bea-af83-4f83ac5a1649",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null
+        },
+        {
+          "__type": "Seekers.Scoreboard",
+          "__guid": "fdc4d9bf-ca90-4cff-8587-0c74b344bf64",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "Teams": [
+            "teams/basic.team"
+          ]
+        },
+        {
+          "__type": "Seekers.WeaponPicker",
+          "__guid": "36dcdbf0-bef6-49c2-8b85-0be04c1b66dd",
+          "BackgroundBlur": 15,
+          "BackgroundColour": "0,0,0,0.09",
+          "CanShow": true,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "ShowAction": "buy",
+          "ShowOnKey": true,
+          "WeaponCatagories": [
+            {
+              "DisplayName": "Primary",
+              "Weapons": [
+                {
+                  "DisplayName": "M4A1",
+                  "Icon": "icons/weapons/guns/m4_01.png",
+                  "Details": null
+                },
+                {
+                  "DisplayName": "M700",
+                  "Icon": "icons/weapons/guns/m700_01.png",
+                  "Details": null
+                }
+              ],
+              "SelectedWeapon": null
+            },
+            {
+              "DisplayName": "Secondary",
+              "Weapons": [
+                {
+                  "DisplayName": "USP",
+                  "Icon": "icons/weapons/guns/usp_01.png",
+                  "Details": null
+                },
+                {
+                  "DisplayName": "MP5",
+                  "Icon": "icons/weapons/guns/mp5_01.png",
+                  "Details": null
+                },
+                {
+                  "DisplayName": "Spaghelli M4",
+                  "Icon": "icons/weapons/guns/spaghellim4_01.png",
+                  "Details": null
+                }
+              ],
+              "SelectedWeapon": null
+            }
+          ]
+        },
+        {
+          "__type": "Seekers.EnsuredLoadout",
+          "__guid": "607fefe9-930e-4ed8-b26f-547f491d987e",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null
+        },
+        {
+          "__type": "Seekers.BasicLoadoutManager",
+          "__guid": "0f50e56f-83ea-4b8b-8ceb-4262fc664d9a",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null
+        }
+      ]
+    }
+  ],
+  "SceneProperties": {
+    "FixedUpdateFrequency": 50,
+    "MaxFixedUpdates": 5,
+    "NetworkFrequency": 30,
+    "NetworkInterpolation": true,
+    "PhysicsSubSteps": 1,
+    "ThreadedAnimation": true,
+    "TimeScale": 1,
+    "UseFixedUpdate": true,
+    "Metadata": {},
+    "NavMesh": {
+      "Enabled": false,
+      "IncludeStaticBodies": true,
+      "IncludeKeyframedBodies": true,
+      "EditorAutoUpdate": true,
+      "AgentHeight": 64,
+      "AgentRadius": 16,
+      "AgentStepSize": 18,
+      "AgentMaxSlope": 40,
+      "ExcludedBodies": "",
+      "IncludedBodies": ""
+    }
+  },
+  "ResourceVersion": 2,
+  "Title": null,
+  "Description": null,
+  "__references": [],
+  "__version": 2
+}

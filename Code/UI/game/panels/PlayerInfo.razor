@@ -1,0 +1,33 @@
+@inherits Sandbox.UI.Panel
+
+@namespace Seekers
+
+@if ( !Pawn.IsValid() ) return;
+
+<root>
+	<div class="hud">
+		@if (!Team?.Equals(TeamManager.SpectatorsTeam) ?? false)
+		{
+			float stamina = @StaminaPercent / 4;
+			<div class="infobar background @(StaminaPercent > 99 ? "" : "active")" />
+			<div class="infobar @(StaminaPercent > 99 ? "" : "active")" style="mask: conic-gradient(white 0%, white @stamina%, transparent @stamina%) border-box;" />
+		}
+	</div>
+
+	<p style="position: absolute; padding: 10px; width: 100vw; opacity: 0.2;  justify-content: center; bottom: 0">
+		work in progress
+	</p>
+</root>
+
+@code
+{
+	public Pawn Pawn => Pawn.Local;
+	public Team Team => Client.Local?.Team;
+
+	public float StaminaPercent => Pawn.Local.Stamina * 100;
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine( Team, Pawn?.Health, Pawn?.Stamina, Team?.DisplayName, Team?.Objective );
+	}
+}

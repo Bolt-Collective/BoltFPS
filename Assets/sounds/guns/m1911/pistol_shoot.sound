@@ -1,0 +1,41 @@
+{
+  "UI": false,
+  "Volume": "0.5",
+  "Pitch": "1",
+  "Decibels": 10000,
+  "SelectionMode": "Random",
+  "Sounds": [
+    "sounds/guns/m1911/1911_shoot_1.vsnd"
+  ],
+  "Occlusion": false,
+  "AirAbsorption": false,
+  "Transmission": false,
+  "OcclusionRadius": 64,
+  "DistanceAttenuation": true,
+  "Distance": 13000,
+  "Falloff": [
+    {
+      "x": 0,
+      "y": 1,
+      "in": 0,
+      "out": 0,
+      "mode": "Mirrored"
+    },
+    {
+      "x": 0.18898809,
+      "y": 0.381086,
+      "in": 1.4839815,
+      "out": -1.4839815,
+      "mode": "Mirrored"
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "in": 0,
+      "out": 0,
+      "mode": "Mirrored"
+    }
+  ],
+  "__references": [],
+  "__version": 1
+}

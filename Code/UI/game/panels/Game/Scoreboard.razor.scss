@@ -1,0 +1,134 @@
+@import "UI/_styles.scss";
+
+Scoreboard {
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    font-family: Work Sans;
+    gap: 100px;
+    z-index: 10;
+    padding: 15px;
+    width: 100%;
+    height: 100%;
+    transition: all 0.1s ease-in-out;
+    opacity: 1;
+    pointer-events: all;
+    flex-direction: row;
+    color: white;
+
+    &.hidden {
+        opacity: 0;
+    }
+
+    .header {
+        font-weight: 900;
+    }
+
+    .paragraph {
+        font-size: 16px;
+        color: #cfcfcf;
+    }
+
+
+    .icon-small {
+        margin-right: 8px;
+        width: 26px;
+        height: 26px;
+    }
+
+    .player-list {
+        overflow: scroll;
+        width: 556px;
+        height: 753px;
+        background-color: rgba( #292929, 0.9);
+        backdrop-filter: blur(25px);
+        display: flex;
+        flex-direction: column;
+        border-radius: 15px;
+
+        .team-header {
+            position: relative;
+            font-size: 24px;
+            font-weight: semibold;
+            padding: 28px;
+            height: 101px;
+            width: 100%;
+            flex-shrink: 0;
+            align-items: center;
+            color: #C97D37;
+            font-family: 'Integral CF';
+
+            .remaining {
+                position: absolute;
+                right: 28px;
+                gap: 10px;
+                color: rgba(white, 0.25);
+
+                .count {
+                    color: #C97D37;
+                }
+
+                font-family: Work Sans;
+            }
+        }
+
+        .divider {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(#C97D37, 0.15);
+        }
+
+        .entry {
+
+            .avatar {
+                min-width: 30px;
+                width: 35px;
+                height: 35px;
+                border-radius: 50%;
+                margin-right: 5px;
+            }
+
+            padding: 5px;
+            align-items: center;
+            font-size: 25px;
+            display: flex;
+            flex-shrink: 0;
+            height: 50px;
+            color: #D5D5D5;
+
+            .name {
+                font-weight: semibold;
+                width: 52%;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
+            .info {
+                width: 12%;
+                justify-content: center;
+                align-items: center;
+
+                &.small {
+                    font-size: 19px;
+                }
+            }
+
+            &.key {
+                background-color: rgba(#C97D37, 0.25);
+                color: rgba(#C97D37, 0.9);
+            }
+
+            &.spectator{
+                opacity: 0.5;
+            }
+        }
+
+        .entry:nth-child(odd) {
+            background-color: #303030;
+
+            &.key {
+                background-color: rgba(#C97D37, 0.25);
+            }
+        }
+    }
+}

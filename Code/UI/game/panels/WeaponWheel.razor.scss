@@ -1,0 +1,86 @@
+@import "UI/_styles.scss";
+
+WeaponWheel {
+    position: absolute;
+    justify-content: flex-end;
+    align-items: flex-end;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    font-family: Work Sans;
+    z-index: 0;
+    padding: 22px;
+    gap: 8px;
+
+    .WeaponSlot {
+        position: relative;
+        align-items: center;
+        justify-content: flex-end;
+        width: 228px;
+        height: 77px;
+        border-radius: 8px;
+        background-color: rgba(black, 0.5);
+        padding: 7px;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: semibold;
+
+        img {
+            position: absolute;
+            left: 7px;
+            height: 100%;
+            width: 133px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .AmmoInfo {
+            flex-direction: column;
+            width: 75px;
+            height: 63px;
+            justify-content: center;
+
+            .Ammo {
+                width: 100%;
+                justify-content: flex-end;
+                color: $color-2;
+                font-smooth: always;
+                font-size: 30px;
+
+                .filler {
+                    color: white;
+                    opacity: 0.25;
+                    width: 17px;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .main {
+                    width: 17px;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+
+            .Reserve {
+                width: 100%;
+                justify-content: flex-end;
+                color: white;
+                font-size: 20px;
+            }
+        }
+
+        .SlotNumber {
+            position: absolute;
+            left: 7px;
+            bottom: 7px;
+            font-size: 20px;
+            color: rgba(white, 0.75);
+        }
+
+        &.active {
+            height: 77px;
+            width: 283px;
+        }
+    }
+}

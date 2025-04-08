@@ -1,0 +1,54 @@
+{
+  "BulletImpact": {
+    "_type": "gameobject",
+    "prefab": "particles/surfaces/impact.generic.prefab"
+  },
+  "BaseSurface": "surfaces/default.surface",
+  "AudioSurface": "Generic",
+  "Description": null,
+  "Friction": 0.8,
+  "Elasticity": 0.05,
+  "Density": 2000,
+  "Thickness": -1,
+  "RollingResistance": 0,
+  "BounceThreshold": 35,
+  "ImpactEffects": {
+    "Regular": [],
+    "Bullet": [],
+    "BulletDecal": [
+      "decals/bullethole.decal"
+    ],
+    "SoftParticles": [],
+    "SoftDecal": [],
+    "HardParticles": [],
+    "HardDecal": []
+  },
+  "ScrapeEffects": {
+    "RoughnessFactor": 0,
+    "RoughThreshold": 0,
+    "SmoothParticles": null,
+    "RoughParticles": null,
+    "SmoothDecal": null,
+    "RoughDecal": null
+  },
+  "Sounds": {
+    "FootLeft": "surfaces/sounds/footsteps.concrete.sound",
+    "FootRight": "surfaces/sounds/footsteps.concrete.sound",
+    "FootLaunch": "surfaces/sounds/footsteps.concrete.sound",
+    "FootLand": "surfaces/sounds/footsteps.concrete.sound",
+    "Bullet": "surfaces/sounds/impact.concrete.sound",
+    "ImpactHard": "sounds/impacts/melee/impact-melee-concrete.sound",
+    "ImpactSoft": "sounds/impacts/melee/impact-melee-concrete.sound",
+    "ScrapeRough": null,
+    "ScrapeSmooth": null
+  },
+  "Breakables": {
+    "BreakSound": null,
+    "GenericGibs": null
+  },
+  "Tags": null,
+  "__references": [
+    "facepunch.impactgeneric#88477"
+  ],
+  "__version": 0
+}

@@ -1,0 +1,15 @@
+@import "UI/_styles.scss";
+
+SpectatorPanel {
+  position: absolute;
+  bottom: 10%;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .hints {
+    margin: 10px;
+    gap: 10px;
+  }
+}

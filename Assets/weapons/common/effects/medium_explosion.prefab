@@ -1,0 +1,254 @@
+{
+  "RootObject": {
+    "__guid": "900ba5de-c5d2-4820-b01c-16f46242bb5a",
+    "Flags": 0,
+    "Name": "medium_explosion",
+    "Enabled": true,
+    "Components": [
+      {
+        "__type": "Sandbox.SoundPointComponent",
+        "__guid": "9416f478-4195-4a5c-a106-dd909e87fa6f",
+        "Distance": 512,
+        "DistanceAttenuation": false,
+        "DistanceAttenuationOverride": false,
+        "Falloff": [
+          {
+            "x": 0,
+            "y": 1,
+            "in": 3.1415927,
+            "out": -3.1415927,
+            "mode": "Mirrored"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          }
+        ],
+        "Force2d": false,
+        "MaxRepeatTime": 1,
+        "MinRepeatTime": 1,
+        "Occlusion": false,
+        "OcclusionOverride": false,
+        "OcclusionRadius": 32,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Pitch": 1,
+        "PlayOnStart": true,
+        "ReflectionOverride": false,
+        "Reflections": false,
+        "Repeat": false,
+        "SoundEvent": "weapons/handgrenade/he_grenade_explode.sound",
+        "SoundOverride": false,
+        "StopOnNew": false,
+        "TargetMixer": {
+          "Name": "game",
+          "Id": "29d8d82c-0d6a-4715-b9a0-b4c2e28ed158"
+        },
+        "Volume": 1
+      },
+      {
+        "__type": "TimedDestroyComponent",
+        "__guid": "db97b432-1362-4721-bd13-a6a67c4e8f05",
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Time": 10,
+        "TimeUntilDestroy": {
+          "Absolute": 6959.0083,
+          "Relative": 6750.7305,
+          "Passed": -6750.7305,
+          "Fraction": 0
+        }
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "8d8d4c07-8fae-46a2-9c5b-9ff6b320aa88",
+        "Flags": 0,
+        "Name": "Screen Shake",
+        "Enabled": true,
+        "Components": [
+          {
+            "__type": "EnvShake",
+            "__guid": "a770982d-14ac-420a-a2e5-43ead5e5180e",
+            "DistanceCurve": [
+              {
+                "x": 0,
+                "y": 1,
+                "in": 1.5277774,
+                "out": -1.5277774,
+                "mode": "Mirrored"
+              },
+              {
+                "x": 1,
+                "y": 0,
+                "in": 0,
+                "out": 0,
+                "mode": "Mirrored"
+              }
+            ],
+            "MaxDistance": 2048,
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "Rate": 500,
+            "Scale": "12,12,5",
+            "TimeCurve": {
+              "rangey": "0,0.5",
+              "frames": [
+                {
+                  "x": 0,
+                  "y": 1,
+                  "in": 0.8888887,
+                  "out": -0.8888887,
+                  "mode": "Mirrored"
+                },
+                {
+                  "x": 1,
+                  "y": 0,
+                  "in": 0.8113207,
+                  "out": -0.8113207,
+                  "mode": "Mirrored"
+                }
+              ]
+            },
+            "TimeLength": 1,
+            "TimeLimited": true
+          }
+        ]
+      },
+      {
+        "__guid": "4ffe6779-19bc-494f-bd97-b1ebf2156b6f",
+        "Flags": 0,
+        "Name": "Particles",
+        "Enabled": true,
+        "Components": [
+          {
+            "__type": "TemporaryEffect",
+            "__guid": "83d4a915-95f6-4d98-a49a-6ede8319bbf6",
+            "DestroyAfterSeconds": 1,
+            "WaitForChildEffects": true,
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null
+          }
+        ],
+        "Children": [
+          {
+            "__guid": "2d5a0da8-ce01-4797-a0b2-ec9ee15073be",
+            "Flags": 0,
+            "Name": "explosion.medium (1)",
+            "Enabled": true,
+            "__Prefab": "particles/explosion/explosion.medium.prefab",
+            "__PrefabVariables": {}
+          }
+        ]
+      },
+      {
+        "__guid": "47b9c5d1-5757-40f2-a752-30130ac7bb02",
+        "Flags": 0,
+        "Name": "Scorch",
+        "Enabled": true,
+        "Components": [
+          {
+            "__type": "TemporaryEffect",
+            "__guid": "cccd01cc-0c13-4cb4-be80-560ac1bee2ef",
+            "DestroyAfterSeconds": 30,
+            "WaitForChildEffects": false,
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null
+          }
+        ],
+        "Children": [
+          {
+            "__guid": "c024e44b-32cf-465b-a48d-2274d403be8b",
+            "Flags": 0,
+            "Name": "grenade_scorchmark",
+            "Position": "0,0,2",
+            "Rotation": "0,0.7071067,0,0.7071068",
+            "Enabled": true,
+            "Components": [
+              {
+                "__type": "Sandbox.DecalRenderer",
+                "__guid": "8cc4a58d-adff-4e53-90a4-df524f4284b9",
+                "CutoffAngle": 60,
+                "CutoffAngleSoftness": 5,
+                "Material": "materials/decals/decal_scorchmark/grenade_scorchmark.vmat",
+                "Mod2XBlending": false,
+                "OnComponentDestroy": null,
+                "OnComponentDisabled": null,
+                "OnComponentEnabled": null,
+                "OnComponentFixedUpdate": null,
+                "OnComponentStart": null,
+                "OnComponentUpdate": null,
+                "RenderOptions": {
+                  "GameLayer": true,
+                  "OverlayLayer": false,
+                  "BloomLayer": false,
+                  "AfterUILayer": false
+                },
+                "Size": "128,128,32",
+                "TintColor": "1,1,1,1",
+                "TriPlanar": false
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "__variables": [],
+    "__properties": {
+      "FixedUpdateFrequency": 50,
+      "MaxFixedUpdates": 5,
+      "NetworkFrequency": 30,
+      "NetworkInterpolation": true,
+      "PhysicsSubSteps": 1,
+      "ThreadedAnimation": true,
+      "TimeScale": 1,
+      "UseFixedUpdate": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    }
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "ResourceVersion": 1,
+  "__references": [
+    "facepunch.explosionmedium#88481",
+    "facepunch.grenade_scorchmark#58009"
+  ],
+  "__version": 1
+}

@@ -1,0 +1,12 @@
+@using Sandbox.UI;
+<root class="container">
+	<div class="lobbyname">
+		<img src="icons\menu\Name.svg"/>
+		<TextEntry Value:bind="@Value" Placeholder="Enter lobby name here..."/>
+	</div>
+</root>
+
+@code{
+
+	public string Value { get; set; }
+}

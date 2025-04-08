@@ -1,0 +1,29 @@
+@using Sandbox.UI
+@inherits Panel
+
+@namespace Seekers
+
+@if ( Pawn is not SpectatorPawn )
+	return;
+
+<root>
+	<h3>Spectating</h3>
+	<h5>@( SpectatedClient?.Network?.Owner?.DisplayName )</h5>
+	<div class="hints">
+		<InputHint Size=@InputGlyphSize.Small @Action="Attack1" @CustomText="Forward"/>
+		<InputHint Size=@InputGlyphSize.Small @Action="Attack2" @CustomText="Backward"/>
+	</div>
+	<InputHint Size=@InputGlyphSize.Medium @Action="jump" @CustomText="Freecam"/>
+</root>
+
+@code
+{
+	public Client SpectatedClient => (Pawn.Local as SpectatorPawn)?.SpectatedClient!;
+	public Pawn Pawn => Pawn.Local;
+	public Team Team => Pawn?.Team;
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine( Team, SpectatedClient, Pawn );
+	}
+}

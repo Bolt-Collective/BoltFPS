@@ -1,0 +1,20 @@
+@inherits PanelComponent
+@namespace Seekers
+
+<root>
+	<PlayerInfo/>
+	<WeaponWheel/>
+	<SpectatorPanel/>
+</root>
+
+@code
+{
+	public static RootHUD Instance { get; set; }
+
+	protected override void OnAwake()
+	{
+		base.OnAwake();
+
+		Instance = this;
+	}
+}

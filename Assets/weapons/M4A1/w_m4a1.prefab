@@ -1,0 +1,202 @@
+{
+  "RootObject": {
+    "__guid": "fba57dd6-c569-4ae9-ad96-2ca6ea29b45e",
+    "Flags": 0,
+    "Name": "w_m4a1",
+    "Tags": "item,weapon",
+    "Enabled": true,
+    "Components": [
+      {
+        "__type": "Seekers.MachineGun",
+        "__guid": "e6d6f931-f23d-4fdb-adf9-20b8273f056f",
+        "Ammo": 30,
+        "BoneOffset": {
+          "Position": "2.1855,0,-8.196",
+          "Scale": "1,1,1",
+          "Rotation": "0,0,0,1"
+        },
+        "CrosshairType": "Default",
+        "Damage": 7.5,
+        "DeploySound": "sounds/weapons/deploy/m4a1deploy.sound",
+        "EjectCasing": false,
+        "Handedness": "Both",
+        "HoldType": "Rifle",
+        "Icon": "icons/weapons/guns/m4_01.png",
+        "LeftIK": {
+          "Active": true,
+          "GameObject": {
+            "_type": "gameobject",
+            "go": "8d0c9070-802a-421d-971b-dd7d4a2388ad"
+          },
+          "IsLeft": false
+        },
+        "MaxAmmo": 31,
+        "MaxRecoil": 1.5,
+        "MinRecoil": 0.75,
+        "Name": "M4A1",
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "ParentBone": "hold_r",
+        "PrimaryRate": 10,
+        "RecoilPattern": {
+          "Points": [
+            "0,1.23411",
+            "-0.00950575,1.165254",
+            "0.048,1.080508",
+            "0.124,1.016949",
+            "0.2,0.963983",
+            "0.257,0.9163135",
+            "-0.314,0.8739408",
+            "-0.3897338,0.8368645",
+            "-0.4752853,0.7680085",
+            "-0.5228135,0.7097458",
+            "0.57,0.651483",
+            "0.627,0.582627",
+            "0.646,0.5190678",
+            "0.646,0.4449153",
+            "0.656,0.381356",
+            "0.656,0.3283898",
+            "0.637,0.270127",
+            "0.618,0.2224576",
+            "-0.608365,0.1800847",
+            "-0.541825,0.1324153",
+            "-0.4372623,0.07415255",
+            "-0.380228,0.0529661",
+            "-0.228137,0.01588983",
+            "-0.08555125,0.00529661"
+          ]
+        },
+        "ReloadShortSound": "sounds/weapons/reloads/m4a1reloadc.sound",
+        "ReloadSound": "sounds/weapons/reloads/m4a1reload.sound",
+        "ReloadTime": 2.5,
+        "SecondaryRate": 1,
+        "ShootSound": "sounds/weapons/m4a1/m4_shot.sound",
+        "Spread": 0,
+        "ViewModelPrefab": {
+          "_type": "gameobject",
+          "prefab": "weapons/m4a1/v_m4a1.prefab"
+        }
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "d5754c80-fad6-48cd-b995-0c6b3cdc5dd6",
+        "Flags": 0,
+        "Name": "Model",
+        "Position": "0.8752536,1.112744,2.025724",
+        "Rotation": "-0.0000001229346,0.00000006891787,0.0000001639128,0.9999989",
+        "Enabled": true,
+        "Components": [
+          {
+            "__type": "Sandbox.SkinnedModelRenderer",
+            "__guid": "a1404db8-3164-4612-9484-24acb367f7fb",
+            "AnimationGraph": null,
+            "BodyGroups": 171,
+            "BoneMergeTarget": null,
+            "CreateAttachments": false,
+            "CreateBoneObjects": true,
+            "MaterialGroup": null,
+            "MaterialOverride": null,
+            "Model": "models/weapons/sbox_assault_m4a1/w_m4a1.vmdl",
+            "Morphs": {},
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "Parameters": {
+              "bools": {},
+              "ints": {},
+              "floats": {},
+              "vectors": {},
+              "rotations": {}
+            },
+            "PlaybackRate": 1,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "RenderType": "On",
+            "Sequence": {
+              "Name": null
+            },
+            "Tint": "1,1,1,1",
+            "UseAnimGraph": false
+          }
+        ],
+        "Children": [
+          {
+            "__guid": "9c2e9b1f-1b7d-4bdf-b377-fc02dc0ccc4e",
+            "Flags": 0,
+            "Name": "hold_R",
+            "Position": "-1.45742,0,5.464317",
+            "Enabled": true
+          },
+          {
+            "__guid": "8d0c9070-802a-421d-971b-dd7d4a2388ad",
+            "Flags": 0,
+            "Name": "leftik",
+            "Position": "4.804971,0.8108997,5.080464",
+            "Rotation": "-0.04512107,0.09017982,0.27016,-0.9575226",
+            "Enabled": true
+          }
+        ]
+      },
+      {
+        "__guid": "f70b9bf0-77c6-4f7c-9ddf-b8c8a8284a38",
+        "Flags": 0,
+        "Name": "Muzzle",
+        "Position": "19.5,0,12.2",
+        "Enabled": true
+      },
+      {
+        "__guid": "0db70960-8296-4cbf-afce-387fdb9e49cb",
+        "Flags": 0,
+        "Name": "Eject",
+        "Position": "3,-0.95,13.15",
+        "Rotation": "-0.3826835,-0,0,0.9238795",
+        "Enabled": true
+      }
+    ],
+    "__variables": [],
+    "__properties": {
+      "FixedUpdateFrequency": 50,
+      "MaxFixedUpdates": 5,
+      "NetworkFrequency": 30,
+      "NetworkInterpolation": true,
+      "PhysicsSubSteps": 1,
+      "ThreadedAnimation": true,
+      "TimeScale": 1,
+      "UseFixedUpdate": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    }
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "ResourceVersion": 1,
+  "__references": [
+    "facepunch.w_m4a1#60166"
+  ],
+  "__version": 1
+}

@@ -1,0 +1,54 @@
+{
+  "BulletImpact": {
+    "_type": "gameobject",
+    "prefab": "particles/surfaces/impact.wood.prefab"
+  },
+  "BaseSurface": "surfaces/wood.surface",
+  "AudioSurface": "Generic",
+  "Description": null,
+  "Friction": 0.8,
+  "Elasticity": 0.05,
+  "Density": 2000,
+  "Thickness": -1,
+  "RollingResistance": 0,
+  "BounceThreshold": 35,
+  "ImpactEffects": {
+    "Regular": [],
+    "Bullet": [],
+    "BulletDecal": [
+      "decals/bullet-wood.decal"
+    ],
+    "SoftParticles": [],
+    "SoftDecal": [],
+    "HardParticles": [],
+    "HardDecal": []
+  },
+  "ScrapeEffects": {
+    "RoughnessFactor": 0,
+    "RoughThreshold": 0,
+    "SmoothParticles": null,
+    "RoughParticles": null,
+    "SmoothDecal": null,
+    "RoughDecal": null
+  },
+  "Sounds": {
+    "FootLeft": "sounds/footsteps/footstep-wood.sound",
+    "FootRight": "sounds/footsteps/footstep-wood.sound",
+    "FootLaunch": null,
+    "FootLand": null,
+    "Bullet": "sounds/impacts/bullets/impact-bullet-wood.sound",
+    "ImpactHard": "sounds/impacts/bullets/impact-bullet-wood.sound",
+    "ImpactSoft": null,
+    "ScrapeRough": null,
+    "ScrapeSmooth": null
+  },
+  "Breakables": {
+    "BreakSound": null,
+    "GenericGibs": null
+  },
+  "Tags": null,
+  "__references": [
+    "facepunch.impactwood#88480"
+  ],
+  "__version": 0
+}

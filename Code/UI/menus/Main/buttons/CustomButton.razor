@@ -1,0 +1,23 @@
+<root>
+	<div onclick=@Switch class=@( $"setting switch {(Value ? "" : "off")}" )>
+		<div class="statustext">
+			<div class="text">Yes</div>
+			<div class="text no">No</div>
+		</div>
+		<div class="switchdial">
+			<div class="dialbar" />
+			<div class="dialbar" />
+			<div class="dialbar" />
+		</div>
+	</div>
+</root>
+
+@code
+{
+	public bool Value { get; set; }
+
+	public void Switch()
+	{
+		Value = !Value;
+	}
+}

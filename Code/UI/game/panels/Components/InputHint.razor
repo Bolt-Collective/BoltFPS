@@ -1,0 +1,66 @@
+﻿@using System;
+@using Sandbox;
+@using Sandbox.UI;
+
+@namespace Seekers
+@inherits Panel
+
+<style>
+    InputHint
+    {
+        justify-content: center;
+        align-items: center;
+        
+
+        img
+        {
+            background-size: contain;
+            background-repeat: no-repeat;
+            max-height: 64px;
+            max-width: 64px;
+        }
+	    
+    }
+</style>
+
+<root>
+	<img src="@GlyphTexture().ResourcePath"/>
+	@if ( !string.IsNullOrEmpty( CustomText ) )
+	{
+		<h5>@CustomText</h5>
+	}
+	else
+	{
+		<h5>@Action</h5>
+	}
+</root>
+
+@code
+{
+	// @ref
+	public Texture Glyph { get; set; }
+	public string Action { get; set; } = "Use";
+	public string CustomText { get; set; } = "";
+	public InputGlyphSize Size { get; set; } = InputGlyphSize.Medium;
+
+	/// <summary>
+	/// Checks the current button and updates the glyph.
+	/// </summary>
+	Texture GlyphTexture()
+	{
+		var texture = Input.GetGlyph( Action, Size, false );
+
+		return texture;
+	}
+
+	public override void Tick()
+	{
+		SetClass( "keyboard", !Input.UsingController );
+	}
+
+	protected override int BuildHash()
+	{
+		// If we switch input device, rebuild the tree.
+		return HashCode.Combine( Action, Input.UsingController );
+	}
+}

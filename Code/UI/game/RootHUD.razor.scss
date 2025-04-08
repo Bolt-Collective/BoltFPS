@@ -1,0 +1,13 @@
+@import "UI/_styles.scss";
+
+RootHUD {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1;
+}

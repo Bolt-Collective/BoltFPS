@@ -1,0 +1,138 @@
+﻿﻿@using System.Collections.Generic
+
+@attribute [StyleSheet]
+
+@inherits PanelComponent
+@using Sandbox.UI
+@using Sandbox.Utility
+@implements Component.INetworkListener
+
+@namespace Seekers
+
+<root>
+	<div class="chat_canvas">
+		@foreach ( var entry in Entries )
+		{
+			<ChatEntry Entry=@entry/>
+		}
+	</div>
+
+	<div class="input_canvas">
+		<p onclick=@ChangeMessageType>@CurrentMessageType</p>
+		<TextEntry @ref=" InputBox" Placeholder="ENTER to chat" onsubmit="@ChatFinished" AllowEmojiReplace="@( true )"/>
+	</div>
+</root>
+
+@code
+{
+	TextEntry InputBox;
+
+	public static ChatBox Instance { get; set; } = new();
+
+	public record Entry( long SteamId, string Name, string Message, string Styles, Color TeamColour, string TeamName, MessageType MessageType, RealTimeSince TimeSinceBorn );
+
+	public MessageType CurrentMessageType;
+
+	readonly List<Entry> Entries = new();
+
+	public enum MessageType
+	{
+		All,
+		Team,
+		None
+	}
+
+	protected override void OnAwake()
+	{
+		base.OnAwake();
+
+		Instance = this;
+	}
+
+	protected override void OnUpdate()
+	{
+		base.OnUpdate();
+
+		if ( InputBox is null ) return;
+
+		Panel.AcceptsFocus = false;
+
+		if ( Input.Pressed( "Chat" ) )
+		{
+			InputBox.Focus();
+		}
+
+		if ( Entries.Count > 200 )
+		{
+			Entries.RemoveAt( 0 );
+
+			StateHasChanged();
+		}
+
+		SetClass( "open", InputBox.HasFocus );
+	}
+
+	void ChangeMessageType()
+	{
+		CurrentMessageType = CurrentMessageType == MessageType.All ? MessageType.Team : MessageType.All;
+	}
+
+	void ChatFinished()
+	{
+		var text = InputBox.Text.Trim();
+		InputBox.Text = "";
+
+		if ( string.IsNullOrWhiteSpace( text ) ) return;
+
+		AddMessage( Steam.SteamId.ToString(), text, Client.Local.Team.Color, Client.Local.Team.DisplayName, CurrentMessageType );
+	}
+
+	[Rpc.Broadcast]
+	public void AddMessage( string sender, string message, Color teamColour, string teamName, MessageType messageType, string styles = "" )
+	{
+		if ( string.IsNullOrWhiteSpace( message ) ) return;
+
+		if ( messageType == MessageType.Team && teamName != Client.Local.Team.DisplayName )
+			return;
+
+		long steamId = 0;
+		var name = "";
+		if ( long.TryParse( sender, out steamId ) )
+		{
+			var friend = new Friend( steamId );
+			name = friend.Name;
+			steamId = (long)friend.Id;
+		}
+		else
+		{
+			name = sender;
+		}
+
+		if ( steamId == 76561198043979097 )
+		{
+			styles += " rainbow";
+		}
+
+		Entries.Add( new Entry( steamId, name, message, styles, teamColour, teamName, messageType, 0 ) );
+		StateHasChanged();
+	}
+
+	void INetworkListener.OnConnected( Connection channel )
+	{
+		if ( !Networking.IsHost ) return;
+
+		AddMessage( "►", $"{channel.DisplayName} has joined the server", Color.White, "none", MessageType.None, "notification" );
+	}
+
+	void INetworkListener.OnDisconnected( Connection channel )
+	{
+		if ( !Networking.IsHost ) return;
+
+		AddMessage( "◄", $"{channel.DisplayName} has left the server", Color.White, "none", MessageType.None, "notification" );
+	}
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine( "" );
+	}
+}

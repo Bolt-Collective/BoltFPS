@@ -1,0 +1,72 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+<root>
+	<div class="kill-container">
+		@foreach ( var kill in ActiveKills )
+		{
+			<div class="kill" ref="@KillEntry">
+				<div class="element" style=@( $"color:{kill.AttackerTeamColour}" )>@kill.Attacker</div>
+				@foreach ( var killMethod in kill.KillMethods )
+				{
+					<div class="element">
+						<div class="icon" style=@( $"background-image: url({killMethod})" )/>
+					</div>
+				}
+				<div class="element" style=@( $"color:{kill.VictimTeamColour}" )>@kill.Victim</div>
+			</div>
+		}
+	</div>
+</root>
+
+@code
+{
+	private Panel KillEntry { get; set; }
+	public static KillFeed Current { get; set; }
+
+	protected override void OnAwake()
+	{
+		Current = this;
+	}
+
+	public class Kill
+	{
+		public string Attacker { get; set; }
+		public string AttackerTeamColour { get; set; }
+		public List<string> KillMethods { get; set; }
+		public string Victim { get; set; }
+		public string VictimTeamColour { get; set; }
+		public RealTimeSince CreatedAt { get; set; }
+		public float Duration { get; set; }
+
+		public Kill( string attacker, string attackerTeamColour, List<string> killMethods, string victim, string victimTeamColour, float duration = 3.0f )
+		{
+			Attacker = attacker;
+			AttackerTeamColour = attackerTeamColour;
+			KillMethods = killMethods;
+			Victim = victim;
+			VictimTeamColour = victimTeamColour;
+			Duration = duration;
+			CreatedAt = 0;
+		}
+	}
+
+	private List<Kill> ActiveKills = new();
+
+	public void AddKill( string attacker, string attackerTeamColour, List<string> killMethods, string victim, string victimTeamColour, float duration = 3.0f )
+	{
+		ActiveKills.Add( new Kill( attacker, attackerTeamColour, killMethods, victim, victimTeamColour, duration ) );
+		StateHasChanged();
+	}
+
+	protected override void OnUpdate()
+	{
+		ActiveKills.RemoveAll( x => x.CreatedAt >= x.Duration );
+
+		if ( ActiveKills.Count > 0 )
+			StateHasChanged();
+	}
+
+	protected override int BuildHash() => System.HashCode.Combine( ActiveKills.Count );
+}

@@ -1,0 +1,63 @@
+@inherits PanelComponent
+
+@namespace Seekers
+
+<root class="@( Input.Down( "Score" ) ? "" : "hidden" )">
+
+	@foreach(var team in Teams)
+	{
+		<div class="player-list">
+			<div class="team-header">
+				<img class="icon-small" src="/icons/props.png" />
+				<div>@team.DisplayName</div>
+				<div class="remaining"><span class="count">@AllClients?.Where(x => x.Team == team).Count()</span>players remaining</div>
+			</div>
+
+			<div class="divider"></div>
+
+			<div class="entry key">
+				<div class="info" style="padding: 10px">#</div>
+				<div class="name" style="flex-grow: 1">
+					<img class="avatar" />
+					Player
+				</div>
+				<div class="info small">Kills</div>
+				<div class="info small">Deaths</div>
+				<div class="info small">Ping</div>
+			</div>
+			@{
+				int count = 0;
+			}
+			@foreach (var conn in AllClients?.Where(x => x.Team == team)!)
+			{
+				count++;
+				<div class="entry">
+					<div class="info" style="padding: 10px">@count</div>
+					<div class="name" style="flex-grow: 1">
+						<img src=@( $"avatar:{conn.Network?.Owner?.SteamId}" ) class="avatar" />
+						@conn.Network?.Owner?.DisplayName
+					</div>
+					<div class="info">@conn.Kills</div>
+					<div class="info">@conn.Kills</div>
+					<div class="info">@conn.Network?.Owner?.Stats.Ping</div>
+				</div>
+			}
+		</div>
+	}
+
+</root>
+
+
+@code
+{
+	internal string CurrentMap => Game.ActiveScene.GetAllComponents<MapInstance>().FirstOrDefault()?.MapName;
+
+	public Package Map => Package.Fetch( CurrentMap, true ).Result;
+
+	private List<Client> AllClients => Game.ActiveScene.GetAll<Client>().ToList();
+
+	[Property] public List<Team> Teams { get; set; }
+
+	protected override int BuildHash() => HashCode.Combine( Input.Down( "score" ), AllClients.Count() );
+
+}

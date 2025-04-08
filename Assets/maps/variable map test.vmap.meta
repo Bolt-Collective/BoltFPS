@@ -1,0 +1,21 @@
+{
+  "publish": {
+    "Enabled": false,
+    "ProjectConfig": {
+      "Title": "Variable Map Test",
+      "Type": "map",
+      "Org": "local",
+      "Ident": "variablemaptest",
+      "Schema": 0,
+      "IncludeSourceFiles": false,
+      "Resources": null,
+      "PackageReferences": [],
+      "EditorReferences": [],
+      "IsWhitelistDisabled": false,
+      "Metadata": {
+        "SingleAssetSource": "maps/variable map test.vmap",
+        "ParentPackage": "bolt.seekers"
+      }
+    }
+  }
+}

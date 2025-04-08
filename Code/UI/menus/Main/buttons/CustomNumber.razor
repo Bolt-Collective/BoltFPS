@@ -1,0 +1,69 @@
+@using Sandbox.UI;
+
+<root>
+	<div class="setting">
+		<div class="numberdisplay">
+			<img src="icons\menu\Arrow.svg" style=@($"opacity: {(Value - 1 >= Min ? 1 : 0.5f)}") onclick=@( () => ChangeValue( -1 ) )/>
+			<TextEntry class="number" Value:bind="@NumberString" Numeric=@true onsubmit=@Changed/>
+			<img src="icons\menu\ArrowRight.svg" style=@($"opacity: {(Value + 1 <= Max ? 1 : 0.5f)}") onclick=@( () => ChangeValue( 1 ) ) />
+		</div>
+	</div>
+</root>
+
+@code{
+	int _value;
+	public int Value
+	{
+		get{
+			return _value;
+		}
+
+		set
+		{
+			_value = value;
+			NumberString = Value.ToString();
+		}
+	}
+
+	public string NumberString;
+
+	public Action<int> OnChange;
+
+	public int Min = 0;
+
+	public int Max = 20000;
+
+	protected override void OnAfterTreeRender(bool firstTime)
+	{
+		if (!firstTime)
+			return;
+
+		NumberString = Value.ToString();
+	}
+
+	public void Changed()
+	{
+		var lastValue = Value;
+
+		if (NumberString.Contains("."))
+			NumberString = NumberString.Split(".")[0];
+		if (int.TryParse(NumberString, out int result))
+			Value = result;
+
+		OnChange?.Invoke(Value - lastValue);
+	}
+
+	public void ChangeValue(int change)
+	{
+		Value = (Value + change).Clamp(Min, Max);
+		NumberString = Value.ToString();
+
+		OnChange?.Invoke(change);
+	}
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine(Value);
+	}
+}
+

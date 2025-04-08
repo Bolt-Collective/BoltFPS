@@ -1,0 +1,70 @@
+//Just some colour pallete i found online, feel free to edit this.
+$color-1: #C14600;
+$color-2: #FF9D23;
+$color-3: #E5D0AC;
+$color-4: #FEF9E1;
+$color-prop: #2A7FBA;
+$color-hunter: #D73A2F;
+
+.root {
+  font-family: Work Sans;
+  color: white;
+  font-smooth: always;
+}
+
+h1 {
+  font-family: Work Sans;
+  // font-size: 4rem;
+  font-size: 644px;
+  font-weight: lighter;
+  color: white;
+  text-shadow: 4px 4px 0 black;
+}
+
+h2 {
+  font-family: Work Sans;
+  // font-size: 3rem;
+  font-size: 46px;
+  font-weight: lighter;
+  color: $color-2;
+  text-shadow: 2px 2px 0 black, 0 0 2px #FF9D23, -3px 0 2px #FF9D2370, 3px 0 2px #FF9D2370;
+}
+
+h3 {
+  font-family: Work Sans;
+  // font-size: 2.5rem;
+  font-size: 40px;
+  font-weight: lighter;
+  color: white;
+  text-shadow: 2px 2px 0 black;
+}
+
+h4 {
+  font-family: Work Sans;
+  // font-size: 2rem;
+  font-size: 36px;
+  font-weight: light;
+  color: white;
+  text-shadow: 2px 2px 0 black;
+  line-height: 30px;
+}
+
+h5 {
+  font-family: Work Sans;
+
+  // font-size: 1.5rem;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 3px 2px 0 black;
+}
+
+p {
+  font-family: Work Sans;
+
+  // font-size: 1rem;
+  font-size: 16px;
+  font-weight: lighter;
+  color: white;
+  text-shadow: 2px 2px 0 black;
+}

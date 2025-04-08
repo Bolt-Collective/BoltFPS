@@ -1,0 +1,110 @@
+@import "UI/_styles.scss";
+
+WeaponPicker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  &.active {
+    opacity: 1;
+  }
+
+  z-index: 0;
+  opacity: 0;
+  display: flex;
+  background-color: #000000;
+  padding: 20px;
+  color: white;
+  pointer-events: all;
+
+  .loadout-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 100px;
+  }
+
+  .team-loadouts {
+    flex: 1;
+    margin-right: 20px;
+  }
+
+  .player-loadout {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .weapons {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .weapon {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .weapon img {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+  }
+
+  .weapon-selection {
+    flex: 2;
+    display: flex;
+    flex-direction:column;
+  }
+
+  .category {
+    margin-bottom: 20px;
+    flex-direction: column;
+  }
+
+  .weaponlist{
+      gap: 15px;
+  }
+
+  .weapon-option, .ability-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  .weapon-option.selected {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .weapon-option img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  .weapon-option .stats {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .weapon-option:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+

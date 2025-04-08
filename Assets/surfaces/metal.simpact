@@ -1,0 +1,54 @@
+{
+  "BulletImpact": {
+    "_type": "gameobject",
+    "prefab": "particles/surfaces/impact.metal.prefab"
+  },
+  "BaseSurface": "surfaces/metal.surface",
+  "AudioSurface": "Generic",
+  "Description": null,
+  "Friction": 0.7,
+  "Elasticity": 0.1,
+  "Density": 2700,
+  "Thickness": -1,
+  "RollingResistance": 0,
+  "BounceThreshold": 0,
+  "ImpactEffects": {
+    "Regular": [],
+    "Bullet": [],
+    "BulletDecal": [
+      "decals/bullet-metal.decal"
+    ],
+    "SoftParticles": [],
+    "SoftDecal": [],
+    "HardParticles": [],
+    "HardDecal": []
+  },
+  "ScrapeEffects": {
+    "RoughnessFactor": 0,
+    "RoughThreshold": 0,
+    "SmoothParticles": null,
+    "RoughParticles": null,
+    "SmoothDecal": null,
+    "RoughDecal": null
+  },
+  "Sounds": {
+    "FootLeft": "sounds/footsteps/footstep-metal.sound",
+    "FootRight": "sounds/footsteps/footstep-metal.sound",
+    "FootLaunch": null,
+    "FootLand": null,
+    "Bullet": "surfaces/sounds/metallic.hard.sound",
+    "ImpactHard": "surfaces/sounds/metallic.hard.sound",
+    "ImpactSoft": "surfaces/sounds/metallic.hard.sound",
+    "ScrapeRough": null,
+    "ScrapeSmooth": null
+  },
+  "Breakables": {
+    "BreakSound": null,
+    "GenericGibs": null
+  },
+  "Tags": null,
+  "__references": [
+    "facepunch.impactmetal#88479"
+  ],
+  "__version": 0
+}

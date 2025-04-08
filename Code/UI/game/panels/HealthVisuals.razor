@@ -1,0 +1,104 @@
+@using Sandbox;
+
+@inherits PanelComponent
+
+@namespace Seekers
+
+<root>
+	@foreach (var splatter in Splatters)
+	{
+		var baseAlpha = OpacityCurve.Evaluate(1- Health );
+		var alpha = baseAlpha + (1 - (Time.Now - splatter.time) / FadeTime).Clamp(0,1) * (1-baseAlpha);
+		var position = (splatter.position / 100) * new Vector2(1920,1080);
+
+		<img src=@splatter.texture style="bottom: @(position.y-250)px; left: @(position.x-250)px; opacity: @alpha; transform: rotate(@(splatter.rotation)deg);"/>
+	}
+</root>
+
+@code
+{
+	[Property, ImageAssetPath] private List<string> BloodTextures { get; set; }
+	[Property] private Curve SplatterCurve { get; set; }
+	[Property] private Curve SatuationCurve { get; set; }
+	[Property] private Curve OpacityCurve { get; set; }
+	[Property] private float FadeTime { get; set; } = 0.1f;
+
+	private float Health;
+
+	ColorAdjustments _colorAdjustments;
+	ColorAdjustments ColorAdjustments 
+	{
+		get{
+			if (!_colorAdjustments.IsValid())
+				_colorAdjustments = Pawn.Local.Controller.Camera.GetComponent<ColorAdjustments>();
+			return _colorAdjustments;
+		}
+	}
+
+	private List<(string texture, Vector2 position, float rotation, float time)> Splatters { get; set; } = new();
+	protected override void OnUpdate()
+	{
+		var player = Pawn.Local;
+
+		if ( !player.IsValid() )
+			return;
+
+		if ( !player.Controller.IsValid() )
+			return;
+
+		var hud = player.Controller.Camera.Hud;
+
+		Health = player.HealthComponent.Health / player.HealthComponent.MaxHealth;
+
+		if(ColorAdjustments.IsValid())
+		{
+			ColorAdjustments.Saturation = SatuationCurve.Evaluate( 1-Health );
+		}
+
+		int splatterCount = MathX.FloorToInt( SplatterCurve.Evaluate(1- Health));
+
+		if ( splatterCount > Splatters.Count )
+		{
+			for ( int i = 0; i < splatterCount - Splatters.Count; i++ )
+				AddSplatter();
+		}
+		else if ( splatterCount < Splatters.Count)
+		{
+			Splatters.RemoveRange( 0, Splatters.Count - splatterCount );
+		}
+	}
+
+	[Button]
+	void AddSplatter()
+	{
+		var texture = BloodTextures[Game.Random.Next(0,BloodTextures.Count)];
+		Splatters.Add( (texture, GetRandomScreenEdgePoint(), Game.Random.Next(0,360), Time.Now) );
+	}
+
+	Vector2 GetRandomScreenEdgePoint()
+	{
+		int screenWidth = 100;
+		int screenHeight = 100;
+
+		int edge = Game.Random.Next( 0, 4 );
+		switch ( edge )
+		{
+			case 0:
+				return new Vector2( Game.Random.Next( 0, screenWidth ), screenHeight );
+			case 1:
+				return new Vector2( Game.Random.Next( 0, screenWidth ), 0 );
+			case 2:
+				return new Vector2( 0, Game.Random.Next( 0, screenHeight ) );
+			case 3:
+				return new Vector2( screenWidth, Game.Random.Next( 0, screenHeight ) );
+			default:
+				return Vector2.Zero;
+		}
+	}
+
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine(Time.Now);
+	}
+}

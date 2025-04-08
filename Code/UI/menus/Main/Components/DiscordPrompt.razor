@@ -1,0 +1,22 @@
+﻿@using Sandbox.UI
+@inherits Panel
+
+<root class="root">
+	<WebPanel @ref=" MyWebPanel"></WebPanel>
+</root>
+
+@code {
+
+
+	private WebPanel MyWebPanel { get; set; }
+
+	protected override void OnAfterTreeRender( bool firstTime )
+	{
+		base.OnAfterTreeRender( firstTime );
+		if ( firstTime )
+		{
+			MyWebPanel.Surface.Url = "https://discord.gg/zuZfyRhTa8";
+		}
+	}
+
+}

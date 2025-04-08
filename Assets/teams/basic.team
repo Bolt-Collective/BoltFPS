@@ -1,0 +1,9 @@
+{
+  "DisplayName": "no team",
+  "Color": "0,0,0,0",
+  "Image": null,
+  "Objective": null,
+  "PawnPrefab": "prefabs/exampleplayer.prefab",
+  "__references": [],
+  "__version": 0
+}

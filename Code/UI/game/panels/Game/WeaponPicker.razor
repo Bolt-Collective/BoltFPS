@@ -1,0 +1,87 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Seekers
+
+<root class="weapon-picker @( Show ? "active" : "" )" style="background-color: @BackgroundColour.Hex; backdrop-filter: blur(@BackgroundBlur);"> 
+	<div class="loadout-container">
+
+		<!-- Weapon Selection -->
+		<div class="weapon-selection">
+			@foreach(var catagory in WeaponCatagories)
+			{
+				<div class="category primary">
+					<h2>@catagory.DisplayName</h2>
+					<div class="weaponlist">
+						@foreach ( var weapon in catagory.Weapons )
+						{
+							<button class="weapon-option @( IsSelected( weapon.DisplayName, catagory.SelectedWeapon) )"
+							onclick=@( () => catagory.Select( weapon.DisplayName ))>
+								<img src="@weapon.Icon"/>
+								<h4>@weapon.DisplayName</h4>
+
+								<!--
+								Find sufficient way to display this
+								<div class="stats">
+								<span>Damage: @weapon.StatDamage</span>
+								<span>Rate: @weapon.StatFirerate</span>
+								</div>
+								-->
+							</button>
+						}
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+</root>
+
+@code {
+
+	[Property] public bool CanShow { get; set; } = true;
+
+	[Property] public bool ShowOnKey { get; set; }
+
+	[Property, ShowIf("ShowOnKey", true), InputAction] public string ShowAction { get; set; }
+
+	[Property] public Color BackgroundColour { get; set; } = Color.Transparent;
+	[Property] public float BackgroundBlur { get; set; } = 15f;
+
+	public static WeaponPicker Current;
+
+	protected override void OnAwake()
+	{
+		base.OnAwake();
+		Current = this;
+	}
+
+	private bool Show => CanShow && (!ShowOnKey || (ShowOnKey && Input.Down(ShowAction)));
+
+	private string IsSelected( object item, object selected ) => item == selected ? "selected" : "";
+
+	[Property] public List<WeaponCatagory> WeaponCatagories { get; set; }
+
+	public class WeaponCatagory
+	{
+		[KeyProperty] public string DisplayName { get; set; }
+		public List<WeaponInfo> Weapons { get; set; }
+		public string SelectedWeapon { get; set; }
+		public void Select(string weapon)
+		{
+			SelectedWeapon = weapon;
+		}
+	}
+	// why with strings? - because we want this to work with not just baseweapons
+	public class WeaponInfo
+	{
+		[KeyProperty] public string DisplayName { get; set; }
+		[ImageAssetPath] public string Icon { get; set; }
+		public string Details { get; set; }
+	}
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine( Show );
+	}
+
+}

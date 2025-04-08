@@ -1,0 +1,131 @@
+{
+  "RootObject": {
+    "__guid": "66b118fb-5b51-4d93-bce3-b0ca07549a96",
+    "Flags": 0,
+    "Name": "w_grenade",
+    "Enabled": true,
+    "Components": [
+      {
+        "__type": "Seekers.Grenade",
+        "__guid": "4cb05d14-2aaf-4d4f-be64-652d312b30de",
+        "Ammo": 3,
+        "BoneOffset": {
+          "Position": "0,0,0",
+          "Scale": "1,1,1",
+          "Rotation": "0,0,0,1"
+        },
+        "CrosshairType": "Dot",
+        "Damage": 0,
+        "DeploySound": "sounds/weapons/switch/switch_2.sound",
+        "DropForce": 200,
+        "Handedness": "Right",
+        "HoldType": "Swing",
+        "Icon": "icons/weapons/grenades/he_grenade_01.png",
+        "LeftIK": {
+          "Active": true,
+          "GameObject": null,
+          "IsLeft": false
+        },
+        "MaxAmmo": 0,
+        "Name": "Grenade",
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "ParentBone": "hold_r",
+        "PrimaryRate": 1,
+        "Projectile": {
+          "_type": "gameobject",
+          "prefab": "weapons/grenade/grenade_projectile.prefab"
+        },
+        "ReloadShortSound": null,
+        "ReloadSound": null,
+        "ReloadTime": 0,
+        "SecondaryRate": 1,
+        "ShootSound": null,
+        "Spread": 0,
+        "ThrowDelay": 0.15,
+        "ThrowForce": 1000,
+        "ViewModelPrefab": {
+          "_type": "gameobject",
+          "prefab": "weapons/grenade/v_grenade.prefab"
+        }
+      },
+      {
+        "__type": "Sandbox.SkinnedModelRenderer",
+        "__guid": "0f2b86d8-118c-410d-9d81-089ef012046e",
+        "AnimationGraph": null,
+        "BodyGroups": 11,
+        "BoneMergeTarget": null,
+        "CreateAttachments": false,
+        "CreateBoneObjects": false,
+        "MaterialGroup": null,
+        "MaterialOverride": null,
+        "Model": "models/weapons/sbox_grenade_explosive/w_he_grenade.vmdl",
+        "Morphs": {},
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Parameters": {
+          "bools": {},
+          "ints": {},
+          "floats": {},
+          "vectors": {},
+          "rotations": {}
+        },
+        "PlaybackRate": 1,
+        "RenderOptions": {
+          "GameLayer": true,
+          "OverlayLayer": false,
+          "BloomLayer": false,
+          "AfterUILayer": false
+        },
+        "RenderType": "On",
+        "Sequence": {
+          "Name": null
+        },
+        "Tint": "1,1,1,1",
+        "UseAnimGraph": true
+      }
+    ],
+    "Children": [],
+    "__variables": [],
+    "__properties": {
+      "FixedUpdateFrequency": 50,
+      "MaxFixedUpdates": 5,
+      "NetworkFrequency": 30,
+      "NetworkInterpolation": true,
+      "PhysicsSubSteps": 1,
+      "ThreadedAnimation": true,
+      "TimeScale": 1,
+      "UseFixedUpdate": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    }
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "ResourceVersion": 1,
+  "__references": [
+    "facepunch.w_he_grenade#58001"
+  ],
+  "__version": 1
+}

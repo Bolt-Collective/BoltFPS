@@ -1,0 +1,190 @@
+{
+  "RootObject": {
+    "__guid": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0",
+    "Flags": 0,
+    "Name": "eject_9mm",
+    "Tags": "particles,effect",
+    "Enabled": true,
+    "NetworkMode": 0,
+    "Children": [
+      {
+        "__guid": "d4d9e14a-45e0-4e99-8ff7-0c68da0ab7ed",
+        "Flags": 0,
+        "Name": "eject_9mm",
+        "Rotation": "-0.1445424,-0.2146969,-0.5394396,0.80126",
+        "Enabled": true,
+        "NetworkMode": 0,
+        "Components": [
+          {
+            "__type": "Sandbox.ParticleEffect",
+            "__guid": "75718168-1c1e-4fd3-af1e-3ffff1efbbe3",
+            "__version": 1,
+            "Alpha": 1,
+            "ApplyAlpha": false,
+            "ApplyColor": false,
+            "ApplyRotation": true,
+            "ApplyShape": false,
+            "Bounce": 1,
+            "Brightness": 1,
+            "Bumpiness": 0,
+            "Collision": false,
+            "CollisionIgnore": null,
+            "CollisionRadius": 1,
+            "Damping": 0,
+            "DieOnCollisionChance": 0,
+            "Force": true,
+            "ForceDirection": "0,0,-2500",
+            "ForceScale": 1,
+            "ForceSpace": "World",
+            "Friction": 1,
+            "Gradient": {
+              "Type": "Constant",
+              "Evaluation": "Life",
+              "GradientA": {
+                "blend": "Linear",
+                "color": [
+                  {
+                    "t": 0.5,
+                    "c": "1,1,1,1"
+                  }
+                ],
+                "alpha": []
+              },
+              "GradientB": {
+                "blend": "Linear",
+                "color": [
+                  {
+                    "t": 0.5,
+                    "c": "1,1,1,1"
+                  }
+                ],
+                "alpha": []
+              },
+              "ConstantA": "1,1,1,1",
+              "ConstantB": "1,1,1,1"
+            },
+            "Lifetime": 1,
+            "MaxParticles": 1000,
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "OnParticleCreated": null,
+            "OnParticleDestroyed": null,
+            "OrbitalForce": {
+              "X": 0,
+              "Y": 0,
+              "Z": 0
+            },
+            "OrbitalPull": 0,
+            "PerParticleTimeScale": 1,
+            "Pitch": 0,
+            "PreWarm": 0,
+            "PushStrength": 0,
+            "Roll": 0,
+            "Scale": 1,
+            "SequenceId": 0,
+            "SequenceSpeed": 1,
+            "SequenceTime": 1,
+            "SheetSequence": false,
+            "Space": "Local",
+            "StartDelay": 0,
+            "StartVelocity": 250,
+            "Stretch": 0,
+            "TimeScale": 1,
+            "Tint": "1,1,1,1",
+            "Yaw": 0
+          },
+          {
+            "__type": "Sandbox.ParticleModelRenderer",
+            "__guid": "0a89a684-4de4-46fd-91f8-cf20e89b8515",
+            "__version": 1,
+            "CastShadows": true,
+            "Choices": [
+              {
+                "Model": "models/weapons/sbox_ammo/9mm_bullet/9mm_bullet.vmdl",
+                "MaterialGroup": null,
+                "BodyGroups": 2
+              }
+            ],
+            "MaterialOverride": null,
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "Scale": 0.2
+          },
+          {
+            "__type": "Sandbox.ParticleConeEmitter",
+            "__guid": "a7e5cd97-3161-44ce-bdf4-12b7774c98df",
+            "Burst": 1,
+            "CenterBias": 0,
+            "CenterBiasVelocity": 0,
+            "ConeAngle": 7.199997,
+            "ConeFar": 10.6,
+            "ConeNear": 1.4901161E-08,
+            "Delay": 0,
+            "DestroyOnEnd": false,
+            "Duration": 10,
+            "InVolume": false,
+            "Loop": true,
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "OnEdge": false,
+            "Rate": 0,
+            "RateOverDistance": 0,
+            "VelocityMultiplier": 1,
+            "VelocityRandom": 0
+          }
+        ]
+      }
+    ],
+    "__variables": [],
+    "__properties": {
+      "FixedUpdateFrequency": 50,
+      "MaxFixedUpdates": 5,
+      "NetworkFrequency": 30,
+      "NetworkInterpolation": true,
+      "PhysicsSubSteps": 1,
+      "ThreadedAnimation": true,
+      "TimeScale": 1,
+      "UseFixedUpdate": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    }
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "ResourceVersion": 1,
+  "__references": [
+    "facepunch.9mm_bullet#28861"
+  ],
+  "__version": 1
+}
