@@ -5,13 +5,14 @@ Chatbox {
     bottom: 28px;
     left: 50px;
     z-index: 100;
-    width: 255px;
+    width: 379px;
     height: 400px;
     max-height: 400px;
     flex-direction: column;
     font-family: Work Sans;
 
     .chat_canvas {
+        gap: 8px;
         flex-grow: 1;
         padding: 8px;
         font-weight: 600;
@@ -20,15 +21,20 @@ Chatbox {
         overflow-y: scroll;
         width: 100%;
 
-        .fade {
-            p {
-                width: fit-content;
+        .entry {
+            align-items: flex-start;
+
+            .message-content {
+                font-size: 15px;
+                background-color: rgba(black, 0.25);
+                backdrop-filter: blur(4px);
+                border-radius: 4px;
+                padding: 6px;
+                padding-left: 16px;
+                padding-right: 16px;
             }
-            .name {
-                width: 150px;
-            }
-            .message-content{
-                width: fit-content;
+
+            &.fade {
             }
         }
     }
@@ -37,8 +43,10 @@ Chatbox {
         flex-direction: row;
         height: 40px;
 
+
         p {
             font-weight: 600;
+            font-size: 9px;
             color: white;
             font-size: 19px;
             opacity: 0;
@@ -57,7 +65,8 @@ Chatbox {
             border-radius: 10px;
             // flex-shrink: 0;
             // flex-grow: 1;
-            width: 88%;
+            height:40px;
+            width: 100%;
             padding: 4px;
         }
 
@@ -85,9 +94,7 @@ Chatbox {
     }
 
     &.open {
-        background-color: rgba(black, 0.5);
         pointer-events: all;
-        width: 500px;
 
         p {
             opacity: 1;
@@ -147,23 +154,7 @@ ChatEntry {
   .avatar {
     width: 24px;
     height: 24px;
-    border-radius: 50%;
-  }
-
-  .name {
-    flex-shrink: 0;
-    font-size: 17px;
-  }
-
-  .message {
-    flex-shrink: 0;
-    font-size: 17px;
-  }
-
-  &.is-lobby {
-    .name {
-      color: #ff80f5;
-    }
+    border-radius: 4px;
   }
 
   &.notification {
