@@ -6,19 +6,18 @@
 	{
 		<img class="avatar" src="@( $"avatar:{Entry.SteamId}" )"/>
 	}
-	@if (Entry.MessageType != ChatBox.MessageType.None)
+	@if ( Entry.MessageType != ChatBox.MessageType.None )
 	{
 		<div class="message-type">@Entry.MessageType -</div>
 	}
 	<p class="name" style="color: @Entry.TeamColour.Hex;">@Entry.Name</p>
-	@if(!Entry.Styles.Contains("notification"))
+	@if ( !Entry.Styles.Contains( "notification" ) )
 	{
 		<div class="breaker">:</div>
 	}
 	<div class="message-content">
 		@Entry.Message
 	</div>
-
 </root>
 
 @code

@@ -18,17 +18,14 @@ Chatbox {
         justify-content: flex-end;
         flex-direction: column;
         overflow-y: scroll;
-        width: 100%;
+        width: 500px;
 
         .fade {
             p {
-                width: fit-content;
             }
             .name {
-                width: 150px;
             }
             .message-content{
-                width: fit-content;
             }
         }
     }
@@ -143,8 +140,14 @@ ChatEntry {
   &:outro {
     opacity: 0;
   }
+  
+  .message-type {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
 
   .avatar {
+    flex-shrink: 0;
     width: 24px;
     height: 24px;
     border-radius: 50%;
@@ -152,12 +155,16 @@ ChatEntry {
 
   .name {
     flex-shrink: 0;
-    font-size: 17px;
+    font-size: 18px;
   }
 
   .message {
     flex-shrink: 0;
     font-size: 17px;
+  }
+  
+  .breaker {
+    flex-shrink: 0;
   }
 
   &.is-lobby {
