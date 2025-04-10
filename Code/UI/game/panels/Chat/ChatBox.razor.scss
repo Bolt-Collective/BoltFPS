@@ -136,36 +136,37 @@ Chatbox {
 }
 
 ChatEntry {
-  color: white;
-  gap: 4px;
-  align-items: center;
-  flex-shrink: 0;
-  opacity: 1;
-  transition: opacity 0.2s ease-out;
+    color: white;
+    gap: 4px;
+    align-items: center;
+    flex-shrink: 0;
+    opacity: 1;
+    transition: opacity 0.2s ease-out;
 
-  &:intro {
-    opacity: 0;
-  }
-
-  &:outro {
-    opacity: 0;
-  }
-
-  .avatar {
-    width: 24px;
-    height: 24px;
-    border-radius: 4px;
-  }
-
-  &.notification {
-    .message {
-      color: $color-2;
+    &:intro {
+        opacity: 0;
     }
-  }
 
-  &.fade {
-    opacity: 0;
-  }
+    &:outro {
+        opacity: 0;
+    }
+
+    .avatar {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+    }
+
+    &.notification {
+        .message {
+            color: $color-2;
+        }
+    }
+
+    &.fade {
+        opacity: 0;
+    }
 }
 
 ChatSettingsPanel {
