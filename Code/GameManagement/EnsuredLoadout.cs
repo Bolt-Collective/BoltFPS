@@ -23,8 +23,6 @@ public partial class EnsuredLoadout : SingletonComponent<EnsuredLoadout>
 
 		var loadout = new List<string>();
 
-		Log.Info( PlayerLoadouts[Connection.Local.Id][0] );
-
 		foreach ( var name in PlayerLoadouts?[Connection.Local.Id] )
 		{
 			loadout?.Add( GameObject.GetPrefab( name )?.GetComponent<BaseWeapon>()?.Name );
