@@ -129,8 +129,8 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 		if(Local?.Team == TeamManager.SpectatorsTeam)
 		{
-			var spectatorPawn = Local.GetComponent<SpectatorPawn>();
-			if ( spectatorPawn.SpectatedClient == Owner )
+			var spectatorPawn = Local?.GetComponent<SpectatorPawn>();
+			if ( spectatorPawn?.SpectatedClient == Owner )
 				Controller.Spectating = true;
 		}
 		else
