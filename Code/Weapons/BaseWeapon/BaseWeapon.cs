@@ -61,6 +61,7 @@ public partial class BaseWeapon : Component
 
 	[Property] public int Ammo { get; set; }
 	[Property] public int MaxAmmo { get; set; }
+	[Property] public bool ShowAmmo { get; set; } = true;
 
 	[Property] public virtual float Spread { get; set; }
 	public virtual float SpreadIncrease { get; set; }

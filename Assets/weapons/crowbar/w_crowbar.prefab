@@ -1,0 +1,148 @@
+{
+  "RootObject": {
+    "__guid": "66b118fb-5b51-4d93-bce3-b0ca07549a96",
+    "Flags": 0,
+    "Name": "w_crowbar",
+    "Enabled": true,
+    "Components": [
+      {
+        "__type": "Seekers.BasicMelee",
+        "__guid": "87bbc1fc-5b23-4a84-a84a-e7cf0ef94fb4",
+        "Ammo": 1,
+        "BoneOffset": {
+          "Position": "0,0,0",
+          "Scale": "1,1,1",
+          "Rotation": "0,0,0,1"
+        },
+        "CrosshairType": "Dot",
+        "Damage": 0,
+        "DeploySound": "sounds/weapons/switch/switch_3.sound",
+        "Handedness": "Right",
+        "HoldType": "Swing",
+        "Icon": null,
+        "LeftIK": {
+          "Active": true,
+          "GameObject": null,
+          "IsLeft": false
+        },
+        "MaxAmmo": 0,
+        "Name": "Crowbar",
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "ParentBone": "hold_r",
+        "PrimaryRate": 2,
+        "Radius": 5,
+        "Range": 80,
+        "ReloadShortSound": null,
+        "ReloadSound": null,
+        "ReloadTime": 0,
+        "SecondaryRate": 15,
+        "ShootSound": "sounds/guns/knife/knife.swing.sound",
+        "ShowAmmo": false,
+        "Spread": 0,
+        "ViewModelPrefab": {
+          "_type": "gameobject",
+          "prefab": "weapons/crowbar/v_crowbar.prefab"
+        }
+      },
+      {
+        "__type": "Sandbox.SkinnedModelRenderer",
+        "__guid": "0f2b86d8-118c-410d-9d81-089ef012046e",
+        "AnimationGraph": null,
+        "BodyGroups": 18446744073709551615,
+        "BoneMergeTarget": null,
+        "CreateAttachments": false,
+        "CreateBoneObjects": false,
+        "MaterialGroup": null,
+        "MaterialOverride": null,
+        "Model": "models/weapons/sbox_melee_crowbar/w_crowbar.vmdl",
+        "Morphs": {},
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Parameters": {
+          "bools": {},
+          "ints": {},
+          "floats": {},
+          "vectors": {},
+          "rotations": {}
+        },
+        "PlaybackRate": 1,
+        "RenderOptions": {
+          "GameLayer": true,
+          "OverlayLayer": false,
+          "BloomLayer": false,
+          "AfterUILayer": false
+        },
+        "RenderType": "On",
+        "Sequence": {
+          "Name": null
+        },
+        "Tint": "1,1,1,1",
+        "UseAnimGraph": true
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "c1725549-8323-480d-8e81-0c21d415b993",
+        "Flags": 0,
+        "Name": "muzzle",
+        "Position": "5000,5000,5000",
+        "Tags": "particles",
+        "Enabled": true,
+        "__Prefab": "weapons/common/effects/muzzle.prefab",
+        "__PrefabVariables": {}
+      },
+      {
+        "__guid": "ad29ab11-bf25-4a63-924f-a167dada9f20",
+        "Flags": 0,
+        "Name": "muzzle (1)",
+        "Position": "5000,5000,5000",
+        "Tags": "particles",
+        "Enabled": true,
+        "__Prefab": "weapons/common/effects/muzzle.prefab",
+        "__PrefabVariables": {}
+      }
+    ],
+    "__variables": [],
+    "__properties": {
+      "FixedUpdateFrequency": 50,
+      "MaxFixedUpdates": 5,
+      "NetworkFrequency": 30,
+      "NetworkInterpolation": true,
+      "PhysicsSubSteps": 1,
+      "ThreadedAnimation": true,
+      "TimeScale": 1,
+      "UseFixedUpdate": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    }
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "ResourceVersion": 1,
+  "__references": [
+    "facepunch.w_crowbar#38177"
+  ],
+  "__version": 1
+}

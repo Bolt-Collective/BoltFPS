@@ -20,16 +20,19 @@
 					{
 						<div class="Reserve">@Pawn?.Inventory?.Weapons[i].MaxAmmo</div>
 					}
-					<div class="Ammo">
-						@for (int num = 0; num < 4 - Pawn?.Inventory?.Weapons[i].Ammo.ToString().Count(); num++)
-						{
-							<span class="filler">0</span>
-						}
-						@for (int num = 0; num < Pawn?.Inventory?.Weapons[i].Ammo.ToString().Count(); num++)
-						{
-							<span class=@(Pawn?.Inventory?.Weapons[i].Ammo > 0 ? "main" : "filler")>@Pawn?.Inventory?.Weapons[i].Ammo.ToString()[num]</span>
-						}
-					</div>
+					@if (Pawn?.Inventory?.Weapons[i].ShowAmmo ?? false)
+					{
+						<div class="Ammo">
+							@for (int num = 0; num < 4 - Pawn?.Inventory?.Weapons[i].Ammo.ToString().Count(); num++)
+							{
+								<span class="filler">0</span>
+							}
+							@for (int num = 0; num < Pawn?.Inventory?.Weapons[i].Ammo.ToString().Count(); num++)
+							{
+								<span class=@(Pawn?.Inventory?.Weapons[i].Ammo > 0 ? "main" : "filler")>@Pawn?.Inventory?.Weapons[i].Ammo.ToString()[num]</span>
+							}
+						</div>
+					}
 				</div>
 			</div>
 		}
