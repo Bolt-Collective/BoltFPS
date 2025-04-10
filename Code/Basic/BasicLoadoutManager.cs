@@ -13,7 +13,12 @@ public sealed class BasicLoadoutManager : Component
 		{
 			if ( catagory.SelectedWeapon == "" || catagory.SelectedWeapon == null )
 				continue;
-			loadout.Add( catagory.SelectedWeapon );
+
+			foreach(var weapon in catagory.Weapons)
+			{
+				if(weapon.DisplayName == catagory.SelectedWeapon)
+					loadout.Add(weapon.Details == null ? catagory.SelectedWeapon : weapon.Details );
+			}
 		}
 		HostSetLoadout( Connection.Local.Id, loadout );
 	}

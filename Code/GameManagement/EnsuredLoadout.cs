@@ -23,6 +23,8 @@ public partial class EnsuredLoadout : SingletonComponent<EnsuredLoadout>
 
 		var loadout = new List<string>();
 
+		Log.Info( PlayerLoadouts[Connection.Local.Id][0] );
+
 		foreach ( var name in PlayerLoadouts?[Connection.Local.Id] )
 		{
 			loadout?.Add( GameObject.GetPrefab( name )?.GetComponent<BaseWeapon>()?.Name );
@@ -63,7 +65,10 @@ public partial class EnsuredLoadout : SingletonComponent<EnsuredLoadout>
 
 		foreach ( var weapon in loadout )
 		{
-			paths.Add( "weapons/gun/w_gun.prefab".Replace( "gun", weapon ) );
+			if(weapon.Contains("/"))
+				paths.Add( weapon );
+			else
+				paths.Add( "weapons/gun/w_gun.prefab".Replace( "gun", weapon ) );
 		}
 
 		if ( PlayerLoadouts.ContainsKey( player ) )

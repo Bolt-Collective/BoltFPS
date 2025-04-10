@@ -20,6 +20,16 @@ public class ViewModel : Component
 
 	[Property] public Vector3 offset { get; set; }
 
+	[Property]
+	public Dictionary<string, string> AnimParamTranslate { get; set; }
+
+	public string GetAnim( string name )
+	{
+		if (AnimParamTranslate != null && AnimParamTranslate.ContainsKey(name))
+			return AnimParamTranslate[name];
+		return name;
+	}
+
 	private Vector3 swingOffset;
 
 	private float lastPitch;
@@ -31,7 +41,7 @@ public class ViewModel : Component
 
 	protected override void OnEnabled()
 	{
-		Renderer?.Set( "b_deploy", true );
+		Renderer?.Set( GetAnim("b_deploy"), true );
 	}
 
 	protected override void OnPreRender()
@@ -114,24 +124,24 @@ public class ViewModel : Component
 	[Rpc.Broadcast]
 	public void Set(string name, bool value)
 	{
-		Renderer?.Set( name, value );
+		Renderer?.Set( GetAnim( name ), value );
 	}
 
 	[Rpc.Broadcast]
 	public void Set( string name, float value )
 	{
-		Renderer?.Set( name, value );
+		Renderer?.Set( GetAnim( name ), value );
 	}
 
 	[Rpc.Broadcast]
 	public void Animate(float yawInertia, float pitchInertia, float velocity, bool sprint, bool grounded, bool empty )
 	{
-		Renderer.Set( "aim_yaw_inertia", yawInertia );
-		Renderer.Set( "aim_pitch_inertia", pitchInertia );
-		Renderer.Set( "move_bob", velocity );
-		Renderer.Set( "b_sprint", sprint);
-		Renderer.Set( "b_grounded", grounded );
-		Renderer.Set( "b_empty", empty );
+		Renderer.Set( GetAnim( "aim_yaw_inertia" ), yawInertia );
+		Renderer.Set( GetAnim( "aim_pitch_inertia" ), pitchInertia );
+		Renderer.Set( GetAnim( "move_bob" ), velocity );
+		Renderer.Set( GetAnim( "b_sprint" ), sprint);
+		Renderer.Set( GetAnim( "b_grounded" ), grounded );
+		Renderer.Set( GetAnim( "b_empty" ), empty );
 	}
 
 	public float GetPercentageBetween( float value, float min, float max )

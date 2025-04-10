@@ -252,7 +252,8 @@
               "Weapons": [
                 "weapons/usp/usp.wep",
                 "weapons/mp5/mp5.wep",
-                "weapons/spaghelli m4/m4.wep"
+                "weapons/spaghelli m4/m4.wep",
+                "weapons/rust_pistol/rust_pistol.wep"
               ],
               "SelectedWeapon": null
             },
