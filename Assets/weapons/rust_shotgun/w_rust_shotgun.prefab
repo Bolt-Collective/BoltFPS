@@ -1,35 +1,40 @@
 {
   "RootObject": {
-    "__guid": "eccd8528-3b35-4c82-81c8-81e7d8ca28c4",
+    "__guid": "e7d01cce-80f0-4272-a038-e133d2b41065",
     "Flags": 0,
-    "Name": "w_usp",
+    "Name": "w_rust_shotgun",
     "Tags": "item,weapon",
     "Enabled": true,
     "Components": [
       {
-        "__type": "Seekers.Pistol",
-        "__guid": "abb9f231-0776-4973-95c6-0a95fcf36de3",
-        "Ammo": 15,
+        "__type": "Seekers.Shotgun",
+        "__guid": "4e253d37-03ec-4714-9420-9b71c33574d3",
+        "Ammo": 6,
         "BoneOffset": {
-          "Position": "2.7735,0,-4.794",
+          "Position": "0,0,0",
           "Scale": "1,1,1",
           "Rotation": "0,0,0,1"
         },
-        "CrosshairType": "Default",
-        "Damage": 15,
-        "DeploySound": "sounds/weapons/switch/switch_2.sound",
-        "Handedness": "Right",
-        "HoldType": "Pistol",
-        "Icon": "icons/weapons/guns/usp_01.png",
+        "Bullets": 15,
+        "CrosshairType": "Shotgun",
+        "Damage": 4,
+        "DeploySound": "sounds/weapons/deploy/mp5deploy.sound",
+        "Handedness": "Both",
+        "HoldType": "Shotgun",
+        "Icon": "icons/weapons/guns/spaghellim4_01.png",
         "LeftIK": {
           "Active": true,
-          "GameObject": null,
+          "GameObject": {
+            "_type": "gameobject",
+            "go": "7f82a04d-8786-44cc-8eb9-744d4266ee48"
+          },
           "IsLeft": false
         },
-        "MaxAmmo": 16,
-        "MaxRecoil": 1,
-        "MinRecoil": 0.5,
-        "Name": "USP",
+        "LoadSound": "sounds/guns/r870/shotgun_load.sound",
+        "MaxAmmo": 6,
+        "MaxRecoil": 10,
+        "MinRecoil": 5,
+        "Name": "Spaghelli M4",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -37,31 +42,33 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "ParentBone": "hold_r",
-        "PrimaryRate": 15,
-        "RecoilPattern": {
-          "Points": [
-            "0,1.23411",
-            "0.005,1.165254",
-            "-0.02376425,1.080508",
-            "0.019,1.016949"
-          ]
-        },
-        "ReloadShortSound": "sounds/weapons/reloads/uspreloadc.sound",
-        "ReloadSound": "sounds/weapons/reloads/uspreload.sound",
-        "ReloadTime": 1.5,
+        "PrimaryRate": 3,
+        "ReloadShortSound": "sounds/rust_sounds/rust_pumpshotgun/sounds/rust_pumpshotgun.insert.sound",
+        "ReloadSound": "sounds/rust_sounds/rust_pumpshotgun/sounds/rust_pumpshotgun.insert.sound",
+        "ReloadTime": 1,
         "SecondaryRate": 1,
-        "ShootSound": "sounds/guns/m1911/pistol_shoot.sound",
+        "ShootSound": "sounds/rust_sounds/rust_pumpshotgun/sounds/rust_pumpshotgun.shoot.sound",
         "ShowAmmo": true,
-        "Spread": 0,
+        "Spread": 0.1,
         "ViewModelPrefab": {
           "_type": "gameobject",
-          "prefab": "weapons/usp/v_usp.prefab"
+          "prefab": "weapons/rust_shotgun/v_rust_shotgun.prefab"
         }
       }
     ],
     "Children": [
       {
-        "__guid": "73740ab3-c9cc-4540-9a82-0e53a656cc7b",
+        "__guid": "367838f9-f5f5-4dff-89ea-14142fd7f5d5",
+        "Flags": 0,
+        "Name": "eject_shotgun",
+        "Position": "5000,5000,5000",
+        "Tags": "particles,effect",
+        "Enabled": true,
+        "__Prefab": "weapons/common/effects/eject_shotgun.prefab",
+        "__PrefabVariables": {}
+      },
+      {
+        "__guid": "1abb0569-28cb-4168-9aea-092cd1ae9096",
         "Flags": 0,
         "Name": "muzzle",
         "Position": "5000,5000,5000",
@@ -71,24 +78,24 @@
         "__PrefabVariables": {}
       },
       {
-        "__guid": "9aa96ce8-1b9c-45a2-afb6-b0dc6c271685",
+        "__guid": "d07f6e10-3747-4401-8524-290da8a5950a",
         "Flags": 0,
         "Name": "Model",
-        "Position": "1.268736,-0.02934529,1.397888",
-        "Rotation": "-0.00000002607706,-0.000000339397,-0.0000002257278,0.9999977",
+        "Position": "-2.625159,0.7220733,-2.734331",
+        "Scale": "0.438294,0.438294,0.438294",
         "Enabled": true,
         "Components": [
           {
             "__type": "Sandbox.SkinnedModelRenderer",
-            "__guid": "236b1467-27ee-4305-b074-657d3b39b1db",
+            "__guid": "abfc91ee-c839-4cba-aea0-d832ed3796a0",
             "AnimationGraph": null,
-            "BodyGroups": 9493,
+            "BodyGroups": 18446744073709551615,
             "BoneMergeTarget": null,
             "CreateAttachments": false,
             "CreateBoneObjects": false,
             "MaterialGroup": null,
             "MaterialOverride": null,
-            "Model": "models/weapons/sbox_pistol_usp/w_usp.vmdl",
+            "Model": "weapons/rust_pumpshotgun/rust_pumpshotgun.vmdl",
             "Morphs": {},
             "OnComponentDestroy": null,
             "OnComponentDisabled": null,
@@ -117,13 +124,23 @@
             "Tint": "1,1,1,1",
             "UseAnimGraph": true
           }
+        ],
+        "Children": [
+          {
+            "__guid": "7f82a04d-8786-44cc-8eb9-744d4266ee48",
+            "Flags": 0,
+            "Name": "ik",
+            "Position": "23.67496,6.713713,1.538455",
+            "Rotation": "-0.0000002011657,0.000000118278,-0.6290877,0.7773345",
+            "Enabled": true
+          }
         ]
       },
       {
-        "__guid": "9dc98730-2197-429a-93fc-17b9616d6cad",
+        "__guid": "aed18528-2cdb-46cd-8251-9496df76c586",
         "Flags": 0,
         "Name": "Muzzle",
-        "Position": "5.75,0,7.45",
+        "Position": "12.50364,0,-0.8894424",
         "Enabled": true
       }
     ],
@@ -158,7 +175,7 @@
   "DontBreakAsTemplate": false,
   "ResourceVersion": 1,
   "__references": [
-    "facepunch.w_usp#33631"
+    "rust.rust_pumpshotgun#43965"
   ],
   "__version": 1
 }

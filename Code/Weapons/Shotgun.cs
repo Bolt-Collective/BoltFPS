@@ -114,6 +114,7 @@ partial class Shotgun : BaseWeapon
 	{
 		IsReloading = false;
 		ViewModel?.Set( "b_reloading", false );
+		ViewModel?.Set( "reload_finished", true );
 	}
 
 	public override string StatDamage => $"{Damage}x10";

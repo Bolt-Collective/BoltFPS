@@ -1,0 +1,7 @@
+{
+  "DisplayName": "Pump Shotgun",
+  "Icon": "icons/weapons/guns/spaghellim4_01.png",
+  "Details": "weapons/rust_shotgun/w_rust_shotgun.prefab",
+  "__references": [],
+  "__version": 0
+}

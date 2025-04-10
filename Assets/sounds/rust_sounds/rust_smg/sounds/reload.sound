@@ -1,11 +1,11 @@
 {
   "UI": false,
-  "Volume": "0.1",
-  "Pitch": "1.1",
+  "Volume": "1",
+  "Pitch": "1",
   "Decibels": 70,
   "SelectionMode": "Random",
   "Sounds": [
-    "sounds/rust_sounds/rust_smg/sounds/rust_smg_deploy3p.vsnd"
+    "sounds/rust_sounds/rust_smg/sounds/reload.vsnd"
   ],
   "Occlusion": true,
   "AirAbsorption": true,

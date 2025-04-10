@@ -9,7 +9,7 @@
       {
         "__type": "Seekers.Pistol",
         "__guid": "abb9f231-0776-4973-95c6-0a95fcf36de3",
-        "Ammo": 15,
+        "Ammo": 10,
         "BoneOffset": {
           "Position": "2.7735,0,-4.794",
           "Scale": "1,1,1",
@@ -26,7 +26,7 @@
           "GameObject": null,
           "IsLeft": false
         },
-        "MaxAmmo": 16,
+        "MaxAmmo": 10,
         "MaxRecoil": 1,
         "MinRecoil": 0.5,
         "Name": "Pistol",

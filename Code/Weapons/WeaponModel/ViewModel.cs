@@ -18,7 +18,7 @@ public class ViewModel : Component
 	public float YawInertia { get; private set; }
 	public float PitchInertia { get; private set; }
 
-	[Property] public Vector3 offset { get; set; }
+	[Property] public Vector3 Offset { get; set; }
 
 	[Property]
 	public Dictionary<string, string> AnimParamTranslate { get; set; }
@@ -174,7 +174,7 @@ public class ViewModel : Component
 		var offset = CalcSwingOffset( pitchDelta, yawDelta );
 		offset += CalcBobbingOffset( bobSpeed );
 
-		WorldPosition += WorldRotation * offset;
+		WorldPosition += WorldRotation * offset + (player.Controller.Camera.WorldTransform.PointToWorld( Offset ) - player.Controller.Camera.WorldPosition);
 	}
 
 	protected Vector3 CalcSwingOffset( float pitchDelta, float yawDelta )
