@@ -5,7 +5,7 @@
 
 
 
-<root style="@(MapVoteManager.Instance.Voting ? "" : "background-color: transparent; pointer-events: none")">
+<root style="@(MapVoteManager.Instance.Voting ? "pointer-events: all" : "background-color: transparent; pointer-events: none")">
 	@if (!MapVoteManager.Instance.Voting)
 		return;
 	<div class="map-selection">
