@@ -21,7 +21,7 @@ public static partial class SurfaceExtensions
 		while ( string.IsNullOrWhiteSpace( decalPath ) && surf != null )
 		{
 			decalPath = Game.Random.FromList( surf.ImpactEffects.BulletDecal );
-			surf = surf.GetBaseSurface();
+			surf = Replace(surf.GetRealSurface());
 		}
 
 		if ( !string.IsNullOrWhiteSpace( decalPath ) )
@@ -70,7 +70,7 @@ public static partial class SurfaceExtensions
 		while ( string.IsNullOrWhiteSpace( sound ) && surf != null )
 		{
 			sound = surf.Sounds.Bullet;
-			surf = surf.GetBaseSurface();
+			surf = Replace(surf.GetRealSurface());
 		}
 
 		if ( playSound && !string.IsNullOrWhiteSpace( sound ) )
@@ -173,5 +173,33 @@ public static partial class SurfaceExtensions
 		}
 
 		return s;
+	}
+	
+	public static Surface GetRealSurface( this Surface self )
+	{
+		Surface baseSurface = null;
+		if ( self.ResourceName == "default" ) return null;
+		baseSurface = ResourceLibrary.Get<Surface>( self.BaseSurface );
+		return baseSurface;
+	}
+
+	public static Surface Replace( this Surface self )
+	{
+		var surf = self;
+
+		if ( surf == null )
+		{
+			ResourceLibrary.TryGet<SurfaceImpacts>( $"surfaces/default.simpact", out var defaultSurface );
+			return defaultSurface;
+		}
+		else
+		{
+			var surfaceName = self.ResourceName;
+			ResourceLibrary.TryGet<SurfaceImpacts>( $"surfaces/{surfaceName}.simpact", out var surfNew );
+				
+			surf = surfNew;
+		}
+
+		return surf;
 	}
 }

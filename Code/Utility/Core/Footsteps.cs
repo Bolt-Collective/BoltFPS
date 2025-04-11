@@ -60,7 +60,9 @@ public class Footsteps : Component
 			}
 		}
 
-		var GroundSurface = tagMaterial == "" ? Player.Controller.MoveTraceResult.Surface : (Surface.FindByName( tagMaterial ) ?? Player.Controller.MoveTraceResult.Surface);
+		var actualSurf = Player.Controller.MoveTraceResult.Surface.GetRealSurface();
+
+		var GroundSurface = tagMaterial == "" ? actualSurf.Replace() : (Surface.FindByName( tagMaterial ) ?? actualSurf.Replace());
 
 
 		var sound = foot == 0 ? GroundSurface.Sounds.FootLeft : GroundSurface.Sounds.FootRight;
