@@ -46,8 +46,6 @@
 		if ( !player.Controller.IsValid() )
 			return;
 
-		var hud = player.Controller.Camera.Hud;
-
 		Health = player.HealthComponent.Health / player.HealthComponent.MaxHealth;
 
 		if(ColorAdjustments.IsValid())
@@ -56,7 +54,7 @@
 		}
 
 		int splatterCount = MathX.FloorToInt( SplatterCurve.Evaluate(1- Health));
-
+		
 		if ( splatterCount > Splatters.Count )
 		{
 			for ( int i = 0; i < splatterCount - Splatters.Count; i++ )
