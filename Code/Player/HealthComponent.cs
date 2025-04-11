@@ -197,6 +197,9 @@ public partial class HealthComponent : Component, IRespawnable
 				Victim = this
 			};
 
+		AddKill( attacker.Network.OwnerId );
+		AddDeath( Network.OwnerId );
+
 		//listen for this instead
 		//if ( attacker.IsValid() && attacker?.Network.OwnerId != Network.OwnerId && inflictor != default && attacker.GameObject.Root.Components.TryGet<PropHuntPawn>( out var pawn ) && attacker.Network.OwnerId == Connection.Local.Id )
 		//	SoundExtensions.FollowSound( SoundExtensions.RandomSoundFromFolder( pawn?.KillFolder ), attacker?.GameObject, attacker?.Network.OwnerId.ToString(), "LocalTaunt" );
@@ -206,6 +209,24 @@ public partial class HealthComponent : Component, IRespawnable
 		OnKilled?.Invoke( damageInfo );
 
 		damageInfo.DisplayFeed();
+	}
+
+	[Rpc.Broadcast]
+	public void AddKill(Guid player)
+	{
+		if ( Connection.Local.Id != player || !Client.Local.IsValid())
+			return;
+
+		Client.Local.Kills++;
+	}
+
+	[Rpc.Broadcast]
+	public void AddDeath( Guid player )
+	{
+		if ( Connection.Local.Id != player || !Client.Local.IsValid() )
+			return;
+
+		Client.Local.Deaths++;
 	}
 }
 

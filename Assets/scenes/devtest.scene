@@ -383,6 +383,16 @@
               }
             ]
           }
+        },
+        {
+          "__type": "LargeMessage",
+          "__guid": "455993e0-6196-499f-8a66-28e6507f60c7",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null
         }
       ],
       "Children": []
