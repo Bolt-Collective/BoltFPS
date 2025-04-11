@@ -10,6 +10,9 @@ public static partial class SurfaceExtensions
 	/// </summary>
 	public static List<LoadedSurface> LoadedSurfaces = new();
 
+	[ConVar( ConVarFlags.Saved )]
+	public static bool bolt_impactparticles { get; set; } = true;
+
 	public static GameObject DoBulletImpact( this Surface self, SceneTraceResult tr, bool playSound = true )
 	{
 		//
@@ -78,6 +81,8 @@ public static partial class SurfaceExtensions
 			SoundExtensions.BroadcastSound( sound, tr.EndPosition );
 		}
 
+		if ( !bolt_impactparticles )
+			return default;
 		//
 		// Get us a particle effect
 		//

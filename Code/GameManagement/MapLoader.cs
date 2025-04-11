@@ -68,7 +68,6 @@ public sealed class MapLoader : MapInstance
 	[Rpc.Broadcast]
 	public async static void ChangeMap( string map )
 	{
-		Log.Info( map );
 		Instance.ClientIsLoadingMap = true;
 
 		if ( Instance.MapName != map )

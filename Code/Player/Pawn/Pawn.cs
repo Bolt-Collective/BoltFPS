@@ -93,8 +93,6 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 	public virtual void OnKilled( DamageInfo damageInfo )
 	{
-		//Why
-		/*
 		Controller.BodyModelRenderer.GameObject.SetParent( Game.ActiveScene );
 		Controller.BodyModelRenderer.AddComponent<TimedDestroyComponent>().Time = 5;
 		Controller.BodyModelRenderer.UseAnimGraph = false;
@@ -104,7 +102,6 @@ public partial class Pawn : ShrimplePawns.Pawn
 		modelPhysics.Model = Controller.BodyModelRenderer.Model;
 		modelPhysics.Renderer = Controller.BodyModelRenderer;
 		modelPhysics.PhysicsGroup.AddVelocity( Controller.Controller.Velocity + damageInfo.Force / 5000 );
-		*/
 
 		GameObject.Destroy();
 	}
