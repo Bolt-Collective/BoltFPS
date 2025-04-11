@@ -68,7 +68,6 @@ public partial class PlayerWalkControllerComplex : Component
 	//please check what this does before you remove it in a ""cleanup"" thanks
 	public bool CanMove { get; set; } = true;
 
-
 	public Vector3 WishMove { get; private set; }
 
 	public virtual void DoMovement()

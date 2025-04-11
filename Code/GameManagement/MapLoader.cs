@@ -1,4 +1,5 @@
 using Sandbox;
+using XMovement;
 using static Sandbox.Gizmo;
 
 namespace Seekers;
@@ -12,7 +13,16 @@ public sealed class MapLoader : MapInstance
 	
 	public static MapLoader Instance;
 
-	protected override void OnAwake()
+    protected override void OnFixedUpdate()
+    {
+		var pawn = Pawn.Local;
+
+		if ( !pawn.IsValid() || !pawn.Controller.IsValid())
+			return;
+		pawn.Controller.CanMove = !ClientIsLoadingMap;
+    }
+
+    protected override void OnAwake()
 	{
 		Instance = this;
 		OnMapLoaded += OnMapLoad;
