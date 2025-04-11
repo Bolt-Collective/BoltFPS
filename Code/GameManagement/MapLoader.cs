@@ -58,6 +58,7 @@ public sealed class MapLoader : MapInstance
 	[Rpc.Broadcast]
 	public async static void ChangeMap( string map )
 	{
+		Log.Info( map );
 		Instance.ClientIsLoadingMap = true;
 
 		if ( Instance.MapName != map )
@@ -112,7 +113,7 @@ public sealed class MapLoader : MapInstance
 					continue;
 				gameobject.SetParent( Instance.GameObject );
 			}
-			Instance.OnMapLoaded();
+			Instance.OnMapLoaded?.Invoke();
 		}
 		else
 		{
