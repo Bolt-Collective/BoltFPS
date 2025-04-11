@@ -198,7 +198,7 @@ public partial class HealthComponent : Component, IRespawnable
 			};
 
 		AddKill( attacker.Network.OwnerId );
-		AddDeath( Network.OwnerId );
+
 
 		//listen for this instead
 		//if ( attacker.IsValid() && attacker?.Network.OwnerId != Network.OwnerId && inflictor != default && attacker.GameObject.Root.Components.TryGet<PropHuntPawn>( out var pawn ) && attacker.Network.OwnerId == Connection.Local.Id )

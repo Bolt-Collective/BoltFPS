@@ -270,7 +270,8 @@
               "DisplayName": "Equipment",
               "Weapons": [
                 "weapons/grenade/grenade.wep",
-                "weapons/crowbar/crowbar.wep"
+                "weapons/crowbar/crowbar.wep",
+                "weapons/golden_crowbar/golden_crowbar.wep"
               ],
               "SelectedWeapon": null
             }

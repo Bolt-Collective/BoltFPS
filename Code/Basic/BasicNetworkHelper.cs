@@ -68,7 +68,7 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 			await Task.DelayRealtimeSeconds( 0.1f );
 
 			var lobbyConfig = new LobbyConfig();
-			var lobbySettings = LobbySettings.Load();
+			var lobbySettings =  new LobbySettings();
 
 			if ( lobbySettings is not null )
 			{

@@ -9,10 +9,10 @@ public sealed class MapLoader : MapInstance
 	public bool ClientIsLoadingMap { get; set; }
 
 	List<(GameObject prop, Transform pos)> _propStartTransforms = [];
-
+	
 	public static MapLoader Instance;
 
-	protected override void OnStart()
+	protected override void OnAwake()
 	{
 		Instance = this;
 		OnMapLoaded += OnMapLoad;
