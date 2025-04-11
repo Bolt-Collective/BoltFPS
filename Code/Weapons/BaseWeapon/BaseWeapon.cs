@@ -158,6 +158,9 @@ public partial class BaseWeapon : Component
 
 		IsReloading = false;
 
+		if ( !Owner.IsValid() )
+			return;
+
 		Owner.Zoom = 1;
 
 		var go = ViewModelPrefab?.Clone( new CloneConfig()

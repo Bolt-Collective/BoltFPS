@@ -18,6 +18,6 @@ public partial class Client : ShrimplePawns.Client
 		//
 		// Failing that, spawn where we are
 		//
-		return WorldTransform;
+		return new Transform();
 	}
 }

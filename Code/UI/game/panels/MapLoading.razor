@@ -1,0 +1,31 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Seekers
+
+@if (Show)
+{
+	<root style="background-color: #000; pointer-events: all;">
+		<h2>Loading Map</h2>
+		@for(int i = 0; i < DotCount; i++)
+		{
+			<h2>.</h2>
+		}
+	</root>
+}
+else
+{
+	<root style="background-color: #0000; pointer-events: none;" />
+}
+
+@code
+{
+	private bool Show => MapLoader.Instance?.ClientIsLoadingMap ?? false;
+
+	private int DotCount => 1 + MathX.FloorToInt(Time.Now * 3) % 3;
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine(Show, DotCount);
+	}
+}

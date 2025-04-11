@@ -4,8 +4,11 @@ namespace XMovement;
 public partial class PlayerWalkControllerComplex : Component, Component.ExecuteInEditor
 {
 	[RequireComponent] public PlayerMovement Controller { get; set; }
+
+	Vector3 LastPos;
 	protected override void OnStart()
 	{
+		LastPos = WorldPosition;
 		base.OnStart();
 		if ( !IsProxy )
 		{
@@ -21,6 +24,11 @@ public partial class PlayerWalkControllerComplex : Component, Component.ExecuteI
 		base.OnUpdate();
 		if ( !Game.IsPlaying ) return;
 
+		if (!CanMove)
+		{
+			WorldPosition = LastPos;
+		}
+
 		Camera.Enabled = !IsProxy;
 
 		if ( !IsProxy )
@@ -32,6 +40,8 @@ public partial class PlayerWalkControllerComplex : Component, Component.ExecuteI
 			if ( Controller.MovementFrequency == PlayerMovement.MovementFrequencyMode.PerUpdate ) DoMovement();
 		}
 		Animate();
+
+		LastPos = WorldPosition;
 	}
 
 	protected override void OnFixedUpdate()
