@@ -13,7 +13,7 @@ public static partial class SurfaceExtensions
 	[ConVar( ConVarFlags.Saved )]
 	public static bool bolt_impactparticles { get; set; } = true;
 
-	public static GameObject DoBulletImpact( this Surface self, SceneTraceResult tr, bool playSound = true )
+	public static void DoBulletImpact( this Surface self, SceneTraceResult tr, bool playSound = true )
 	{
 		//
 		// Drop a decal
@@ -32,7 +32,7 @@ public static partial class SurfaceExtensions
 			if ( ResourceLibrary.TryGet<DecalDefinition>( decalPath, out var decal ) )
 			{
 				if ( !tr.GameObject.IsValid() )
-					return null;
+					return;
 
 				var go = new GameObject
 				{
@@ -82,7 +82,7 @@ public static partial class SurfaceExtensions
 		}
 
 		if ( !bolt_impactparticles )
-			return default;
+			return;
 		//
 		// Get us a particle effect
 		//
@@ -107,29 +107,25 @@ public static partial class SurfaceExtensions
 
 		if ( particleReference?.BulletImpact.IsValid() ?? false )
 		{
-			var particle = CreateParticle( particleReference.BulletImpact, tr.GameObject, tr.EndPosition,
-				Rotation.LookAt( tr.Normal ) );
-			return particle;
+			CreateParticle( particleReference.BulletImpact, tr.GameObject, tr.EndPosition,
+			Rotation.LookAt( tr.Normal ) );
+			return; 
 		}
 
-		return default;
+		return;
 	}
 
-	public static GameObject CreateParticle( GameObject particle, GameObject parent, Vector3 position,
+	[Rpc.Broadcast]
+	public static void CreateParticle( GameObject particle, GameObject parent, Vector3 position,
 		Rotation rotation, bool spawn = true )
 	{
+		if ( !bolt_impactparticles )
+			return;
 		var go = particle.Clone();
 		go.WorldTransform = new Transform( position, rotation );
 		go.AddComponent<TimedDestroyComponent>().Time = 10;
 
-		if ( spawn )
-		{
-			go.NetworkSpawn( null );
-			go.Network.SetOrphanedMode( NetworkOrphaned.Host );
-			go.DestroyAsync( 5f );
-		}
-
-		return go;
+		return;
 	}
 
 	public static SoundHandle PlayPhysicsCollisionSound( this Surface self, Vector3 position, float speed = 320.0f )
