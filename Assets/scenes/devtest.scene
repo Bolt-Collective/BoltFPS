@@ -214,12 +214,15 @@
         {
           "__type": "Seekers.Scoreboard",
           "__guid": "fdc4d9bf-ca90-4cff-8587-0c74b344bf64",
+          "IconOveride": null,
+          "NameOveride": null,
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
           "OnComponentFixedUpdate": null,
           "OnComponentStart": null,
           "OnComponentUpdate": null,
+          "Remaining": true,
           "Teams": [
             "teams/basic.team"
           ]

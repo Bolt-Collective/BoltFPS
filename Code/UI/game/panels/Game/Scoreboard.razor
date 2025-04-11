@@ -8,9 +8,12 @@
 	{
 		<div class="player-list">
 			<div class="team-header">
-				<img class="icon-small" src=@team.Image />
-				<div style="color: @team.Color.Hex">@team.DisplayName</div>
-				<div class="remaining"><span class="count" style="color: @team.Color.Hex">@AllClients?.Where(x => x.Team == team).Count()</span>players remaining</div>
+				<img class="icon-small" src=@GetIcon( team ) />
+				<div style="color: @team.Color.Hex">@GetName( team )</div>
+				@if(Remaining)
+				{
+					<div class="remaining"><span class="count" style="color: @team.Color.Hex">@AllClients?.Where(x => x.Team == team).Count()</span>players remaining</div>
+				}
 			</div>
 
 			<div class="divider" style="background-color: rgba(@team.Color.Hex, 0.15);"></div>
@@ -57,6 +60,24 @@
 	private List<Client> AllClients => Game.ActiveScene.GetAll<Client>().ToList();
 
 	[Property] public List<Team> Teams { get; set; }
+	[Property] public bool Remaining { get; set; } = true;
+	[Property] public string NameOveride { get; set; }
+	[Property, ImageAssetPath] public string IconOveride { get; set; }
+
+	public string GetName(Team team)
+	{
+		if (NameOveride != null && NameOveride != string.Empty)
+			return NameOveride;
+		return team.DisplayName;
+	}
+
+	public string GetIcon(Team team)
+	{
+		if (IconOveride != null && IconOveride != string.Empty)
+			return IconOveride;
+		return team.Image;
+	}
+
 
 	protected override int BuildHash() => HashCode.Combine( Input.Down( "score" ), AllClients.Count() );
 

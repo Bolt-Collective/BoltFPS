@@ -20,6 +20,7 @@ public sealed class BasicLoadoutManager : Component
 					loadout.Add(weapon.Details == null ? catagory.SelectedWeapon : weapon.Details );
 			}
 		}
+
 		HostSetLoadout( Connection.Local.Id, loadout );
 	}
 
