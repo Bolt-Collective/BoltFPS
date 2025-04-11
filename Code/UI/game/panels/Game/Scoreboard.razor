@@ -31,7 +31,7 @@
 			@{
 				int count = 0;
 			}
-			@foreach (var conn in AllClients?.Where(x => x.Team == team)!)
+			@foreach (var conn in AllClients?.Where(x => x.Team == team).OrderBy(x => x.Kills)!)
 			{
 				count++;
 				<div class="entry">

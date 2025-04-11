@@ -57,8 +57,6 @@ public partial class EnsuredLoadout : SingletonComponent<EnsuredLoadout>
 
 	public void SetLoadout( Guid player, List<string> loadout )
 	{
-		var pawn = Pawn.Local;
-
 		var paths = new List<string>();
 
 		foreach ( var weapon in loadout )

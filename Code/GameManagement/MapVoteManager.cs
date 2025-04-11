@@ -4,6 +4,7 @@ namespace Seekers;
 
 public sealed class MapVoteManager : SingletonComponent<MapVoteManager>
 {
+	[Property]
 	public bool Voting;
 	public void StartVote()
 	{

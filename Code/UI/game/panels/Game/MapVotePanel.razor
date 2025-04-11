@@ -3,10 +3,11 @@
 @inherits PanelComponent
 @namespace Seekers
 
-@if (!MapVoteManager.Instance.Voting)
-	return;
 
-<root>
+
+<root style="@(MapVoteManager.Instance.Voting ? "" : "background-color: transparent")">
+	@if (!MapVoteManager.Instance.Voting)
+		return;
 	<div class="map-selection">
 		<PackageList style="color: white" ShowFilters="@false" Query="type:map +prophunt sort:trending"
 		             OnSelected="@OnPackageSelected" Take=@( 50 )/>
