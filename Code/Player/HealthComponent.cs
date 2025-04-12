@@ -197,7 +197,11 @@ public partial class HealthComponent : Component, IRespawnable
 				Victim = this
 			};
 
-		AddKill( attacker.Network.OwnerId );
+		if (Connection.Local.Id == attacker.Network.OwnerId )
+			AddKill();
+
+		if ( !IsProxy )
+			AddDeath();
 
 
 		//listen for this instead
@@ -211,21 +215,13 @@ public partial class HealthComponent : Component, IRespawnable
 		damageInfo.DisplayFeed();
 	}
 
-	[Rpc.Broadcast]
-	public void AddKill(Guid player)
+	public void AddKill()
 	{
-		if ( Connection.Local.Id != player || !Client.Local.IsValid())
-			return;
-
 		Client.Local.Kills++;
 	}
 
-	[Rpc.Broadcast]
-	public void AddDeath( Guid player )
+	public void AddDeath( )
 	{
-		if ( Connection.Local.Id != player || !Client.Local.IsValid() )
-			return;
-
 		Client.Local.Deaths++;
 	}
 }

@@ -101,7 +101,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 		var modelPhysics = Controller.BodyModelRenderer.AddComponent<ModelPhysics>();
 		modelPhysics.Model = Controller.BodyModelRenderer.Model;
 		modelPhysics.Renderer = Controller.BodyModelRenderer;
-		modelPhysics.PhysicsGroup.AddVelocity( Controller.Controller.Velocity + damageInfo.Force / 5000 );
+		modelPhysics.PhysicsGroup.AddVelocity( Controller.Controller.Velocity + damageInfo.Force / 15000 );
 
 		GameObject.Destroy();
 	}

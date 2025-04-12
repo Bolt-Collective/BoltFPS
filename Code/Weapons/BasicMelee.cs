@@ -48,13 +48,22 @@ partial class BasicMelee : BaseWeapon
 
 			if ( !tr.GameObject.IsValid() ) continue;
 
+			var hitboxTags = tr.GetHitboxTags();
+
+			var damage = Damage;
+
+			if ( hitboxTags.Contains( HitboxTags.Head ) )
+				damage *= 2;
+
+			var calcForce = forward * 250000 * damage;
+
 			if ( tr.GameObject.Components.TryGet<Rigidbody>( out var prop ) )
 			{
-				prop.BroadcastApplyForce( forward * 80 * 100 );
+				prop.BroadcastApplyForce( calcForce );
 			}
-			else if ( tr.GameObject.Root.Components.TryGet<Pawn>( out var player ) )
+			else if ( tr.GameObject.Root.Components.TryGet<HealthComponent>( out var player ) )
 			{
-				player.TakeDamage( 25 );
+				player.TakeDamage( Owner, damage, this, tr.HitPosition, calcForce, hitboxTags );
 			}
 		}
 
