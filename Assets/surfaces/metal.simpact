@@ -16,7 +16,7 @@
     "Regular": [],
     "Bullet": [],
     "BulletDecal": [
-      "decals/bullet-metal.decal"
+      "surfaces/decals/metal-bullet.decal"
     ],
     "SoftParticles": [],
     "SoftDecal": [],

@@ -13,13 +13,13 @@
   "RollingResistance": 0,
   "BounceThreshold": 40,
   "ImpactEffects": {
-    "Regular": null,
-    "Bullet": null,
-    "BulletDecal": null,
-    "SoftParticles": null,
-    "SoftDecal": null,
-    "HardParticles": null,
-    "HardDecal": null
+    "Regular": [],
+    "Bullet": [],
+    "BulletDecal": [],
+    "SoftParticles": [],
+    "SoftDecal": [],
+    "HardParticles": [],
+    "HardDecal": []
   },
   "ScrapeEffects": {
     "RoughnessFactor": 0,
@@ -44,7 +44,7 @@
     "BreakSound": null,
     "GenericGibs": null
   },
-  "Tags": null,
+  "Tags": "",
   "__references": [
     "facepunch.impactgeneric#88477"
   ],

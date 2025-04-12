@@ -1,0 +1,16 @@
+{
+  "Decals": [
+    {
+      "Material": "materials/decals/metal/metal1.vmat",
+      "Width": "5",
+      "Height": "5",
+      "KeepAspect": false,
+      "Depth": "3",
+      "Rotation": "0 360",
+      "FadeTime": "30",
+      "FadeDuration": "1"
+    }
+  ],
+  "__references": [],
+  "__version": 0
+}

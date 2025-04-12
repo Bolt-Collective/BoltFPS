@@ -63,6 +63,7 @@ public class Footsteps : Component
 		var actualSurf = Player.Controller.MoveTraceResult.Surface.GetRealSurface();
 
 		var GroundSurface = tagMaterial == "" ? actualSurf.Replace() : (Surface.FindByName( tagMaterial ) ?? actualSurf.Replace());
+		//Log.Info( actualSurf );
 
 
 		var sound = foot == 0 ? GroundSurface.Sounds.FootLeft : GroundSurface.Sounds.FootRight;

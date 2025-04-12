@@ -1,18 +1,18 @@
 {
   "UI": false,
   "Volume": "1",
-  "Pitch": "1",
+  "Pitch": "0.85",
   "Decibels": 70,
   "SelectionMode": "Random",
   "Sounds": [
-    "sounds/footsteps/footstep-concrete-walk-001.vsnd",
-    "sounds/footsteps/footstep-concrete-walk-002.vsnd",
-    "sounds/footsteps/footstep-concrete-walk-003.vsnd",
-    "sounds/footsteps/footstep-concrete-walk-004.vsnd",
-    "sounds/footsteps/footstep-concrete-walk-005.vsnd",
-    "sounds/footsteps/footstep-concrete-walk-006.vsnd",
-    "sounds/footsteps/footstep-concrete-walk-007.vsnd",
-    "sounds/footsteps/footstep-concrete-walk-008.vsnd"
+    "sounds/footsteps/footstep-concrete-run-005.vsnd",
+    "sounds/footsteps/footstep-concrete-run-008.vsnd",
+    "sounds/footsteps/footstep-concrete-run-007.vsnd",
+    "sounds/footsteps/footstep-concrete-run-006.vsnd",
+    "sounds/footsteps/footstep-concrete-run-004.vsnd",
+    "sounds/footsteps/footstep-concrete-run-003.vsnd",
+    "sounds/footsteps/footstep-concrete-run-002.vsnd",
+    "sounds/footsteps/footstep-concrete-run-001.vsnd"
   ],
   "Occlusion": true,
   "AirAbsorption": true,
