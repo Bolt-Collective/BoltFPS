@@ -12,14 +12,18 @@ Scoreboard {
 
     .topbar {
         position: absolute;
-        top: 15px;
-        height: 58px;
+        top: 17px;
+        height: 60px;
         justify-content: center;
 
         .toplist {
             padding-left: 75px;
             padding-right: 75px;
             width: 100%;
+
+            &.left {
+                flex-direction: row-reverse;
+            }
 
             .score {
                 background-color: rgba( #292929, 0.9);

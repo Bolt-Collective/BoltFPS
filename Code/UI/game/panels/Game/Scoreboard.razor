@@ -10,7 +10,7 @@
 			{
 				Team team = i == 0 ? TopTeamL : TopTeamR;
 				int score = i == 0 ? TopTeamLScore : TopTeamRScore;
-				<div class="toplist" style="color: @(team.Color.Hex);  @(i == 0 ? "flex-direction: row-reverse;" : "")">
+				<div class="toplist @(i == 0 ? "left" : "")" style="color: @(team.Color.Hex);">
 					<div class="score">@score</div>
 					@foreach (var conn in AllClients?.Where(x => x.Team == team).OrderBy(x => -x.Kills)!)
 					{
