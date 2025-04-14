@@ -40,10 +40,7 @@
         "PrimaryRate": 7,
         "RecoilPattern": {
           "Points": [
-            "0,1.23411",
-            "0.005,1.165254",
-            "-0.02376425,1.080508",
-            "0.019,1.016949"
+            "0,-0.7"
           ]
         },
         "ReloadShortSound": "sounds/rust_sounds/rust_pistol/sound/reload.sound",
@@ -60,6 +57,16 @@
       }
     ],
     "Children": [
+      {
+        "__guid": "29b93bb2-5748-4766-9a8f-3c4ca10a48bd",
+        "Flags": 0,
+        "Name": "muzzle",
+        "Position": "5000,5000,5000",
+        "Tags": "particles",
+        "Enabled": true,
+        "__Prefab": "weapons/common/effects/muzzle.prefab",
+        "__PrefabVariables": {}
+      },
       {
         "__guid": "2d19d2dc-fce8-4efe-a236-07b25df05364",
         "Flags": 0,

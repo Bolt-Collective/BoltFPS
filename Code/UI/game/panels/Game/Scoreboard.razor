@@ -23,7 +23,8 @@
 	<div class="mainboard @( Input.Down( "Score" ) || ForceOpen ? "" : "hidden" )">
 		@foreach (var team in Teams)
 		{
-			<div class="player-list" onclick=@(() => TeamSelected?.Invoke(team))>
+			Team t = team;
+			<div class="player-list" onclick=@(() => TeamSelected?.Invoke(t))>
 				<div class="team-header">
 					@if ((IconOveride != null && IconOveride != string.Empty) || (team.Image != null && team.Image != string.Empty))
 					{
@@ -115,6 +116,6 @@
 	}
 
 
-	protected override int BuildHash() => HashCode.Combine( Input.Down( "score" ), ForceOpen, AllClients.Count() );
+	protected override int BuildHash() => HashCode.Combine( MathF.Round( RealTime.Now * 10) );
 
 }

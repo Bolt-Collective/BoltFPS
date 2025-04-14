@@ -15,9 +15,9 @@
           "Scale": "1,1,1",
           "Rotation": "0,0,0,1"
         },
-        "Bullets": 15,
+        "Bullets": 14,
         "CrosshairType": "Shotgun",
-        "Damage": 4,
+        "Damage": 7.5,
         "DeploySound": "sounds/weapons/deploy/mp5deploy.sound",
         "Handedness": "Both",
         "HoldType": "Shotgun",
@@ -49,7 +49,7 @@
         "SecondaryRate": 1,
         "ShootSound": "sounds/rust_sounds/rust_pumpshotgun/sounds/rust_pumpshotgun.shoot.sound",
         "ShowAmmo": true,
-        "Spread": 0.1,
+        "Spread": 0.05,
         "ViewModelPrefab": {
           "_type": "gameobject",
           "prefab": "weapons/rust_shotgun/v_rust_shotgun.prefab"
@@ -57,6 +57,26 @@
       }
     ],
     "Children": [
+      {
+        "__guid": "95a25501-ba49-4821-8248-2384e574d49a",
+        "Flags": 0,
+        "Name": "eject_shotgun",
+        "Position": "5000,5000,5000",
+        "Tags": "particles,effect",
+        "Enabled": true,
+        "__Prefab": "weapons/common/effects/eject_shotgun.prefab",
+        "__PrefabVariables": {}
+      },
+      {
+        "__guid": "19074478-19b9-4007-bbf1-95d56654ea8b",
+        "Flags": 0,
+        "Name": "muzzle",
+        "Position": "5000,5000,5000",
+        "Tags": "particles",
+        "Enabled": true,
+        "__Prefab": "weapons/common/effects/muzzle.prefab",
+        "__PrefabVariables": {}
+      },
       {
         "__guid": "367838f9-f5f5-4dff-89ea-14142fd7f5d5",
         "Flags": 0,
