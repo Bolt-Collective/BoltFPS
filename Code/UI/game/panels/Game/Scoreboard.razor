@@ -2,52 +2,72 @@
 
 @namespace Seekers
 
-<root class="@( Input.Down( "Score" ) ? "" : "hidden" )">
-
-	@foreach(var team in Teams)
+<root>
+	@if(TopTeamL.IsValid() && TopTeamR.IsValid())
 	{
-		<div class="player-list">
-			<div class="team-header">
-				<img class="icon-small" src=@GetIcon( team ) />
-				<div style="color: @team.Color.Hex">@GetName( team )</div>
-				@if(Remaining)
-				{
-					<div class="remaining"><span class="count" style="color: @team.Color.Hex">@AllClients?.Where(x => x.Team == team).Count()</span>players remaining</div>
-				}
-			</div>
-
-			<div class="divider" style="background-color: rgba(@team.Color.Hex, 0.15);"></div>
-
-			<div class="entry key" style="background-color: rgba(@team.Color.Hex, 0.25); color: rgba(@team.Color.Hex, 0.9);">
-				<div class="info" style="padding: 10px">#</div>
-				<div class="name" style="flex-grow: 1">
-					<img class="avatar" />
-					Player
-				</div>
-				<div class="info small">Kills</div>
-				<div class="info small">Deaths</div>
-				<div class="info small">Ping</div>
-			</div>
-			@{
-				int count = 0;
-			}
-			@foreach (var conn in AllClients?.Where(x => x.Team == team).OrderBy(x => -x.Kills)!)
+		<div class="topbar">
+			@for(int i = 0; i < 2; i++)
 			{
-				count++;
-				<div class="entry">
-					<div class="info" style="padding: 10px">@count</div>
-					<div class="name" style="flex-grow: 1">
+				Team team = i == 0 ? TopTeamL : TopTeamR;
+				int score = i == 0 ? TopTeamLScore : TopTeamRScore;
+				<div class="toplist" style="color: @(team.Color.Hex);  @(i == 0 ? "flex-direction: row-reverse;" : "")">
+					<div class="score">@score</div>
+					@foreach (var conn in AllClients?.Where(x => x.Team == team).OrderBy(x => -x.Kills)!)
+					{
 						<img src=@( $"avatar:{conn.Network?.Owner?.SteamId}" ) class="avatar" />
-						@conn.Network?.Owner?.DisplayName
-					</div>
-					<div class="info">@conn.Kills</div>
-					<div class="info">@conn.Deaths</div>
-					<div class="info">@conn.Network?.Owner?.Stats.Ping</div>
+					}
 				</div>
 			}
 		</div>
 	}
+	<div class="mainboard @( Input.Down( "Score" ) || ForceOpen ? "" : "hidden" )">
+		@foreach (var team in Teams)
+		{
+			<div class="player-list" onclick=@(() => TeamSelected?.Invoke(team))>
+				<div class="team-header">
+					@if ((IconOveride != null && IconOveride != string.Empty) || (team.Image != null && team.Image != string.Empty))
+					{
+						<img class="icon-small" src=@GetIcon( team ) />
+					}
+					<div style="color: @team.Color.Hex">@GetName(team)</div>
+					@if (Remaining)
+					{
+						<div class="remaining"><span class="count" style="color: @team.Color.Hex">@AllClients?.Where(x => x.Team == team).Count()</span>players remaining</div>
+					}
+				</div>
 
+				<div class="divider" style="background-color: rgba(@team.Color.Hex, 0.15);"></div>
+
+				<div class="entry key" style="background-color: rgba(@team.Color.Hex, 0.25); color: rgba(@team.Color.Hex, 0.9);">
+					<div class="info" style="padding: 10px">#</div>
+					<div class="name" style="flex-grow: 1">
+						<img class="avatar" />
+						Player
+					</div>
+					<div class="info small">Kills</div>
+					<div class="info small">Deaths</div>
+					<div class="info small">Ping</div>
+				</div>
+				@{
+					int count = 0;
+				}
+				@foreach (var conn in AllClients?.Where(x => x.Team == team).OrderBy(x => -x.Kills)!)
+				{
+					count++;
+					<div class="entry">
+						<div class="info" style="padding: 10px">@count</div>
+						<div class="name" style="flex-grow: 1">
+							<img src=@( $"avatar:{conn.Network?.Owner?.SteamId}" ) class="avatar" />
+							@conn.Network?.Owner?.DisplayName
+						</div>
+						<div class="info">@conn.Kills</div>
+						<div class="info">@conn.Deaths</div>
+						<div class="info">@conn.Network?.Owner?.Stats.Ping</div>
+					</div>
+				}
+			</div>
+		}
+	</div>
 </root>
 
 
@@ -60,9 +80,25 @@
 	private List<Client> AllClients => Game.ActiveScene.GetAll<Client>().ToList();
 
 	[Property] public List<Team> Teams { get; set; }
+
+	[Property] public Team TopTeamL { get; set; }
+	[Property] public int TopTeamLScore { get; set; }
+	[Property] public Team TopTeamR { get; set; }
+	[Property] public int TopTeamRScore { get; set; }
+
 	[Property] public bool Remaining { get; set; } = true;
+	[Property] public bool ForceOpen { get; set; }
 	[Property] public string NameOveride { get; set; }
 	[Property, ImageAssetPath] public string IconOveride { get; set; }
+
+	public Action<Team> TeamSelected;
+
+	public static Scoreboard Current;
+
+	protected override void OnAwake()
+	{
+		Current = this;
+	}
 
 	public string GetName(Team team)
 	{
@@ -79,6 +115,6 @@
 	}
 
 
-	protected override int BuildHash() => HashCode.Combine( Input.Down( "score" ), AllClients.Count() );
+	protected override int BuildHash() => HashCode.Combine( Input.Down( "score" ), ForceOpen, AllClients.Count() );
 
 }
