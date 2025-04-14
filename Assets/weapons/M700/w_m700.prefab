@@ -49,6 +49,7 @@
         "ScopeOverlay": "weapons/m700/scope.vmat",
         "SecondaryRate": 1,
         "ShootSound": "sounds/weapons/m700/m700_shot.sound",
+        "ShowAmmo": true,
         "Spread": 0,
         "SpreadMult": 0.2,
         "UnzoomSound": null,
@@ -60,6 +61,16 @@
       }
     ],
     "Children": [
+      {
+        "__guid": "68662150-d926-4a69-8f96-16abfad0866d",
+        "Flags": 0,
+        "Name": "muzzle",
+        "Position": "5000,5000,5000",
+        "Tags": "particles",
+        "Enabled": true,
+        "__Prefab": "weapons/common/effects/muzzle.prefab",
+        "__PrefabVariables": {}
+      },
       {
         "__guid": "d5754c80-fad6-48cd-b995-0c6b3cdc5dd6",
         "Flags": 0,

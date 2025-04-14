@@ -71,7 +71,7 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 		if ( !(Owner?.Controller.IsValid() ?? false) )
 			return;
 
-		SpreadIncrease = (Scoped ? 1 - BlurLerp : 1) * SpreadMult;
+		
 
 		float velocity = Owner.Controller.Controller.Velocity.Length / 25.0f;
 		float blur = 1.0f / (velocity + 1.0f);
@@ -79,6 +79,8 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 		if ( !Owner.Controller.Controller.IsOnGround )
 			blur = 0.1f;
+
+		SpreadIncrease = (Scoped ? 1 - blur : 1) * SpreadMult;
 
 		if ( blur > BlurLerp )
 			BlurLerp = BlurLerp.LerpTo( blur, Time.Delta * 3.0f );
