@@ -10,12 +10,17 @@
 			{
 				Team team = i == 0 ? TopTeamL : TopTeamR;
 				int score = i == 0 ? TopTeamLScore : TopTeamRScore;
-				<div class="toplist @(i == 0 ? "left" : "")" style="color: @(team.Color.Hex);">
-					<div class="score">@score</div>
+				<div class="toplist @(i == 0 ? "left" : "")">
 					@foreach (var conn in AllClients?.Where(x => x.Team == team).OrderBy(x => -x.Kills)!)
 					{
-						<img src=@( $"avatar:{conn.Network?.Owner?.SteamId}" ) class="avatar" />
+						<div class="avatars">
+							<div class="avatarcontainer">
+								<img src=@( $"avatar:{conn.Network?.Owner?.SteamId}" ) class="avatar"/>
+							</div>
+						</div>
 					}
+					<div class="slider" style="background-color: @team.Color.Hex"/>
+					<div class="score">@score</div>
 				</div>
 			}
 		</div>

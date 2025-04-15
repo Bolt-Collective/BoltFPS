@@ -13,26 +13,59 @@ Scoreboard {
     .topbar {
         position: absolute;
         top: 17px;
-        height: 60px;
         justify-content: center;
 
         .toplist {
             padding-left: 75px;
             padding-right: 75px;
-            width: 100%;
+            width: 750px;
+            gap: 11px;
+            align-items: center;
 
             &.left {
                 flex-direction: row-reverse;
             }
 
             .score {
-                background-color: rgba( #292929, 0.9);
-                backdrop-filter: blur(25px);
-                font-size: 50px;
+                font-size: 28px;
                 height: 100%;
                 aspect-ratio: 1;
                 justify-content: center;
                 align-items: center;
+                flex-shrink: 0;
+                white-space: nowrap;
+            }
+
+            .slider {
+                flex-grow: 1;
+                min-width: 40px;
+                height: 8px;
+                border-radius: 50%;
+                background-color: white;
+            }
+
+
+            .avatars {
+                display: flex;
+                gap: 11px;
+                flex-shrink: 0;
+                align-items: center;
+
+                .avatarcontainer {
+                    padding: 2px;
+                    border-radius: 10px;
+                    object-fit: cover;
+                    flex-shrink: 0;
+                    background: linear-gradient(#313131 0%, #666 100%);
+                    align-items: center;
+                    justify-content: center;
+
+                    .avatar {
+                        border-radius: 10px;
+                        width: 42px;
+                        width: 42px;
+                    }
+                }
             }
         }
     }
