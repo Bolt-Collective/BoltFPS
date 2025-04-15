@@ -15,7 +15,7 @@
           "Rotation": "0,0,0,1"
         },
         "CrosshairType": "Dot",
-        "Damage": 0,
+        "Damage": 25,
         "DeploySound": "sounds/weapons/switch/switch_3.sound",
         "Handedness": "Right",
         "HoldType": "Swing",
@@ -90,6 +90,16 @@
       }
     ],
     "Children": [
+      {
+        "__guid": "54f0cc16-647b-419d-8324-0b45b97b4d89",
+        "Flags": 0,
+        "Name": "muzzle",
+        "Position": "5000,5000,5000",
+        "Tags": "particles",
+        "Enabled": true,
+        "__Prefab": "weapons/common/effects/muzzle.prefab",
+        "__PrefabVariables": {}
+      },
       {
         "__guid": "c1725549-8323-480d-8e81-0c21d415b993",
         "Flags": 0,
