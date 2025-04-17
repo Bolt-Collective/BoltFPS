@@ -43,6 +43,19 @@ public partial class BaseWeapon : Component
 
 	[Property, ImageAssetPath] public string Icon { get; set; }
 	[Property] public GameObject ViewModelPrefab { get; set; }
+	
+	[Property]
+	public GameObject TracerEffect { get; set; }
+
+	private GameObject Tracer
+	{
+		get
+		{
+			if ( TracerEffect.IsValid() ) return TracerEffect;
+
+			return GameObject.GetPrefab( $"/weapons/common/effects/tracer.prefab" );
+		}
+	}
 
 	[Property] public string ParentBone { get; set; } = "hold_r";
 	[Property] public Transform BoneOffset { get; set; } = new Transform( 0 );
@@ -113,6 +126,26 @@ public partial class BaseWeapon : Component
 		LeftIK.IsLeft = true;
 
 		LeftIK.Active = true;
+	}
+	
+	private bool IsNearby( Vector3 position )
+	{
+		if ( !Scene.Camera.IsValid() ) return false;
+		return position.DistanceSquared( Scene.Camera.WorldPosition ) < 4194304f;
+	}
+	
+	[Rpc.Broadcast]
+	protected void DoTracer( Vector3 startPosition, Vector3 endPosition, float distance, int count )
+	{
+		if ( !IsNearby( startPosition ) && !IsNearby( endPosition ) ) return;
+
+		var origin = count == 0 ? Attachment( "muzzle" ).Position  : startPosition;
+
+		var effect = Tracer?.Clone( new CloneConfig { Transform = new Transform().WithPosition( origin ), StartEnabled = true } );
+		if ( effect.IsValid() && effect.GetComponentInChildren<Tracer>() is { } tracer )
+		{
+			tracer.EndPoint = endPosition;
+		}
 	}
 
 	public void CalculateRandomRecoil( (float min, float max) pitchRecoil, (float min, float max) yawRecoil )
@@ -498,6 +531,7 @@ public partial class BaseWeapon : Component
 			Surface surface = tagMaterial == "" ? tr.Surface : (Surface.FindByName( tagMaterial ) ?? tr.Surface);
 
 			surface.DoBulletImpact( tr, !hitSurfaces.Contains(surface) || shots < 3 );
+			DoTracer( tr.StartPosition, tr.EndPosition, tr.Distance, count: 1 );
 
 			hitSurfaces.Add( surface );
 
