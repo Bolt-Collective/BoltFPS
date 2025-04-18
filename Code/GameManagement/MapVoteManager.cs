@@ -4,8 +4,8 @@ namespace Seekers;
 
 public sealed class MapVoteManager : SingletonComponent<MapVoteManager>
 {
-	[Property]
-	public bool Voting;
+	[Property, Sync]
+	public bool Voting { get; set; }
 	public void StartVote()
 	{
 		Voting = true;
@@ -13,12 +13,12 @@ public sealed class MapVoteManager : SingletonComponent<MapVoteManager>
 	[Property] public Dictionary<SteamId, string> Votes { get; set; } = new();
 	public string GetMap()
 	{
+		Voting = false;
+
 		var votes = Votes.Values.GroupBy( x => x )
 					.Select( g => new { Map = g.Key, Count = g.Count() } )
 					.OrderByDescending( x => x.Count )
 					.FirstOrDefault();
-
-		Voting = false;
 
 		return votes?.Map ?? null;
 	}
