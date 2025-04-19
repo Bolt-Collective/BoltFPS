@@ -4,15 +4,15 @@
 /// This system exists to collect pending collision sounds and filter them into a unique set, to avoid
 /// unnesssary sounds playing, when they're going to be making the same sound anyway.
 /// </summary>
-public partial class CollisionSoundSystem : GameObjectSystem<CollisionSoundSystem>, ISceneCollisionEvents
+public partial class NewCollisionSoundSystem : GameObjectSystem<NewCollisionSoundSystem>, ISceneCollisionEvents
 {
 	record struct PendingSound( Surface surface, Vector3 position, float speed, float priority );
 
 	List<PendingSound> Pending = new List<PendingSound>();
 
-	public CollisionSoundSystem( Scene scene ) : base( scene )
+	public NewCollisionSoundSystem( Scene scene ) : base( scene )
 	{
-		Listen( Stage.FinishUpdate, 100, ProcessQueue, "CollisionSoundSystem Queue" );
+		Listen( Stage.FinishUpdate, 100, ProcessQueue, "NewCollisionSoundSystem Queue" );
 		DeleteOriginalCollisionSoundSystem();
 	}
 
