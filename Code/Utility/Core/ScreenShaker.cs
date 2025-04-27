@@ -12,7 +12,7 @@ public class ScreenShaker : Component
 			if ( !Game.ActiveScene.Camera.IsValid() )
 				return null;
 
-			return Game.ActiveScene.Camera.GetComponent<ScreenShaker>();
+			return Game.ActiveScene.GetAll<ScreenShaker>().FirstOrDefault(x => x.Network.IsOwner);
 		}
 	}
 

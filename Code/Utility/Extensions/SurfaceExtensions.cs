@@ -143,10 +143,6 @@ public static partial class SurfaceExtensions
 			if ( speed < 430f || string.IsNullOrWhiteSpace( sound ) )
 			{
 				sound = surf.Sounds.ImpactHard;
-				if ( string.IsNullOrWhiteSpace( sound ) )
-				{
-					sound = self.Sounds.ImpactHard;
-				}
 			}
 
 			if ( speed < 280f && !string.IsNullOrWhiteSpace( surf.Sounds.ImpactHard ) )
@@ -157,10 +153,6 @@ public static partial class SurfaceExtensions
 			if ( speed < 130f || string.IsNullOrWhiteSpace( sound ) )
 			{
 				sound = surf.Sounds.ImpactSoft;
-				if ( string.IsNullOrWhiteSpace( sound ) )
-				{
-					sound = self.Sounds.ImpactSoft;
-				}
 			}
 		}
 
