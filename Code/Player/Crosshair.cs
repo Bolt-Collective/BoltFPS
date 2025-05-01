@@ -118,8 +118,8 @@ public partial class Crosshair : Component
 		var hud = player.Controller.Camera.Hud;
 		var scale = Screen.Height / 1080.0f;
 
-		var gap = CrosshairGap * scale;
-		var len = CrosshairLength * scale;
+		var gap = CrosshairGap * scale * 0.5f;
+		var len = CrosshairLength * scale * 0.5f;
 		var w = CrosshairWidth * scale;
 
 		Color color = CrosshairColor;

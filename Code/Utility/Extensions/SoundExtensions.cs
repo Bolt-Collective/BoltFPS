@@ -9,6 +9,11 @@ public static partial class SoundExtensions
 	{
 		Sound.Play( soundName, position );
 	}
+	[Rpc.Broadcast]
+	public static void BroadcastSound( string soundName )
+	{
+		Sound.Play( soundName );
+	}
 
 	[Rpc.Broadcast]
 	public static void FollowSound( SoundEvent Sound, GameObject Followed, string sender = default, string localHandle = "Game", string mainHandle = "Game" )

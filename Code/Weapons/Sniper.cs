@@ -71,8 +71,6 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 		if ( !(Owner?.Controller.IsValid() ?? false) )
 			return;
 
-		
-
 		float velocity = Owner.Controller.Controller.Velocity.Length / 25.0f;
 		float blur = 1.0f / (velocity + 1.0f);
 		blur = MathX.Clamp( blur, 0.1f, 1.0f );
@@ -82,10 +80,7 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 		SpreadIncrease = (Scoped ? 1 - blur : 1) * SpreadMult;
 
-		if ( blur > BlurLerp )
-			BlurLerp = BlurLerp.LerpTo( blur, Time.Delta * 3.0f );
-		else
-			BlurLerp = BlurLerp.LerpTo( blur, Time.Delta * 5.0f );
+		BlurLerp = blur;
 
 		var angles = Owner.Controller.EyeAngles;
 		var delta = angles - LastAngles;

@@ -12,7 +12,7 @@ public class GameSettings
 	public bool DynamicCrosshair { get; set; } = true;
 
 	[Title( "Length" ), Group( "Crosshair" ), Range( 2, 50, 1 )]
-	public float CrosshairLength { get; set; } = 15;
+	public float CrosshairLength { get; set; } = 2;
 
 	[Title( "Width" ), Group( "Crosshair" ), Range( 1, 10, 1 )]
 	public float CrosshairWidth { get; set; } = 2;

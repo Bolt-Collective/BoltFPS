@@ -26,7 +26,10 @@ public partial class Client : ShrimplePawns.Client
 		get => _team;
 		set
 		{
-			lastTeam = value;
+			if (_team != null)
+				lastTeam = _team;
+			else
+				lastTeam = value;
 
 			_team = value;
 
@@ -37,9 +40,9 @@ public partial class Client : ShrimplePawns.Client
 		}
 	}
 
-	[Sync( SyncFlags.FromHost )] public Team lastTeam { get; set; } = TeamManager.BasicTeam;
+	[Sync( SyncFlags.FromHost )] public Team lastTeam { get; set; } = null;
 
-	private Team _team;
+	private Team _team = null;
 
 	protected override void OnFixedUpdate()
 	{

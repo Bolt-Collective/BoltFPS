@@ -9,6 +9,7 @@ public class PlayerDresser : Component, Component.INetworkSpawn
 		var clothing = owner.GetUserData( "avatar" );
 		var container = new ClothingContainer();
 		container.Deserialize( clothing );
+		container.Height = 1;
 		container.Apply( ModelRenderer );
 	}
 }
