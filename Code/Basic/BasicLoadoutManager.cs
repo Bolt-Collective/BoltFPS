@@ -17,7 +17,7 @@ public sealed class BasicLoadoutManager : Component
 			foreach(var weapon in catagory.Weapons)
 			{
 				if(weapon.DisplayName == catagory.SelectedWeapon)
-					loadout.Add(weapon.Details == null ? catagory.SelectedWeapon : weapon.Details );
+					loadout.Add( weapon.GetDetails() );
 			}
 		}
 

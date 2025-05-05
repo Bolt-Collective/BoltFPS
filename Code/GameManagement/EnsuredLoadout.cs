@@ -58,20 +58,10 @@ public partial class EnsuredLoadout : SingletonComponent<EnsuredLoadout>
 	[Rpc.Host]
 	public void SetLoadout( Guid player, List<string> loadout )
 	{
-		var paths = new List<string>();
-
-		foreach ( var weapon in loadout )
-		{
-			if(weapon.Contains("/"))
-				paths.Add( weapon );
-			else
-				paths.Add( "weapons/gun/w_gun.prefab".Replace( "gun", weapon ) );
-		}
-
 		if ( PlayerLoadouts.ContainsKey( player ) )
-			PlayerLoadouts[player] = paths;
+			PlayerLoadouts[player] = loadout;
 		else
-			PlayerLoadouts.Add( player, paths );
+			PlayerLoadouts.Add( player, loadout );
 	}
 	
 	[Rpc.Host]
