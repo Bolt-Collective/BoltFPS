@@ -77,12 +77,14 @@ public partial class EnsuredLoadout : SingletonComponent<EnsuredLoadout>
 	[Rpc.Host]
 	public void AddToLoadout(Guid player, string weapon)
 	{
-		/*
+		
 		if ( PlayerLoadouts.ContainsKey( player ) )
-			SetLoadout( player, new List<string> { PlayerLoadouts[player], weapon } );
+		{
+			SetLoadout( player, new List<string>( PlayerLoadouts[player] ) { weapon } );
+		}
 		else
 			SetLoadout( player, new List<string> { weapon } );
-			*/
+		
 	}
 
 	void ResetLoadout()
