@@ -86,6 +86,15 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 		}
 	}
 
+	protected override void OnStart()
+	{
+		base.OnStart();
+		
+		if ( !Networking.IsActive )
+			return;
+
+	}
+
 
 	public Transform FindSpawnLocation()
 	{

@@ -21,12 +21,8 @@ public sealed class BasicLoadoutManager : Component
 			}
 		}
 
-		HostSetLoadout( Connection.Local.Id, loadout );
+		EnsuredLoadout.Instance?.SetLoadout( Connection.Local.Id, loadout );
 	}
 
-	[Rpc.Host]
-	public void HostSetLoadout( Guid id, List<string> loadout )
-	{
-		EnsuredLoadout.Instance?.SetLoadout( id, loadout );
-	}
+
 }

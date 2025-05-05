@@ -147,7 +147,7 @@
           "OnComponentUpdate": null,
           "PlayerPrefab": {
             "_type": "gameobject",
-            "prefab": "prefabs/player.prefab"
+            "prefab": "prefabs/skeleton.prefab"
           },
           "PlayerWhitelist": [
             76561198043979097,
@@ -160,7 +160,7 @@
         {
           "__type": "Seekers.TeamManager",
           "__guid": "168486c2-ebbe-41f6-9974-c6888eb25883",
-          "DefaultTeam": "teams/basic.team",
+          "DefaultTeam": "team/skeletons.team",
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
@@ -217,6 +217,7 @@
         {
           "__type": "Seekers.Scoreboard",
           "__guid": "fdc4d9bf-ca90-4cff-8587-0c74b344bf64",
+          "ForceOpen": false,
           "IconOveride": null,
           "NameOveride": null,
           "OnComponentDestroy": null,
@@ -228,7 +229,11 @@
           "Remaining": true,
           "Teams": [
             "teams/basic.team"
-          ]
+          ],
+          "TopTeamL": null,
+          "TopTeamLScore": 0,
+          "TopTeamR": null,
+          "TopTeamRScore": 0
         },
         {
           "__type": "Seekers.WeaponPicker",
@@ -394,6 +399,33 @@
           "OnComponentFixedUpdate": null,
           "OnComponentStart": null,
           "OnComponentUpdate": null
+        }
+      ],
+      "Children": []
+    },
+    {
+      "__guid": "16c0b168-7054-4c83-b54f-33ab2166d74d",
+      "Flags": 0,
+      "Name": "Sun",
+      "Position": "-223.6157,-231.8087,376.692",
+      "Rotation": "-0.06526309,0.5272028,-0.4957224,0.6870642",
+      "Tags": "light_directional,light",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "Sandbox.DirectionalLight",
+          "__guid": "5a4053fe-1251-4536-857f-bfef668cd2dc",
+          "FogMode": "Enabled",
+          "FogStrength": 1,
+          "LightColor": "0.91373,0.98039,1,1",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "Shadows": true,
+          "SkyColor": "0,0,0,0"
         }
       ],
       "Children": []

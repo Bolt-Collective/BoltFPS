@@ -1,4 +1,5 @@
 using Sandbox.Citizen;
+using Sandbox.Components;
 using Sandbox.UI;
 using Sandbox.Utility;
 using XMovement;
@@ -15,6 +16,8 @@ public partial class BaseWeapon : Component
 	[Property] public string Name { get; set; }
 	[Property] public WeaponIK LeftIK { get; set; }
 	[Property] public CrosshairType CrosshairType { get; set; }
+	
+	[Property] public WeaponResource WeaponResource { get; set; }
 
 	public class WeaponIK
 	{
@@ -551,6 +554,11 @@ public partial class BaseWeapon : Component
 			if ( tr.GameObject.Components.TryGet<Prop>( out var prop ) )
 			{
 				KnockBack( tr.GameObject, calcForce );
+			}
+			
+			if ( tr.GameObject.Components.TryGet<NetworkedProp>( out var netProp ) )
+			{
+				netProp.Damage( damage );
 			}
 
 			if ( tr.GameObject.Root.Components.TryGet<HealthComponent>( out var player,

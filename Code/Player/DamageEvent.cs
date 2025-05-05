@@ -128,9 +128,9 @@ public record DamageInfo(
 		if ( !Victim.IsValid() )
 			return;
 
-		var attacker = Attacker.Network.Owner.DisplayName;
+		var attacker = Attacker?.Network?.Owner?.DisplayName;
 		var attackerColour = Color.White;
-		var victim = Victim.Network.Owner.DisplayName;
+		var victim = Victim?.Network?.Owner?.DisplayName;
 		var victimColour = Color.White;
 		var killMethods = new List<string>();
 

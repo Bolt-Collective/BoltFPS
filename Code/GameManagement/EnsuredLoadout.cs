@@ -55,6 +55,7 @@ public partial class EnsuredLoadout : SingletonComponent<EnsuredLoadout>
 		}
 	}
 
+	[Rpc.Host]
 	public void SetLoadout( Guid player, List<string> loadout )
 	{
 		var paths = new List<string>();
@@ -71,6 +72,17 @@ public partial class EnsuredLoadout : SingletonComponent<EnsuredLoadout>
 			PlayerLoadouts[player] = paths;
 		else
 			PlayerLoadouts.Add( player, paths );
+	}
+	
+	[Rpc.Host]
+	public void AddToLoadout(Guid player, string weapon)
+	{
+		/*
+		if ( PlayerLoadouts.ContainsKey( player ) )
+			SetLoadout( player, new List<string> { PlayerLoadouts[player], weapon } );
+		else
+			SetLoadout( player, new List<string> { weapon } );
+			*/
 	}
 
 	void ResetLoadout()

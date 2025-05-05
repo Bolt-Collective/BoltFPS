@@ -7,4 +7,9 @@ public class WeaponResource : GameResource
 	[ImageAssetPath] public string Icon { get; set; }
 	public string Details { get; set; }
 
+	public string GetDetails()
+	{
+		return Details == null ? DisplayName : Details;
+	}
+	
 }
