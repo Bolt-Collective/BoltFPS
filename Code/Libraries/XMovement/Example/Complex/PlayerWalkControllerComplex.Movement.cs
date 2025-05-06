@@ -136,9 +136,9 @@ public partial class PlayerWalkControllerComplex : Component
 	}
 	private void BuildInput()
 	{
-		var run = Input.Down( RunAction ) || (IsInVR && Input.VR.LeftHand.ButtonA);
-		var walk = Input.Down( WalkAction );
-		var crouch = Input.Down( CrouchAction ) || (IsInVR && Input.VR.LeftHand.JoystickPress.IsPressed);
+		var run = Input.Down( RunAction ) && EnableRunning;
+		var walk = Input.Down( WalkAction ) && EnableWalking;
+		var crouch = Input.Down( CrouchAction ) && EnableCrouching;
 
 		if ( RunByDefault )
 			IsRunning = !run && EnableRunning;

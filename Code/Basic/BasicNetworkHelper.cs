@@ -95,6 +95,17 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 
 	}
 
+	protected override void OnFixedUpdate()
+	{
+		foreach(var client in Scene.Components.GetAll<Client>(FindMode.EnabledInSelfAndChildren))
+		{
+			if ( client.GetPawn<Pawn>().IsValid() )
+				continue;
+
+			client.Respawn( client.Network.Owner, FindSpawnLocation() );
+		}
+	}
+
 
 	public Transform FindSpawnLocation()
 	{
