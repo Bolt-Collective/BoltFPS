@@ -33,4 +33,10 @@ public static partial class GameObjectExtensions
 	{
 		self?.Destroy();
 	}
+
+	[Rpc.Broadcast]
+	public static void SetParamNet( this SkinnedModelRenderer self, string param, bool active )
+	{
+		self?.Set( param, active );
+	}
 }
