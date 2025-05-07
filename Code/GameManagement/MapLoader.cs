@@ -4,7 +4,7 @@ using static Sandbox.Gizmo;
 
 namespace Seekers;
 
-public sealed class MapLoader : MapInstance
+public partial class MapLoader : MapInstance
 {
 	[Sync] public bool IsLoadingMap { get; set; }
 	public bool ClientIsLoadingMap { get; set; }
@@ -66,7 +66,7 @@ public sealed class MapLoader : MapInstance
 	}
 
 	[Rpc.Broadcast]
-	public async static void ChangeMap( string map )
+	public static async void ChangeMap( string map )
 	{
 		Instance.ClientIsLoadingMap = true;
 
@@ -87,7 +87,7 @@ public sealed class MapLoader : MapInstance
 		}
 	}
 
-	async static Task LoadMap( string map )
+	static async Task LoadMap( string map )
 	{
 		foreach ( var gameObject in Instance.GameObject.Children )
 		{
