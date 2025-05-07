@@ -17,8 +17,8 @@ public partial class HEGrenade : BaseGrenade, IDescription
 		if ( Networking.IsHost )
 			Explosion.AtPoint( WorldPosition, DamageRadius, MaxDamage, Player, true, this, DamageFalloff );
 
-		var screenShaker = ScreenShaker.Main;
 		var viewer = Client.Local?.GetPawn<Pawn>();
+		var screenShaker = viewer?.Controller?.ScreenShaker;
 
 		Sound.Play( "he_grenade_explode", WorldPosition );
 
