@@ -120,7 +120,6 @@ public partial class NewCollisionSoundSystem : GameObjectSystem<NewCollisionSoun
 		{
 			if ( pending.surface == null ) continue;
 			BroadcastSound( pending.surface, pending.position, pending.speed );
-			Log.Info( pending.surface );
 		}
 
 		Pending.Clear();
