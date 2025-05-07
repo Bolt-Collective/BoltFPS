@@ -1,4 +1,6 @@
 ﻿using Sandbox;
+using Seekers;
+
 namespace XMovement;
 
 public partial class PlayerWalkControllerComplex : Component
@@ -29,6 +31,8 @@ public partial class PlayerWalkControllerComplex : Component
 
 	[Property, InputAction, Group( "Camera" )]
 	public string CameraToggleAction { get; set; } = "View";
+	
+	public ScreenShaker ScreenShaker { get; set; }
 
 	public bool Spectating;
 
@@ -57,11 +61,15 @@ public partial class PlayerWalkControllerComplex : Component
 		{
 			Camera.Enabled = true;
 		}
+
+		ScreenShaker = Camera.GetOrAddComponent<ScreenShaker>();
 		UpdateBodyVisibility();
 	}
 
 	public void UpdateCamera()
 	{
+		ScreenShaker?.Apply( Camera );
+
 		if ( CameraMode == CameraModes.ThirdPerson )
 		{
 			var fraction = 1f;
