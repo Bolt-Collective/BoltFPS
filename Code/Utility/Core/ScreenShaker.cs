@@ -2,20 +2,6 @@ namespace Seekers;
 
 public class ScreenShaker : Component
 {
-	/// <summary>
-	/// Get any <see cref="ScreenShaker"/> component on the main camera.
-	/// </summary>
-	public static ScreenShaker Main
-	{
-		get
-		{
-			if ( !Game.ActiveScene.Camera.IsValid() )
-				return null;
-
-			return Game.ActiveScene.GetAll<ScreenShaker>().FirstOrDefault(x => x.Network.IsOwner);
-		}
-	}
-
 	private readonly List<ScreenShake> List = [];
 
 	/// <summary>
