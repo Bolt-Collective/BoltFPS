@@ -144,10 +144,12 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 		Owner.Zoom = 1;
 
 		ForceDisableViewmodel = false;
+		
 		await Task.Frame();
-		ViewModel.Set( "ironsights", 0 );
+		ViewModel?.Set( "ironsights", 0 );
+		
 		if ( IsReloading )
-			ViewModel.Set( "b_reload", true );
+			ViewModel?.Set( "b_reload", true );
 	}
 
 	[Rpc.Broadcast]

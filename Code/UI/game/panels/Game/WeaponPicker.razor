@@ -8,7 +8,7 @@
 
 		<!-- Weapon Selection -->
 		<div class="weapon-selection">
-			@foreach(var catagory in WeaponCatagories)
+			@foreach(var catagory in WeaponCategories)
 			{
 				<div class="category primary">
 					<h2>@catagory.DisplayName</h2>
@@ -59,9 +59,9 @@
 
 	private string IsSelected( object item, object selected ) => item == selected ? "selected" : "";
 
-	[Property] public List<WeaponCatagory> WeaponCatagories { get; set; }
+	[Property] public List<WeaponCategory> WeaponCategories { get; set; }
 
-	public class WeaponCatagory
+	public class WeaponCategory
 	{
 		[KeyProperty] public string DisplayName { get; set; }
 		public List<WeaponResource> Weapons { get; set; }
@@ -70,13 +70,6 @@
 		{
 			SelectedWeapon = weapon;
 		}
-	}
-	// why with strings? - because we want this to work with not just baseweapons
-	public class WeaponInfo
-	{
-		[KeyProperty] public string DisplayName { get; set; }
-		[ImageAssetPath] public string Icon { get; set; }
-		public string Details { get; set; }
 	}
 
 	protected override int BuildHash()
