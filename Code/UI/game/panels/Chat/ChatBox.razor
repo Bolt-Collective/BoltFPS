@@ -92,6 +92,9 @@
 	{
 		if ( string.IsNullOrWhiteSpace( message ) ) return;
 
+		var snd = Sound.Play("ui.drag.stop");
+		snd.Volume = 0.2f;
+		
 		if ( messageType == MessageType.Team && teamName != Client.Local.Team.DisplayName )
 			return;
 
