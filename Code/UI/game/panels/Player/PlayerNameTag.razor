@@ -36,7 +36,6 @@
 		if ( !tr.Hit )
 			return;
 		
-		Gizmo.Draw.LineSphere( tr.HitPosition, 16f );
 
 		isShowing = tr.GameObject.Components.TryGet( out Pawn target, FindMode.EverythingInSelfAndParent );
 
