@@ -13,23 +13,23 @@
 			float distance = Math.Abs(i - Pawn.Inventory.GetActiveSlot());
 
 			<div class="WeaponSlot @(distance == 0 ? "active" : "")" style=@($"opacity: {1 - (distance / (float)3).Clamp(0,0.75f)}")>
-				<img src=@Pawn?.Inventory?.Weapons[i].Icon />
+				<img src=@Pawn?.Inventory?.Weapons[i]?.Icon />
 				<div class="SlotNumber">@(i+1)</div>
 				<div class="AmmoInfo">
-					@if (Pawn?.Inventory?.Weapons[i].MaxAmmo > 0)
+					@if (Pawn?.Inventory?.Weapons[i]?.MaxAmmo > 0)
 					{
-						<div class="Reserve">@Pawn?.Inventory?.Weapons[i].MaxAmmo</div>
+						<div class="Reserve">@Pawn?.Inventory?.Weapons[i]?.MaxAmmo</div>
 					}
-					@if (Pawn?.Inventory?.Weapons[i].ShowAmmo ?? false)
+					@if (Pawn?.Inventory?.Weapons[i]?.ShowAmmo ?? false)
 					{
 						<div class="Ammo">
-							@for (int num = 0; num < 4 - Pawn?.Inventory?.Weapons[i].Ammo.ToString().Count(); num++)
+							@for (int num = 0; num < 4 - Pawn?.Inventory?.Weapons[i]?.Ammo.ToString().Count(); num++)
 							{
 								<span class="filler">0</span>
 							}
-							@for (int num = 0; num < Pawn?.Inventory?.Weapons[i].Ammo.ToString().Count(); num++)
+							@for (int num = 0; num < Pawn?.Inventory?.Weapons[i]?.Ammo.ToString().Count(); num++)
 							{
-								<span class=@(Pawn?.Inventory?.Weapons[i].Ammo > 0 ? "main" : "filler")>@Pawn?.Inventory?.Weapons[i].Ammo.ToString()[num]</span>
+								<span class=@(Pawn?.Inventory?.Weapons[i].Ammo > 0 ? "main" : "filler")>@Pawn?.Inventory?.Weapons[i]?.Ammo.ToString()[num]</span>
 							}
 						</div>
 					}

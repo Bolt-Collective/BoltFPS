@@ -9,7 +9,7 @@ public sealed class BasicLoadoutManager : Component
 
 		var loadout = new List<string>();
 
-		foreach(var catagory in WeaponPicker.Current.WeaponCatagories)
+		foreach(var catagory in WeaponPicker.Current.WeaponCategories)
 		{
 			if ( catagory.SelectedWeapon == "" || catagory.SelectedWeapon == null )
 				continue;

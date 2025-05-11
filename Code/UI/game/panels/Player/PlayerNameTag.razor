@@ -1,0 +1,57 @@
+@inherits PanelComponent
+
+@namespace Seekers
+
+@if ( !Pawn.IsValid() ) return;
+
+<root>
+	<div class="hud">
+		<h4 class="nametag">@_playerName</h4>
+		<h5>@_playerHealth%</h5>
+	</div>
+</root>
+
+@code
+{
+	public Pawn Pawn => Pawn.Local;
+	private Ray AimRay => Pawn?.AimRay ?? default;
+
+	private string _playerName;
+	private float _playerHealth;
+
+	bool isShowing;
+
+	protected override void OnPreRender()
+	{
+		base.OnPreRender();
+		
+		if ( !Pawn.IsValid() )
+			return;
+		
+		var tr = Scene.Trace.Ray(AimRay, 500f)
+			.IgnoreGameObjectHierarchy(Pawn?.GameObject)
+			.Run();
+
+
+		if ( !tr.Hit )
+			return;
+		
+
+		isShowing = tr.GameObject.Components.TryGet( out Pawn target, FindMode.EverythingInSelfAndParent );
+
+
+		if ( isShowing )
+		{
+			_playerName = target?.Network?.Owner?.DisplayName;
+			_playerHealth = target.Health;
+		}
+		
+		SetClass( "show", isShowing );
+	}
+
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine( isShowing, _playerHealth );
+	}
+}

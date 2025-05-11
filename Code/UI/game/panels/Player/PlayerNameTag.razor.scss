@@ -1,0 +1,27 @@
+@import "UI/_styles.scss";
+
+PlayerNameTag {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-weight: 800;
+    text-shadow: 4px 5px 0 black;
+    
+    opacity: 0;
+    transition: all 0.1s ease-in;
+    
+
+
+    .hud {
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: absolute;
+    }
+    
+    &.show {
+        opacity: 1;
+    }
+}
