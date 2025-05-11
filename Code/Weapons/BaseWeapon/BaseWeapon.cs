@@ -3,6 +3,7 @@ using Sandbox.Components;
 using Sandbox.UI;
 using Sandbox.Utility;
 using XMovement;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Seekers;
 
@@ -550,23 +551,33 @@ public partial class BaseWeapon : Component
 
 			OnShootGameobject( tr.GameObject, damage );
 
+			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags  );
+		}
+	}
 
-			if ( tr.GameObject.Components.TryGet<Prop>( out var prop ) )
-			{
-				KnockBack( tr.GameObject, calcForce );
-			}
-			
-			if ( tr.GameObject.Components.TryGet<NetworkedProp>( out var netProp ) )
-			{
-				netProp.Damage( damage );
-			}
+	public void DoDamage(GameObject gameObject, float damage, Vector3 calcForce, Vector3 hitPosition, HitboxTags hitboxTags = default)
+	{
+		if ( gameObject.Components.TryGet<Prop>( out var prop ) )
+		{
+			KnockBack( gameObject, calcForce );
+		}
 
-			if ( tr.GameObject.Root.Components.TryGet<HealthComponent>( out var player,
-				    FindMode.EverythingInSelfAndChildren ) )
+		if ( gameObject.Components.TryGet<NetworkedProp>( out var netProp ) )
+		{
+			netProp.Damage( damage );
+		}
+
+		if ( gameObject.Root.Components.TryGet<HealthComponent>( out var player,
+					FindMode.EverythingInSelfAndChildren ) )
+		{
+			if ( !Owner?.Team?.FriendlyFire ?? false )
 			{
-				player.TakeDamage( Owner, damage, this, tr.HitPosition, calcForce, hitboxTags );
-				Crosshair.Instance.Trigger( player, damage, hitboxTags );
+				var team = player.GameObject.Root.GetComponent<Pawn>().Team ?? null;
+				if ( team == Owner.Team || Owner.Team.Friends.Contains( team ) )
+					return;
 			}
+			player.TakeDamage( Owner, damage, this, hitPosition, calcForce, hitboxTags );
+			Crosshair.Instance.Trigger( player, damage, hitboxTags );
 		}
 	}
 

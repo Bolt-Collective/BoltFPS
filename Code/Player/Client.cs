@@ -33,7 +33,7 @@ public partial class Client : ShrimplePawns.Client
 
 			_team = value;
 
-			if ( Networking.IsHost && TryGetPawn( out Pawn pawn ) )
+			if ( Networking.IsHost && TryGetPawn( out Pawn pawn ) && lastTeam != _team )
 			{
 				Respawn( Connection, FindSpawnLocation() );
 			}

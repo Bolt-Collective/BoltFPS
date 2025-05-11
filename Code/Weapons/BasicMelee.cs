@@ -57,14 +57,7 @@ partial class BasicMelee : BaseWeapon
 
 			var calcForce = forward * 250000 * damage;
 
-			if ( tr.GameObject.Components.TryGet<Rigidbody>( out var prop ) )
-			{
-				prop.BroadcastApplyForce( calcForce );
-			}
-			else if ( tr.GameObject.Root.Components.TryGet<HealthComponent>( out var player ) )
-			{
-				player.TakeDamage( Owner, damage, this, tr.HitPosition, calcForce, hitboxTags );
-			}
+			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags );
 		}
 
 		return hit;

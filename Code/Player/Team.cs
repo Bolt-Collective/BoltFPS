@@ -16,4 +16,6 @@ public sealed class Team : GameResource
 	[KeyProperty, ImageAssetPath] public string Image { get; set; }
 	[KeyProperty] public string Objective { get; set; }
 	[Property] public PrefabFile PawnPrefab { get; set; }
+	[Property] public bool FriendlyFire { get; set; } = true;
+	[Property] public List<Team> Friends { get; set; }
 }
