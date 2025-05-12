@@ -17,7 +17,7 @@ public partial class BaseWeapon : Component
 	[Property] public string Name { get; set; }
 	[Property] public WeaponIK LeftIK { get; set; }
 	[Property] public CrosshairType CrosshairType { get; set; }
-	
+
 	[Property] public WeaponResource WeaponResource { get; set; }
 
 	public class WeaponIK
@@ -39,17 +39,18 @@ public partial class BaseWeapon : Component
 		public bool IsLeft { get; set; }
 	}
 
-	[Property, Group( "Sounds" )] public SoundEvent DeploySound { get; set; } =
+	[Property, Group( "Sounds" )]
+	public SoundEvent DeploySound { get; set; } =
 		ResourceLibrary.Get<SoundEvent>( "sounds/weapons/switch/switch_3.sound" );
+
 	[Property, Group( "Sounds" )] public SoundEvent ReloadSound { get; set; }
 	[Property, Group( "Sounds" )] public SoundEvent ReloadShortSound { get; set; }
 	[Property, Group( "Sounds" )] public SoundEvent ShootSound { get; set; }
 
 	[Property, ImageAssetPath] public string Icon { get; set; }
 	[Property] public GameObject ViewModelPrefab { get; set; }
-	
-	[Property]
-	public GameObject TracerEffect { get; set; }
+
+	[Property] public GameObject TracerEffect { get; set; }
 
 	private GameObject Tracer
 	{
@@ -131,21 +132,25 @@ public partial class BaseWeapon : Component
 
 		LeftIK.Active = true;
 	}
-	
+
 	private bool IsNearby( Vector3 position )
 	{
 		if ( !Scene.Camera.IsValid() ) return false;
 		return position.DistanceSquared( Scene.Camera.WorldPosition ) < 4194304f;
 	}
-	
+
 	[Rpc.Broadcast]
 	protected void DoTracer( Vector3 startPosition, Vector3 endPosition, float distance, int count )
 	{
 		if ( !IsNearby( startPosition ) && !IsNearby( endPosition ) ) return;
 
-		var origin = count == 0 ? Attachment( "muzzle" ).Position  : startPosition;
+		var origin = count == 0 ? Attachment( "muzzle" ).Position : startPosition;
 
-		var effect = Tracer?.Clone( new CloneConfig { Transform = new Transform().WithPosition( origin ), StartEnabled = true } );
+		var effect =
+			Tracer?.Clone( new CloneConfig
+			{
+				Transform = new Transform().WithPosition( origin ), StartEnabled = true
+			} );
 		if ( effect.IsValid() && effect.GetComponentInChildren<Tracer>() is { } tracer )
 		{
 			tracer.EndPoint = endPosition;
@@ -321,7 +326,7 @@ public partial class BaseWeapon : Component
 	public virtual void StartReloadEffects()
 	{
 		ViewModel?.Set( "b_reload", true );
-		SoundExtensions.FollowSound( Ammo > 0 ? ReloadShortSound : ReloadSound, GameObject);
+		SoundExtensions.FollowSound( Ammo > 0 ? ReloadShortSound : ReloadSound, GameObject );
 	}
 
 	//don't know how spaces keep ending up in this string, but it breaks it so whatever is happening needs to stop
@@ -491,10 +496,11 @@ public partial class BaseWeapon : Component
 	/// <summary>
 	/// Shoot a single bullet
 	/// </summary>
-
 	List<Surface> hitSurfaces = new();
+
 	float shotTime;
 	int shots = 0;
+
 	public virtual void ShootBullet( Vector3 pos, Vector3 dir, float force, float damage, float bulletSize,
 		float spreadOverride = -1 )
 	{
@@ -503,6 +509,7 @@ public partial class BaseWeapon : Component
 			shots = 0;
 			hitSurfaces = new();
 		}
+
 		shotTime = Time.Now;
 
 		shots++;
@@ -534,7 +541,7 @@ public partial class BaseWeapon : Component
 
 			Surface surface = tagMaterial == "" ? tr.Surface : (Surface.FindByName( tagMaterial ) ?? tr.Surface);
 
-			surface.DoBulletImpact( tr, !hitSurfaces.Contains(surface) || shots < 3 );
+			surface.DoBulletImpact( tr, !hitSurfaces.Contains( surface ) || shots < 3 );
 			DoTracer( tr.StartPosition, tr.EndPosition, tr.Distance, count: 1 );
 
 			hitSurfaces.Add( surface );
@@ -551,11 +558,12 @@ public partial class BaseWeapon : Component
 
 			OnShootGameobject( tr.GameObject, damage );
 
-			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags  );
+			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags );
 		}
 	}
 
-	public void DoDamage(GameObject gameObject, float damage, Vector3 calcForce, Vector3 hitPosition, HitboxTags hitboxTags = default)
+	public void DoDamage( GameObject gameObject, float damage, Vector3 calcForce, Vector3 hitPosition,
+		HitboxTags hitboxTags = default )
 	{
 		if ( gameObject.Components.TryGet<Prop>( out var prop ) )
 		{
@@ -568,21 +576,22 @@ public partial class BaseWeapon : Component
 		}
 
 		if ( gameObject.Root.Components.TryGet<HealthComponent>( out var player,
-					FindMode.EverythingInSelfAndChildren ) )
+			    FindMode.EverythingInSelfAndChildren ) )
 		{
-			if ( !Owner?.Team?.FriendlyFire ?? false )
+			if ( !Owner.Team.FriendlyFire && gameObject.Tags.Has( "player" ) )
 			{
 				var team = player.GameObject.Root.GetComponent<Pawn>().Team ?? null;
 				if ( team == Owner.Team || Owner.Team.Friends.Contains( team ) )
 					return;
 			}
+
 			player.TakeDamage( Owner, damage, this, hitPosition, calcForce, hitboxTags );
 			Crosshair.Instance.Trigger( player, damage, hitboxTags );
 		}
 	}
 
 	[Rpc.Host]
-	public void KnockBack(GameObject gameObject, Vector3 force)
+	public void KnockBack( GameObject gameObject, Vector3 force )
 	{
 		gameObject?.GetComponent<Rigidbody>()?.BroadcastApplyForce( force );
 	}
@@ -650,7 +659,8 @@ public partial class BaseWeapon : Component
 
 		for ( int i = 0; i < numBullets; i++ )
 		{
-			ShootBullet( ray.Position, ray.Forward, force / numBullets, damage, bulletSize, Spread * Easing.QuadraticOut( i/(float)numBullets ) );
+			ShootBullet( ray.Position, ray.Forward, force / numBullets, damage, bulletSize,
+				Spread * Easing.QuadraticOut( i / (float)numBullets ) );
 		}
 	}
 
