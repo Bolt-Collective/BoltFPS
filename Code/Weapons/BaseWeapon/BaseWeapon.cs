@@ -572,7 +572,7 @@ public partial class BaseWeapon : Component
 		{
 			if ( !Owner?.Team?.FriendlyFire ?? false )
 			{
-				var team = player.GameObject.Root.GetComponent<Pawn>().Team ?? null;
+				var team = player.GameObject.Root.GetComponent<Pawn>()?.Team ?? null;
 				if ( team == Owner.Team || Owner.Team.Friends.Contains( team ) )
 					return;
 			}
