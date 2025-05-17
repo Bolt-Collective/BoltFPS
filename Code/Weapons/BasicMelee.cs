@@ -3,9 +3,9 @@
 [Spawnable, Library( "weapon_crowbar" )]
 partial class BasicMelee : BaseWeapon
 {
-
 	[Property] public float Range { get; set; } = 80;
 	[Property] public float Radius { get; set; } = 5;
+
 	public override bool CanReload()
 	{
 		return false;
@@ -15,7 +15,8 @@ partial class BasicMelee : BaseWeapon
 	private void BroadcastAttack()
 	{
 		Owner?.Renderer?.Set( "b_attack", true );
-		Sound.Play( ShootSound, WorldPosition );
+		var snd = Sound.Play( ShootSound, WorldPosition );
+		snd.SpacialBlend = Owner.IsMe ? 0 : snd.SpacialBlend;	
 	}
 
 	public override void AttackPrimary()

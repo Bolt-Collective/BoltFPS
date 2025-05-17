@@ -37,7 +37,8 @@ partial class MachineGun : BaseWeapon
 	private void BroadcastAttackPrimary()
 	{
 		Owner?.Renderer?.Set( "b_attack", true );
-		Sound.Play( ShootSound, WorldPosition );
+		var snd = Sound.Play( ShootSound, WorldPosition );
+		snd.SpacialBlend = Owner.IsMe ? 0 : snd.SpacialBlend;
 	}
 
 	public override void OnControl()

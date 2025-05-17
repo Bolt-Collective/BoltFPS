@@ -539,7 +539,10 @@ public partial class BaseWeapon : Component
 				}
 			}
 
-			Surface surface = tagMaterial == "" ? tr.Surface : (Surface.FindByName( tagMaterial ) ?? tr.Surface);
+			Log.Info( tr.Surface );
+			Surface surface = tagMaterial == ""
+				? tr.Surface
+				: (Surface.FindByName( tagMaterial ) ?? tr.Surface);
 
 			surface.DoBulletImpact( tr, !hitSurfaces.Contains( surface ) || shots < 3 );
 			DoTracer( tr.StartPosition, tr.EndPosition, tr.Distance, count: 1 );
