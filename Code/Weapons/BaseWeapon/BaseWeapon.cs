@@ -539,7 +539,6 @@ public partial class BaseWeapon : Component
 				}
 			}
 
-			Log.Info( tr.Surface );
 			Surface surface = tagMaterial == ""
 				? tr.Surface
 				: (Surface.FindByName( tagMaterial ) ?? tr.Surface);
