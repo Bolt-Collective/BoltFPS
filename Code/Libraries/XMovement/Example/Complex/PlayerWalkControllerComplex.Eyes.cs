@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+
 namespace XMovement;
 
 public partial class PlayerWalkControllerComplex : Component
@@ -7,6 +8,7 @@ public partial class PlayerWalkControllerComplex : Component
 	[Property, Group( "Head" )] public float HeadHeight { get; set; } = 64f;
 	[Property, Group( "Config" )] public float Height { get; set; } = 72f;
 	[Sync] public Angles LocalEyeAngles { get; set; }
+
 	public Angles EyeAngles
 	{
 		get
@@ -22,7 +24,7 @@ public partial class PlayerWalkControllerComplex : Component
 	/// <summary>
 	/// Constructs a ray using the camera's GameObject
 	/// </summary>
-	public virtual Ray AimRay => new( Head.WorldPosition + Camera.WorldRotation.Forward, Camera.WorldRotation.Forward );
+	public virtual Ray AimRay => new(Head.WorldPosition + EyeAngles.Forward, EyeAngles.Forward);
 
 	protected void SetupHead()
 	{
@@ -34,9 +36,15 @@ public partial class PlayerWalkControllerComplex : Component
 			PositionHead();
 		}
 	}
+
 	protected virtual void PositionHead()
 	{
-		if ( IsInVR ) { VRPositionHead(); return; }
+		if ( IsInVR )
+		{
+			VRPositionHead();
+			return;
+		}
+
 		if ( Head.IsValid() )
 		{
 			Head.WorldRotation = EyeAngles.ToRotation();
@@ -44,6 +52,7 @@ public partial class PlayerWalkControllerComplex : Component
 	}
 
 	public float AimSensitivityScale = 1.0f;
+
 	public virtual void DoEyeLook()
 	{
 		if ( !IsProxy )
