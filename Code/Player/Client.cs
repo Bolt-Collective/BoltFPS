@@ -149,8 +149,6 @@ public partial class Client : ShrimplePawns.Client
 		if ( !Team.IsValid() )
 			return;
 
-		Log.Info( "qweeeef" );
-
 		Respawning = false;
 
 		// Cleanup existing pawn
