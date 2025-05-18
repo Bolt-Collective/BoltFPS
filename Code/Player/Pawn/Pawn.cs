@@ -35,7 +35,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 	public float MaxHealth => HealthComponent?.MaxHealth ?? 0;
 	public float Health => HealthComponent?.Health ?? 0;
 	public bool IsDead => Health <= 0;
-	
+
 	public bool IsMe => Network.Owner == Connection.Local;
 
 	private PlayerWalkControllerComplex _controller;
@@ -55,8 +55,11 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 	public SkinnedModelRenderer Renderer => Controller.BodyModelRenderer;
 	public CitizenAnimationHelper AnimationHelper => Controller.AnimationHelper;
-	public Ray AimRay => new Ray( Controller.Head.WorldTransform.PointToWorld(Controller.Camera.LocalPosition.WithX(0)), Controller.Camera.WorldTransform.Forward );
-	
+
+	public Ray AimRay =>
+		new Ray( Controller.Head.WorldTransform.PointToWorld( Controller.Camera.LocalPosition.WithX( 0 ) ),
+			Controller.Camera.WorldTransform.Forward );
+
 	public ScreenShaker ScreenShaker => Controller.ScreenShaker;
 
 	public void TakeDamage( float damage )
@@ -94,9 +97,10 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 	[Property] public GameObject DeathPrefab { get; set; }
 	[Property] public Model DeadModel { get; set; }
+
 	public virtual void OnKilled( DamageInfo damageInfo )
 	{
-		if(DeathPrefab.IsValid())
+		if ( DeathPrefab.IsValid() )
 		{
 			DeathPrefab.Clone( new Transform( WorldPosition, WorldRotation ) );
 			GameObject.Destroy();
@@ -107,7 +111,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 		Controller.BodyModelRenderer.AddComponent<TimedDestroyComponent>().Time = 5;
 		Controller.BodyModelRenderer.UseAnimGraph = false;
 		Controller.BodyModelRenderer.RenderType = ModelRenderer.ShadowRenderType.On;
-		if(DeadModel.IsValid())
+		if ( DeadModel.IsValid() )
 			Controller.BodyModelRenderer.Model = DeadModel;
 		Controller.BodyModelRenderer.Tags.Add( "ragdoll" );
 
@@ -137,7 +141,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 		ClippingPrevention();
 
-		if(Local?.Team == TeamManager.SpectatorsTeam)
+		if ( Local?.Team == TeamManager.SpectatorsTeam )
 		{
 			var spectatorPawn = Local?.GetComponent<SpectatorPawn>();
 			if ( spectatorPawn?.SpectatedClient == Owner )
@@ -204,5 +208,12 @@ public partial class Pawn : ShrimplePawns.Pawn
 	{
 		Local.Owner.Team = ResourceLibrary.GetAll<Team>().FirstOrDefault( x => x.ResourceName == team );
 		Local.Owner.Respawn( Local.Owner.Connection, Local.Owner.FindSpawnLocation() );
+	}
+
+
+	[ConCmd( "noclip", ConVarFlags.Cheat )]
+	public static void Noclip()
+	{
+		Local.Controller.IsNoclipping = !Local.Controller.IsNoclipping;
 	}
 }
