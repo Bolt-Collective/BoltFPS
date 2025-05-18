@@ -38,7 +38,7 @@ partial class MachineGun : BaseWeapon
 	{
 		Owner?.Renderer?.Set( "b_attack", true );
 		var snd = Sound.Play( ShootSound, WorldPosition );
-		snd.SpacialBlend = Owner.IsMe ? 0 : snd.SpacialBlend;
+		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0 : snd.SpacialBlend;
 	}
 
 	public override void OnControl()
