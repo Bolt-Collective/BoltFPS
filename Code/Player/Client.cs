@@ -40,6 +40,21 @@ public partial class Client : ShrimplePawns.Client
 		}
 	}
 
+	public bool Respawning;
+	public Team TargetTeam;
+	public Transform TargetSpawn;
+	public RealTimeSince RespawnTimer;
+
+	public void SetTeamRespawnTimer(Team team, Transform spawnPoint)
+	{
+		_team = TeamManager.GetTeam( "spectators" );
+		Respawn( Connection, WorldTransform );
+		Respawning = true;
+		TargetTeam = team;
+		RespawnTimer = 0;
+		TargetSpawn = spawnPoint;
+	}
+
 	[Sync( SyncFlags.FromHost )] public Team lastTeam { get; set; } = null;
 
 	private Team _team = null;
@@ -48,8 +63,14 @@ public partial class Client : ShrimplePawns.Client
 	{
 		base.OnFixedUpdate();
 
-		//if ( Networking.IsHost )
-			//DetectAFK();
+		if ( Networking.IsHost )
+		{
+			if( Respawning && RespawnTimer > TargetTeam.RespawnTime )
+			{
+				_team = TargetTeam;
+				Respawn( Connection, TargetSpawn );
+			}
+		}
 
 		if ( IsProxy )
 			return;
@@ -127,6 +148,10 @@ public partial class Client : ShrimplePawns.Client
 	{
 		if ( !Team.IsValid() )
 			return;
+
+		Log.Info( "qweeeef" );
+
+		Respawning = false;
 
 		// Cleanup existing pawn
 		/*

@@ -12,6 +12,7 @@ public class TeamManager : SingletonComponent<TeamManager>
 public sealed class Team : GameResource
 {
 	[KeyProperty] public string DisplayName { get; set; }
+	[KeyProperty] public float RespawnTime { get; set; } = 3f;
 	[KeyProperty] public Color Color { get; set; }
 	[KeyProperty, ImageAssetPath] public string Image { get; set; }
 	[KeyProperty] public string Objective { get; set; }
