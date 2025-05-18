@@ -56,6 +56,8 @@ public partial class Pawn : ShrimplePawns.Pawn
 	public SkinnedModelRenderer Renderer => Controller.BodyModelRenderer;
 	public CitizenAnimationHelper AnimationHelper => Controller.AnimationHelper;
 	public Ray AimRay => new Ray( Controller.Head.WorldTransform.PointToWorld(Controller.Camera.LocalPosition.WithX(0)), Controller.Camera.WorldTransform.Forward );
+	
+	public ScreenShaker ScreenShaker => Controller.ScreenShaker;
 
 	public void TakeDamage( float damage )
 	{

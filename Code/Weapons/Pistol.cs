@@ -17,7 +17,7 @@ partial class Pistol : BaseWeapon, Component.ICollisionListener
 		TimeSincePrimaryAttack = 0;
 		TimeSinceSecondaryAttack = 0;
 
-		AddRecoil( RecoilPattern.GetPoint(LastShot, BulletTime ) );
+		AddRecoil( RecoilPattern.GetPoint( LastShot, BulletTime ) );
 
 		BroadcastAttackPrimary();
 
@@ -26,13 +26,15 @@ partial class Pistol : BaseWeapon, Component.ICollisionListener
 
 		ShootEffects();
 		ShootBullet( 1.5f, Damage, 3.0f );
-		AttachEjectedBullet( GameObject.GetPrefab( "weapons/common/effects/eject_9mm.prefab" ), "eject", new Vector3( Game.Random.Next( -100, 100 ), 100, 100 ) );
+		AttachEjectedBullet( GameObject.GetPrefab( "weapons/common/effects/eject_9mm.prefab" ), "eject",
+			new Vector3( Game.Random.Next( -100, 100 ), 100, 100 ) );
 	}
 
 	[Rpc.Broadcast]
 	private void BroadcastAttackPrimary()
 	{
 		Owner?.Renderer?.Set( "b_attack", true );
-		Sound.Play( ShootSound, WorldPosition );
+		var snd = Sound.Play( ShootSound, WorldPosition );
+		snd.SpacialBlend = Owner.IsMe ? 0 : snd.SpacialBlend;
 	}
 }

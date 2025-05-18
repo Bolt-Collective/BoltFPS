@@ -144,10 +144,10 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 		Owner.Zoom = 1;
 
 		ForceDisableViewmodel = false;
-		
+
 		await Task.Frame();
 		ViewModel?.Set( "ironsights", 0 );
-		
+
 		if ( IsReloading )
 			ViewModel?.Set( "b_reload", true );
 	}
@@ -156,7 +156,8 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 	private void BroadcastAttackPrimary()
 	{
 		Owner?.Renderer?.Set( "b_attack", true );
-		Sound.Play( ShootSound, WorldPosition );
+		var snd = Sound.Play( ShootSound, WorldPosition );
+		snd.SpacialBlend = Owner.IsMe ? 0 : snd.SpacialBlend;
 	}
 
 	protected override void OnDisabled()
