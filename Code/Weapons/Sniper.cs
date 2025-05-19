@@ -157,7 +157,7 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 	{
 		Owner?.Renderer?.Set( "b_attack", true );
 		var snd = Sound.Play( ShootSound, WorldPosition );
-		snd.SpacialBlend = Owner.IsMe ? 0 : snd.SpacialBlend;
+		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0 : snd.SpacialBlend;;
 	}
 
 	protected override void OnDisabled()

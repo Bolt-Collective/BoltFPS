@@ -11,6 +11,9 @@ public sealed class SpectatorPawn : Pawn
 
 	public Client SpectatedClient { get; set; }
 
+	private Angles orbitAngles = Angles.Zero;
+	private float orbitDistance = 150.0f;
+
 	public enum SpectateState
 	{
 		Free,
@@ -36,7 +39,10 @@ public sealed class SpectatorPawn : Pawn
 				FreeSpectate();
 				break;
 			case SpectateState.Player:
-				PlayerSpectate();
+				if ( Input.Down( "reload" ) )
+					OrbitSpectate();
+				else
+					PlayerSpectate();
 				break;
 		}
 
@@ -107,5 +113,34 @@ public sealed class SpectatorPawn : Pawn
 		WorldPosition = SpectatedClient.CameraObject.WorldPosition;
 
 		WorldRotation = SpectatedClient.CameraObject.WorldRotation;
+	}
+
+	void OrbitSpectate()
+	{
+		if ( !SpectatedClient.IsValid() || !SpectatedClient.CameraObject.IsValid() )
+		{
+			State = SpectateState.Free;
+			return;
+		}
+
+		var focusPoint = Game.ActiveScene.GetAll<Pawn>()
+			.FirstOrDefault( x => x.Owner == SpectatedClient )!.WorldPosition;
+
+		orbitAngles.pitch += -Input.AnalogLook.pitch;
+		orbitAngles.yaw += Input.AnalogLook.yaw;
+		orbitAngles.roll = 0;
+
+		orbitAngles.pitch = orbitAngles.pitch.Clamp( -89, 89 );
+
+		// Adjust orbit distance with scroll
+		orbitDistance += Input.MouseWheel.y * -20f;
+		orbitDistance = orbitDistance.Clamp( 50, 500 );
+
+		// Convert orbit angles to direction vector and calculate position
+		var orbitRotation = Rotation.From( orbitAngles );
+		var orbitOffset = orbitRotation.Forward * -orbitDistance;
+
+		WorldPosition = focusPoint + orbitOffset;
+		WorldRotation = (focusPoint - WorldPosition).Normal.EulerAngles;
 	}
 }
