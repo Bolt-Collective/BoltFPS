@@ -33,6 +33,8 @@ public partial class Client : ShrimplePawns.Client
 
 			_team = value;
 
+			Respawning = false;
+
 			if ( Networking.IsHost && TryGetPawn( out Pawn pawn ) && lastTeam != _team )
 			{
 				Respawn( Connection, pawn.WorldTransform );
@@ -63,13 +65,11 @@ public partial class Client : ShrimplePawns.Client
 	{
 		base.OnFixedUpdate();
 
-		if ( Networking.IsHost )
+		if ( Networking.IsHost && Respawning && RespawnTimer > TargetTeam.RespawnTime )
 		{
-			if( Respawning && RespawnTimer > TargetTeam.RespawnTime )
-			{
-				_team = TargetTeam;
-				Respawn( Connection, TargetSpawn );
-			}
+			_team = TargetTeam;
+			Respawning = false;
+			Respawn( Connection, TargetSpawn );
 		}
 
 		if ( IsProxy )
@@ -182,6 +182,6 @@ public partial class Client : ShrimplePawns.Client
 		if ( pawnComp.Controller.IsValid())
 			pawnComp.Controller.Controller.Velocity = 0;
 
-		pawn.WorldTransform = transform;
+		pawn.WorldTransform = transform.WithRotation(transform.Rotation.Angles().WithRoll(0).WithPitch(0));
 	}
 }
