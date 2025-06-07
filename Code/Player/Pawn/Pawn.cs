@@ -32,8 +32,8 @@ public partial class Pawn : ShrimplePawns.Pawn
 	public float Zoom { get; set; } = 1f;
 	public float Stamina { get; set; } = 1;
 
-	public float MaxHealth => HealthComponent?.MaxHealth ?? 0;
-	public float Health => HealthComponent?.Health ?? 0;
+	public float MaxHealth => HealthComponent?.MaxHealth ?? 100;
+	public float Health => HealthComponent?.Health ?? 100;
 	public bool IsDead => Health <= 0;
 
 	public bool IsMe => Network.Owner == Connection.Local;
