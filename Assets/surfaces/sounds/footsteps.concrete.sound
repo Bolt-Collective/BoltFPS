@@ -5,51 +5,41 @@
   "Decibels": 70,
   "SelectionMode": "Random",
   "Sounds": [
-    "sounds/footsteps/footstep-concrete-run-005.vsnd",
-    "sounds/footsteps/footstep-concrete-run-008.vsnd",
-    "sounds/footsteps/footstep-concrete-run-007.vsnd",
-    "sounds/footsteps/footstep-concrete-run-006.vsnd",
-    "sounds/footsteps/footstep-concrete-run-004.vsnd",
-    "sounds/footsteps/footstep-concrete-run-003.vsnd",
-    "sounds/footsteps/footstep-concrete-run-002.vsnd",
-    "sounds/footsteps/footstep-concrete-run-001.vsnd"
+    "sounds/footsteps/footstep-concrete-walk-006.vsnd",
+    "sounds/footsteps/footstep-concrete-walk-001.vsnd",
+    "sounds/footsteps/footstep-concrete-walk-002.vsnd",
+    "sounds/footsteps/footstep-concrete-walk-003.vsnd",
+    "sounds/footsteps/footstep-concrete-walk-004.vsnd",
+    "sounds/footsteps/footstep-concrete-walk-005.vsnd",
+    "sounds/footsteps/footstep-concrete-walk-007.vsnd",
+    "sounds/footsteps/footstep-concrete-walk-008.vsnd"
   ],
   "Occlusion": true,
   "AirAbsorption": true,
   "Transmission": true,
   "OcclusionRadius": 64,
   "DistanceAttenuation": true,
-  "Distance": 15000,
+  "Distance": 171,
   "Falloff": [
     {
       "x": 0,
       "y": 1,
-      "in": 0,
-      "out": -1.8,
-      "mode": "Mirrored"
-    },
-    {
-      "x": 0.05,
-      "y": 0.22,
-      "in": 3.5,
-      "out": -3.5,
-      "mode": "Mirrored"
-    },
-    {
-      "x": 0.2,
-      "y": 0.04,
-      "in": 0.16,
-      "out": -0.16,
+      "in": 1,
+      "out": -1,
       "mode": "Mirrored"
     },
     {
       "x": 1,
       "y": 0,
-      "in": 0,
-      "out": 0,
+      "in": 1,
+      "out": -1,
       "mode": "Mirrored"
     }
   ],
+  "DefaultMixer": {
+    "Name": "game",
+    "Id": "fd898811-b455-45c9-8a7e-e04cee11f864"
+  },
   "__references": [],
   "__version": 1
 }

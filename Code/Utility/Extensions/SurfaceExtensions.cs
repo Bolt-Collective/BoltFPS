@@ -5,127 +5,22 @@ using Seekers;
 /// </summary>
 public static partial class SurfaceExtensions
 {
-	/// <summary>
-	/// Create a particle effect and play an impact sound for this surface being hit by a bullet
-	/// </summary>
-	public static List<LoadedSurface> LoadedSurfaces = new();
-
-	[ConVar( ConVarFlags.Saved )]
-	public static bool bolt_impactparticles { get; set; } = true;
+	[ConVar( ConVarFlags.Saved )] public static bool bolt_impactparticles { get; set; } = true;
 
 	public static void DoBulletImpact( this Surface self, SceneTraceResult tr, bool playSound = true )
 	{
-		//
-		// Drop a decal
-		//
-		var decalPath = Game.Random.FromList( self.ImpactEffects.BulletDecal );
-
-		var surf = self.GetBaseSurface();
-		while ( string.IsNullOrWhiteSpace( decalPath ) && surf != null )
+		if ( tr.Hit )
 		{
-			decalPath = Game.Random.FromList( surf.ImpactEffects.BulletDecal );
-			surf = Replace(surf.GetRealSurface());
-		}
-
-		if ( !string.IsNullOrWhiteSpace( decalPath ) )
-		{
-			if ( ResourceLibrary.TryGet<DecalDefinition>( decalPath, out var decal ) )
+			var impactPrefab = self.PrefabCollection.BulletImpact ??
+			                   self.GetBaseSurface()?.PrefabCollection.BulletImpact;
+			if ( impactPrefab is not null )
 			{
-				if ( !tr.GameObject.IsValid() )
-					return;
-
-				var go = new GameObject
-				{
-					Name = decalPath,
-					Parent = tr.GameObject,
-					WorldPosition = tr.EndPosition,
-					WorldRotation = Rotation.LookAt( -tr.Normal )
-				};
-
-				var renderer = tr.GameObject.GetComponentInChildren<SkinnedModelRenderer>();
-				if ( tr.Bone > -1 && renderer.IsValid() )
-				{
-					var bone = renderer.GetBoneObject( tr.Bone );
-
-					go.SetParent( bone );
-				}
-
-				var randomDecal = Game.Random.FromList( decal.Decals );
-
-				var decalRenderer = go.AddComponent<DecalRenderer>();
-				decalRenderer.Material = randomDecal.Material;
-				decalRenderer.Size = new Vector3( randomDecal.Width.GetValue(), randomDecal.Height.GetValue(),
-					randomDecal.Depth.GetValue() );
-
-				go.AddComponent<TimedDestroyComponent>().Time = 10;
-				go.NetworkSpawn( null );
-				go.Network.SetOrphanedMode( NetworkOrphaned.Host );
-				go.DestroyAsync( 10f );
+				var impact = impactPrefab.Clone();
+				impact.WorldPosition = tr.EndPosition;
+				impact.SetParent( tr.GameObject, true );
+				impact.WorldRotation = Rotation.LookAt( -tr.Normal );
 			}
 		}
-
-		//
-		// Make an impact sound
-		//
-		var sound = self.Sounds.Bullet;
-
-		surf = self.GetBaseSurface();
-		while ( string.IsNullOrWhiteSpace( sound ) && surf != null )
-		{
-			sound = surf.Sounds.Bullet;
-			surf = Replace(surf.GetRealSurface());
-		}
-
-		if ( playSound && !string.IsNullOrWhiteSpace( sound ) )
-		{
-			SoundExtensions.BroadcastSound( sound, tr.EndPosition );
-		}
-
-		if ( !bolt_impactparticles )
-			return;
-		//
-		// Get us a particle effect
-		//
-
-		SurfaceImpacts particleReference = null;
-
-		var path = $"surfaces/{self.ResourceName}.simpact";
-
-		foreach ( var loadedSurface in LoadedSurfaces )
-		{
-			if ( loadedSurface.Path == path )
-			{
-				particleReference = loadedSurface.Surface;
-			}
-		}
-
-		if ( !particleReference.IsValid() )
-		{
-			LoadedSurfaces.Add( new LoadedSurface( path ) );
-			particleReference = LoadedSurfaces.Last().Surface;
-		}
-
-		if ( particleReference?.BulletImpact.IsValid() ?? false )
-		{
-			CreateParticle( particleReference.BulletImpact, tr.GameObject, tr.EndPosition,
-			Rotation.LookAt( tr.Normal ) );
-			return; 
-		}
-
-		return;
-	}
-
-	[Rpc.Broadcast]
-	public static void CreateParticle( GameObject particle, GameObject parent, Vector3 position,
-		Rotation rotation, bool spawn = true )
-	{
-		if ( !bolt_impactparticles )
-			return;
-		var go = particle.Clone();
-		go.WorldTransform = new Transform( position, rotation );
-		go.AddComponent<TimedDestroyComponent>().Time = 10;
-
-		return;
 	}
 
 	public static SoundHandle PlayPhysicsCollisionSound( this Surface self, Vector3 position, float speed = 320.0f )
@@ -135,28 +30,28 @@ public static partial class SurfaceExtensions
 
 		if ( volume < 0.001f ) return default;
 
-		var sound = self.Sounds.ImpactHard;
+		var sound = self.SoundCollection.ImpactHard;
 
 		if ( self is SurfaceImpacts surf )
 		{
-			sound = surf.Sounds.ImpactHard;
-			if ( speed < 430f || string.IsNullOrWhiteSpace( sound ) )
+			sound = surf.SoundCollection.ImpactHard;
+			if ( speed < 430f || !sound.IsValid() )
 			{
-				sound = surf.Sounds.ImpactHard;
+				sound = surf.SoundCollection.ImpactHard;
 			}
 
-			if ( speed < 280f && !string.IsNullOrWhiteSpace( surf.Sounds.ImpactHard ) )
+			if ( speed < 280f && !surf.SoundCollection.ImpactHard.IsValid() )
 			{
-				sound = surf.Sounds.ImpactSoft;
+				sound = surf.SoundCollection.ImpactSoft;
 			}
 
-			if ( speed < 130f || string.IsNullOrWhiteSpace( sound ) )
+			if ( speed < 130f || !sound.IsValid() )
 			{
-				sound = surf.Sounds.ImpactSoft;
+				sound = surf.SoundCollection.ImpactSoft;
 			}
 		}
 
-		if ( string.IsNullOrWhiteSpace( sound ) )
+		if ( !sound.IsValid() )
 			return default;
 
 		var s = Sound.Play( sound, position );
@@ -167,7 +62,7 @@ public static partial class SurfaceExtensions
 
 		return s;
 	}
-	
+
 	public static Surface GetRealSurface( this Surface self )
 	{
 		Surface baseSurface = null;
@@ -189,7 +84,7 @@ public static partial class SurfaceExtensions
 		{
 			var surfaceName = self.ResourceName;
 			ResourceLibrary.TryGet<SurfaceImpacts>( $"surfaces/{surfaceName}.simpact", out var surfNew );
-				
+
 			surf = surfNew;
 		}
 

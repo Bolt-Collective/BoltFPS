@@ -207,7 +207,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 	public static void ChangeTeamCmd( string team )
 	{
 		Local.Owner.Team = ResourceLibrary.GetAll<Team>().FirstOrDefault( x => x.ResourceName == team );
-		Local.Owner.Respawn( Local.Owner.Connection, Local.Owner.FindSpawnLocation() );
+		Local.Owner.Respawn( Local.Owner.Connection );
 	}
 
 

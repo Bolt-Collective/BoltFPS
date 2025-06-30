@@ -3,22 +3,22 @@
 @inherits PanelComponent
 @namespace Seekers
 
-<root class="weapon-picker @( Show ? "active" : "" )" style="background-color: @BackgroundColour.Hex; backdrop-filter: blur(@BackgroundBlur);"> 
+<root class="weapon-picker @( Show ? "active" : "" )" style="background-color: @BackgroundColour.Hex; backdrop-filter: blur(@BackgroundBlur);">
 	<div class="loadout-container">
 
 		<!-- Weapon Selection -->
 		<div class="weapon-selection">
-			@foreach(var catagory in WeaponCategories)
+			@foreach ( var catagory in WeaponCategories )
 			{
 				<div class="category primary">
-					<h2>@catagory.DisplayName</h2>
+					<h3>@catagory.DisplayName</h3>
 					<div class="weaponlist">
 						@foreach ( var weapon in catagory.Weapons )
 						{
-							<button class="weapon-option @( IsSelected( weapon.DisplayName, catagory.SelectedWeapon) )"
-							onclick=@( () => catagory.Select( weapon.DisplayName ))>
+							<button class="weapon-option @( IsSelected( weapon.DisplayName, catagory.SelectedWeapon ) )"
+							        onclick=@( () => catagory.Select( weapon.DisplayName ) )>
 								<img src="@weapon.Icon"/>
-								<h4>@weapon.DisplayName</h4>
+								<h5>@weapon.DisplayName</h5>
 
 								<!--
 								Find sufficient way to display this
@@ -42,7 +42,8 @@
 
 	[Property] public bool ShowOnKey { get; set; }
 
-	[Property, ShowIf("ShowOnKey", true), InputAction] public string ShowAction { get; set; }
+	[Property, ShowIf( "ShowOnKey", true ), InputAction]
+	public string ShowAction { get; set; }
 
 	[Property] public Color BackgroundColour { get; set; } = Color.Transparent;
 	[Property] public float BackgroundBlur { get; set; } = 15f;
@@ -55,7 +56,7 @@
 		Current = this;
 	}
 
-	private bool Show => CanShow && (!ShowOnKey || (ShowOnKey && Input.Down(ShowAction)));
+	private bool Show => CanShow && (!ShowOnKey || (ShowOnKey && Input.Down( ShowAction )));
 
 	private string IsSelected( object item, object selected ) => item == selected ? "selected" : "";
 
@@ -66,7 +67,8 @@
 		[KeyProperty] public string DisplayName { get; set; }
 		public List<WeaponResource> Weapons { get; set; }
 		public string SelectedWeapon { get; set; }
-		public void Select(string weapon)
+
+		public void Select( string weapon )
 		{
 			SelectedWeapon = weapon;
 		}

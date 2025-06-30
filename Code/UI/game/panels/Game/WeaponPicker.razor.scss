@@ -63,7 +63,7 @@ WeaponPicker {
   .weapon-selection {
     flex: 2;
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
   }
 
   .category {
@@ -71,30 +71,35 @@ WeaponPicker {
     flex-direction: column;
   }
 
-  .weaponlist{
-      gap: 15px;
+  .weaponlist {
+    gap: 15px;
   }
 
   .weapon-option, .ability-option {
     display: flex;
+    background: linear-gradient(#ffa43d 0%, #bc6e00 100%);
+    border-radius: 4px;
     flex-direction: column;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.1);
     border: none;
     padding: 10px;
     margin-bottom: 5px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    transition: all 0.2s ease-in-out;
+
+    h5 {
+      font-family: "Integral CF";
+      text-shadow: 5px 5px 5px rgb(181, 92, 2);
+    }
   }
 
   .weapon-option.selected {
-    background-color: rgba(255, 255, 255, 0.3);
+    background: linear-gradient(#ffa43d 0%, #ffd18e 100%);
   }
 
   .weapon-option img {
-    width: 40px;
-    height: 40px;
+    width: 120px;
+    height: 120px;
     margin-right: 10px;
   }
 

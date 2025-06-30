@@ -7,9 +7,7 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 	[Property] public bool StartServer { get; set; } = true;
 	[Property] public GameObject PlayerPrefab { get; set; }
 
-	[Property]
-	[Group( "Dev" )]
-	private readonly List<long> PlayerWhitelist = new()
+	[Property] [Group( "Dev" )] private readonly List<long> PlayerWhitelist = new()
 	{
 		76561198043979097, // trende
 		76561198193615491, // trollface
@@ -19,7 +17,7 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 
 	[Property] public List<long> KickedPlayers = new();
 
-	[Property][Group( "Dev" )] public bool DevMode { get; set; }
+	[Property] [Group( "Dev" )] public bool DevMode { get; set; }
 
 	bool INetworkListener.AcceptConnection( Connection channel, ref string reason )
 	{
@@ -57,7 +55,7 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 
 		channel.CanRefreshObjects = true;
 
-		client.Respawn( channel, FindSpawnLocation() );
+		client.Respawn( channel );
 	}
 
 	protected override async Task OnLoad()
@@ -68,7 +66,7 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 			await Task.DelayRealtimeSeconds( 0.1f );
 
 			var lobbyConfig = new LobbyConfig();
-			var lobbySettings =  new LobbySettings();
+			var lobbySettings = new LobbySettings();
 
 			if ( lobbySettings is not null )
 			{
@@ -89,20 +87,19 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 	protected override void OnStart()
 	{
 		base.OnStart();
-		
+
 		if ( !Networking.IsActive )
 			return;
-
 	}
 
 	protected override void OnFixedUpdate()
 	{
-		foreach(var client in Scene.Components.GetAll<Client>(FindMode.EnabledInSelfAndChildren))
+		foreach ( var client in Scene.Components.GetAll<Client>( FindMode.EnabledInSelfAndChildren ) )
 		{
 			if ( client.GetPawn<Pawn>().IsValid() )
 				continue;
 
-			client.Respawn( client.Network.Owner, FindSpawnLocation() );
+			client.Respawn( client.Network.Owner );
 		}
 	}
 

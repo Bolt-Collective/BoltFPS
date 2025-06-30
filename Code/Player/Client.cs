@@ -26,7 +26,7 @@ public partial class Client : ShrimplePawns.Client
 		get => _team;
 		set
 		{
-			if (_team != null)
+			if ( _team != null )
 				lastTeam = _team;
 			else
 				lastTeam = value;
@@ -37,7 +37,7 @@ public partial class Client : ShrimplePawns.Client
 
 			if ( Networking.IsHost && TryGetPawn( out Pawn pawn ) && lastTeam != _team )
 			{
-				Respawn( Connection, pawn.WorldTransform );
+				Respawn( Connection );
 			}
 		}
 	}
@@ -47,10 +47,10 @@ public partial class Client : ShrimplePawns.Client
 	public Transform TargetSpawn;
 	public RealTimeSince RespawnTimer;
 
-	public void SetTeamRespawnTimer(Team team, Transform spawnPoint)
+	public void SetTeamRespawnTimer( Team team, Transform spawnPoint )
 	{
 		_team = TeamManager.GetTeam( "spectators" );
-		Respawn( Connection, WorldTransform );
+		Respawn( Connection );
 		Respawning = true;
 		TargetTeam = team;
 		RespawnTimer = 0;
@@ -69,7 +69,7 @@ public partial class Client : ShrimplePawns.Client
 		{
 			_team = TargetTeam;
 			Respawning = false;
-			Respawn( Connection, TargetSpawn );
+			Respawn( Connection );
 		}
 
 		if ( IsProxy )
@@ -78,7 +78,8 @@ public partial class Client : ShrimplePawns.Client
 		if ( TryGetPawn( out Pawn pawn ) )
 		{
 			CameraObject =
-				pawn?.Controller?.Camera.GameObject ?? pawn?.Components.Get<CameraComponent>( FindMode.EnabledInSelfAndChildren )?.GameObject ?? null;
+				pawn?.Controller?.Camera.GameObject ??
+				pawn?.Components.Get<CameraComponent>( FindMode.EnabledInSelfAndChildren )?.GameObject ?? null;
 
 			if ( CameraObject.IsValid() )
 				WorldTransform = CameraObject.WorldTransform;
@@ -144,20 +145,12 @@ public partial class Client : ShrimplePawns.Client
 		Sandbox.Services.Stats.Increment( ident, value );
 	}
 
-	public void Respawn( Connection channel, Transform startTransform )
+	public void Respawn( Connection channel )
 	{
 		if ( !Team.IsValid() )
 			return;
 
 		Respawning = false;
-
-		// Cleanup existing pawn
-		/*
-		if ( Pawn?.GameObject?.IsValid() ?? false )
-		{
-			Pawn.DestroyGameObject();
-		}
-		*/
 
 		// Create new pawn from team's prefab
 		AssignConnection( channel );
@@ -165,23 +158,23 @@ public partial class Client : ShrimplePawns.Client
 
 		if ( Pawn is Pawn pawn )
 		{
-			GoToSpawn( pawn.GameObject, startTransform );
+			GoToSpawn( pawn );
 		}
 	}
 
 	[Rpc.Broadcast]
-	public void GoToSpawn( GameObject pawn, Transform transform )
+	public void GoToSpawn( Pawn pawn )
 	{
+		var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
+
 		if ( pawn?.IsProxy ?? true )
 			return;
 
-		var pawnComp = pawn.GetComponent<Pawn>();
-		if ( !pawnComp.IsValid() )
-			return;
-		
-		if ( pawnComp.Controller.IsValid())
-			pawnComp.Controller.Controller.Velocity = 0;
+		var randomSpawnPoint = Random.Shared.FromArray( spawnPoints );
+		if ( randomSpawnPoint is null ) return;
 
-		pawn.WorldTransform = transform.WithRotation(transform.Rotation.Angles().WithRoll(0).WithPitch(0));
+		pawn.WorldPosition =
+			randomSpawnPoint.WorldPosition + Vector3.Up * 10; // Offset to avoid clipping into the ground
+		pawn.Controller.EyeAngles = randomSpawnPoint.WorldRotation.Angles();
 	}
 }
