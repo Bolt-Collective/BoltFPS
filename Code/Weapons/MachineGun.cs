@@ -60,11 +60,12 @@ partial class MachineGun : BaseWeapon
 
 	// TODO: Probably should unify these particle methods + make it work for world models
 
-	private LoadedPrefab eject = new LoadedPrefab( "weapons/common/effects/eject_9mm.prefab" );
+	private GameObject eject = GameObject.GetPrefab( "weapons/common/effects/eject_9mm.prefab" );
+
 	protected override void ShootEffects()
 	{
 		base.ShootEffects();
 
-		AttachParticleSystem( eject.Prefab, "eject", 1, LocalWorldModel.GameObject );
+		AttachParticleSystem( eject, "eject", 1, LocalWorldModel.GameObject );
 	}
 }

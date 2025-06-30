@@ -330,11 +330,11 @@ public partial class BaseWeapon : Component
 	}
 
 	//don't know how spaces keep ending up in this string, but it breaks it so whatever is happening needs to stop
-	private LoadedPrefab muzzle = new LoadedPrefab( "weapons/common/effects/muzzle.prefab" );
+	private GameObject muzzle = GameObject.GetPrefab( "weapons/common/effects/muzzle.prefab" );
 
 	protected virtual void ShootEffects()
 	{
-		AttachParticleSystem( muzzle.Prefab, "muzzle" );
+		AttachParticleSystem( muzzle, "muzzle" );
 
 		ViewModel?.Set( "fire", true );
 	}

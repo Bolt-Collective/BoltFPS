@@ -50,23 +50,25 @@ partial class Shotgun : BaseWeapon
 	{
 		Owner?.Renderer?.Set( "b_attack", true );
 		var snd = Sound.Play( ShootSound, WorldPosition );
-		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0 : snd.SpacialBlend;;
+		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0 : snd.SpacialBlend;
+		;
 	}
 
 	// TODO: Probably should unify these particle methods + make it work for world models
 
-	LoadedPrefab _eject = new( "weapons/common/effects/eject_shotgun.prefab" );
+	GameObject _eject = GameObject.GetPrefab( "weapons/common/effects/eject_shotgun.prefab" );
 
 	protected override void ShootEffects()
 	{
 		base.ShootEffects();
-		AttachParticleSystem( _eject.Prefab, "eject", 1, LocalWorldModel.GameObject );
+		AttachParticleSystem( _eject, "eject", 1, LocalWorldModel.GameObject );
 		ViewModel?.Set( "b_attack", true );
 	}
 
 	protected virtual void DoubleShootEffects()
 	{
-		Particles.CreateParticleSystem( GameObject.GetPrefab( "weapons/common/effects/muzzle.prefab" ), Attachment( "muzzle" ) );
+		Particles.CreateParticleSystem( GameObject.GetPrefab( "weapons/common/effects/muzzle.prefab" ),
+			Attachment( "muzzle" ) );
 
 		ViewModel?.Set( "fire_double", true );
 	}
@@ -84,10 +86,10 @@ partial class Shotgun : BaseWeapon
 	public override void StartReloadEffects()
 	{
 		ViewModel?.Set( "b_reloading", true );
-		ViewModel?.Set( "speed_reload", (1/ReloadTime) * 1.7f );
+		ViewModel?.Set( "speed_reload", (1 / ReloadTime) * 1.7f );
 		SoundExtensions.FollowSound( ReloadSound, GameObject );
 
-		if (Ammo <= 0)
+		if ( Ammo <= 0 )
 			ViewModel?.Set( "b_reloading_first_shell", true );
 	}
 
@@ -103,6 +105,7 @@ partial class Shotgun : BaseWeapon
 				SoundExtensions.FollowSound( LoadSound, GameObject );
 				ViewModel?.Set( "b_reloading_shell", true );
 			}
+
 			Ammo++;
 			TimeSinceReload = 0;
 			IsReloading = true;
