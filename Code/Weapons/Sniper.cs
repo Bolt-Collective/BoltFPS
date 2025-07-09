@@ -1,9 +1,11 @@
+using Sandbox.Rendering;
+using Sandbox.Utility;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Seekers;
 
 [Spawnable, Library( "weapon_sniper" )]
-partial class Sniper : BaseWeapon, Component.ICollisionListener
+public partial class Sniper : BaseWeapon, Component.ICollisionListener
 {
 	public bool Scoped;
 	[Property] public Material ScopeOverlay { get; set; }
@@ -15,7 +17,7 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 	[Property] public float SpreadMult { get; set; } = 0.2f;
 	public RealTimeSince TimeSinceDischarge { get; set; }
 
-	IDisposable renderHook;
+	CommandList scopeCommandList;
 
 	private int ZoomLevel { get; set; } = 0;
 	[Property] private float BlurLerp { get; set; } = 1.0f;
@@ -25,6 +27,14 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 	private Angles AnglesLerp;
 
 	[Property] private float AngleOffsetScale { get; set; } = 0.01f;
+
+	/*
+	protected override void OnEnabled()
+	{
+
+	}
+	*/
+
 
 	public override bool CanPrimaryAttack()
 	{
@@ -93,6 +103,9 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 	public async void Scope()
 	{
+		scopeCommandList = new CommandList( "SniperScope" );
+		Scene.Camera.AddCommandList( scopeCommandList, Stage.AfterTransparent, 100 );
+
 		ViewModel.Set( "ironsights", 1 );
 		SoundExtensions.BroadcastSound( ZoomSound.ResourceName, WorldPosition );
 
@@ -100,11 +113,15 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 		scopingIn = true;
 		await Task.DelaySeconds( 0.1f );
 		scopingIn = false;
-		renderHook?.Dispose();
-		renderHook = null;
 
 		if ( ScopeOverlay is not null )
-			renderHook = Owner.Controller.Camera.AddHookAfterTransparent( "Scope", 100, RenderEffect );
+		{
+			scopeCommandList.Attributes.Set( "BlurAmount",
+				easeOutCirc( Normalize( BlurLerp, 0.5f, 1 ).Clamp( 0, 1 ) ).Clamp( 0.1f, 1f ) );
+			scopeCommandList.Attributes.Set( "Offset",
+				new Vector2( AnglesLerp.yaw, -AnglesLerp.pitch ) * AngleOffsetScale );
+			scopeCommandList.Blit( ScopeOverlay );
+		}
 
 		BlurLerp = 1;
 
@@ -113,20 +130,11 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 		ForceDisableViewmodel = true;
 	}
 
-	public void RenderEffect( SceneCamera camera )
-	{
-		RenderAttributes attrs = new RenderAttributes();
-
-		attrs.Set( "BlurAmount", easeOutCirc( Normalize( BlurLerp, 0.5f, 1 ).Clamp( 0, 1 ) ).Clamp( 0.1f, 1f ) );
-		attrs.Set( "Offset", new Vector2( AnglesLerp.yaw, -AnglesLerp.pitch ) * AngleOffsetScale );
-
-		Graphics.Blit( ScopeOverlay, attrs );
-	}
-
 	float easeOutCirc( float x )
 	{
 		return 1 - MathF.Sqrt( 1 - MathF.Pow( x, 2 ) );
 	}
+
 
 	public static float Normalize( float value, float min, float max )
 	{
@@ -137,7 +145,8 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 	public async void UnScope()
 	{
-		renderHook?.Dispose();
+		Scene.Camera.RemoveCommandList( scopeCommandList );
+		scopeCommandList = null;
 		Scoped = false;
 		AnglesLerp = new Angles();
 
@@ -157,12 +166,6 @@ partial class Sniper : BaseWeapon, Component.ICollisionListener
 	{
 		Owner?.Renderer?.Set( "b_attack", true );
 		var snd = Sound.Play( ShootSound, WorldPosition );
-		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0 : snd.SpacialBlend;;
-	}
-
-	protected override void OnDisabled()
-	{
-		base.OnDisabled();
-		renderHook?.Dispose();
+		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0 : snd.SpacialBlend;
 	}
 }
