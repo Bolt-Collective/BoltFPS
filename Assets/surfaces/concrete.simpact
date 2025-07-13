@@ -1,9 +1,5 @@
 {
-  "BulletImpact": {
-    "_type": "gameobject",
-    "prefab": "particles/surfaces/impact.generic.prefab"
-  },
-  "BaseSurface": null,
+  "BaseSurface": "surfaces/default.surface",
   "AudioSurface": "Generic",
   "Description": null,
   "Friction": 0.8,
@@ -12,6 +8,7 @@
   "Thickness": -1,
   "RollingResistance": 0,
   "BounceThreshold": 40,
+  "Dampening": 0,
   "ImpactEffects": {
     "Regular": [],
     "Bullet": [],
@@ -40,13 +37,23 @@
     "ScrapeRough": null,
     "ScrapeSmooth": null
   },
-  "Breakables": {
-    "BreakSound": null,
-    "GenericGibs": null
+  "PrefabCollection": {
+    "BulletImpact": null,
+    "BluntImpact": null
+  },
+  "SoundCollection": {
+    "FootLeft": null,
+    "FootRight": null,
+    "FootLaunch": null,
+    "FootLand": null,
+    "Bullet": null,
+    "ImpactHard": null,
+    "ImpactSoft": null,
+    "ScrapeRough": null,
+    "ScrapeSmooth": null,
+    "Break": null
   },
   "Tags": "",
-  "__references": [
-    "facepunch.impactgeneric#88477"
-  ],
+  "__references": [],
   "__version": 0
 }

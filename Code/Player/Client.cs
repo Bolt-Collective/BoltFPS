@@ -158,6 +158,8 @@ public partial class Client : ShrimplePawns.Client
 
 		if ( Pawn is Pawn pawn )
 		{
+			pawn.HealthComponent.Health = pawn.HealthComponent?.MaxHealth ?? 100;
+
 			GoToSpawn( pawn );
 		}
 	}
@@ -167,11 +169,11 @@ public partial class Client : ShrimplePawns.Client
 	{
 		var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
 
-		if ( pawn?.IsProxy ?? true )
-			return;
-
 		var randomSpawnPoint = Random.Shared.FromArray( spawnPoints );
 		if ( randomSpawnPoint is null ) return;
+
+		if ( pawn?.IsProxy ?? true )
+			return;
 
 		pawn.WorldPosition =
 			randomSpawnPoint.WorldPosition + Vector3.Up * 10; // Offset to avoid clipping into the ground
