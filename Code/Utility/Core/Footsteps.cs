@@ -82,8 +82,10 @@ public class Footsteps : Component
 			return;
 		}
 
-		SoundExtensions.BroadcastSound( soundEvent.ResourcePath, worldPosition, GetStepVolume(),
-			spacialBlend: Pawn.Local.IsMe ? 0 : default );
+		SoundExtensions.BroadcastSound( soundEvent.ResourcePath, worldPosition,
+			GetStepVolume() * Player.Controller.WishVelocity.Length.Remap( 0, 400, 0, 1 ),
+		spacialBlend:
+		GetComponent<Pawn>().IsMe ? 0 : 1 );
 
 		if ( DebugFootsteps )
 		{
