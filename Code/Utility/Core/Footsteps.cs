@@ -37,7 +37,7 @@ public class Footsteps : Component
 		if ( !Player.Controller.IsOnGround )
 			return;
 
-		if ( Player.Controller.WishVelocity.Length < 55 )
+		if ( Player.Controller.Velocity.Length < 55 )
 			return;
 
 		if ( _timeSinceStep < GetStepFrequency() )
@@ -82,7 +82,8 @@ public class Footsteps : Component
 			return;
 		}
 
-		SoundExtensions.BroadcastSound( soundEvent.ResourcePath, worldPosition, GetStepVolume() );
+		SoundExtensions.BroadcastSound( soundEvent.ResourcePath, worldPosition, GetStepVolume(),
+			spacialBlend: Pawn.Local.IsMe ? 0 : default );
 
 		if ( DebugFootsteps )
 		{
