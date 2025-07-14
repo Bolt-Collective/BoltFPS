@@ -9,45 +9,45 @@ public class Footsteps : Component
 	/// <summary>
 	/// Draw debug overlay on footsteps
 	/// </summary>
-	public bool DebugFootsteps;
+	[Property]
+	public bool DebugFootsteps { get; set; } = false;
 
 	TimeSince _timeSinceStep;
 
-	protected override void OnEnabled()
+	private float GetStepFrequency()
 	{
-		base.OnEnabled();
-
-		Player.BodyModelRenderer.OnFootstepEvent += OnFootstepEvent;
+		if ( Player.IsCrouching ) return 0.5f;
+		if ( Player.IsRunning ) return 0.28f;
+		return 0.39f;
 	}
 
-	protected override void OnDisabled()
+	private float GetStepVolume()
 	{
-		base.OnDisabled();
-
-		Player.BodyModelRenderer.OnFootstepEvent -= OnFootstepEvent;
+		if ( Player.IsCrouching ) return 0.35f;
+		return 1f;
 	}
 
+	bool leftFoot = true;
 
-	private void OnFootstepEvent( SceneModel.FootstepEvent e )
+	protected override void OnFixedUpdate()
 	{
+		if ( !Player.IsValid() )
+			return;
+
 		if ( !Player.Controller.IsOnGround )
 			return;
 
-		if ( _timeSinceStep < 0.2f )
+		if ( Player.Controller.WishVelocity.Length < 55 )
 			return;
 
-		_timeSinceStep = 0;
+		if ( _timeSinceStep < GetStepFrequency() )
+			return;
 
-		PlayFootstepSound( e.Transform.Position, e.Volume, e.FootId );
-	}
-
-	public void PlayFootstepSound( Vector3 worldPosition, float volume, int foot )
-	{
 		if ( IsProxy )
 			return;
 
-		volume *= Player.Controller.WishVelocity.Length.Remap( 0, 400, 0, 1 );
-		if ( volume <= 0.1f ) return;
+		leftFoot = !leftFoot;
+		_timeSinceStep = 0;
 
 		var tagMaterial = "";
 
@@ -62,29 +62,31 @@ public class Footsteps : Component
 
 		var actualSurf = Player.Controller.MoveTraceResult.Surface.GetRealSurface();
 
-		var GroundSurface = tagMaterial == "" ? actualSurf.Replace() : (Surface.FindByName( tagMaterial ) ?? actualSurf.Replace());
-		//Log.Info( actualSurf );
+		var GroundSurface = tagMaterial == ""
+			? actualSurf.Replace()
+			: (Surface.FindByName( tagMaterial ) ?? actualSurf.Replace());
 
-
-		var sound = foot == 0 ? GroundSurface.Sounds.FootLeft : GroundSurface.Sounds.FootRight;
+		var sound = leftFoot ? GroundSurface.Sounds.FootLeft : GroundSurface.Sounds.FootRight;
 		var soundEvent = ResourceLibrary.Get<SoundEvent>( sound );
+
+		var worldPosition = Player.Controller.MoveTraceResult.EndPosition;
 
 		if ( soundEvent is null )
 		{
 			if ( DebugFootsteps )
 			{
-				DebugOverlay.Sphere( new Sphere( worldPosition, volume ), duration: 10, color: Color.Orange,
+				DebugOverlay.Sphere( new Sphere( worldPosition, GetStepVolume() ), duration: 10, color: Color.Orange,
 					overlay: true );
 			}
 
 			return;
 		}
 
-		SoundExtensions.BroadcastSound( soundEvent.ResourcePath, worldPosition );
+		SoundExtensions.BroadcastSound( soundEvent.ResourcePath, worldPosition, GetStepVolume() );
 
 		if ( DebugFootsteps )
 		{
-			DebugOverlay.Sphere( new Sphere( worldPosition, volume ), duration: 10, overlay: true );
+			DebugOverlay.Sphere( new Sphere( worldPosition, GetStepVolume() ), duration: 10, overlay: true );
 			DebugOverlay.Text( worldPosition, $"{soundEvent.ResourceName}", size: 14, flags: TextFlag.LeftTop,
 				duration: 10, overlay: true );
 		}
