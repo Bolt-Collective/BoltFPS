@@ -1,8 +1,4 @@
 {
-  "BulletImpact": {
-    "_type": "gameobject",
-    "prefab": "particles/surfaces/impact.glass.prefab"
-  },
   "BaseSurface": null,
   "AudioSurface": "Generic",
   "Description": null,
@@ -12,6 +8,7 @@
   "Thickness": -1,
   "RollingResistance": 0,
   "BounceThreshold": 40,
+  "Dampening": 0,
   "ImpactEffects": {
     "Regular": null,
     "Bullet": null,
@@ -40,13 +37,23 @@
     "ScrapeRough": "surfaces/sounds/metallic.hard.sound",
     "ScrapeSmooth": "surfaces/sounds/metallic.hard.sound"
   },
-  "Breakables": {
-    "BreakSound": null,
-    "GenericGibs": null
+  "PrefabCollection": {
+    "BulletImpact": null,
+    "BluntImpact": null
+  },
+  "SoundCollection": {
+    "FootLeft": null,
+    "FootRight": null,
+    "FootLaunch": null,
+    "FootLand": null,
+    "Bullet": "surfaces/sounds/metallic.hard.sound",
+    "ImpactHard": "surfaces/sounds/metallic.hard.sound",
+    "ImpactSoft": "surfaces/sounds/metallic.hard.sound",
+    "ScrapeRough": null,
+    "ScrapeSmooth": null,
+    "Break": null
   },
   "Tags": null,
-  "__references": [
-    "facepunch.impactglass#88478"
-  ],
+  "__references": [],
   "__version": 0
 }
