@@ -5,23 +5,22 @@ using System;
 public static partial class SoundExtensions
 {
 	[Rpc.Broadcast]
-	public static void BroadcastSound( string soundName, Vector3 position )
+	public static void BroadcastSound( string soundName, Vector3 position, float volume = 1.0f )
 	{
-		Sound.Play( soundName, position );
+		var snd = Sound.Play( soundName, position );
+		snd.Volume = volume;
 	}
-	[Rpc.Broadcast]
-	public static void BroadcastSound( string soundName )
-	{
-		Sound.Play( soundName );
-	}
+	
 
 	[Rpc.Broadcast]
-	public static void FollowSound( SoundEvent Sound, GameObject Followed, string sender = default, string localHandle = "Game", string mainHandle = "Game" )
+	public static void FollowSound( SoundEvent Sound, GameObject Followed, string sender = default,
+		string localHandle = "Game", string mainHandle = "Game" )
 	{
 		MakeFollowSound( Sound, Followed, sender, localHandle, mainHandle );
 	}
 
-	public static SoundPointComponent MakeFollowSound( SoundEvent Sound, GameObject Followed, string sender = default, string localHandle = "Game", string mainHandle = "Game" )
+	public static SoundPointComponent MakeFollowSound( SoundEvent Sound, GameObject Followed, string sender = default,
+		string localHandle = "Game", string mainHandle = "Game" )
 	{
 		GameObject gameObject = new GameObject();
 
@@ -32,18 +31,19 @@ public static partial class SoundExtensions
 		FollowDestroyComponent.Time = 10;
 		FollowDestroyComponent.Offset = Vector3.Up * 10;
 		SoundPoint.SoundEvent = Sound;
-		SoundPoint.TargetMixer = Mixer.FindMixerByName( sender == Connection.Local.Id.ToString() ? localHandle : mainHandle );
+		SoundPoint.TargetMixer =
+			Mixer.FindMixerByName( sender == Connection.Local.Id.ToString() ? localHandle : mainHandle );
 		SoundPoint.StartSound();
 
 		return SoundPoint;
 	}
 
 	[Rpc.Broadcast]
-	public static void TauntSound( SoundEvent Sound, GameObject Followed, string sender = default, string localHandle = "Game", string mainHandle = "Game" )
+	public static void TauntSound( SoundEvent Sound, GameObject Followed, string sender = default,
+		string localHandle = "Game", string mainHandle = "Game" )
 	{
 		var soundPoint = MakeFollowSound( Sound, Followed, sender, localHandle, mainHandle );
 		soundPoint.AddComponent<TauntSoundComponent>();
-
 	}
 
 	public static SoundEvent RandomSoundFromFolder( string folder )
@@ -54,10 +54,11 @@ public static partial class SoundExtensions
 		//again, FUCK. WHY
 		try
 		{
-			 Sounds = ResourceLibrary.GetAll<SoundEvent>( folder );
-		}catch { }
-		
-		if (Sounds == null)
+			Sounds = ResourceLibrary.GetAll<SoundEvent>( folder );
+		}
+		catch { }
+
+		if ( Sounds == null )
 			return null;
 		return Sounds.ElementAt( Game.Random.Next( 0, Sounds.Count() ) );
 	}
@@ -71,13 +72,14 @@ public class TauntSoundComponent : Component
 	float volume;
 
 	GameObject _localPlayer;
+
 	GameObject LocalPlayer
 	{
-		get 
+		get
 		{
 			if ( !_localPlayer.IsValid() )
 				_localPlayer = Pawn.Local?.GameObject;
-			return _localPlayer; 
+			return _localPlayer;
 		}
 	}
 
