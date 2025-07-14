@@ -35,6 +35,8 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 	public override void AttackPrimary()
 	{
+		base.AttackPrimary();
+
 		TimeSincePrimaryAttack = 0;
 		TimeSinceSecondaryAttack = 0;
 
@@ -118,7 +120,7 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 		Scoped = true;
 		scopingIn = true;
-		await GameTask.DelaySeconds( 0.1f );
+		await GameTask.DelaySeconds( 0.125f );
 		scopingIn = false;
 
 		BlurLerp = 1;
@@ -163,7 +165,5 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 	private void BroadcastAttackPrimary()
 	{
 		Owner?.Renderer?.Set( "b_attack", true );
-		var snd = Sound.Play( ShootSound, WorldPosition );
-		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0 : snd.SpacialBlend;
 	}
 }

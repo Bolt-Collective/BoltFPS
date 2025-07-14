@@ -12,6 +12,8 @@ partial class MachineGun : BaseWeapon
 
 	public override void AttackPrimary()
 	{
+		base.AttackPrimary();
+
 		TimeSincePrimaryAttack = 0;
 		TimeSinceSecondaryAttack = 0;
 		Ammo--;
@@ -37,8 +39,6 @@ partial class MachineGun : BaseWeapon
 	private void BroadcastAttackPrimary()
 	{
 		Owner?.Renderer?.Set( "b_attack", true );
-		var snd = Sound.Play( ShootSound, WorldPosition );
-		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0 : snd.SpacialBlend;
 	}
 
 	public override void OnControl()

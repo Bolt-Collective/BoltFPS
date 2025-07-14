@@ -25,6 +25,8 @@ partial class Shotgun : BaseWeapon
 
 	public override void AttackPrimary()
 	{
+		base.AttackPrimary();
+
 		TimeSincePrimaryAttack = 0;
 		TimeSinceSecondaryAttack = 0;
 		Ammo--;
@@ -49,9 +51,6 @@ partial class Shotgun : BaseWeapon
 	private void BroadcastAttackPrimary()
 	{
 		Owner?.Renderer?.Set( "b_attack", true );
-		var snd = Sound.Play( ShootSound, WorldPosition );
-		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0 : snd.SpacialBlend;
-		;
 	}
 
 	// TODO: Probably should unify these particle methods + make it work for world models

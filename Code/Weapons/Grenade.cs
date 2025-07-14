@@ -10,7 +10,8 @@ partial class Grenade : BaseWeapon, Component.ICollisionListener
 
 	public override bool CanReload() => false;
 
-	public override bool CanSecondaryAttack() => base.CanSecondaryAttack() && TimeSincePrimaryAttack > 1/PrimaryRate && Ammo > 0;
+	public override bool CanSecondaryAttack() =>
+		base.CanSecondaryAttack() && TimeSincePrimaryAttack > 1 / PrimaryRate && Ammo > 0;
 
 	protected override void OnUpdate()
 	{
@@ -18,19 +19,20 @@ partial class Grenade : BaseWeapon, Component.ICollisionListener
 		if ( IsProxy || !GameObject.Enabled || !Enabled )
 			return;
 
-		if(ViewModel.IsValid())
+		if ( ViewModel.IsValid() )
 			ViewModel.GameObject.Enabled = Ammo > 0;
 	}
 
 	public override async void AttackPrimary()
 	{
+		base.AttackPrimary();
 		TimeSincePrimaryAttack = 0;
 		ViewModel?.Renderer?.Set( "b_attack", true );
 		BroadcastAttackPrimary();
 
 		await Task.DelaySeconds( ThrowDelay );
 
-		ThrowGrenade(Projectile, ThrowForce);
+		ThrowGrenade( Projectile, ThrowForce );
 
 		Ammo--;
 	}

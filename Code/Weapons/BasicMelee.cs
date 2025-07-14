@@ -15,12 +15,11 @@ partial class BasicMelee : BaseWeapon
 	private void BroadcastAttack()
 	{
 		Owner?.Renderer?.Set( "b_attack", true );
-		var snd = Sound.Play( ShootSound, WorldPosition );
-		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0 : snd.SpacialBlend;;	
 	}
 
 	public override void AttackPrimary()
 	{
+		base.AttackPrimary();
 		BroadcastAttack();
 		if ( MeleeAttack() )
 		{

@@ -5,12 +5,22 @@ using System;
 public static partial class SoundExtensions
 {
 	[Rpc.Broadcast]
-	public static void BroadcastSound( string soundName, Vector3 position, float volume = 1.0f )
+	public static void BroadcastSound( string soundName, Vector3 position, float volume = 1.0f, float pitch = 1.0f,
+		float spacialBlend = 1.0f )
 	{
 		var snd = Sound.Play( soundName, position );
 		snd.Volume = volume;
+		snd.Pitch = pitch;
+		snd.SpacialBlend = spacialBlend;
 	}
-	
+
+	[Rpc.Broadcast]
+	public static void BroadcastSound( SoundEvent sound, Vector3 position, float volume = 1.0f, float pitch = 1.0f,
+		float spacialBlend = 1.0f )
+	{
+		BroadcastSound( sound.ResourcePath, position, volume, pitch, spacialBlend );
+	}
+
 
 	[Rpc.Broadcast]
 	public static void FollowSound( SoundEvent Sound, GameObject Followed, string sender = default,
