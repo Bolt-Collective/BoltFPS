@@ -28,14 +28,6 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 	[Property] private float AngleOffsetScale { get; set; } = 0.01f;
 
-	/*
-	protected override void OnEnabled()
-	{
-
-	}
-	*/
-
-
 	public override bool CanPrimaryAttack()
 	{
 		return base.CanPrimaryAttack() && Input.Pressed( "attack1" );
@@ -97,31 +89,37 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 		AnglesLerp = AnglesLerp.LerpTo( delta, Time.Delta * 10.0f );
 		LastAngles = angles;
+
+		// Rebuild the command list every frame while scoped
+		if ( Scoped && ScopeOverlay is not null )
+		{
+			if ( scopeCommandList != null )
+			{
+				Scene.Camera.RemoveCommandList( scopeCommandList );
+				scopeCommandList = null;
+			}
+
+			scopeCommandList = new CommandList( "SniperScope" );
+			scopeCommandList.Attributes.Set( "BlurAmount",
+				Easing.EaseOut( Normalize( BlurLerp, 0.5f, 1 ).Clamp( 0, 1 ) ).Clamp( 0.1f, 1f ) );
+			scopeCommandList.Attributes.Set( "Offset",
+				new Vector2( AnglesLerp.yaw, -AnglesLerp.pitch ) * AngleOffsetScale );
+			scopeCommandList.Blit( ScopeOverlay );
+			Scene.Camera.AddCommandList( scopeCommandList, Stage.AfterTransparent, 100 );
+		}
 	}
 
 	bool scopingIn = false;
 
 	public async void Scope()
 	{
-		scopeCommandList = new CommandList( "SniperScope" );
-		Scene.Camera.AddCommandList( scopeCommandList, Stage.AfterTransparent, 100 );
-
 		ViewModel.Set( "ironsights", 1 );
 		SoundExtensions.BroadcastSound( ZoomSound.ResourceName, WorldPosition );
 
 		Scoped = true;
 		scopingIn = true;
-		await Task.DelaySeconds( 0.1f );
+		await GameTask.DelaySeconds( 0.1f );
 		scopingIn = false;
-
-		if ( ScopeOverlay is not null )
-		{
-			scopeCommandList.Attributes.Set( "BlurAmount",
-				easeOutCirc( Normalize( BlurLerp, 0.5f, 1 ).Clamp( 0, 1 ) ).Clamp( 0.1f, 1f ) );
-			scopeCommandList.Attributes.Set( "Offset",
-				new Vector2( AnglesLerp.yaw, -AnglesLerp.pitch ) * AngleOffsetScale );
-			scopeCommandList.Blit( ScopeOverlay );
-		}
 
 		BlurLerp = 1;
 
