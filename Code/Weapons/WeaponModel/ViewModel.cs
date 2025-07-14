@@ -5,12 +5,14 @@ namespace Seekers;
 [Icon( "pan_tool" )]
 public class ViewModel : Component
 {
-	[Property, ToggleGroup( "SwingAndBob" )] public bool SwingAndBob { get; set; } = true;
+	[Property, ToggleGroup( "SwingAndBob" )]
+	public bool SwingAndBob { get; set; } = true;
+
 	[Property, Group( "SwingAndBob" )] public float SwingInfluence { get; set; } = 0.05f;
 	[Property, Group( "SwingAndBob" )] public float ReturnSpeed { get; set; } = 5.0f;
 	[Property, Group( "SwingAndBob" )] public float MaxOffsetLength { get; set; } = 10.0f;
 	[Property, Group( "SwingAndBob" )] public float BobCycleTime { get; set; } = 7;
-	[Property, Group( "SwingAndBob" )] public Vector3 BobDirection { get; set; } = new( 0.0f, 1.0f, 0.5f );
+	[Property, Group( "SwingAndBob" )] public Vector3 BobDirection { get; set; } = new(0.0f, 1.0f, 0.5f);
 	[Property, Group( "SwingAndBob" )] public float InertiaDamping { get; set; } = 20.0f;
 
 	[RequireComponent] public SkinnedModelRenderer Renderer { get; set; }
@@ -20,12 +22,11 @@ public class ViewModel : Component
 
 	[Property] public Vector3 Offset { get; set; }
 
-	[Property]
-	public Dictionary<string, string> AnimParamTranslate { get; set; }
+	[Property] public Dictionary<string, string> AnimParamTranslate { get; set; }
 
 	public string GetAnim( string name )
 	{
-		if (AnimParamTranslate != null && AnimParamTranslate.ContainsKey(name))
+		if ( AnimParamTranslate != null && AnimParamTranslate.ContainsKey( name ) )
 			return AnimParamTranslate[name];
 		return name;
 	}
@@ -41,12 +42,11 @@ public class ViewModel : Component
 
 	protected override void OnEnabled()
 	{
-		Renderer?.Set( GetAnim("b_deploy"), true );
+		Renderer?.Set( GetAnim( "b_deploy" ), true );
 	}
 
 	protected override void OnPreRender()
 	{
-
 		if ( IsProxy )
 			return;
 
@@ -71,10 +71,10 @@ public class ViewModel : Component
 			activated = true;
 		}
 
-		WorldPosition = inPos;
+		LocalPosition = Offset;
 		WorldRotation = inRot;
 
-		/* 
+		/*
 		 * This causes fucked up shit
 		if ( Renderer.TryGetBoneTransformLocal( "camera", out var bone ) )
 		{
@@ -100,7 +100,10 @@ public class ViewModel : Component
 		}
 		else
 		{
-			var velocity = pawn.Controller.Controller.IsOnGround ? GetPercentageBetween( pawn.Controller.Controller.Velocity.Length, 0, pawn.Controller.WalkSpeed ).Clamp( 0, 1 ) : 0;
+			var velocity = pawn.Controller.Controller.IsOnGround
+				? GetPercentageBetween( pawn.Controller.Controller.Velocity.Length, 0, pawn.Controller.WalkSpeed )
+					.Clamp( 0, 1 )
+				: 0;
 			Animate(
 				YawInertia,
 				PitchInertia,
@@ -108,7 +111,7 @@ public class ViewModel : Component
 				pawn.Controller.IsRunning && Renderer.GetFloat( "attack_hold" ) <= 0,
 				pawn.Controller.Controller.IsOnGround,
 				pawn.Inventory.ActiveWeapon.Ammo <= 0
-				);
+			);
 		}
 
 		if ( pitchInRange )
@@ -122,7 +125,7 @@ public class ViewModel : Component
 	}
 
 	[Rpc.Broadcast]
-	public void Set(string name, bool value)
+	public void Set( string name, bool value )
 	{
 		Renderer?.Set( GetAnim( name ), value );
 	}
@@ -134,12 +137,12 @@ public class ViewModel : Component
 	}
 
 	[Rpc.Broadcast]
-	public void Animate(float yawInertia, float pitchInertia, float velocity, bool sprint, bool grounded, bool empty )
+	public void Animate( float yawInertia, float pitchInertia, float velocity, bool sprint, bool grounded, bool empty )
 	{
 		Renderer.Set( GetAnim( "aim_yaw_inertia" ), yawInertia );
 		Renderer.Set( GetAnim( "aim_pitch_inertia" ), pitchInertia );
 		Renderer.Set( GetAnim( "move_bob" ), velocity );
-		Renderer.Set( GetAnim( "b_sprint" ), sprint);
+		Renderer.Set( GetAnim( "b_sprint" ), sprint );
 		Renderer.Set( GetAnim( "b_grounded" ), grounded );
 		Renderer.Set( GetAnim( "b_empty" ), empty );
 	}
@@ -174,7 +177,8 @@ public class ViewModel : Component
 		var offset = CalcSwingOffset( pitchDelta, yawDelta );
 		offset += CalcBobbingOffset( bobSpeed );
 
-		WorldPosition += WorldRotation * offset + (player.Controller.Camera.WorldTransform.PointToWorld( Offset ) - player.Controller.Camera.WorldPosition);
+		WorldPosition += WorldRotation * offset + (player.Controller.Camera.WorldTransform.PointToWorld( Offset ) -
+		                                           player.Controller.Camera.WorldPosition);
 	}
 
 	protected Vector3 CalcSwingOffset( float pitchDelta, float yawDelta )
