@@ -4,6 +4,26 @@
 @namespace Seekers
 
 <root class="weapon-picker @( Show ? "active" : "" )" style="background-color: @BackgroundColour.Hex; backdrop-filter: blur(@BackgroundBlur);">
+	<h5 class="banner" style="padding: 26px; background-color: #4E4E4E">CHOOSE YOUR DEADLY FORCE</h5>
+	<div class="banner" style="padding: 16px;  border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+background: linear-gradient(0deg, #C97D37 0%, #a36d38 100%)">
+		<div class="tabs" style="flex-grow: 1">
+			<div class="button">
+				Primary
+			</div>
+			<div class="button">
+				Secondary
+			</div>
+			<div class="button">
+				Equipment
+			</div>
+		</div>
+		<div class="time-left">
+			<img src="icons\menu\Hourglass.svg?w=36&h=36"/>
+			<h5>Time Left: </h5>
+			<h5 class="time">45</h5>
+		</div>
+	</div>
 	<div class="loadout-container">
 
 		<!-- Weapon Selection -->
@@ -19,14 +39,7 @@
 							        onclick=@( () => catagory.Select( weapon.DisplayName ) )>
 								<img src="@weapon.Icon"/>
 								<h5>@weapon.DisplayName</h5>
-
-								<!--
-								Find sufficient way to display this
-								<div class="stats">
-								<span>Damage: @weapon.StatDamage</span>
-								<span>Rate: @weapon.StatFirerate</span>
-								</div>
-								-->
+								<p>@weapon.DisplayName</p>
 							</button>
 						}
 					</div>

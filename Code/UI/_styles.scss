@@ -6,6 +6,10 @@ $color-4: #FEF9E1;
 $color-prop: #2A7FBA;
 $color-hunter: #D73A2F;
 
+$bolt-light-text-orange: #FFE2C6;
+$bolt-orange: #C97D37;
+$bolt-gray: #4E4E4E;
+
 .root {
   font-family: Work Sans;
   color: white;
@@ -26,7 +30,7 @@ h2 {
   // font-size: 3rem;
   font-size: 46px;
   font-weight: lighter;
-  color: $color-2;
+  color: white;
   text-shadow: 2px 2px 0 black, 0 0 2px #FF9D23, -3px 0 2px #FF9D2370, 3px 0 2px #FF9D2370;
 }
 
