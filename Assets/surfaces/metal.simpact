@@ -1,8 +1,4 @@
 {
-  "BulletImpact": {
-    "_type": "gameobject",
-    "prefab": "particles/surfaces/impact.metal.prefab"
-  },
   "BaseSurface": "surfaces/metal.surface",
   "AudioSurface": "Generic",
   "Description": null,
@@ -12,6 +8,7 @@
   "Thickness": -1,
   "RollingResistance": 0,
   "BounceThreshold": 0,
+  "Dampening": 0,
   "ImpactEffects": {
     "Regular": [],
     "Bullet": [],
@@ -42,13 +39,26 @@
     "ScrapeRough": null,
     "ScrapeSmooth": null
   },
-  "Breakables": {
-    "BreakSound": null,
-    "GenericGibs": null
+  "PrefabCollection": {
+    "BulletImpact": {
+      "_type": "gameobject",
+      "prefab": "prefabs/surface/metal_bullet.prefab"
+    },
+    "BluntImpact": null
+  },
+  "SoundCollection": {
+    "FootLeft": null,
+    "FootRight": null,
+    "FootLaunch": null,
+    "FootLand": null,
+    "Bullet": "surfaces/sounds/metallic/metal_bullet_impact.sound",
+    "ImpactHard": "surfaces/sounds/metallic/metal_bullet_impact.sound",
+    "ImpactSoft": "surfaces/sounds/metallic/metal_bullet_impact.sound",
+    "ScrapeRough": null,
+    "ScrapeSmooth": null,
+    "Break": null
   },
   "Tags": null,
-  "__references": [
-    "facepunch.impactmetal#88479"
-  ],
+  "__references": [],
   "__version": 0
 }
