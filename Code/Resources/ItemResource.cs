@@ -1,9 +1,7 @@
-﻿
+﻿using static Seekers.BaseWeapon;
 
-using static Seekers.BaseWeapon;
-
-[GameResource("Weapon", "wep", "A weapon represented in a resource", Icon = "🔫")]
-public class WeaponResource : GameResource
+[GameResource( "Item", "wep", "An item represented in a resource", Icon = "🔫" )]
+public class ItemResource : GameResource
 {
 	[KeyProperty] public string DisplayName { get; set; }
 	[ImageAssetPath] public string Icon { get; set; }
@@ -13,5 +11,4 @@ public class WeaponResource : GameResource
 	{
 		return Details == null ? "weapons/gun/w_gun.prefab".Replace( "gun", DisplayName ) : Details;
 	}
-	
 }

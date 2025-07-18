@@ -18,7 +18,7 @@ public partial class BaseWeapon : Component
 	[Property] public WeaponIK LeftIK { get; set; }
 	[Property] public CrosshairType CrosshairType { get; set; }
 
-	[Property] public WeaponResource WeaponResource { get; set; }
+	[Property] public ItemResource ItemResource { get; set; }
 
 	public class WeaponIK
 	{
