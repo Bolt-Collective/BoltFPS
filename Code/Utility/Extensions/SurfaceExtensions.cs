@@ -12,13 +12,19 @@ public static partial class SurfaceExtensions
 		if ( tr.Hit )
 		{
 			var impactPrefab = self.PrefabCollection.BulletImpact ??
-			                   self.GetBaseSurface()?.PrefabCollection.BulletImpact;
+			                   self.GetRealSurface()?.PrefabCollection.BulletImpact;
+
+			var sound =
+				Replace( self.GetRealSurface() )?.SoundCollection.Bullet;
+
 			if ( impactPrefab is not null )
 			{
 				var impact = impactPrefab.Clone();
 				impact.WorldPosition = tr.EndPosition;
 				impact.SetParent( tr.GameObject, true );
 				impact.WorldRotation = Rotation.LookAt( -tr.Normal );
+
+				SoundExtensions.BroadcastSound( sound, tr.EndPosition );
 			}
 		}
 	}
