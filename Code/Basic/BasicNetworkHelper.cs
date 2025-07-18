@@ -66,18 +66,6 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 			await Task.DelayRealtimeSeconds( 0.1f );
 
 			var lobbyConfig = new LobbyConfig();
-			var lobbySettings = new LobbySettings();
-
-			if ( lobbySettings is not null )
-			{
-				lobbyConfig.Name = lobbySettings.Name;
-				if ( !Game.IsEditor )
-				{
-					lobbyConfig.Privacy = lobbySettings.Privacy;
-				}
-
-				lobbyConfig.MaxPlayers = lobbySettings.MaxPlayers;
-			}
 
 			Networking.CreateLobby( lobbyConfig );
 			Log.Info( "Creating lobby" );
