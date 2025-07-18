@@ -35,7 +35,7 @@ background: linear-gradient(0deg, #C97D37 0%, #a36d38 100%)">
 					<div class="weaponlist">
 						@foreach ( var weapon in catagory.Weapons )
 						{
-							<button class="weapon-option @( IsSelected( weapon.DisplayName, catagory.SelectedWeapon ) )"
+							<button class="weapon-option @( IsSelected( weapon.DisplayName, catagory.SelectedWeapons ) )"
 							        onclick=@( () => catagory.Select( weapon.DisplayName ) )>
 								<img src="@weapon.Icon"/>
 								<h5>@weapon.DisplayName</h5>
@@ -71,19 +71,40 @@ background: linear-gradient(0deg, #C97D37 0%, #a36d38 100%)">
 
 	private bool Show => CanShow && (!ShowOnKey || (ShowOnKey && Input.Down( ShowAction )));
 
-	private string IsSelected( object item, object selected ) => item == selected ? "selected" : "";
+	private string IsSelected( object item, object selected )
+	{
+		if ( selected is List<string> selectedList )
+			return selectedList.Contains( item?.ToString() ) ? "selected" : "";
+		return item == selected ? "selected" : "";
+	}
 
 	[Property] public List<WeaponCategory> WeaponCategories { get; set; }
 
 	public class WeaponCategory
 	{
 		[KeyProperty] public string DisplayName { get; set; }
-		public List<WeaponResource> Weapons { get; set; }
-		public string SelectedWeapon { get; set; }
+		public List<ItemResource> Weapons { get; set; }
+		public List<string> SelectedWeapons { get; set; } = new();
+		public int MaxSelections { get; set; } = 1;
 
 		public void Select( string weapon )
 		{
-			SelectedWeapon = weapon;
+			if ( SelectedWeapons.Contains( weapon ) )
+			{
+				SelectedWeapons.Remove( weapon );
+			}
+			else
+			{
+				if ( MaxSelections == 1 )
+				{
+					SelectedWeapons.Clear(); // remove previous selection
+					SelectedWeapons.Add( weapon );
+				}
+				else if ( SelectedWeapons.Count < MaxSelections )
+				{
+					SelectedWeapons.Add( weapon );
+				}
+			}
 		}
 	}
 

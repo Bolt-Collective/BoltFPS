@@ -4,25 +4,23 @@ public sealed class BasicLoadoutManager : Component
 {
 	protected override void OnFixedUpdate()
 	{
-		if ( !WeaponPicker.Current.IsValid() )
+		if ( WeaponPicker.Current == null || !WeaponPicker.Current.IsValid() )
 			return;
 
 		var loadout = new List<string>();
 
-		foreach(var catagory in WeaponPicker.Current.WeaponCategories)
+		foreach ( var category in WeaponPicker.Current.WeaponCategories )
 		{
-			if ( catagory.SelectedWeapon == "" || catagory.SelectedWeapon == null )
+			if ( category.SelectedWeapons == null || category.SelectedWeapons.Count == 0 )
 				continue;
 
-			foreach(var weapon in catagory.Weapons)
+			foreach ( var weapon in category.Weapons )
 			{
-				if(weapon.DisplayName == catagory.SelectedWeapon)
+				if ( category.SelectedWeapons.Contains( weapon.DisplayName ) )
 					loadout.Add( weapon.GetDetails() );
 			}
 		}
 
 		EnsuredLoadout.Instance?.SetLoadout( Connection.Local.Id, loadout );
 	}
-
-
 }
