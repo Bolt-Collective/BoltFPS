@@ -42,11 +42,30 @@ public partial class MapLoader : MapInstance
 	{
 		ClientIsLoadingMap = false;
 
+		RespawnPlayers();
 		TagProps();
 
 		if ( Networking.IsHost )
 		{
 			IsLoadingMap = false;
+		}
+	}
+
+	[Rpc.Host]
+	public void RespawnPlayers()
+	{
+		var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
+
+		foreach ( var player in Scene.GetAllComponents<Pawn>().ToArray() )
+		{
+			if ( player.IsProxy )
+				continue;
+
+			var randomSpawnPoint = Random.Shared.FromArray( spawnPoints );
+			if ( randomSpawnPoint is null ) continue;
+
+			player.WorldPosition = randomSpawnPoint.WorldPosition + Vector3.Up * 10;
+			player.Controller.EyeAngles = randomSpawnPoint.WorldRotation.Angles();
 		}
 	}
 
