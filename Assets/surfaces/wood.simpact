@@ -1,8 +1,4 @@
 {
-  "BulletImpact": {
-    "_type": "gameobject",
-    "prefab": "particles/surfaces/impact.wood.prefab"
-  },
   "BaseSurface": "surfaces/wood.surface",
   "AudioSurface": "Generic",
   "Description": null,
@@ -12,6 +8,7 @@
   "Thickness": -1,
   "RollingResistance": 0,
   "BounceThreshold": 35,
+  "Dampening": 0,
   "ImpactEffects": {
     "Regular": [],
     "Bullet": [],
@@ -42,13 +39,29 @@
     "ScrapeRough": null,
     "ScrapeSmooth": null
   },
-  "Breakables": {
-    "BreakSound": null,
-    "GenericGibs": null
+  "PrefabCollection": {
+    "BulletImpact": {
+      "_type": "gameobject",
+      "prefab": "prefabs/surface/wood_bullet.prefab"
+    },
+    "BluntImpact": {
+      "_type": "gameobject",
+      "prefab": "weapons/common/effects/impact_wood.prefab"
+    }
+  },
+  "SoundCollection": {
+    "FootLeft": "surfaces/sounds/wood/wood_impact_sound.sound",
+    "FootRight": "surfaces/sounds/wood/wood_impact_sound.sound",
+    "FootLaunch": null,
+    "FootLand": null,
+    "Bullet": "surfaces/sounds/wood/wood_impact_sound.sound",
+    "ImpactHard": "surfaces/sounds/wood/wood_impact_heavy.sound",
+    "ImpactSoft": "surfaces/sounds/wood/wood_impact_sound.sound",
+    "ScrapeRough": null,
+    "ScrapeSmooth": null,
+    "Break": null
   },
   "Tags": null,
-  "__references": [
-    "facepunch.impactwood#88480"
-  ],
+  "__references": [],
   "__version": 0
 }

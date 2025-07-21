@@ -44,7 +44,10 @@
       "_type": "gameobject",
       "prefab": "prefabs/surface/default-bullet.prefab"
     },
-    "BluntImpact": null
+    "BluntImpact": {
+      "_type": "gameobject",
+      "prefab": "prefabs/surface/default-bullet.prefab"
+    }
   },
   "SoundCollection": {
     "FootLeft": "surfaces/sounds/footsteps.concrete.sound",

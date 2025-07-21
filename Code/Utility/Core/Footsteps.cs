@@ -4,7 +4,7 @@ namespace Seekers;
 
 public class Footsteps : Component
 {
-	[RequireComponent] public PlayerWalkControllerComplex Player { get; set; }
+	[RequireComponent] public Pawn Player { get; set; }
 
 	/// <summary>
 	/// Draw debug overlay on footsteps
@@ -16,15 +16,15 @@ public class Footsteps : Component
 
 	private float GetStepFrequency()
 	{
-		if ( Player.IsCrouching ) return 0.5f;
-		if ( Player.IsRunning ) return 0.28f;
+		if ( Player.Controller.IsCrouching ) return 0.5f;
+		if ( Player.Controller.IsRunning ) return 0.28f;
 		return 0.39f;
 	}
 
 	private float GetStepVolume()
 	{
-		if ( Player.IsCrouching ) return 0.35f;
-		return 1f;
+		if ( Player.Controller.IsCrouching ) return 0.25f;
+		return 0.4f;
 	}
 
 	bool leftFoot = true;
@@ -34,10 +34,10 @@ public class Footsteps : Component
 		if ( !Player.IsValid() )
 			return;
 
-		if ( !Player.Controller.IsOnGround )
+		if ( !Player.Controller.Controller.IsOnGround )
 			return;
 
-		if ( Player.Controller.Velocity.Length < 55 )
+		if ( Player.Controller.Controller.Velocity.Length < 55 )
 			return;
 
 		if ( _timeSinceStep < GetStepFrequency() )
@@ -51,7 +51,7 @@ public class Footsteps : Component
 
 		var tagMaterial = "";
 
-		foreach ( var tag in Player.Controller.MoveTraceResult.Tags )
+		foreach ( var tag in Player.Controller.Controller.MoveTraceResult.Tags )
 		{
 			if ( tag.StartsWith( "m-" ) || tag.StartsWith( "m_" ) )
 			{
@@ -60,18 +60,17 @@ public class Footsteps : Component
 			}
 		}
 
-		var actualSurf = Player.Controller.MoveTraceResult.Surface.GetRealSurface();
+		var actualSurf = Player.Controller.Controller.MoveTraceResult.Surface;
 
 		var GroundSurface = tagMaterial == ""
-			? actualSurf.Replace()
-			: (Surface.FindByName( tagMaterial ) ?? actualSurf.Replace());
+			? actualSurf.ReplaceSurface()
+			: (Surface.FindByName( tagMaterial ) ?? actualSurf.ReplaceSurface());
 
-		var sound = leftFoot ? GroundSurface.Sounds.FootLeft : GroundSurface.Sounds.FootRight;
-		var soundEvent = ResourceLibrary.Get<SoundEvent>( sound );
+		var sound = leftFoot ? GroundSurface.SoundCollection.FootLeft : GroundSurface.SoundCollection.FootRight;
 
-		var worldPosition = Player.Controller.MoveTraceResult.EndPosition;
+		var worldPosition = Player.Controller.Controller.MoveTraceResult.EndPosition;
 
-		if ( soundEvent is null )
+		if ( sound is null )
 		{
 			if ( DebugFootsteps )
 			{
@@ -82,15 +81,15 @@ public class Footsteps : Component
 			return;
 		}
 
-		SoundExtensions.BroadcastSound( soundEvent.ResourcePath, worldPosition,
-			GetStepVolume() * Player.Controller.WishVelocity.Length.Remap( 0, 400, 0, 1 ),
-		spacialBlend:
-		GetComponent<Pawn>().IsMe ? 0 : 1 );
+		SoundExtensions.BroadcastSound( sound, worldPosition,
+			GetStepVolume() * Player.Controller.Controller.WishVelocity.Length.Remap( 0, 400, 0, 1 ),
+			spacialBlend:
+			Player.IsValid() && Player.IsMe ? 0 : 1 );
 
 		if ( DebugFootsteps )
 		{
 			DebugOverlay.Sphere( new Sphere( worldPosition, GetStepVolume() ), duration: 10, overlay: true );
-			DebugOverlay.Text( worldPosition, $"{soundEvent.ResourceName}", size: 14, flags: TextFlag.LeftTop,
+			DebugOverlay.Text( worldPosition, $"{sound.ResourceName}", size: 14, flags: TextFlag.LeftTop,
 				duration: 10, overlay: true );
 		}
 	}
