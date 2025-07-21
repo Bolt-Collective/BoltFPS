@@ -156,7 +156,7 @@ public partial class Client : ShrimplePawns.Client
 		AssignConnection( channel );
 		AssignPawn( Team.PawnPrefab );
 
-		if ( Pawn is Pawn pawn )
+		if ( Pawn is Pawn pawn && pawn.IsValid() )
 		{
 			pawn.HealthComponent.Health = pawn.HealthComponent?.MaxHealth ?? 100;
 
