@@ -65,6 +65,10 @@ public partial class MapLoader : MapInstance
 			if ( randomSpawnPoint is null ) continue;
 
 			player.WorldPosition = randomSpawnPoint.WorldPosition + Vector3.Up * 10;
+
+			if ( !player.Controller.IsValid() )
+				continue;
+
 			player.Controller.EyeAngles = randomSpawnPoint.WorldRotation.Angles();
 		}
 	}

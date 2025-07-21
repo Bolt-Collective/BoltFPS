@@ -158,7 +158,10 @@ public partial class Client : ShrimplePawns.Client
 
 		if ( Pawn is Pawn pawn && pawn.IsValid() )
 		{
-			pawn.HealthComponent.Health = pawn.HealthComponent?.MaxHealth ?? 100;
+			if ( pawn.HealthComponent.IsValid() )
+			{
+				pawn.HealthComponent.Health = pawn.HealthComponent?.MaxHealth ?? 100;
+			}
 
 			GoToSpawn( pawn );
 		}
@@ -167,12 +170,15 @@ public partial class Client : ShrimplePawns.Client
 	[Rpc.Broadcast]
 	public void GoToSpawn( Pawn pawn )
 	{
+		if ( !pawn.IsValid() )
+			return;
+
 		var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
 
 		var randomSpawnPoint = Random.Shared.FromArray( spawnPoints );
 		if ( randomSpawnPoint is null ) return;
 
-		if ( pawn?.IsProxy ?? true )
+		if ( pawn.IsProxy )
 			return;
 
 		pawn.WorldPosition =

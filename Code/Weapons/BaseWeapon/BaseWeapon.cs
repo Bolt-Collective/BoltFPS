@@ -405,7 +405,7 @@ public partial class BaseWeapon : Component
 	public virtual void AttackPrimary()
 	{
 		SoundExtensions.BroadcastSound( ShootSound, WorldPosition,
-			volume: ShootSound.Volume.FixedValue, spacialBlend: Owner.IsMe ? 0 : 1 );
+			volume: ShootSound.Volume.FixedValue, spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
 	}
 
 	public virtual void AttackDry()
