@@ -9,29 +9,22 @@ public partial class MapLoader : MapInstance
 	[Sync] public bool IsLoadingMap { get; set; }
 	public bool ClientIsLoadingMap { get; set; }
 
-	List<(GameObject prop, Transform pos)> _propStartTransforms = [];
-	
 	public static MapLoader Instance;
 
-    protected override void OnFixedUpdate()
-    {
+	protected override void OnFixedUpdate()
+	{
 		var pawn = Pawn.Local;
 
-		if ( !pawn.IsValid() || !pawn.Controller.IsValid())
+		if ( !pawn.IsValid() || !pawn.Controller.IsValid() )
 			return;
 		pawn.Controller.CanMove = !ClientIsLoadingMap;
-    }
+	}
 
-    protected override void OnAwake()
+	protected override void OnAwake()
 	{
 		Instance = this;
 		OnMapLoaded += OnMapLoad;
 		TagProps();
-	}
-
-	public void SoftReset()
-	{
-
 	}
 
 	public void OnMapLoad()
@@ -49,8 +42,6 @@ public partial class MapLoader : MapInstance
 	[Rpc.Broadcast]
 	void TagProps()
 	{
-		_propStartTransforms.Clear();
-
 		var allProps = Components.GetAll<Prop>( FindMode.EverythingInSelfAndDescendants );
 
 		foreach ( var prop in allProps )
@@ -60,8 +51,6 @@ public partial class MapLoader : MapInstance
 
 			if ( !prop.Tags.Contains( "worldprop" ) )
 				prop.Tags.Add( "worldprop" );
-
-			_propStartTransforms.Add( (prop.GameObject, prop.WorldTransform) );
 		}
 	}
 
@@ -87,7 +76,7 @@ public partial class MapLoader : MapInstance
 		}
 	}
 
-	static async Task LoadMap( string map )
+	public static async Task LoadMap( string map )
 	{
 		foreach ( var gameObject in Instance.GameObject.Children )
 		{
@@ -110,18 +99,20 @@ public partial class MapLoader : MapInstance
 			var sceneFile = mapPackage.GetMeta<SceneFile>( "PrimaryAsset" );
 			sceneLoadOptions.SetScene( sceneFile );
 			List<GameObject> NonMapObjects = new();
-			foreach(var gameobject in Game.ActiveScene.Children)
+			foreach ( var gameobject in Game.ActiveScene.Children )
 			{
 				NonMapObjects.Add( gameobject );
 			}
+
 			Game.ActiveScene.Load( sceneLoadOptions );
-			var children = new List<GameObject>(Game.ActiveScene.Children);
+			var children = new List<GameObject>( Game.ActiveScene.Children );
 			foreach ( var gameobject in children )
 			{
 				if ( NonMapObjects.Contains( gameobject ) )
 					continue;
 				gameobject.SetParent( Instance.GameObject );
 			}
+
 			Instance.OnMapLoaded?.Invoke();
 		}
 		else
