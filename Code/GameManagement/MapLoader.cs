@@ -27,6 +27,17 @@ public partial class MapLoader : MapInstance
 		TagProps();
 	}
 
+	public void Cleanup()
+	{
+		foreach ( var component in Game.ActiveScene.GetAllComponents<DestroyOnMapCleanup>() )
+		{
+			component.GameObject.Destroy();
+		}
+
+		UnloadMap();
+		OnMapLoad();
+	}
+
 	public void OnMapLoad()
 	{
 		ClientIsLoadingMap = false;
@@ -76,7 +87,7 @@ public partial class MapLoader : MapInstance
 		}
 	}
 
-	public static async Task LoadMap( string map )
+	static async Task LoadMap( string map )
 	{
 		foreach ( var gameObject in Instance.GameObject.Children )
 		{
@@ -119,6 +130,26 @@ public partial class MapLoader : MapInstance
 		{
 			Instance.Enabled = true;
 			Instance.MapName = map;
+		}
+	}
+
+	protected override void OnCreateObject( GameObject go, Sandbox.MapLoader.ObjectEntry kv )
+	{
+		if ( !Game.IsPlaying ) return;
+
+		if ( !Networking.IsHost )
+		{
+			if ( kv.TypeName.Contains( "prop_" ) || kv.TypeName == "ent_door" ||
+			     kv.TypeName == "func_shatterglass" )
+				go.Destroy();
+			return;
+		}
+
+		if ( kv.TypeName == "prop_physics" && Game.IsPlaying )
+		{
+			go.Components.Create<DestroyOnMapCleanup>();
+			go.SetParent( Scene );
+			go.NetworkSpawn( null );
 		}
 	}
 }
