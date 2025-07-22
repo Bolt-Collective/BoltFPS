@@ -1,3 +1,4 @@
+using BoltFPS;
 using Sandbox.Events;
 
 namespace Seekers;
@@ -134,7 +135,7 @@ public record DamageInfo(
 		var victimColour = Color.White;
 		var killMethods = new List<string>();
 
-		if ( !External && Attacker.GetType() == typeof(Pawn) )
+		if ( !External && Attacker?.GetType() == typeof(Pawn) )
 		{
 			Pawn pawn = (Pawn)Attacker;
 			attackerColour = pawn.Owner?.Team.Color ?? Color.White;
@@ -162,6 +163,8 @@ public record DamageInfo(
 
 		if ( killMethods.Count <= 0 )
 			killMethods.Add( "icons/kill methods/dead.png" );
+		
+		KillFeed.Current?.AddKill( attacker, attackerColour.Hex, killMethods, victim, victimColour.Hex );
 	}
 }
 
