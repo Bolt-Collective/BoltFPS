@@ -15,25 +15,26 @@ public static partial class SurfaceExtensions
 		{
 			GameObject particle = self.PrefabCollection.BulletImpact;
 			if ( particle == null ) particle = self.PrefabCollection.BluntImpact;
-
+			if (surf == null) return;
+			
 			while ( particle == null && !surf.IsDefault() )
 			{
-				surf = ReplaceSurface( surf.GetProperBaseSurface() );
-				particle = surf.PrefabCollection.BulletImpact;
-				if ( particle == null ) particle = surf.PrefabCollection.BluntImpact;
+				surf = ReplaceSurface( surf?.GetProperBaseSurface() );
+				particle = surf?.PrefabCollection.BulletImpact;
+				if ( particle == null ) particle = surf?.PrefabCollection.BluntImpact;
 			}
 
-			var sound = surf.SoundCollection.Bullet;
+			var sound = surf?.SoundCollection.Bullet;
 
 			while ( !sound.IsValid() && !surf.IsDefault() )
 			{
 				if ( !sound.IsValid() )
 				{
-					var basetemp = surf.GetProperBaseSurface();
+					var basetemp = surf?.GetProperBaseSurface();
 					surf = ReplaceSurface( basetemp );
 				}
 
-				sound = surf.SoundCollection.Bullet;
+				sound = surf?.SoundCollection.Bullet;
 			}
 
 			if ( sound.IsValid() )
