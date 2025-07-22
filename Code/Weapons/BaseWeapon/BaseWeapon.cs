@@ -140,11 +140,13 @@ public partial class BaseWeapon : Component
 	}
 
 	[Rpc.Broadcast]
-	protected void DoTracer( Vector3 startPosition, Vector3 endPosition, float distance, int count )
+	protected void DoTracer( Vector3 startPosition, Vector3 endPosition, float distance, bool muzzle )
 	{
 		if ( !IsNearby( startPosition ) && !IsNearby( endPosition ) ) return;
 
-		var origin = count == 0 ? Attachment( "muzzle" ).Position : startPosition;
+		var attachment = LocalWorldModel.GetAttachment( "muzzle" );
+
+		var origin = attachment.HasValue ? LocalWorldModel.GetAttachment( "muzzle" ).Value.Position : startPosition;
 
 		var effect =
 			Tracer?.Clone( new CloneConfig
@@ -546,7 +548,7 @@ public partial class BaseWeapon : Component
 				: (Surface.FindByName( tagMaterial ) ?? tr.Surface);
 
 			surface.DoBulletImpact( tr, !hitSurfaces.Contains( surface ) || shots < 3 );
-			DoTracer( tr.StartPosition, tr.EndPosition, tr.Distance, count: 1 );
+			DoTracer( tr.StartPosition, tr.EndPosition, tr.Distance, true );
 
 			hitSurfaces.Add( surface );
 

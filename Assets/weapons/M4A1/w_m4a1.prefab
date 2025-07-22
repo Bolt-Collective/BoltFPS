@@ -1,14 +1,23 @@
 {
   "RootObject": {
     "__guid": "fba57dd6-c569-4ae9-ad96-2ca6ea29b45e",
+    "__version": 1,
     "Flags": 0,
     "Name": "w_m4a1",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
     "Tags": "item,weapon",
     "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
     "Components": [
       {
         "__type": "Seekers.MachineGun",
         "__guid": "e6d6f931-f23d-4fdb-adf9-20b8273f056f",
+        "__enabled": true,
         "Ammo": 30,
         "BoneOffset": {
           "Position": "2.1855,0,-8.196",
@@ -22,6 +31,7 @@
         "Handedness": "Both",
         "HoldType": "Rifle",
         "Icon": "icons/weapons/guns/m4_01.png",
+        "ItemResource": null,
         "LeftIK": {
           "Active": true,
           "GameObject": {
@@ -82,6 +92,7 @@
         "ShootSound": "sounds/weapons/m4a1/m4_shot.sound",
         "ShowAmmo": true,
         "Spread": 0,
+        "TracerEffect": null,
         "ViewModelPrefab": {
           "_type": "gameobject",
           "prefab": "weapons/m4a1/v_m4a1.prefab"
@@ -90,56 +101,24 @@
     ],
     "Children": [
       {
-        "__guid": "a08fd4e8-8cab-4fea-928c-ea854a7f78f8",
-        "Flags": 0,
-        "Name": "eject_9mm",
-        "Position": "5000,5000,5000",
-        "Tags": "particles,effect",
-        "Enabled": true,
-        "__Prefab": "weapons/common/effects/eject_9mm.prefab",
-        "__PrefabVariables": {}
-      },
-      {
-        "__guid": "963c4a37-dd63-4a3c-8d3b-b0e39ec32481",
-        "Flags": 0,
-        "Name": "muzzle",
-        "Position": "5000,5000,5000",
-        "Tags": "particles",
-        "Enabled": true,
-        "__Prefab": "weapons/common/effects/muzzle.prefab",
-        "__PrefabVariables": {}
-      },
-      {
-        "__guid": "a805b407-2bca-4de6-9c27-242c33cf2ac3",
-        "Flags": 0,
-        "Name": "eject_9mm",
-        "Position": "5000,5000,5000",
-        "Tags": "particles,effect",
-        "Enabled": true,
-        "__Prefab": "weapons/common/effects/eject_9mm.prefab",
-        "__PrefabVariables": {}
-      },
-      {
-        "__guid": "346041e5-c4ed-4c15-9126-80676f405f26",
-        "Flags": 0,
-        "Name": "muzzle",
-        "Position": "5000,5000,5000",
-        "Tags": "particles",
-        "Enabled": true,
-        "__Prefab": "weapons/common/effects/muzzle.prefab",
-        "__PrefabVariables": {}
-      },
-      {
         "__guid": "d5754c80-fad6-48cd-b995-0c6b3cdc5dd6",
+        "__version": 1,
         "Flags": 0,
         "Name": "Model",
         "Position": "0.8752536,1.112744,2.025724",
         "Rotation": "-0.0000001229346,0.00000006891787,0.0000001639128,0.9999989",
+        "Scale": "1,1,1",
+        "Tags": "",
         "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
         "Components": [
           {
             "__type": "Sandbox.SkinnedModelRenderer",
             "__guid": "a1404db8-3164-4612-9484-24acb367f7fb",
+            "__enabled": true,
             "AnimationGraph": null,
             "BodyGroups": 171,
             "BoneMergeTarget": null,
@@ -147,6 +126,7 @@
             "CreateBoneObjects": true,
             "MaterialGroup": null,
             "MaterialOverride": null,
+            "Materials": null,
             "Model": "models/weapons/sbox_assault_m4a1/w_m4a1.vmdl",
             "Morphs": {},
             "OnComponentDestroy": null,
@@ -171,7 +151,9 @@
             },
             "RenderType": "On",
             "Sequence": {
-              "Name": null
+              "Name": null,
+              "Looping": true,
+              "Blending": false
             },
             "Tint": "1,1,1,1",
             "UseAnimGraph": false
@@ -180,47 +162,79 @@
         "Children": [
           {
             "__guid": "9c2e9b1f-1b7d-4bdf-b377-fc02dc0ccc4e",
+            "__version": 1,
             "Flags": 0,
             "Name": "hold_R",
             "Position": "-1.45742,0,5.464317",
-            "Enabled": true
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
           },
           {
             "__guid": "8d0c9070-802a-421d-971b-dd7d4a2388ad",
+            "__version": 1,
             "Flags": 0,
             "Name": "leftik",
             "Position": "4.804971,0.8108997,5.080464",
             "Rotation": "-0.04512107,0.09017982,0.27016,-0.9575226",
-            "Enabled": true
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
           }
         ]
       },
       {
         "__guid": "f70b9bf0-77c6-4f7c-9ddf-b8c8a8284a38",
+        "__version": 1,
         "Flags": 0,
         "Name": "Muzzle",
         "Position": "19.5,0,12.2",
-        "Enabled": true
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": []
       },
       {
         "__guid": "0db70960-8296-4cbf-afce-387fdb9e49cb",
+        "__version": 1,
         "Flags": 0,
         "Name": "Eject",
         "Position": "3,-0.95,13.15",
         "Rotation": "-0.3826835,-0,0,0.9238795",
-        "Enabled": true
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": []
       }
     ],
-    "__variables": [],
     "__properties": {
-      "FixedUpdateFrequency": 50,
-      "MaxFixedUpdates": 5,
-      "NetworkFrequency": 30,
       "NetworkInterpolation": true,
-      "PhysicsSubSteps": 1,
-      "ThreadedAnimation": true,
       "TimeScale": 1,
-      "UseFixedUpdate": true,
+      "WantsSystemScene": true,
       "Metadata": {},
       "NavMesh": {
         "Enabled": false,
@@ -234,15 +248,16 @@
         "ExcludedBodies": "",
         "IncludedBodies": ""
       }
-    }
+    },
+    "__variables": []
   },
+  "ResourceVersion": 2,
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "ResourceVersion": 1,
   "__references": [
     "facepunch.w_m4a1#60166"
   ],
-  "__version": 1
+  "__version": 2
 }

@@ -1,14 +1,23 @@
 {
   "RootObject": {
     "__guid": "15bcee5f-087c-4976-924f-95a5c34f0be4",
+    "__version": 1,
     "Flags": 0,
-    "Name": "tracer_9mm",
+    "Name": "tracer",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
     "Enabled": true,
     "NetworkMode": 0,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
     "Components": [
       {
         "__type": "TimedDestroyComponent",
         "__guid": "4bcbadaf-c15c-4109-8039-cd09b7be2d3f",
+        "__enabled": true,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -17,15 +26,16 @@
         "OnComponentUpdate": null,
         "Time": 1,
         "TimeUntilDestroy": {
-          "Absolute": 171.81274,
-          "Relative": -4.957245,
-          "Passed": 4.957245,
+          "Absolute": 0,
+          "Relative": -1720.1805,
+          "Passed": 1720.1805,
           "Fraction": 1
         }
       },
       {
         "__type": "Tracer",
         "__guid": "c67a7e24-9d6f-4e91-be16-5046483ccdaf",
+        "__enabled": true,
         "CastShadows": false,
         "DistancePerSecond": 9000,
         "EnableLight": true,
@@ -149,16 +159,10 @@
       }
     ],
     "Children": [],
-    "__variables": [],
     "__properties": {
-      "FixedUpdateFrequency": 50,
-      "MaxFixedUpdates": 5,
-      "NetworkFrequency": 30,
       "NetworkInterpolation": true,
-      "PhysicsSubSteps": 1,
-      "ThreadedAnimation": true,
       "TimeScale": 1,
-      "UseFixedUpdate": true,
+      "WantsSystemScene": true,
       "Metadata": {},
       "NavMesh": {
         "Enabled": false,
@@ -172,13 +176,14 @@
         "ExcludedBodies": "",
         "IncludedBodies": ""
       }
-    }
+    },
+    "__variables": []
   },
+  "ResourceVersion": 2,
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "ResourceVersion": 1,
   "__references": [],
-  "__version": 1
+  "__version": 2
 }
