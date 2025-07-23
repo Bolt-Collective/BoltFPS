@@ -40,17 +40,23 @@
     "ScrapeSmooth": null
   },
   "PrefabCollection": {
-    "BulletImpact": null,
-    "BluntImpact": null
+    "BulletImpact": {
+      "_type": "gameobject",
+      "prefab": "prefabs/surface/flesh_bullet.prefab"
+    },
+    "BluntImpact": {
+      "_type": "gameobject",
+      "prefab": "weapons/common/effects/impact_flesh.prefab"
+    }
   },
   "SoundCollection": {
-    "FootLeft": null,
-    "FootRight": null,
+    "FootLeft": "surfaces/sounds/flesh/flesh_bullet_impact.sound",
+    "FootRight": "surfaces/sounds/flesh/flesh_bullet_impact.sound",
     "FootLaunch": null,
     "FootLand": null,
-    "Bullet": null,
-    "ImpactHard": null,
-    "ImpactSoft": null,
+    "Bullet": "surfaces/sounds/flesh/flesh_bullet_impact.sound",
+    "ImpactHard": "surfaces/sounds/flesh/flesh_bullet_impact.sound",
+    "ImpactSoft": "surfaces/sounds/flesh/flesh_bullet_impact.sound",
     "ScrapeRough": null,
     "ScrapeSmooth": null,
     "Break": null
