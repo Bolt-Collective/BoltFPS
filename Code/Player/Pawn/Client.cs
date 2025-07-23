@@ -7,7 +7,6 @@ public partial class Client : ShrimplePawns.Client
 
 	public static Client Local => Game.ActiveScene.GetAllComponents<Client>().FirstOrDefault( x => !x.IsProxy );
 
-
 	[Sync( SyncFlags.FromHost ), Property] public long SteamId { get; set; }
 
 	[Sync, Property] public int Kills { get; set; }
@@ -183,6 +182,10 @@ public partial class Client : ShrimplePawns.Client
 
 		pawn.WorldPosition =
 			randomSpawnPoint.WorldPosition + Vector3.Up * 10; // Offset to avoid clipping into the ground
+		
+		if (!pawn.Controller.IsValid())
+			return;
+		
 		pawn.Controller.EyeAngles = randomSpawnPoint.WorldRotation.Angles();
 	}
 }

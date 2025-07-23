@@ -58,7 +58,7 @@ public sealed class SpectatorPawn : Pawn
 	void SpectateNextPlayer()
 	{
 		var allClients = Game.ActiveScene.GetAllComponents<Client>()
-			.Where( x => x.Connection != Connection.Local && x.Team != TeamManager.SpectatorsTeam )
+			.Where( x => x.Connection != Connection.Local && x.Team != TeamManager.SpectatorsTeam && !x.GetPawn<Pawn>().IsDead )
 			.ToList();
 
 		if ( allClients.Count == 0 )
