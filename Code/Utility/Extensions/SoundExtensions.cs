@@ -9,6 +9,10 @@ public static partial class SoundExtensions
 		float spacialBlend = 1.0f )
 	{
 		var snd = Sound.Play( soundName, position );
+		
+		if (!snd.IsValid())
+			return;
+		
 		snd.Volume = volume;
 		snd.Pitch = pitch;
 		snd.SpacialBlend = spacialBlend;
