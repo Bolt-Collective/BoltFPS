@@ -49,13 +49,16 @@ public sealed class SpectatorPawn : Pawn
 		if ( Input.Pressed( "attack1" ) )
 		{
 			SpectateNextPlayer();
+		} else if ( Input.Pressed( "attack2" ) )
+		{
+			SpectateNextPlayer( true );
 		}
 
 		Camera.FovAxis = CameraComponent.Axis.Vertical;
 		Camera.FieldOfView = Screen.CreateVerticalFieldOfView( Preferences.FieldOfView, 9.0f / 16.0f );
 	}
 
-	void SpectateNextPlayer()
+	void SpectateNextPlayer(bool reverse = false)
 	{
 		var allClients = Game.ActiveScene.GetAllComponents<Client>()
 			.Where( x => x.Connection != Connection.Local && x.Team != TeamManager.SpectatorsTeam && !x.GetPawn<Pawn>().IsDead )
@@ -75,11 +78,21 @@ public sealed class SpectatorPawn : Pawn
 			}
 		}
 
-		currentPlayerIndex++;
-
-		if ( currentPlayerIndex >= allClients.Count )
+		if (reverse)
 		{
-			currentPlayerIndex = 0;
+			currentPlayerIndex--;
+			if (currentPlayerIndex < 0)
+			{
+				currentPlayerIndex = allClients.Count - 1;
+			}
+		}
+		else
+		{
+			currentPlayerIndex++;
+			if (currentPlayerIndex >= allClients.Count)
+			{
+				currentPlayerIndex = 0;
+			}
 		}
 
 		SpectatedClient = allClients[currentPlayerIndex];
