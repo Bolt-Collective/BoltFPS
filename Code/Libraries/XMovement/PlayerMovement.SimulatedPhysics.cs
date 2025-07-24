@@ -7,7 +7,7 @@ public partial class PlayerMovement : Component
 	[Sync]
 	public Vector3 PhysicsBodyVelocity { get; set; }
 
-	[ConVar] public static bool debug_playermovement { get; set; } = false;
+	[ConVar(ConVarFlags.Replicated)] public static bool debug_playermovement { get; set; } = false;
 	[Property, FeatureEnabled( "Physics Integration" )] public bool PhysicsIntegration { get; set; } = true;
 	[Property, Feature( "Physics Integration" )] public float Mass { get; set; } = 85;
 	[Property, Feature( "Physics Integration" )] public float PushScale { get; set; } = 0.7f;
