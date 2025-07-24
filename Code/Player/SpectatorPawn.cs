@@ -11,6 +11,8 @@ public sealed class SpectatorPawn : Pawn
 
 	public Client SpectatedClient { get; set; }
 
+	public bool Orbiting = false;
+
 	private Angles orbitAngles = Angles.Zero;
 	private float orbitDistance = 150.0f;
 
@@ -39,8 +41,8 @@ public sealed class SpectatorPawn : Pawn
 				FreeSpectate();
 				break;
 			case SpectateState.Player:
-				if ( Input.Down( "reload" ) )
-					OrbitSpectate();
+				if ( Input.Pressed( "reload" ) )
+					Orbiting = !Orbiting;
 				else
 					PlayerSpectate();
 				break;
@@ -52,6 +54,11 @@ public sealed class SpectatorPawn : Pawn
 		} else if ( Input.Pressed( "attack2" ) )
 		{
 			SpectateNextPlayer( true );
+		}
+		
+		if (Orbiting)
+		{
+			OrbitSpectate();
 		}
 
 		Camera.FovAxis = CameraComponent.Axis.Vertical;
@@ -136,8 +143,9 @@ public sealed class SpectatorPawn : Pawn
 			return;
 		}
 
-		var focusPoint = Game.ActiveScene.GetAll<Pawn>()
-			.FirstOrDefault( x => x.Owner == SpectatedClient )!.WorldPosition;
+		var spectatedPawn = SpectatedClient.GetPawn<Pawn>();
+		var focusPoint = spectatedPawn.Controller.Head.WorldPosition;
+		
 
 		orbitAngles.pitch += -Input.AnalogLook.pitch;
 		orbitAngles.yaw += Input.AnalogLook.yaw;
