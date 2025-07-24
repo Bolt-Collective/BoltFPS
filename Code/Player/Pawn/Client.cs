@@ -144,7 +144,7 @@ public partial class Client : ShrimplePawns.Client
 		Sandbox.Services.Stats.Increment( ident, value );
 	}
 
-	public void Respawn( Connection channel )
+	public void Respawn( Connection channel, GameObject prefab = null )
 	{
 		if ( !Team.IsValid() )
 			return;
@@ -153,7 +153,15 @@ public partial class Client : ShrimplePawns.Client
 
 		// Create new pawn from team's prefab
 		AssignConnection( channel );
-		AssignPawn( Team.PawnPrefab );
+
+		if ( !prefab.IsValid() )
+		{
+			AssignPawn( Team.PawnPrefab );
+		}
+		else
+		{
+			AssignPawn( prefab );
+		}
 
 		if ( Pawn is Pawn pawn && pawn.IsValid() )
 		{

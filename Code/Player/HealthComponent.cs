@@ -202,11 +202,7 @@ public partial class HealthComponent : Component, IRespawnable
 
 		if ( !IsProxy )
 			AddDeath();
-
-
-		//listen for this instead
-		//if ( attacker.IsValid() && attacker?.Network.OwnerId != Network.OwnerId && inflictor != default && attacker.GameObject.Root.Components.TryGet<PropHuntPawn>( out var pawn ) && attacker.Network.OwnerId == Connection.Local.Id )
-		//	SoundExtensions.FollowSound( SoundExtensions.RandomSoundFromFolder( pawn?.KillFolder ), attacker?.GameObject, attacker?.Network.OwnerId.ToString(), "LocalTaunt" );
+		
 
 		Scene.Dispatch( new KillEvent( damageInfo ) );
 

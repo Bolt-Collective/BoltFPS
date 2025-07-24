@@ -55,7 +55,14 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 
 		channel.CanRefreshObjects = true;
 
-		client.Respawn( channel );
+		if ( PlayerPrefab.IsValid() )
+		{
+			client.Respawn( channel, PlayerPrefab );
+		}
+		else
+		{
+			client.Respawn( channel );
+		}
 	}
 
 	protected override async Task OnLoad()
