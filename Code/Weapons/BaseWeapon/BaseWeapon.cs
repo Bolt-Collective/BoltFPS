@@ -240,6 +240,23 @@ public partial class BaseWeapon : Component
 		Owner?.Renderer?.Set( "holdtype", (int)HoldType );
 		Owner?.Renderer?.Set( "holdtype_handedness", (int)Handedness );
 
+		// TODO: only handle viewmodel visibility if this is the local pawn OR the spectated pawn
+		if (ShouldUpdateViewModel())
+		{
+			if (ViewModel.IsValid())
+			{
+				ViewModel.GameObject.Enabled = !(Owner?.Controller?.BodyVisible ?? true);
+				if (ForceDisableViewmodel)
+					ViewModel.GameObject.Enabled = false;
+			}
+		}
+		else
+		{
+			// hide viewmodels for everyone else to prevent floating arms
+			if (ViewModel.IsValid())
+				ViewModel.GameObject.Enabled = false;
+		}
+		
 		if ( ViewModel.IsValid() )
 		{
 			ViewModel.GameObject.Enabled = !(Owner?.Controller?.BodyVisible ?? true);
@@ -264,6 +281,18 @@ public partial class BaseWeapon : Component
 			Owner.Controller.CameraMode.Equals( PlayerWalkControllerComplex.CameraModes.ThirdPerson ) );
 
 		OnControl();
+	}
+	
+	private bool ShouldUpdateViewModel()
+	{
+		if (!Owner.IsValid())
+			return false;
+
+		if (Owner.IsMe)
+			return true;
+
+		var spectatedPawn = Scene.GetAll<SpectatorPawn>().FirstOrDefault(x => x.SpectatedClient.TryGetPawn( out Pawn pawn ));
+		return spectatedPawn == Owner;
 	}
 
 	public virtual void OnControl()
