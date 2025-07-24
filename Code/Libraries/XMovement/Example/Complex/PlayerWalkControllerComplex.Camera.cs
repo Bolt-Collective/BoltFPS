@@ -35,6 +35,7 @@ public partial class PlayerWalkControllerComplex : Component
 	public ScreenShaker ScreenShaker { get; set; }
 
 	public bool Spectating;
+	public bool Orbiting;
 
 	public virtual void OnCameraModeChanged() { }
 	public void SetupCamera()
@@ -90,7 +91,7 @@ public partial class PlayerWalkControllerComplex : Component
 	public bool BodyVisible;
 	public void UpdateBodyVisibility()
 	{
-		if ( IsProxy && !Spectating )
+		if ( IsProxy && Orbiting )
 		{
 			BodyVisible = true;
 			foreach ( var mdlrenderer in Body.Components.GetAll<ModelRenderer>( FindMode.EverythingInSelfAndChildren ) )
