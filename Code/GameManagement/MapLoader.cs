@@ -171,8 +171,32 @@ public partial class MapLoader : MapInstance
 		if ( kv.TypeName == "prop_physics" && Game.IsPlaying )
 		{
 			go.Components.Create<DestroyOnMapCleanup>();
-			go.SetParent( Scene );
 			go.NetworkSpawn( null );
 		}
+	}
+	
+	[ConCmd("changemap")]
+	private static void ChangeMapCmd( string map )
+	{
+		if ( string.IsNullOrWhiteSpace( map ) )
+		{
+			Log.Error( "Map name cannot be empty." );
+			return;
+		}
+
+		if ( Instance == null )
+		{
+			Log.Error( "MapLoader instance is not available." );
+			return;
+		}
+
+		if ( Instance.ClientIsLoadingMap )
+		{
+			Log.Warning( "Already loading a map, please wait." );
+			return;
+		}
+
+		ChangeMap( map );
+		Instance.Cleanup();
 	}
 }
