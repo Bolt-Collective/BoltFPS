@@ -35,11 +35,12 @@ background: linear-gradient(0deg, #C97D37 0%, #a36d38 100%)">
 					<div class="weaponlist">
 						@foreach ( var weapon in catagory.Weapons )
 						{
+							// TODO: Do team-specific weapon categories, maybe like a Team property.
 							<button class="weapon-option @( IsSelected( weapon.DisplayName, catagory.SelectedWeapons ) )"
 							        onclick=@( () => catagory.Select( weapon.DisplayName ) )>
 								<img src="@weapon.Icon"/>
 								<h5>@weapon.DisplayName</h5>
-								<p>@weapon.DisplayName</p>
+								<p>@weapon.Description</p>
 							</button>
 						}
 					</div>
