@@ -91,7 +91,7 @@ public partial class PlayerWalkControllerComplex : Component
 	public bool BodyVisible;
 	public void UpdateBodyVisibility()
 	{
-		if ( IsProxy && Orbiting )
+		if ( IsProxy && !Spectating || Orbiting )
 		{
 			BodyVisible = true;
 			foreach ( var mdlrenderer in Body.Components.GetAll<ModelRenderer>( FindMode.EverythingInSelfAndChildren ) )
