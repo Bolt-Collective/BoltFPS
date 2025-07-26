@@ -190,10 +190,10 @@ public partial class Client : ShrimplePawns.Client
 
 		pawn.WorldPosition =
 			randomSpawnPoint.WorldPosition + Vector3.Up * 10; // Offset to avoid clipping into the ground
-		
-		if (!pawn.Controller.IsValid())
+
+		if ( !pawn.Controller.IsValid() )
 			return;
-		
+
 		pawn.Controller.EyeAngles = randomSpawnPoint.WorldRotation.Angles();
 	}
 }

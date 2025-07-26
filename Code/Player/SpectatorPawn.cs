@@ -9,7 +9,7 @@ public sealed class SpectatorPawn : Pawn
 	[Property] public SpectateState State { get; set; }
 	[Property] public CameraComponent Camera { get; set; }
 
-	public Client SpectatedClient { get; set; }
+	public Pawn SpectatedPawn { get; set; }
 
 	public bool Orbiting = false;
 
@@ -51,12 +51,13 @@ public sealed class SpectatorPawn : Pawn
 		if ( Input.Pressed( "attack1" ) )
 		{
 			SpectateNextPlayer();
-		} else if ( Input.Pressed( "attack2" ) )
+		}
+		else if ( Input.Pressed( "attack2" ) )
 		{
 			SpectateNextPlayer( true );
 		}
-		
-		if (Orbiting)
+
+		if ( Orbiting )
 		{
 			OrbitSpectate();
 		}
@@ -65,10 +66,10 @@ public sealed class SpectatorPawn : Pawn
 		Camera.FieldOfView = Screen.CreateVerticalFieldOfView( Preferences.FieldOfView, 9.0f / 16.0f );
 	}
 
-	void SpectateNextPlayer(bool reverse = false)
+	void SpectateNextPlayer( bool reverse = false )
 	{
-		var allClients = Game.ActiveScene.GetAllComponents<Client>()
-			.Where( x => x.Connection != Connection.Local && x.Team != TeamManager.SpectatorsTeam && !x.GetPawn<Pawn>().IsDead )
+		var allClients = Game.ActiveScene.GetAllComponents<Pawn>()
+			.Where( x => x.Network.Owner != Connection.Local && x.Team != TeamManager.SpectatorsTeam && !x.IsDead )
 			.ToList();
 
 		if ( allClients.Count == 0 )
@@ -76,19 +77,19 @@ public sealed class SpectatorPawn : Pawn
 
 		int currentPlayerIndex = 0;
 
-		if ( SpectatedClient.IsValid() )
+		if ( SpectatedPawn.IsValid() )
 		{
-			var index = allClients.IndexOf( SpectatedClient );
+			var index = allClients.IndexOf( SpectatedPawn );
 			if ( index != -1 )
 			{
 				currentPlayerIndex = index;
 			}
 		}
 
-		if (reverse)
+		if ( reverse )
 		{
 			currentPlayerIndex--;
-			if (currentPlayerIndex < 0)
+			if ( currentPlayerIndex < 0 )
 			{
 				currentPlayerIndex = allClients.Count - 1;
 			}
@@ -96,13 +97,13 @@ public sealed class SpectatorPawn : Pawn
 		else
 		{
 			currentPlayerIndex++;
-			if (currentPlayerIndex >= allClients.Count)
+			if ( currentPlayerIndex >= allClients.Count )
 			{
 				currentPlayerIndex = 0;
 			}
 		}
 
-		SpectatedClient = allClients[currentPlayerIndex];
+		SpectatedPawn = allClients[currentPlayerIndex];
 		State = SpectateState.Player;
 	}
 
@@ -121,31 +122,29 @@ public sealed class SpectatorPawn : Pawn
 
 	void PlayerSpectate()
 	{
-		if ( !SpectatedClient.IsValid() || Input.Pressed( "jump" ) )
+		if ( !SpectatedPawn.IsValid() || Input.Pressed( "jump" ) )
 		{
 			State = SpectateState.Free;
 			return;
 		}
 
-		if ( !SpectatedClient.CameraObject.IsValid() )
+		if ( !SpectatedPawn.Controller.Camera.IsValid() )
 			return;
 
-		WorldPosition = SpectatedClient.CameraObject.WorldPosition;
-
-		WorldRotation = SpectatedClient.CameraObject.WorldRotation;
+		WorldPosition = SpectatedPawn.Controller.Camera.WorldPosition;
+		WorldRotation = SpectatedPawn.Controller.Camera.WorldRotation;
 	}
 
 	void OrbitSpectate()
 	{
-		if ( !SpectatedClient.IsValid() || !SpectatedClient.CameraObject.IsValid() )
+		if ( !SpectatedPawn.IsValid() || !SpectatedPawn.Controller.Camera.IsValid() )
 		{
 			State = SpectateState.Free;
 			return;
 		}
 
-		var spectatedPawn = SpectatedClient.GetPawn<Pawn>();
-		var focusPoint = spectatedPawn.Controller.Head.WorldPosition;
-		
+		var focusPoint = SpectatedPawn.Controller.Head.WorldPosition;
+
 
 		orbitAngles.pitch += -Input.AnalogLook.pitch;
 		orbitAngles.yaw += Input.AnalogLook.yaw;
