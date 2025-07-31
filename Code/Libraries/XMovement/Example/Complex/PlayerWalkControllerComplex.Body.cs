@@ -1,12 +1,13 @@
 ﻿using Sandbox;
 using Sandbox.Citizen;
+
 namespace XMovement;
 
 public partial class PlayerWalkControllerComplex : Component
 {
 	[Property, Group( "Body" )] public GameObject Body { get; set; }
 	[Property, Group( "Body" )] public SkinnedModelRenderer BodyModelRenderer { get; set; }
-	[RequireComponent] public CitizenAnimationHelper AnimationHelper { get; set; }
+	[RequireComponent] public AnimationHelper AnimationHelper { get; set; }
 
 	protected void SetupBody()
 	{
@@ -17,6 +18,7 @@ public partial class PlayerWalkControllerComplex : Component
 			Body.LocalPosition = Vector3.Zero;
 			Body.Name = "Body";
 		}
+
 		if ( !BodyModelRenderer.IsValid() )
 		{
 			BodyModelRenderer = Body.AddComponent<SkinnedModelRenderer>();
@@ -24,6 +26,7 @@ public partial class PlayerWalkControllerComplex : Component
 			AnimationHelper.Target = BodyModelRenderer;
 		}
 	}
+
 	[Property, Group( "Animator" )] public float RotationAngleLimit { get; set; } = 45.0f;
 	[Property, Group( "Animator" )] public float RotationSpeed { get; set; } = 1.0f;
 	[Property, Group( "Animator" )] public bool RotationFaceLadders { get; set; } = true;
@@ -34,9 +37,11 @@ public partial class PlayerWalkControllerComplex : Component
 	{
 		if ( IsTouchingLadder && RotationFaceLadders )
 		{
-			Body.WorldRotation = Rotation.Lerp( Body.WorldRotation, Rotation.LookAt( LadderNormal * -1 ), Time.Delta * 5.0f );
+			Body.WorldRotation = Rotation.Lerp( Body.WorldRotation, Rotation.LookAt( LadderNormal * -1 ),
+				Time.Delta * 5.0f );
 			return;
 		}
+
 		var targetAngle = new Angles( 0, EyeAngles.yaw, 0 ).ToRotation();
 
 		var velocity = Controller.WishVelocity.WithZ( 0 );
@@ -62,7 +67,8 @@ public partial class PlayerWalkControllerComplex : Component
 
 		if ( velocity.Length > 10 )
 		{
-			var newRotation = Rotation.Slerp( BodyModelRenderer.WorldRotation, targetAngle, Time.Delta * 2.0f * RotationSpeed * velocity.Length.Remap( 0, 100 ) );
+			var newRotation = Rotation.Slerp( BodyModelRenderer.WorldRotation, targetAngle,
+				Time.Delta * 2.0f * RotationSpeed * velocity.Length.Remap( 0, 100 ) );
 
 			var a = newRotation.Angles();
 			var b = BodyModelRenderer.WorldRotation.Angles();
@@ -75,8 +81,13 @@ public partial class PlayerWalkControllerComplex : Component
 			BodyModelRenderer.WorldRotation = newRotation;
 		}
 	}
+
 	public virtual void Animate()
 	{
+		if ( !Controller.IsValid() )
+			return;
+		if ( !BodyModelRenderer.IsValid() )
+			return;
 		AnimationHelper.WithWishVelocity( Controller.WishVelocity );
 		AnimationHelper.WithVelocity( Controller.Velocity );
 
@@ -108,6 +119,7 @@ public partial class PlayerWalkControllerComplex : Component
 			AnimationHelper.MoveRotationSpeed = _animRotationSpeed * 5;
 			_animRotationSpeed = 0;
 		}
+
 		RotateBody();
 	}
 }
