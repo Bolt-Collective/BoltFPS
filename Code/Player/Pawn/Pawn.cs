@@ -145,7 +145,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 		{
 			var spectatorPawn = Local?.GetComponent<SpectatorPawn>();
 			Controller.Orbiting = spectatorPawn?.Orbiting ?? false;
-			if ( spectatorPawn?.SpectatedPawn == Owner.GetPawn<Pawn>() )
+			if ( Owner.GetPawn().IsValid() && spectatorPawn?.SpectatedPawn == Owner?.GetPawn() )
 				Controller.Spectating = true;
 		}
 		else
