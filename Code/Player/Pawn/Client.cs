@@ -189,7 +189,7 @@ public partial class Client : ShrimplePawns.Client
 			return;
 
 		pawn.WorldPosition =
-			randomSpawnPoint.WorldPosition + Vector3.Up * 10; // Offset to avoid clipping into the ground
+			randomSpawnPoint.WorldPosition + Vector3.Up * 5; // Offset to avoid clipping into the ground
 
 		if ( !pawn.Controller.IsValid() )
 			return;

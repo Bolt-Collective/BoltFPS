@@ -64,7 +64,7 @@ public partial class MapLoader : MapInstance
 			var randomSpawnPoint = Random.Shared.FromArray( spawnPoints );
 			if ( randomSpawnPoint is null ) continue;
 
-			player.WorldPosition = randomSpawnPoint.WorldPosition + Vector3.Up * 10;
+			player.WorldPosition = randomSpawnPoint.WorldPosition + Vector3.Up * 5;
 
 			if ( !player.Controller.IsValid() )
 				continue;
@@ -174,8 +174,8 @@ public partial class MapLoader : MapInstance
 			go.NetworkSpawn( null );
 		}
 	}
-	
-	[ConCmd("changemap")]
+
+	[ConCmd( "changemap" )]
 	private static void ChangeMapCmd( string map )
 	{
 		if ( string.IsNullOrWhiteSpace( map ) )
