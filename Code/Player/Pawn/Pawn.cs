@@ -137,6 +137,9 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 	protected override void OnUpdate()
 	{
+		if ( !Owner.IsValid() )
+			return;
+
 		Pickup();
 
 		ClippingPrevention();
@@ -145,6 +148,8 @@ public partial class Pawn : ShrimplePawns.Pawn
 		{
 			var spectatorPawn = Local?.GetComponent<SpectatorPawn>();
 			Controller.Orbiting = spectatorPawn?.Orbiting ?? false;
+
+
 			if ( Owner.GetPawn().IsValid() && spectatorPawn?.SpectatedPawn == Owner?.GetPawn() )
 				Controller.Spectating = true;
 		}
