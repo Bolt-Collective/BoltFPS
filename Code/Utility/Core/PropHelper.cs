@@ -14,9 +14,9 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	[Sync] public ModelPhysics ModelPhysics { get; set; }
 	[Sync] public Rigidbody Rigidbody { get; set; }
 
-	public List<FixedJoint> Welds { get; set; } = [];
-	public List<SpringJoint> Ropes { get; set; } = [];
-	public List<(GameObject to, Vector3 toPoint, Vector3 frompoint)> RopePoints { get; set; } = [];
+	//public List<FixedJoint> Welds { get; set; } = [];
+	//public List<SpringJoint> Ropes { get; set; } = [];
+	//public List<(GameObject to, Vector3 toPoint, Vector3 frompoint)> RopePoints { get; set; } = [];
 	public List<Joint> Joints { get; set; } = [];
 
 	private Vector3 lastPosition = Vector3.Zero;
@@ -241,119 +241,83 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		Sound.Play( path, position );
 	}
 
-	[Rpc.Broadcast]
-	public void Weld( GameObject to )
-	{
-		if ( IsProxy )
-			return;
+	//[Rpc.Broadcast]
+	//public void Rope( GameObject to, Vector3 fromPos, Vector3 toPos, float minLength = 0, float maxLength = 100, bool collision = true )
+	//{
+	//	if ( IsProxy )
+	//		return;
 
-		PropHelper propHelper = to.Components.Get<PropHelper>();
+	//	PropHelper propHelper = to.Components.Get<PropHelper>();
 
-		var fixedJoint = Components.Create<FixedJoint>();
-		fixedJoint.Body = to;
-		fixedJoint.LinearDamping = 0;
-		fixedJoint.LinearFrequency = 0;
-		fixedJoint.AngularDamping = 0;
-		fixedJoint.AngularFrequency = 0;
+	//	var point1Go = new GameObject();
+	//	point1Go.SetParent( GameObject );
+	//	point1Go.LocalPosition = fromPos;
+	//	point1Go.LocalRotation = Rotation.Identity;
 
-		Welds.Add( fixedJoint );
-		Joints.Add( fixedJoint );
-		propHelper?.Welds.Add( fixedJoint );
-		propHelper?.Joints.Add( fixedJoint );
-	}
+	//	var point2Go = new GameObject();
+	//	if ( !to.Tags.Contains( "map" ) )
+	//	{
+	//		point2Go.SetParent( to );
+	//	}
+	//	else
+	//	{
+	//		point2Go.AddComponent<Rigidbody>().MotionEnabled = false;
+	//	}
+	//	point2Go.LocalPosition = toPos;
+	//	point2Go.LocalRotation = Rotation.Identity;
 
-	[Rpc.Broadcast]
-	public void Unweld()
-	{
-		if ( IsProxy )
-			return;
+	//	var springJoint = point1Go.Components.Create<SpringJoint>();
+	//	springJoint.EnableCollision = collision;
+	//	springJoint.Body = point2Go;
+	//	springJoint.Attachment = Joint.AttachmentMode.LocalFrames;
+	//	springJoint.MinLength = minLength;
+	//	springJoint.MaxLength = maxLength;
 
-		foreach ( var weld in Welds )
-		{
-			weld?.Destroy();
-		}
+	//	Ropes?.Add( springJoint );
+	//	Joints?.Add( springJoint );
+	//	propHelper?.Ropes?.Add( springJoint );
+	//	propHelper?.Joints?.Add( springJoint );
+	//}
 
-		Welds.RemoveAll( item => !item.IsValid() );
-		Joints.RemoveAll( item => !item.IsValid() );
-	}
+	//[Rpc.Broadcast]
+	//public void SetRopePoints( List<GameObject> tos, List<Vector3> fromPoints, List<Vector3> toPoints )
+	//{
+	//	RopePoints = [];
 
-	[Rpc.Broadcast]
-	public void Rope( GameObject to, Vector3 fromPos, Vector3 toPos, float minLength = 0, float maxLength = 100, bool collision = true )
-	{
-		if ( IsProxy )
-			return;
+	//	for ( int i = 0; i < MathF.Min( tos.Count, fromPoints.Count ) && i < toPoints.Count; i++ )
+	//	{
+	//		RopePoints?.Add( (
+	//			tos[i],
+	//			fromPoints[i],
+	//			toPoints[i]
+	//		) );
+	//	}
+	//	;
+	//}
 
-		PropHelper propHelper = to.Components.Get<PropHelper>();
+	//[Rpc.Broadcast]
+	//public void Hinge( GameObject to, Vector3 position, Vector3 normal )
+	//{
+	//	if ( IsProxy )
+	//		return;
 
-		var point1Go = new GameObject();
-		point1Go.SetParent( GameObject );
-		point1Go.LocalPosition = fromPos;
-		point1Go.LocalRotation = Rotation.Identity;
+	//	if ( !to.IsValid() ) return;
 
-		var point2Go = new GameObject();
-		if ( !to.Tags.Contains( "map" ) )
-		{
-			point2Go.SetParent( to );
-		}
-		else
-		{
-			point2Go.AddComponent<Rigidbody>().MotionEnabled = false;
-		}
-		point2Go.LocalPosition = toPos;
-		point2Go.LocalRotation = Rotation.Identity;
+	//	PropHelper propHelper = to.Components.Get<PropHelper>();
 
-		var springJoint = point1Go.Components.Create<SpringJoint>();
-		springJoint.EnableCollision = collision;
-		springJoint.Body = point2Go;
-		springJoint.Attachment = Joint.AttachmentMode.LocalFrames;
-		springJoint.MinLength = minLength;
-		springJoint.MaxLength = maxLength;
+	//	var go = new GameObject
+	//	{
+	//		WorldPosition = position,
+	//		WorldRotation = Rotation.LookAt( Rotation.LookAt( normal ).Up )
+	//	};
 
-		Ropes?.Add( springJoint );
-		Joints?.Add( springJoint );
-		propHelper?.Ropes?.Add( springJoint );
-		propHelper?.Joints?.Add( springJoint );
-	}
+	//	go.SetParent( to );
 
-	[Rpc.Broadcast]
-	public void SetRopePoints( List<GameObject> tos, List<Vector3> fromPoints, List<Vector3> toPoints )
-	{
-		RopePoints = [];
+	//	var hingeJoint = go.Components.Create<HingeJoint>();
+	//	hingeJoint.Body = GameObject;
 
-		for ( int i = 0; i < MathF.Min( tos.Count, fromPoints.Count ) && i < toPoints.Count; i++ )
-		{
-			RopePoints?.Add( (
-				tos[i],
-				fromPoints[i],
-				toPoints[i]
-			) );
-		}
-		;
-	}
+	//	Joints?.Add( hingeJoint );
 
-	[Rpc.Broadcast]
-	public void Hinge( GameObject to, Vector3 position, Vector3 normal )
-	{
-		if ( IsProxy )
-			return;
-
-		if ( !to.IsValid() ) return;
-
-		PropHelper propHelper = to.Components.Get<PropHelper>();
-
-		var go = new GameObject
-		{
-			WorldPosition = position,
-			WorldRotation = Rotation.LookAt( Rotation.LookAt( normal ).Up )
-		};
-
-		go.SetParent( to );
-
-		var hingeJoint = go.Components.Create<HingeJoint>();
-		hingeJoint.Body = GameObject;
-
-		Joints?.Add( hingeJoint );
-
-		propHelper?.Joints?.Add( hingeJoint );
-	}
+	//	propHelper?.Joints?.Add( hingeJoint );
+	//}
 }

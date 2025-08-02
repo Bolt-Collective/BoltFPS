@@ -80,6 +80,7 @@ public partial class BaseWeapon : Component
 
 	[Property] public int Ammo { get; set; }
 	[Property] public int MaxAmmo { get; set; }
+	[Property] public bool Chamber { get; set; } = true;
 	[Property] public bool ShowAmmo { get; set; } = true;
 
 	[Property] public virtual float Spread { get; set; }
@@ -322,7 +323,8 @@ public partial class BaseWeapon : Component
 
 	public virtual void OnReloadFinish()
 	{
-		Ammo = Math.Clamp( Ammo + (MaxAmmo - 1), 0, MaxAmmo );
+		var add = Chamber ? (MaxAmmo - 1) : MaxAmmo;
+		Ammo = Math.Clamp( Ammo + add, 0, MaxAmmo );
 		IsReloading = false;
 	}
 
@@ -561,7 +563,7 @@ public partial class BaseWeapon : Component
 			if ( hitboxTags.Contains( HitboxTags.Head ) )
 				damage *= 2;
 
-			var calcForce = forward * 250000 * damage;
+			var calcForce = forward * 25000 * damage;
 
 			OnShootGameobject( tr.GameObject, damage );
 

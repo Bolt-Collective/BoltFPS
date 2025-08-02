@@ -278,14 +278,29 @@ public partial class Crosshair : Component
 
 	public static float CalculateCrosshairWidth( float spreadAngle, float verticalFov, float screenHeight )
 	{
+		float halfSpreadRad = MathX.DegreeToRadian( spreadAngle / 2 );
+		float halfFovRad = MathX.DegreeToRadian( verticalFov / 2 );
 
-		float halfSpreadRad = MathX.DegreeToRadian( (spreadAngle / 2) );
-		float halfFovRad = MathX.DegreeToRadian( (verticalFov / 2) );
-
+		// Distance from camera to crosshair plane (based on screen height and FOV)
 		float screenDistance = (screenHeight / 2) / MathF.Tan( halfFovRad );
 
+		// Base crosshair width (assuming first-person)
 		float crosshairWidth = 2 * (MathF.Tan( halfSpreadRad ) * screenDistance);
+
+		var pawn = Pawn.Local;
+
+		if ( pawn.IsValid() && pawn.Controller.CameraMode == XMovement.PlayerWalkControllerComplex.CameraModes.ThirdPerson )
+		{
+			float thirdPersonOffsetX = pawn.Controller.ThirdPersonOffset.x;
+
+			float screenOffset = MathF.Abs( thirdPersonOffsetX ) * screenHeight / (screenHeight * 2 * screenDistance);
+
+			Log.Info( crosshairWidth - screenOffset );
+
+			crosshairWidth = MathF.Max( 0, crosshairWidth - screenOffset );
+		}
 
 		return crosshairWidth;
 	}
+
 }

@@ -33,7 +33,7 @@ public partial class PhysGun
 	{
 		if ( gameObject.IsValid() )
 		{
-			foreach ( var child in gameObject.Children )
+			foreach ( var child in gameObject.Root.Children )
 			{
 				if ( !child.Components.Get<ModelRenderer>().IsValid() )
 					continue;
@@ -44,7 +44,7 @@ public partial class PhysGun
 				}
 			}
 
-			if ( gameObject.Components.TryGet<HighlightOutline>( out var glow ) )
+			if ( gameObject.Root.Components.TryGet<HighlightOutline>( out var glow ) )
 			{
 				glow.Destroy();
 			}
@@ -101,16 +101,16 @@ public partial class PhysGun
 			endNoHit?.Destroy();
 			endNoHit = null;
 
-			if ( GrabbedObject.GetComponent<ModelRenderer>().IsValid() )
+			if ( GrabbedObject.Root.GetComponent<ModelRenderer>().IsValid() )
 			{
 				lastGrabbedObject = GrabbedObject;
 
-				var glow = GrabbedObject.GetOrAddComponent<HighlightOutline>();
+				var glow = GrabbedObject.Root.GetOrAddComponent<HighlightOutline>();
 				glow.Width = 0.25f;
 				glow.Color = new Color( 4f, 50.0f, 70.0f, 1.0f );
 				glow.ObscuredColor = new Color( 4f, 50.0f, 70.0f, 0.0005f );
 
-				foreach ( var child in lastGrabbedObject.Children )
+				foreach ( var child in lastGrabbedObject.Root.Children )
 				{
 					if ( !child.GetComponent<ModelRenderer>().IsValid() )
 						continue;
@@ -146,6 +146,12 @@ public partial class PhysGun
 	private GameObject noHitPrefab => GameObject.GetPrefab( "particles/physgun_end_nohit.prefab" );
 	private GameObject beamPrefab => GameObject.GetPrefab( "particles/physgun_beam.prefab" );
 	private GameObject freezePrefab => null;
+
+	protected override void OnDisabled()
+	{
+		base.OnDisabled();
+		KillEffects();
+	}
 
 	protected override void OnDestroy()
 	{

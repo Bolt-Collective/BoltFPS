@@ -1,6 +1,7 @@
 {
   "DisplayName": "SMG",
-  "Icon": "icons/weapons/guns/mp5_01.png",
+  "Icon": "icons/weapons/rust/rustsmg.png",
+  "Description": "An item.",
   "Details": "weapons/rust_smg/w_rust_smg.prefab",
   "__references": [],
   "__version": 0

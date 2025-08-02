@@ -1,13 +1,23 @@
 {
   "RootObject": {
     "__guid": "66b118fb-5b51-4d93-bce3-b0ca07549a96",
+    "__version": 1,
     "Flags": 0,
     "Name": "w_crowbar",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
     "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
     "Components": [
       {
         "__type": "Seekers.BasicMelee",
         "__guid": "87bbc1fc-5b23-4a84-a84a-e7cf0ef94fb4",
+        "__enabled": true,
         "Ammo": 1,
         "BoneOffset": {
           "Position": "0,0,0",
@@ -20,6 +30,7 @@
         "Handedness": "Right",
         "HoldType": "Swing",
         "Icon": null,
+        "ItemResource": null,
         "LeftIK": {
           "Active": true,
           "GameObject": null,
@@ -44,6 +55,7 @@
         "ShootSound": "sounds/guns/knife/knife.swing.sound",
         "ShowAmmo": false,
         "Spread": 0,
+        "TracerEffect": null,
         "ViewModelPrefab": {
           "_type": "gameobject",
           "prefab": "weapons/crowbar/v_crowbar.prefab"
@@ -52,6 +64,7 @@
       {
         "__type": "Sandbox.SkinnedModelRenderer",
         "__guid": "0f2b86d8-118c-410d-9d81-089ef012046e",
+        "__enabled": true,
         "AnimationGraph": null,
         "BodyGroups": 18446744073709551615,
         "BoneMergeTarget": null,
@@ -59,6 +72,7 @@
         "CreateBoneObjects": false,
         "MaterialGroup": null,
         "MaterialOverride": null,
+        "Materials": null,
         "Model": "models/weapons/sbox_melee_crowbar/w_crowbar.vmdl",
         "Morphs": {},
         "OnComponentDestroy": null,
@@ -83,7 +97,9 @@
         },
         "RenderType": "On",
         "Sequence": {
-          "Name": null
+          "Name": null,
+          "Looping": true,
+          "Blending": false
         },
         "Tint": "1,1,1,1",
         "UseAnimGraph": true
@@ -92,45 +108,137 @@
     "Children": [
       {
         "__guid": "54f0cc16-647b-419d-8324-0b45b97b4d89",
-        "Flags": 0,
-        "Name": "muzzle",
-        "Position": "5000,5000,5000",
-        "Tags": "particles",
-        "Enabled": true,
+        "__version": 1,
         "__Prefab": "weapons/common/effects/muzzle.prefab",
-        "__PrefabVariables": {}
+        "__PrefabInstancePatch": {
+          "AddedObjects": [],
+          "RemovedObjects": [],
+          "PropertyOverrides": [
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "Position",
+              "Value": "5000,5000,5000"
+            },
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "NetworkInterpolation",
+              "Value": false
+            }
+          ],
+          "MovedObjects": []
+        },
+        "__PrefabIdToInstanceId": {
+          "58e7d3cd-b650-4d5b-9fda-b145dc107cb0": "54f0cc16-647b-419d-8324-0b45b97b4d89",
+          "a70cbe64-75ac-410d-9a51-4047cb408c3b": "73fee36f-11d2-4ef5-9616-cab262ec0a0c",
+          "883fb5c6-fa9e-4821-a15d-d53a4cd80596": "77e44c29-8acd-40b3-b77e-c95de4934427",
+          "b3eb45d5-db39-4555-8dad-4434dcf158c6": "4e803245-bc8a-4ff3-befe-7da85bb68557",
+          "7e3613e2-4a23-4a58-80b6-d22e955fba38": "81f8d7d7-0d6a-45e8-820e-04d560deef81",
+          "3ff82be0-d21d-48c3-9caf-66e6b9285ece": "20c51505-5128-4f56-8032-e49c9723e23a",
+          "904e51f5-7cfc-4a94-90e4-71fc7ace52e6": "f51cc124-112d-4b86-915a-795e8e434884",
+          "680450bf-14d4-4529-91c6-624b22343625": "99c4fe60-6449-4d4d-9424-69db2fe4ea53",
+          "baa9f222-142f-48b8-892a-e0aaff2b5fda": "9b7a899b-081c-46ee-94c3-827b42978d83",
+          "eebd05d9-e86c-4f4a-8ffd-62c90b935097": "deab938f-42c8-4f97-8de5-d90b05e46679"
+        }
       },
       {
         "__guid": "c1725549-8323-480d-8e81-0c21d415b993",
-        "Flags": 0,
-        "Name": "muzzle",
-        "Position": "5000,5000,5000",
-        "Tags": "particles",
-        "Enabled": true,
+        "__version": 1,
         "__Prefab": "weapons/common/effects/muzzle.prefab",
-        "__PrefabVariables": {}
+        "__PrefabInstancePatch": {
+          "AddedObjects": [],
+          "RemovedObjects": [],
+          "PropertyOverrides": [
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "Position",
+              "Value": "5000,5000,5000"
+            },
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "NetworkInterpolation",
+              "Value": false
+            }
+          ],
+          "MovedObjects": []
+        },
+        "__PrefabIdToInstanceId": {
+          "58e7d3cd-b650-4d5b-9fda-b145dc107cb0": "c1725549-8323-480d-8e81-0c21d415b993",
+          "a70cbe64-75ac-410d-9a51-4047cb408c3b": "a133428c-a896-47ee-8848-f80f1cef7dee",
+          "883fb5c6-fa9e-4821-a15d-d53a4cd80596": "90321479-5e1b-4524-901a-d0a0043acf10",
+          "b3eb45d5-db39-4555-8dad-4434dcf158c6": "4f2d3c7e-becc-46e7-bae5-75c3581ddae2",
+          "7e3613e2-4a23-4a58-80b6-d22e955fba38": "58a0bcd5-5f3b-48f8-bd47-3078bd3ea024",
+          "3ff82be0-d21d-48c3-9caf-66e6b9285ece": "abbba007-77f2-4f67-bff9-64ebd74a3676",
+          "904e51f5-7cfc-4a94-90e4-71fc7ace52e6": "ea3b5bbf-be08-4b5d-be2f-69952b8ad770",
+          "680450bf-14d4-4529-91c6-624b22343625": "0219f5d9-d890-4653-8d5e-127131b33383",
+          "baa9f222-142f-48b8-892a-e0aaff2b5fda": "ac1ce8e9-1b50-4264-8ada-ca9770a537da",
+          "eebd05d9-e86c-4f4a-8ffd-62c90b935097": "279a018f-bc59-49cc-a634-1e3fcf554bb9"
+        }
       },
       {
         "__guid": "ad29ab11-bf25-4a63-924f-a167dada9f20",
-        "Flags": 0,
-        "Name": "muzzle (1)",
-        "Position": "5000,5000,5000",
-        "Tags": "particles",
-        "Enabled": true,
+        "__version": 1,
         "__Prefab": "weapons/common/effects/muzzle.prefab",
-        "__PrefabVariables": {}
+        "__PrefabInstancePatch": {
+          "AddedObjects": [],
+          "RemovedObjects": [],
+          "PropertyOverrides": [
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "Name",
+              "Value": "muzzle (1)"
+            },
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "Position",
+              "Value": "5000,5000,5000"
+            },
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "NetworkInterpolation",
+              "Value": false
+            }
+          ],
+          "MovedObjects": []
+        },
+        "__PrefabIdToInstanceId": {
+          "58e7d3cd-b650-4d5b-9fda-b145dc107cb0": "ad29ab11-bf25-4a63-924f-a167dada9f20",
+          "a70cbe64-75ac-410d-9a51-4047cb408c3b": "66503d68-9263-47f7-8e39-f829a06ee2eb",
+          "883fb5c6-fa9e-4821-a15d-d53a4cd80596": "0b2e8e17-9e55-4a1d-940f-d13c083b6746",
+          "b3eb45d5-db39-4555-8dad-4434dcf158c6": "2becb173-49c3-41ab-9d7b-42bf29c082ca",
+          "7e3613e2-4a23-4a58-80b6-d22e955fba38": "e6b9f025-4b74-459c-8501-4ddb0f154c9f",
+          "3ff82be0-d21d-48c3-9caf-66e6b9285ece": "73d47481-d360-42fc-ae34-3072e56d5925",
+          "904e51f5-7cfc-4a94-90e4-71fc7ace52e6": "a46ead01-2832-48db-831b-9660e7e91a5f",
+          "680450bf-14d4-4529-91c6-624b22343625": "45a05517-5560-4f1d-a3c4-b0c7267892c6",
+          "baa9f222-142f-48b8-892a-e0aaff2b5fda": "35775adb-9088-4a16-b588-28988b17344c",
+          "eebd05d9-e86c-4f4a-8ffd-62c90b935097": "c001b579-a7f4-428b-becf-9668784162d5"
+        }
       }
     ],
-    "__variables": [],
     "__properties": {
-      "FixedUpdateFrequency": 50,
-      "MaxFixedUpdates": 5,
-      "NetworkFrequency": 30,
       "NetworkInterpolation": true,
-      "PhysicsSubSteps": 1,
-      "ThreadedAnimation": true,
       "TimeScale": 1,
-      "UseFixedUpdate": true,
+      "WantsSystemScene": true,
       "Metadata": {},
       "NavMesh": {
         "Enabled": false,
@@ -144,15 +252,16 @@
         "ExcludedBodies": "",
         "IncludedBodies": ""
       }
-    }
+    },
+    "__variables": []
   },
+  "ResourceVersion": 2,
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "ResourceVersion": 1,
   "__references": [
     "facepunch.w_crowbar#38177"
   ],
-  "__version": 1
+  "__version": 2
 }

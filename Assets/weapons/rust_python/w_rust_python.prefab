@@ -1,26 +1,37 @@
 {
   "RootObject": {
     "__guid": "eccd8528-3b35-4c82-81c8-81e7d8ca28c4",
+    "__version": 1,
     "Flags": 0,
     "Name": "w_rust_python",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
     "Tags": "item,weapon",
     "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
     "Components": [
       {
         "__type": "Seekers.Pistol",
         "__guid": "abb9f231-0776-4973-95c6-0a95fcf36de3",
+        "__enabled": true,
         "Ammo": 6,
         "BoneOffset": {
           "Position": "2.7735,0,-4.794",
           "Scale": "1,1,1",
           "Rotation": "0,0,0,1"
         },
+        "Chamber": false,
         "CrosshairType": "Default",
         "Damage": 35,
         "DeploySound": "sounds/weapons/switch/switch_2.sound",
         "Handedness": "Right",
         "HoldType": "Pistol",
-        "Icon": "icons/weapons/guns/usp_01.png",
+        "Icon": "icons/weapons/rust/rustpython.png",
+        "ItemResource": null,
         "LeftIK": {
           "Active": true,
           "GameObject": null,
@@ -50,6 +61,7 @@
         "ShootSound": "sounds/guns/revolver/revolver_shoot.sound",
         "ShowAmmo": true,
         "Spread": 0,
+        "TracerEffect": null,
         "ViewModelPrefab": {
           "_type": "gameobject",
           "prefab": "weapons/rust_python/v_rust_python.prefab"
@@ -59,36 +71,103 @@
     "Children": [
       {
         "__guid": "795877a2-2aa0-4bb3-917f-51fcfca3cd76",
-        "Flags": 0,
-        "Name": "muzzle",
-        "Position": "5000,5000,5000",
-        "Tags": "particles",
-        "Enabled": true,
+        "__version": 1,
         "__Prefab": "weapons/common/effects/muzzle.prefab",
-        "__PrefabVariables": {}
+        "__PrefabInstancePatch": {
+          "AddedObjects": [],
+          "RemovedObjects": [],
+          "PropertyOverrides": [
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "Position",
+              "Value": "5000,5000,5000"
+            },
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "NetworkInterpolation",
+              "Value": false
+            }
+          ],
+          "MovedObjects": []
+        },
+        "__PrefabIdToInstanceId": {
+          "58e7d3cd-b650-4d5b-9fda-b145dc107cb0": "795877a2-2aa0-4bb3-917f-51fcfca3cd76",
+          "a70cbe64-75ac-410d-9a51-4047cb408c3b": "02672697-c37f-45a0-abc6-4bde63ffc5be",
+          "883fb5c6-fa9e-4821-a15d-d53a4cd80596": "7592c1ca-54c8-4949-9756-9895fc6d7b70",
+          "b3eb45d5-db39-4555-8dad-4434dcf158c6": "ed61df18-cc0d-40e1-b1f7-e45882c1eb4e",
+          "7e3613e2-4a23-4a58-80b6-d22e955fba38": "c9b60782-d3c9-400c-bd64-3857a7a22812",
+          "3ff82be0-d21d-48c3-9caf-66e6b9285ece": "4fe27a2d-22ae-4bd5-95de-3ac1f501b013",
+          "904e51f5-7cfc-4a94-90e4-71fc7ace52e6": "4f2ee1f0-aae9-4f7f-a056-d1b8bd8925f2",
+          "680450bf-14d4-4529-91c6-624b22343625": "7c24d2ca-fd7d-4616-95ab-430754674f52",
+          "baa9f222-142f-48b8-892a-e0aaff2b5fda": "d0769280-c1d2-4d62-b89e-4b3f7b51a645",
+          "eebd05d9-e86c-4f4a-8ffd-62c90b935097": "3bc4a5ac-86b4-44df-879a-457604294ab9"
+        }
       },
       {
         "__guid": "20f29ef5-b471-4b83-a426-a21081d2fe54",
-        "Flags": 0,
-        "Name": "muzzle",
-        "Position": "5000,5000,5000",
-        "Tags": "particles",
-        "Enabled": true,
+        "__version": 1,
         "__Prefab": "weapons/common/effects/muzzle.prefab",
-        "__PrefabVariables": {}
+        "__PrefabInstancePatch": {
+          "AddedObjects": [],
+          "RemovedObjects": [],
+          "PropertyOverrides": [
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "Position",
+              "Value": "5000,5000,5000"
+            },
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "NetworkInterpolation",
+              "Value": false
+            }
+          ],
+          "MovedObjects": []
+        },
+        "__PrefabIdToInstanceId": {
+          "58e7d3cd-b650-4d5b-9fda-b145dc107cb0": "20f29ef5-b471-4b83-a426-a21081d2fe54",
+          "a70cbe64-75ac-410d-9a51-4047cb408c3b": "9582da9a-421c-4e89-8c6b-85e90c8659a4",
+          "883fb5c6-fa9e-4821-a15d-d53a4cd80596": "931cce8e-1a38-45e8-85e8-ea3a466460e7",
+          "b3eb45d5-db39-4555-8dad-4434dcf158c6": "9c98ad25-3038-41fc-8a9b-eff8d1d6b0b1",
+          "7e3613e2-4a23-4a58-80b6-d22e955fba38": "ce20eb35-5f8b-4560-9a83-5da1a892a132",
+          "3ff82be0-d21d-48c3-9caf-66e6b9285ece": "132215ee-4321-4fed-8361-439133cbdb7d",
+          "904e51f5-7cfc-4a94-90e4-71fc7ace52e6": "e1d1ab50-3f94-44ef-acf3-ef801e6befb8",
+          "680450bf-14d4-4529-91c6-624b22343625": "444b06df-419e-489a-bb6a-cb185c591736",
+          "baa9f222-142f-48b8-892a-e0aaff2b5fda": "4404c183-10e9-4a34-9f5e-9dd4a34b68aa",
+          "eebd05d9-e86c-4f4a-8ffd-62c90b935097": "f08d0411-00e2-438a-8032-bef969c34b0c"
+        }
       },
       {
         "__guid": "9aa96ce8-1b9c-45a2-afb6-b0dc6c271685",
+        "__version": 1,
         "Flags": 0,
         "Name": "Model",
         "Position": "-0.003046989,-0.02934529,4.48695",
         "Rotation": "-0.00000002607706,-0.000000339397,-0.0000002257278,0.9999977",
         "Scale": "0.3794387,0.3794387,0.3794387",
+        "Tags": "",
         "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
         "Components": [
           {
             "__type": "Sandbox.SkinnedModelRenderer",
             "__guid": "236b1467-27ee-4305-b074-657d3b39b1db",
+            "__enabled": true,
             "AnimationGraph": null,
             "BodyGroups": 18446744073709551615,
             "BoneMergeTarget": null,
@@ -96,6 +175,7 @@
             "CreateBoneObjects": false,
             "MaterialGroup": null,
             "MaterialOverride": null,
+            "Materials": null,
             "Model": "weapons/rust_python/w_python.vmdl",
             "Morphs": {},
             "OnComponentDestroy": null,
@@ -120,31 +200,38 @@
             },
             "RenderType": "On",
             "Sequence": {
-              "Name": null
+              "Name": null,
+              "Looping": true,
+              "Blending": false
             },
             "Tint": "1,1,1,1",
             "UseAnimGraph": true
           }
-        ]
+        ],
+        "Children": []
       },
       {
         "__guid": "9dc98730-2197-429a-93fc-17b9616d6cad",
+        "__version": 1,
         "Flags": 0,
         "Name": "Muzzle",
         "Position": "5.75,0,7.45",
-        "Enabled": true
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": []
       }
     ],
-    "__variables": [],
     "__properties": {
-      "FixedUpdateFrequency": 50,
-      "MaxFixedUpdates": 5,
-      "NetworkFrequency": 30,
       "NetworkInterpolation": true,
-      "PhysicsSubSteps": 1,
-      "ThreadedAnimation": true,
       "TimeScale": 1,
-      "UseFixedUpdate": true,
+      "WantsSystemScene": true,
       "Metadata": {},
       "NavMesh": {
         "Enabled": false,
@@ -158,15 +245,16 @@
         "ExcludedBodies": "",
         "IncludedBodies": ""
       }
-    }
+    },
+    "__variables": []
   },
+  "ResourceVersion": 2,
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "ResourceVersion": 1,
   "__references": [
     "rust.wpython#76233"
   ],
-  "__version": 1
+  "__version": 2
 }

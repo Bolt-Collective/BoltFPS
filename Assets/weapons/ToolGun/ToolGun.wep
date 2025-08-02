@@ -1,8 +1,8 @@
 {
-  "DisplayName": "Physics Manipulator",
+  "DisplayName": "Tool Gun",
   "Icon": "icons/weapons/guns/usp_01.png",
   "Description": "",
-  "Details": "weapons/physgun/w_physgun.prefab",
+  "Details": "weapons/toolgun/w_toolgun.prefab",
   "__references": [],
   "__version": 0
 }
