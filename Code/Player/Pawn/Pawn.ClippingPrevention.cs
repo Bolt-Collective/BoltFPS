@@ -1,4 +1,6 @@
-﻿namespace Seekers;
+﻿using BoltFPS;
+
+namespace Seekers;
 
 public partial class Pawn : ShrimplePawns.Pawn
 {
@@ -7,10 +9,12 @@ public partial class Pawn : ShrimplePawns.Pawn
 		var pos = startPosition;
 		var delta = targetPosition - pos;
 
-		var mover = new CharacterControllerHelper( Controller.Controller.BuildTrace( pos, pos, 0, 0.8f ).WithoutTags( WithoutTags ), pos, delta )
-		{
-			MaxStandableAngle = Controller.Controller.GroundAngle
-		};
+		var mover =
+			new CharacterControllerHelper(
+				Controller.Controller.BuildTrace( pos, pos, 0, 0.8f ).WithoutTags( WithoutTags ), pos, delta )
+			{
+				MaxStandableAngle = Controller.Controller.GroundAngle
+			};
 
 		mover.TryMove( 1f );
 
@@ -35,11 +39,14 @@ public partial class Pawn : ShrimplePawns.Pawn
 			worldCheckSet = true;
 		}
 
-		if ( (UnStuckTime > 1 && TimeSinceClipPrevention > 1) && Controller.Controller.IgnoreLayers.ToList().Contains( "worldprop" ) )
+		if ( (UnStuckTime > 1 && TimeSinceClipPrevention > 1) &&
+		     Controller.Controller.IgnoreLayers.ToList().Contains( "worldprop" ) )
 		{
 			Controller.Controller.IgnoreLayers.Remove( "worldprop" );
 		}
-		if ( (UnStuckTime <= 1 || TimeSinceClipPrevention <= 1) && !Controller.Controller.IgnoreLayers.Contains( "worldprop" ) )
+
+		if ( (UnStuckTime <= 1 || TimeSinceClipPrevention <= 1) &&
+		     !Controller.Controller.IgnoreLayers.Contains( "worldprop" ) )
 		{
 			Controller.Controller.IgnoreLayers.Add( "worldprop" );
 		}
@@ -49,16 +56,16 @@ public partial class Pawn : ShrimplePawns.Pawn
 		else
 			worldCheck = WorldPosition;
 
-		if ( Vector3.DistanceBetween( worldCheck, WorldPosition ) > 0.01f && UnStuckTime > 1)
+		if ( Vector3.DistanceBetween( worldCheck, WorldPosition ) > 0.01f && UnStuckTime > 1 )
 		{
 			stuckTime += Time.Delta;
 			TimeSinceClipPrevention = 0;
 			WorldPosition = worldCheck;
 		}
 		else
-			stuckTime = (stuckTime - Time.Delta).Clamp(0,1000);
+			stuckTime = (stuckTime - Time.Delta).Clamp( 0, 1000 );
 
-		if(stuckTime > 5 )
+		if ( stuckTime > 5 )
 		{
 			ToastNotification.Current?.AddToast( "If you're stuck try run the command: seekers.unstuck" );
 			Log.Info( "If you're stuck try run the command: seekers.unstuck" );
@@ -66,7 +73,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 		}
 	}
 
-	[ConCmd("seekers.unstuck")]
+	[ConCmd( "seekers.unstuck" )]
 	public static void UnStuck()
 	{
 		var pawn = Client.Local?.GetPawn<Pawn>();
