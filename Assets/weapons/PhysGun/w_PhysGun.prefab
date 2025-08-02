@@ -1,0 +1,181 @@
+{
+  "RootObject": {
+    "__guid": "eccd8528-3b35-4c82-81c8-81e7d8ca28c4",
+    "__version": 1,
+    "Flags": 0,
+    "Name": "w_physgun",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "item,weapon",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "Seekers.PhysGun",
+        "__guid": "abb9f231-0776-4973-95c6-0a95fcf36de3",
+        "__enabled": true,
+        "Ammo": 15,
+        "AngularDampingRatio": 1,
+        "AngularFrequency": 20,
+        "BoneOffset": {
+          "Position": "2.7735,0,-4.794",
+          "Scale": "1,1,1",
+          "Rotation": "0,0,0,1"
+        },
+        "CrosshairType": "Default",
+        "Damage": 22.5,
+        "DeploySound": "sounds/weapons/switch/switch_2.sound",
+        "Handedness": "Right",
+        "HoldType": "Pistol",
+        "Icon": "icons/weapons/guns/usp_01.png",
+        "ItemResource": "weapons/physgun/physgun.wep",
+        "LeftIK": {
+          "Active": true,
+          "GameObject": null,
+          "IsLeft": false
+        },
+        "LinearDampingRatio": 1,
+        "LinearFrequency": 20,
+        "MaxAmmo": 16,
+        "MaxTargetDistance": 10000,
+        "MinTargetDistance": 0,
+        "Name": "USP",
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "ParentBone": "hold_r",
+        "PrimaryRate": 15,
+        "ReloadShortSound": "sounds/weapons/reloads/uspreloadc.sound",
+        "ReloadSound": "sounds/weapons/reloads/uspreload.sound",
+        "ReloadTime": 1.5,
+        "RotateSnapAt": 45,
+        "RotateSpeed": 0.125,
+        "SecondaryRate": 1,
+        "ShootSound": "sounds/guns/m1911/pistol_shoot.sound",
+        "ShowAmmo": true,
+        "Spread": 0,
+        "TargetDistanceSpeed": 25,
+        "TracerEffect": null,
+        "ViewModelPrefab": {
+          "_type": "gameobject",
+          "prefab": "weapons/physgun/v_physgun.prefab"
+        }
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "9aa96ce8-1b9c-45a2-afb6-b0dc6c271685",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Model",
+        "Position": "1.268736,-0.02934529,1.397888",
+        "Rotation": "-0.00000002607706,-0.000000339397,-0.0000002257278,0.9999977",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.SkinnedModelRenderer",
+            "__guid": "236b1467-27ee-4305-b074-657d3b39b1db",
+            "__enabled": true,
+            "AnimationGraph": null,
+            "BodyGroups": 9493,
+            "BoneMergeTarget": null,
+            "CreateAttachments": false,
+            "CreateBoneObjects": false,
+            "MaterialGroup": null,
+            "MaterialOverride": null,
+            "Materials": null,
+            "Model": "models/weapons/sbox_pistol_usp/w_usp.vmdl",
+            "Morphs": {},
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "Parameters": {
+              "bools": {},
+              "ints": {},
+              "floats": {},
+              "vectors": {},
+              "rotations": {}
+            },
+            "PlaybackRate": 1,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "RenderType": "On",
+            "Sequence": {
+              "Name": null,
+              "Looping": true,
+              "Blending": false
+            },
+            "Tint": "1,1,1,1",
+            "UseAnimGraph": true
+          }
+        ],
+        "Children": []
+      },
+      {
+        "__guid": "9dc98730-2197-429a-93fc-17b9616d6cad",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Muzzle",
+        "Position": "5.75,0,7.45",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": []
+      }
+    ],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [
+    "facepunch.w_usp#33631"
+  ],
+  "__version": 2
+}

@@ -1,3 +1,4 @@
+using Sandbox;
 using Sandbox.Citizen;
 using Sandbox.Components;
 using Sandbox.UI;
@@ -564,40 +565,49 @@ public partial class BaseWeapon : Component
 
 			OnShootGameobject( tr.GameObject, damage );
 
-			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags );
+			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags, Owner, this );
 		}
 	}
 
-	public void DoDamage( GameObject gameObject, float damage, Vector3 calcForce, Vector3 hitPosition,
-		HitboxTags hitboxTags = default )
+	public static void DoDamage( GameObject gameObject, float damage, Vector3 calcForce, Vector3 hitPosition,
+		HitboxTags hitboxTags = default, Pawn owner = null, Component inflictor = null )
 	{
-		if ( gameObject.Components.TryGet<Prop>( out var prop ) )
+		if ( gameObject.Components.TryGet<PropHelper>( out var prop ) )
+		{
+			prop.AddDamage( damage );
+		}
+
+		if ( gameObject.Components.TryGet<Rigidbody>( out var rb ) )
 		{
 			KnockBack( gameObject, calcForce );
 		}
 
+		
 		if ( gameObject.Components.TryGet<NetworkedProp>( out var netProp ) )
 		{
 			netProp.Damage( damage );
 		}
 
+		if ( !owner.IsValid() )
+			return;
+
 		if ( gameObject.Root.Components.TryGet<HealthComponent>( out var player,
 			    FindMode.EverythingInSelfAndChildren ) )
 		{
-			if ( !Owner.Team.FriendlyFire && gameObject.Tags.Has( "player" ) )
+			if ( !owner.Team.FriendlyFire && gameObject.Tags.Has( "player" ) )
 			{
 				var team = player.GameObject.Root.GetComponent<Pawn>()?.Team ?? null;
-				if ( team == Owner.Team || Owner.Team.Friends.Contains( team ) )
+				if ( team == owner.Team || owner.Team.Friends.Contains( team ) )
 					return;
 			}
 
-			player.TakeDamage( Owner, damage, this, hitPosition, calcForce, hitboxTags );
+			player.TakeDamage( owner, damage, inflictor, hitPosition, calcForce, hitboxTags );
 			Crosshair.Instance.Trigger( player, damage, hitboxTags );
 		}
 	}
 
 	[Rpc.Host]
-	public void KnockBack( GameObject gameObject, Vector3 force )
+	public static void KnockBack( GameObject gameObject, Vector3 force )
 	{
 		gameObject?.GetComponent<Rigidbody>()?.BroadcastApplyForce( force );
 	}

@@ -122,12 +122,12 @@ public partial class Pawn : ShrimplePawns.Pawn
 		     tr.Component is MapCollider )
 			return;
 
-		var prop = tr.GameObject.Components.Get<Prop>( true );
+		var rb = tr.GameObject.Components.Get<Rigidbody>( true );
 		
-		if ( !prop.IsValid() )
+		if ( !rb.IsValid() )
 			return;
 
-		if ( prop.IsStatic )
+		if ( !rb.MotionEnabled )
 			return;
 
 		if ( tr.GameObject.Tags.Has( "grabbed" ) )
@@ -185,16 +185,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 		timeSinceImpulse = 0;
 
-		PhysicsBody body = null;
-
-		if ( bodyIndex > -1 && gameObject.Components.TryGet<ModelPhysics>( out var modelPhysics ) )
-		{
-			body = modelPhysics.PhysicsGroup.GetBody( bodyIndex );
-		}
-		else if ( gameObject.Components.TryGet<Rigidbody>( out var rigidbody ) )
-		{
-			body = rigidbody.PhysicsBody;
-		}
+		PhysicsBody body = gameObject.Components.Get<Rigidbody>()?.PhysicsBody;
 
 		if ( !body.IsValid() )
 			return;
@@ -210,21 +201,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 		timeSinceImpulse = 0;
 
-		PhysicsBody body = null;
-
-		if ( bodyIndex > -1 )
-		{
-			var modelPhysics = gameObject.Components.Get<ModelPhysics>();
-			if ( modelPhysics.IsValid() && modelPhysics.PhysicsGroup.IsValid() &&
-			     bodyIndex < modelPhysics.PhysicsGroup.Bodies.Count() )
-			{
-				body = modelPhysics.PhysicsGroup.GetBody( bodyIndex );
-			}
-		}
-		else
-		{
-			body = gameObject.Components.Get<Rigidbody>()?.PhysicsBody;
-		}
+		PhysicsBody body = gameObject.Components.Get<Rigidbody>()?.PhysicsBody;
 
 		if ( body.IsValid() ) body.ApplyAngularImpulse( velocity );
 	}
