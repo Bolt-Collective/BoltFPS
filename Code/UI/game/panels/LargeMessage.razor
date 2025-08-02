@@ -2,9 +2,11 @@
 @using Sandbox.UI;
 @inherits PanelComponent
 
+@namespace BoltFPS
+
 <root>
-	<div class="minigame-display @(ShouldBeVisible ? "visible" : "")">
-		<div class="title" style=@($"color: {Color.Hex};")>@MainText</div>
+	<div class="minigame-display @( ShouldBeVisible ? "visible" : "" )">
+		<div class="title" style=@( $"color: {Color.Hex};" )>@MainText</div>
 		<div class="description">@SecondaryText</div>
 	</div>
 </root>
@@ -26,7 +28,7 @@
 	private Color Color;
 	private string SecondaryText;
 
-	public void SendMessage(string mainText, Color color, string secondaryText = "", float timeActive = 1.5f)
+	public void SendMessage( string mainText, Color color, string secondaryText = "", float timeActive = 1.5f )
 	{
 		TimeActive = timeActive;
 		TimeSince = 0;
@@ -36,27 +38,27 @@
 	}
 
 	[Rpc.Broadcast]
-	public void BroadcastMessage(Guid SendTo, string mainText, Color color, string secondaryText = "", float timeActive = 1.5f)
+	public void BroadcastMessage( Guid SendTo, string mainText, Color color, string secondaryText = "", float timeActive = 1.5f )
 	{
-		if (Connection.Local.Id != SendTo)
+		if ( Connection.Local.Id != SendTo )
 			return;
 
-		SendMessage(mainText, color, secondaryText, timeActive );
+		SendMessage( mainText, color, secondaryText, timeActive );
 	}
 
 	[Rpc.Broadcast]
-	public void BroadcastMessage(string mainText, Color color, string secondaryText = "", float timeActive = 1.5f)
+	public void BroadcastMessage( string mainText, Color color, string secondaryText = "", float timeActive = 1.5f )
 	{
-		SendMessage(mainText, color, secondaryText, timeActive );
+		SendMessage( mainText, color, secondaryText, timeActive );
 	}
 
 	[ConCmd]
-	public static void SendMessageCommand(string mainText, string secondaryText = "", float timeActive = 1.5f)
+	public static void SendMessageCommand( string mainText, string secondaryText = "", float timeActive = 1.5f )
 	{
-		Current?.SendMessage(mainText, Color.White, secondaryText, timeActive );
+		Current?.SendMessage( mainText, Color.White, secondaryText, timeActive );
 	}
 
-    protected override int BuildHash() => HashCode.Combine(
-        ShouldBeVisible
-    );
+	protected override int BuildHash() => HashCode.Combine(
+		ShouldBeVisible
+	);
 }

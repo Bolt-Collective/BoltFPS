@@ -2,55 +2,57 @@
 @using Sandbox.UI;
 @inherits PanelComponent
 
+@namespace BoltFPS
+
 <root>
-    <div class="toast-container">
-        @foreach (var toast in ActiveToasts)
-        {
-            <div class="toast">
-                @toast.Message
-            </div>
-        }
-    </div>
+	<div class="toast-container">
+		@foreach ( var toast in ActiveToasts )
+		{
+			<div class="toast">
+				@toast.Message
+			</div>
+		}
+	</div>
 </root>
 
 @code
 {
-    public static ToastNotification Current { get; set; }
+	public static ToastNotification Current { get; set; }
 
-    protected override void OnAwake()
-    {
-        Current = this;
-    }
+	protected override void OnAwake()
+	{
+		Current = this;
+	}
 
-    public class Toast
-    {
-        public string Message { get; set; }
-        public RealTimeSince CreatedAt { get; set; }
-        public float Duration { get; set; }
+	public class Toast
+	{
+		public string Message { get; set; }
+		public RealTimeSince CreatedAt { get; set; }
+		public float Duration { get; set; }
 
-        public Toast(string message, float duration = 3.0f)
-        {
-            Message = message;
-            Duration = duration;
-            CreatedAt = 0;
-        }
-    }
+		public Toast( string message, float duration = 3.0f )
+		{
+			Message = message;
+			Duration = duration;
+			CreatedAt = 0;
+		}
+	}
 
-    private List<Toast> ActiveToasts = new();
+	private List<Toast> ActiveToasts = new();
 
-    public void AddToast(string message, float duration = 3.0f)
-    {
-        ActiveToasts.Add(new Toast(message, duration));
-        StateHasChanged();
-    }
+	public void AddToast( string message, float duration = 3.0f )
+	{
+		ActiveToasts.Add( new Toast( message, duration ) );
+		StateHasChanged();
+	}
 
-    protected override void OnUpdate()
-    {
-        // Remove expired toasts
-        ActiveToasts.RemoveAll(x => x.CreatedAt >= x.Duration);
-        if (ActiveToasts.Count > 0)
-            StateHasChanged();
-    }
+	protected override void OnUpdate()
+	{
+		// Remove expired toasts
+		ActiveToasts.RemoveAll( x => x.CreatedAt >= x.Duration );
+		if ( ActiveToasts.Count > 0 )
+			StateHasChanged();
+	}
 
-    protected override int BuildHash() => System.HashCode.Combine(ActiveToasts.Count);
+	protected override int BuildHash() => System.HashCode.Combine( ActiveToasts.Count );
 }
