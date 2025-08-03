@@ -1,5 +1,6 @@
 {
   "DisplayName": "Pump Shotgun",
+  "Catagory": "Rust Weapons",
   "Icon": "icons/weapons/rust/rustshotgun.png",
   "Description": "An item.",
   "Details": "weapons/rust_shotgun/w_rust_shotgun.prefab",

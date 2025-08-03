@@ -1,5 +1,6 @@
 {
   "DisplayName": "Crowbar",
+  "Catagory": "Base Weapons",
   "Icon": "icons/weapons/melee/crowbar.png",
   "Description": "An item.",
   "Details": "weapons/crowbar/w_crowbar.prefab",

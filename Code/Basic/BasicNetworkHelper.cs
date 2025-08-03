@@ -19,6 +19,8 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 
 	[Property] [Group( "Dev" )] public bool DevMode { get; set; }
 
+	[Property] public List<ItemResource> StartingWeapons { get; set; }
+
 	bool INetworkListener.AcceptConnection( Connection channel, ref string reason )
 	{
 		if ( DevMode && !PlayerWhitelist.Contains( channel.SteamId.Value ) )
@@ -57,11 +59,11 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 
 		if ( PlayerPrefab.IsValid() )
 		{
-			client.Respawn( channel, PlayerPrefab );
+			client.Respawn( channel, PlayerPrefab, StartingWeapons );
 		}
 		else
 		{
-			client.Respawn( channel );
+			client.Respawn( channel, weapons: StartingWeapons );
 		}
 	}
 
@@ -94,7 +96,7 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 			if ( client.GetPawn<Pawn>().IsValid() )
 				continue;
 
-			client.Respawn( client.Network.Owner );
+			client.Respawn( client.Network.Owner, weapons: StartingWeapons );
 		}
 	}
 

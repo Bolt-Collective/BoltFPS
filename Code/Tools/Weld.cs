@@ -14,8 +14,8 @@ public class Weld : BaseJointTool
 		if ( selection1.GameObject.IsProxy || selection2.GameObject.IsProxy )
 			return;
 
-		PropHelper propHelper1 = selection1.GameObject.Components.Get<PropHelper>();
-		PropHelper propHelper2 = selection2.GameObject.Components.Get<PropHelper>();
+		PropHelper propHelper1 = selection1.GameObject.Root.Components.Get<PropHelper>();
+		PropHelper propHelper2 = selection2.GameObject.Root.Components.Get<PropHelper>();
 
 		(GameObject point1, GameObject point2) = GetJointPoints( selection1, selection2 );
 
@@ -31,9 +31,7 @@ public class Weld : BaseJointTool
 
 		UndoSystem.Add( creator: Network.Owner.SteamId, callback: () =>
 		{
-			point1?.BroadcastDestroy();
-			point2?.BroadcastDestroy();
-			return $"Undone Weld";
+			return UndoSystem.UndoObjects( "Undone Weld", point1, point2 );
 		}, prop: point1 );
 	}
 }

@@ -21,6 +21,26 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 		return Undos[id];
 	}
 
+	public static string UndoObjects( string message, params GameObject[] objects )
+	{
+		bool skip = true;
+		foreach ( var obj in objects )
+		{
+			if ( obj?.IsValid() == true )
+				skip = false;
+		}
+
+		if ( skip )
+			return "skip";
+
+		foreach ( var obj in objects )
+		{
+			obj?.BroadcastDestroy();
+		}
+
+		return message;
+	}
+
 	private static Undo GetFirstAndRemove(SteamId id)
 	{
 
@@ -67,13 +87,16 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 			if ( undo.UndoCallback != null )
 			{
 				var undoMessage = undo.UndoCallback();
+				if (undoMessage == "skip")
+				{
+					PlayerUndo();
+					return;
+				}
 				if ( undoMessage != "" )
 				{
 					ToastNotification.Current.AddToast( undoMessage );
 
 					if ( undo.Prop != null) CreateUndoParticles( undo.Prop.WorldPosition );
-					// Nostalgia
-					//Sound.Play( "drop_001", player.WorldPosition );
 				}
 			}
 		}

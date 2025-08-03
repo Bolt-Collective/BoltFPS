@@ -4,6 +4,7 @@
 public class ItemResource : GameResource
 {
 	[KeyProperty] public string DisplayName { get; set; }
+	[KeyProperty] public string Catagory { get; set; }
 	[ImageAssetPath] public string Icon { get; set; }
 	
 	[KeyProperty, TextArea] public string Description { get; set; } = "An item.";

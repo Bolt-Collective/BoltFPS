@@ -1,5 +1,6 @@
 {
   "DisplayName": "Physics Manipulator",
+  "Catagory": "Tools",
   "Icon": "icons/weapons/guns/usp_01.png",
   "Description": "",
   "Details": "weapons/physgun/w_physgun.prefab",

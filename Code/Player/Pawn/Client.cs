@@ -144,7 +144,7 @@ public partial class Client : ShrimplePawns.Client
 		Sandbox.Services.Stats.Increment( ident, value );
 	}
 
-	public void Respawn( Connection channel, GameObject prefab = null )
+	public void Respawn( Connection channel, GameObject prefab = null, List<ItemResource> weapons = default )
 	{
 		if ( !Team.IsValid() )
 			return;
@@ -168,6 +168,11 @@ public partial class Client : ShrimplePawns.Client
 			if ( pawn.HealthComponent.IsValid() )
 			{
 				pawn.HealthComponent.Health = pawn.HealthComponent?.MaxHealth ?? 100;
+			}
+
+			foreach ( var weapon in weapons )
+			{
+				pawn.Inventory.Pickup( weapon.GetDetails() );
 			}
 
 			GoToSpawn( pawn );

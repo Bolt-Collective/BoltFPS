@@ -1,5 +1,6 @@
 {
   "DisplayName": "MP5",
+  "Catagory": "Base Weapons",
   "Icon": "icons/weapons/guns/mp5_01.png",
   "Description": "",
   "Details": null,

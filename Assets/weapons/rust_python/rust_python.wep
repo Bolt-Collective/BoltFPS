@@ -1,5 +1,6 @@
 {
   "DisplayName": "Python",
+  "Catagory": "Rust Weapons",
   "Icon": "icons/weapons/rust/rustpython.png",
   "Description": "An item.",
   "Details": "weapons/rust_python/w_rust_python.prefab",

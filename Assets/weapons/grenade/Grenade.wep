@@ -1,5 +1,6 @@
 {
   "DisplayName": "Grenade",
+  "Catagory": "Base Weapons",
   "Icon": "icons/weapons/grenades/he_grenade_01.png",
   "Description": "",
   "Details": null,

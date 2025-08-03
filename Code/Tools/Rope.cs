@@ -1,4 +1,5 @@
 ﻿namespace Seekers;
+
 public class Rope : BaseJointTool
 {
 	[Range( -500, 500 )]
@@ -8,13 +9,13 @@ public class Rope : BaseJointTool
 	[Property, Sync]
 	public bool Rigid { get; set; } = false;
 
+	public override bool CanConstraintToSelf => true;
+
 	[Rpc.Broadcast]
 	public override void Disconnect( GameObject target )
 	{
-
+		// Implementation for disconnection if needed
 	}
-
-	public override bool CanConstraintToSelf => true;
 
 	[Rpc.Broadcast]
 	public override void Join( SelectionPoint selection1, SelectionPoint selection2 )
@@ -22,37 +23,39 @@ public class Rope : BaseJointTool
 		if ( selection1.GameObject.IsProxy || selection2.GameObject.IsProxy )
 			return;
 
-		PropHelper propHelper1 = selection1.GameObject.Components.Get<PropHelper>();
-		PropHelper propHelper2 = selection2.GameObject.Components.Get<PropHelper>();
+		var (point1, point2) = GetJointPoints( selection1, selection2 );
+		var rope = CreateRopeBetween( point1, point2, Slack, Rigid );
 
-		(GameObject point1, GameObject point2) = GetJointPoints( selection1, selection2 );
+		UndoSystem.Add( creator: Network.Owner.SteamId, callback: () =>
+		{
+			return UndoSystem.UndoObjects("Undone Rope", point1, point2, rope?.Attachment ?? null, rope.GameObject);
+		}, prop: point1 );
+	}
+
+	public static VerletRope CreateRopeBetween( GameObject point1, GameObject point2, float slack = 0, bool rigid = false )
+	{
+		var propHelper1 = point1.Root.Components.Get<PropHelper>();
+		var propHelper2 = point2.Root.Components.Get<PropHelper>();
 
 		var len = point1.WorldPosition.Distance( point2.WorldPosition );
-		len = MathF.Max( 1.0f, len + Slack );
+		len = MathF.Max( 1.0f, len + slack );
 
 		if ( point1.Parent != point2.Parent )
 		{
 			var joint = point1.AddComponent<SpringJoint>();
 			joint.Body = point2;
-			joint.MinLength = Rigid ? len : 0;
+			joint.MinLength = rigid ? len : 0;
 			joint.MaxLength = len;
 			joint.RestLength = len;
 			joint.Frequency = 0;
 			joint.Damping = 0;
 			joint.EnableCollision = true;
+
 			propHelper1?.Joints.Add( joint );
 			propHelper2?.Joints.Add( joint );
 		}
-		
-		var rope = VerletRope.AddRope( point1, point2, len );
 
-		UndoSystem.Add( creator: Network.Owner.SteamId, callback: () =>
-		{
-			point1?.BroadcastDestroy();
-			point2?.BroadcastDestroy();
-			rope?.Attachment.BroadcastDestroy();
-			rope?.GameObject.BroadcastDestroy();
-			return $"Undone Rope";
-		}, prop: point1 );
+		return VerletRope.AddRope( point1, point2, len );
 	}
 }
+

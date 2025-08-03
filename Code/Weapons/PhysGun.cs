@@ -166,21 +166,27 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 			ModelPhysics modelPhysics = weldContexts[i]?.GetComponent<ModelPhysics>();
 			Rigidbody rigidbody = weldContexts[i]?.GetComponent<Rigidbody>();
 
+			Log.Info( weldContexts[i] );
+
+			if ( modelPhysics.IsValid() )
+			{
+				foreach(var ragBody in modelPhysics.Bodies)
+				{
+					if ( ragBody.Component.PhysicsBody.BodyType == PhysicsBodyType.Static )
+					{
+						ragBody.Component.PhysicsBody.BodyType = PhysicsBodyType.Dynamic;
+					}
+				}
+
+				continue;
+			}
+
 			var body = rigidbody.IsValid() ? weldContexts[i]?.GetComponent<Rigidbody>()?.PhysicsBody : null;
+
 
 			if ( !body.IsValid() ) continue;
 
-			if ( body.PhysicsGroup.IsValid() )
-			{
-				foreach ( var b in body.PhysicsGroup.Bodies )
-				{
-					if ( b.BodyType == PhysicsBodyType.Static )
-					{
-						b.BodyType = PhysicsBodyType.Dynamic;
-					}
-				}
-			}
-			else if ( body.BodyType == PhysicsBodyType.Static )
+			if ( body.BodyType == PhysicsBodyType.Static )
 			{
 				body.BodyType = PhysicsBodyType.Dynamic;
 			}
@@ -189,7 +195,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 	public static List<GameObject> GetAllConnectedProps( GameObject gameObject )
 	{
-		PropHelper propHelper = gameObject.Components.Get<PropHelper>();
+		PropHelper propHelper = gameObject.Root.Components.Get<PropHelper>();
 
 		if ( !propHelper.IsValid() )
 			return null;
@@ -203,8 +209,8 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		foreach ( Joint joint in result )
 		{
-			GameObject object1 = joint.Body1.GameObject;
-			GameObject object2 = joint.Body2.GameObject;
+			GameObject object1 = joint.Body1.GameObject.Root;
+			GameObject object2 = joint.Body2.GameObject.Root;
 
 			if ( !returned.Contains( object1 ) ) returned.Add( object1 );
 			if ( !returned.Contains( object2 ) ) returned.Add( object2 );

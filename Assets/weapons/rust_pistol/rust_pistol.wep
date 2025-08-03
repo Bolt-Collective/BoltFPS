@@ -1,5 +1,6 @@
 {
   "DisplayName": "Pistol",
+  "Catagory": "Rust Weapons",
   "Icon": "icons/weapons/rust/rustpistol.png",
   "Description": "An item.",
   "Details": "weapons/rust_pistol/w_rust_pistol.prefab",

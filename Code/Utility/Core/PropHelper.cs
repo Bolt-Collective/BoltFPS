@@ -17,6 +17,8 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	//public List<FixedJoint> Welds { get; set; } = [];
 	//public List<SpringJoint> Ropes { get; set; } = [];
 	//public List<(GameObject to, Vector3 toPoint, Vector3 frompoint)> RopePoints { get; set; } = [];
+
+	[Property]
 	public List<Joint> Joints { get; set; } = [];
 
 	private Vector3 lastPosition = Vector3.Zero;
