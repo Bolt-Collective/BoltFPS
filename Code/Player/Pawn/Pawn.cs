@@ -170,6 +170,9 @@ public partial class Pawn : ShrimplePawns.Pawn
 		if ( !Owner.IsValid() )
 			Owner = Client.Local;
 
+		if ( Input.Pressed( "undo" ) )
+			ConsoleSystem.Run( "undo" );
+
 		if ( SpotLight.IsValid() && Input.Pressed( "flashlight" ) )
 		{
 			Flashlight = !Flashlight;
