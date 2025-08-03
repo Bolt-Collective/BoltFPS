@@ -50,7 +50,7 @@
         "ReloadShortSound": "sounds/weapons/reloads/uspreloadc.sound",
         "ReloadSound": "sounds/weapons/reloads/uspreload.sound",
         "ReloadTime": 1.5,
-        "SecondaryRate": 1,
+        "SecondaryRate": 15,
         "ShootSound": "sounds/guns/m1911/pistol_shoot.sound",
         "ShowAmmo": true,
         "Spread": 0,

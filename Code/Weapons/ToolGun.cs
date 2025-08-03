@@ -14,7 +14,7 @@ public class ToolGun : BaseWeapon
 		base.OnEnabled();
 		if ( IsProxy )
 			return;
-		UpdateTool();
+		
 	}
 
 	protected override void OnDisabled()
@@ -22,6 +22,9 @@ public class ToolGun : BaseWeapon
 		base.OnDisabled();
 		if ( IsProxy )
 			return;
+
+		if ( CurrentTool.IsValid() )
+			SaveTool( CurrentTool );
 
 		CurrentTool?.Disabled();
 	}
@@ -72,7 +75,11 @@ public class ToolGun : BaseWeapon
 	[Rpc.Broadcast]
 	void ToolEffects( Vector3 position )
 	{
+		if ( !IsProxy && CurrentTool.IsValid())
+			SaveTool( CurrentTool );
 		//Particles.MakeParticleSystem( "particles/tool_hit.vpcf", new Transform( position ) );
+		ViewModel?.Set( "b_attack", true );
+		Owner.Controller?.BodyModelRenderer?.Set( "b_attack", true );
 		Sound.Play( "sounds/balloon_pop_cute.sound", WorldPosition );
 	}
 
@@ -83,15 +90,16 @@ public class ToolGun : BaseWeapon
 		if ( comp == null )
 			return;
 
-		lastTool = UserToolCurrent;
+		
 
 		var tool = Components.Create( comp, true );
 
 		LoadTool( tool );
 
-
-		if ( CurrentTool.IsValid() )
+		if ( CurrentTool.IsValid() && lastTool != UserToolCurrent)
 			SaveTool( CurrentTool );
+
+		lastTool = UserToolCurrent;
 
 		CurrentTool?.Destroy();
 
@@ -121,7 +129,6 @@ public class ToolGun : BaseWeapon
 
 		if(jsonObject != null)
 			tool.DeserializeImmediately( jsonObject );
-
 	}
 
 
