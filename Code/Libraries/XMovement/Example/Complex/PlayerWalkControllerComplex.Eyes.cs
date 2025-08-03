@@ -55,7 +55,7 @@ public partial class PlayerWalkControllerComplex : Component
 
 	public virtual void DoEyeLook()
 	{
-		if ( !IsProxy )
+		if ( !IsProxy && !IgnoreInput )
 		{
 			LocalEyeAngles += Input.AnalogLook * AimSensitivityScale;
 			LocalEyeAngles = LocalEyeAngles.WithPitch( LocalEyeAngles.pitch.Clamp( -89f, 89f ) );

@@ -1,3 +1,5 @@
+using System.Text.Json.Nodes;
+
 namespace Seekers;
 
 [Library( "weapon_tool", Title = "Toolgun" )]
@@ -10,12 +12,17 @@ public class ToolGun : BaseWeapon
 	protected override void OnEnabled()
 	{
 		base.OnEnabled();
+		if ( IsProxy )
+			return;
 		UpdateTool();
 	}
 
 	protected override void OnDisabled()
 	{
 		base.OnDisabled();
+		if ( IsProxy )
+			return;
+
 		CurrentTool?.Disabled();
 	}
 
@@ -23,7 +30,8 @@ public class ToolGun : BaseWeapon
 
 	protected override void OnFixedUpdate()
 	{
-		base.OnFixedUpdate();
+		if ( IsProxy )
+			return;
 
 		if ( lastTool != UserToolCurrent )
 		{
@@ -70,7 +78,6 @@ public class ToolGun : BaseWeapon
 
 	public void UpdateTool()
 	{
-		Log.Info( UserToolCurrent );
 		var comp = TypeLibrary.GetType<BaseTool>( UserToolCurrent );
 
 		if ( comp == null )
@@ -78,14 +85,45 @@ public class ToolGun : BaseWeapon
 
 		lastTool = UserToolCurrent;
 
-		Components.Create( comp, true );
+		var tool = Components.Create( comp, true );
+
+		LoadTool( tool );
+
+
+		if ( CurrentTool.IsValid() )
+			SaveTool( CurrentTool );
 
 		CurrentTool?.Destroy();
 
 		CurrentTool = Components.Get<BaseTool>();
 		CurrentTool.Owner = Owner;
 		CurrentTool.Parent = this;
+
+		GameObject.Network.Refresh();
 	}
+
+	public void SaveTool(Component tool)
+	{
+		var jsonNode = tool.Serialize();
+
+		if ( !FileSystem.Data.DirectoryExists( "tool-data" ) )
+			FileSystem.Data.CreateDirectory( "tool-data" );
+
+		FileSystem.Data.WriteJson( $"tool-data/{tool.GetType().Name}.json", jsonNode );
+	}
+
+	public void LoadTool(Component tool)
+	{
+		if ( !FileSystem.Data.FileExists( $"tool-data/{tool.GetType().Name}.json" ) )
+			return;
+
+		var jsonObject = FileSystem.Data.ReadJson<JsonObject>( $"tool-data/{tool.GetType().Name}.json" );
+
+		if(jsonObject != null)
+			tool.DeserializeImmediately( jsonObject );
+
+	}
+
 
 	public SceneTraceResult TraceTool( Vector3 start, Vector3 end, float radius = 2.0f )
 	{

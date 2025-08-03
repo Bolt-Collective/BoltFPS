@@ -9,15 +9,15 @@ public class Weld : BaseJointTool
 	}
 
 	[Rpc.Broadcast]
-	public override void Join( GameObject body1, Vector3 pos1, GameObject body2, Vector3 pos2 )
+	public override void Join( SelectionPoint selection1, SelectionPoint selection2 )
 	{
-		if ( body1.IsProxy || body2.IsProxy )
+		if ( selection1.GameObject.IsProxy || selection2.GameObject.IsProxy )
 			return;
 
-		PropHelper propHelper1 = body1.Components.Get<PropHelper>();
-		PropHelper propHelper2 = body2.Components.Get<PropHelper>();
+		PropHelper propHelper1 = selection1.GameObject.Components.Get<PropHelper>();
+		PropHelper propHelper2 = selection2.GameObject.Components.Get<PropHelper>();
 
-		(GameObject point1, GameObject point2) = GetLocalPoints( body1, pos1, body2, pos2 );
+		(GameObject point1, GameObject point2) = GetJointPoints( selection1, selection2 );
 
 		var fixedJoint = point2.Components.Create<FixedJoint>();
 		fixedJoint.Body = point1;
@@ -31,8 +31,8 @@ public class Weld : BaseJointTool
 
 		UndoSystem.Add( creator: Network.Owner.SteamId, callback: () =>
 		{
-			point1.BroadcastDestroy();
-			point2.BroadcastDestroy();
+			point1?.BroadcastDestroy();
+			point2?.BroadcastDestroy();
 			return $"Undone Weld";
 		}, prop: point1 );
 	}

@@ -23,4 +23,22 @@ public abstract class BaseTool : Component
 	{
 
 	}
+	public class SelectionPoint
+	{
+		public GameObject GameObject { get; set; }
+		public Vector3 LocalPosition { get; set; }
+		public Vector3 LocalNormal { get; set; }
+
+		public SelectionPoint ( GameObject gameObject, Vector3 localPosition, Vector3 localNormal )
+		{
+			GameObject = gameObject;
+			LocalPosition = localPosition;
+			LocalNormal = localNormal;
+		}
+
+		public static SelectionPoint GetPoint(SceneTraceResult result)
+		{
+			return new SelectionPoint( result.GameObject, result.GameObject.WorldTransform.PointToLocal( result.HitPosition ), result.GameObject.WorldTransform.PointToWorld( result.Normal ) );
+		}
+	}
 }

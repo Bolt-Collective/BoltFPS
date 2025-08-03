@@ -10,6 +10,8 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 
 	public Action<GameObject, float> OnShootGameObject;
 
+	public bool CanChange = true;
+
 	[Rpc.Broadcast]
 	public void ResetWeapons()
 	{
@@ -110,6 +112,9 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 
 	public void SetActiveSlot( int i )
 	{
+		if ( !CanChange )
+			return;
+
 		lastSlot = currentSlot;
 		currentSlot = i;
 

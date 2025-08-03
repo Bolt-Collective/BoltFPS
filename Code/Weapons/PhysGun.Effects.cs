@@ -90,11 +90,8 @@ public partial class PhysGun
 		{
 			var physGroup = HeldBody.PhysicsGroup;
 
-			if ( !HeldBody.IsValid() )
-				return;
-
-			line1.VectorPoints[1] = HeldBody.Transform.PointToWorld( GrabbedPos );
-			line2.VectorPoints[1] = HeldBody.Transform.PointToWorld( GrabbedPos );
+			line1.VectorPoints[2] = HeldBody.Transform.PointToWorld( GrabbedPos );
+			line2.VectorPoints[2] = HeldBody.Transform.PointToWorld( GrabbedPos );
 
 			lastBeamPos = HeldBody.Position + HeldBody.Rotation * GrabbedPos;
 
@@ -128,13 +125,18 @@ public partial class PhysGun
 
 			if ( beam.IsValid() )
 			{
-				line1.VectorPoints[1] = lastBeamPos;
-				line2.VectorPoints[1] = lastBeamPos;
+				line1.VectorPoints[2] = lastBeamPos;
+				line2.VectorPoints[2] = lastBeamPos;
 			}
 
 			endNoHit ??= Particles.MakeParticleSystem( noHitPrefab, new Transform( lastBeamPos ), 0 );
 			endNoHit.WorldPosition = lastBeamPos;
 		}
+
+		var distance = line1.VectorPoints[0].Distance( line1.VectorPoints[2] );
+
+		line1.VectorPoints[1] = beam.WorldPosition + beam.WorldTransform.Forward * distance * 0.5f;
+		line2.VectorPoints[1] = beam.WorldPosition + beam.WorldTransform.Forward * distance * 0.5f;
 	}
 
 	private GameObject CreateBeam( Vector3 endPos ) =>

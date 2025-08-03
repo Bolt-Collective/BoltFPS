@@ -2,8 +2,7 @@ namespace Seekers;
 
 public abstract class BaseJointTool : BaseTool
 {
-	GameObject selected;
-	Vector3 selectedPos;
+	SelectionPoint selected;
 
 	public virtual bool CanConstraintToSelf => false;
 
@@ -14,19 +13,17 @@ public abstract class BaseJointTool : BaseTool
 
 		if ( Input.Pressed( "attack1" ) )
 		{
-			var localPos = trace.GameObject.WorldTransform.PointToLocal( trace.HitPosition );
-
+			var newSelectionPoint = SelectionPoint.GetPoint( trace );
 			if ( selected == null )
 			{
-				selected = trace.GameObject;
-				selectedPos = localPos;
+				selected = newSelectionPoint;
 				return true;
 			}
 
-			if ( trace.GameObject == selected && !CanConstraintToSelf )
+			if ( trace.GameObject == selected.GameObject && !CanConstraintToSelf )
 				return false;
 
-			Join( selected, selectedPos, trace.GameObject, localPos );
+			Join( selected, newSelectionPoint );
 
 			selected = null;
 			return true;
@@ -51,6 +48,7 @@ public abstract class BaseJointTool : BaseTool
 		return false;
 	}
 
+
 	[Rpc.Broadcast]
 	public virtual void Disconnect(GameObject target)
 	{
@@ -58,20 +56,20 @@ public abstract class BaseJointTool : BaseTool
 	}
 
 	[Rpc.Broadcast]
-	public virtual void Join(GameObject body1, Vector3 pos1, GameObject body2, Vector3 pos2)
+	public virtual void Join( SelectionPoint selection1, SelectionPoint selection2 )
 	{
 		
 	}
 
-	public (GameObject, GameObject) GetLocalPoints( GameObject body1, Vector3 pos1, GameObject body2, Vector3 pos2 )
+	public (GameObject, GameObject) GetJointPoints( SelectionPoint selection1, SelectionPoint selection2 )
 	{
 		var g1 = new GameObject();
-		g1.SetParent( body1 );
-		g1.LocalPosition = pos1;
+		g1.SetParent( selection1.GameObject );
+		g1.LocalPosition = selection1.LocalPosition;
 
 		var g2 = new GameObject();
-		g2.SetParent( body2 );
-		g2.LocalPosition = pos2;
+		g2.SetParent( selection2.GameObject );
+		g2.LocalPosition = selection2.LocalPosition;
 
 		g1.AddComponent<JointPoint>().otherPoint = g2;
 		g2.AddComponent<JointPoint>().otherPoint = g1;

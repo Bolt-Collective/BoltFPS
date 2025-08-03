@@ -65,8 +65,9 @@ public partial class PlayerWalkControllerComplex : Component
 	/// </summary>
 	public bool WantsJump { get; set; }
 
-	//please check what this does before you remove it in a ""cleanup"" thanks
 	public bool CanMove { get; set; } = true;
+
+	public bool IgnoreInput { get; set; }
 
 	public float MovementSpeedMultiplier { get; set; } = 1;
 
@@ -162,6 +163,8 @@ public partial class PlayerWalkControllerComplex : Component
 	public void BuildWishVelocity()
 	{
 		WishMove = Input.AnalogMove;
+		if ( IgnoreInput )
+			WishMove = 0;
 
 		if ( IsInVR ) WishMove = new Vector3( Input.VR.LeftHand.Joystick.Value.y, -Input.VR.LeftHand.Joystick.Value.x );
 

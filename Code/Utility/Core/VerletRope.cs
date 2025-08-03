@@ -14,7 +14,7 @@ public class VerletRope : Component
 
 	private List<RopePoint> points;
 
-	protected override void OnEnabled()
+	protected override void OnStart()
 	{
 		InitializePoints();
 		for ( int i = 0; i < 10; i++ )

@@ -265,6 +265,12 @@ public partial class BaseWeapon : Component
 		Owner?.Controller?.Tags.Set( "viewer",
 			Owner.Controller.CameraMode.Equals( PlayerWalkControllerComplex.CameraModes.ThirdPerson ) );
 
+		if (Owner?.Controller.IsValid() ?? false)
+			Owner.Controller.IgnoreInput = false;
+
+		if ( Owner?.Inventory.IsValid() ?? false )
+			Owner.Inventory.CanChange = true;
+
 		OnControl();
 	}
 
