@@ -7,6 +7,7 @@ public class ViewModel : Component
 {
 	[Property, ToggleGroup( "SwingAndBob" )]
 	public bool SwingAndBob { get; set; } = true;
+	[Property, Group( "AnimGraph" ), ShowIf("SwingAndBob", false)] public bool SprintHold { get; set; }
 
 	[Property, Group( "SwingAndBob" )] public float SwingInfluence { get; set; } = 0.05f;
 	[Property, Group( "SwingAndBob" )] public float ReturnSpeed { get; set; } = 5.0f;
@@ -108,7 +109,7 @@ public class ViewModel : Component
 				YawInertia,
 				PitchInertia,
 				velocity,
-				pawn.Controller.IsRunning && Renderer.GetFloat( "attack_hold" ) <= 0,
+				pawn.Controller.IsRunning && Renderer.GetFloat( "attack_hold" ) <= 0 && pawn.Controller.WishMove.Length >= 0.1f && SprintHold,
 				pawn.Controller.Controller.IsOnGround,
 				pawn.Inventory.ActiveWeapon.Ammo <= 0
 			);

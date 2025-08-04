@@ -239,7 +239,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 			if ( !jointObject.IsValid() )
 				return;
 
-			PropHelper propHelper1 = jointObject.Components.GetInParentOrSelf<PropHelper>();
+			PropHelper propHelper1 = jointObject.Root.Components.GetInParentOrSelf<PropHelper>();
 
 			if ( !propHelper1.IsValid() )
 				return;

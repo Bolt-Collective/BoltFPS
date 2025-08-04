@@ -8,6 +8,33 @@ public class Weld : BaseJointTool
 
 	}
 
+	public override bool Secondary( SceneTraceResult trace )
+	{
+		if ( !trace.Hit )
+			return false;
+
+		if (!selected.Active)
+			return false;
+
+		if (!Input.Pressed("attack2"))
+			return false;
+
+		var selectionDirection = selected.GameObject.WorldTransform.PointToWorld( selected.LocalNormal );
+		var selectionPoint = selected.GameObject.WorldTransform.PointToWorld( selected.LocalPosition );
+
+		selected.GameObject.WorldPosition += trace.EndPosition - selectionPoint;
+
+		selected.GameObject.WorldTransform = selected.GameObject.WorldTransform.RotateAround( trace.HitPosition, Rotation.FromToRotation( selectionDirection, -trace.Normal ) );
+
+		//selected.GameObject.WorldRotation = Rotation.FromToRotation( selectionDirection, -trace.Normal ) * selected.GameObject.WorldRotation;
+
+		//selected.GameObject.WorldPosition += trace.EndPosition - selectionPoint;
+
+		selected.Active = false;
+
+		return true;
+	}
+
 	[Rpc.Broadcast]
 	public override void Join( SelectionPoint selection1, SelectionPoint selection2 )
 	{

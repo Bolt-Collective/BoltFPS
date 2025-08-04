@@ -58,7 +58,7 @@ public partial class ToolGun : BaseWeapon
 
 			subDiv += result;
 
-			subDiv = subDiv.Clamp( 1, 10 );
+			subDiv = subDiv.Clamp( 1, 15 );
 		}
 
 		var trace = BasicTraceTool();

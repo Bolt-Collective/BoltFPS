@@ -63,15 +63,7 @@ public partial class ToolGun : BaseWeapon
 		{
 			var original = faceIndices.Select( i => corners[i] ).ToArray();
 
-			var center = (original[0] + original[1] + original[2] + original[3]) / 4f;
-
-			var shrunk = original.Select( p =>
-			{
-				var dir = (center - p).Normal;
-				return p + dir;
-			} ).ToArray();
-
-			return DrawFace( shrunk );
+			return DrawFace( original );
 		}
 
 		return new();
@@ -103,43 +95,74 @@ public partial class ToolGun : BaseWeapon
 	List<Vector3> DrawFace( Vector3[] face )
 	{
 		Gizmo.Draw.Color = Color.White;
-		var top = (face[0], face[1]);
-		var bottom = (face[3], face[2]);
 
-		var right = (face[1], face[2]);
-		var left = (face[0], face[3]);
+		int lines = subDiv + 2;
+		var grid = new Vector3[lines, lines];
 
-		var lines = subDiv + 2;
+		// Original face corners
+		var topLeft = face[0];
+		var topRight = face[1];
+		var bottomRight = face[2];
+		var bottomLeft = face[3];
 
-		var intersections = new List<Vector3>();
-
-		for ( int i = 0; i < lines; i++ )
+		// Step 1: Generate regular grid based on the original face
+		for ( int y = 0; y < lines; y++ )
 		{
-			var frac = (1f / (lines - 1)) * i;
+			float fy = y / (float)(lines - 1);
+			Vector3 left = Vector3.Lerp( topLeft, bottomLeft, fy );
+			Vector3 right = Vector3.Lerp( topRight, bottomRight, fy );
 
-			var point1 = top.Item1.LerpTo( top.Item2, frac );
-			var point2 = bottom.Item1.LerpTo( bottom.Item2, frac );
-
-			Gizmo.Draw.Line( point1, point2 );
-
-			var point3 = left.Item1.LerpTo( left.Item2, frac );
-			var point4 = right.Item1.LerpTo( right.Item2, frac );
-
-			Gizmo.Draw.Line( point3, point4 );
-
-			for ( int j = 0; j < lines; j++ )
+			for ( int x = 0; x < lines; x++ )
 			{
-				var subFrac = (1f / (lines - 1)) * j;
-
-				var p1 = point1.LerpTo( point2, subFrac );
-				var p2 = point3.LerpTo( point4, subFrac );
-
-				intersections.Add( p1 );
+				float fx = x / (float)(lines - 1);
+				grid[x, y] = Vector3.Lerp( left, right, fx );
 			}
 		}
 
-		return intersections;
+		// Step 2: Shrink outermost edge points inward
+		float shrinkAmount = 1f / subDiv;
+
+		// Top and bottom rows
+		for ( int x = 0; x < lines; x++ )
+		{
+			Vector3 dir = (grid[x, 1] - grid[x, 0]).Normal; // inward from top
+			grid[x, 0] += dir * shrinkAmount;
+
+			dir = (grid[x, lines - 2] - grid[x, lines - 1]).Normal; // inward from bottom
+			grid[x, lines - 1] += dir * shrinkAmount;
+		}
+
+		// Left and right columns
+		for ( int y = 0; y < lines; y++ )
+		{
+			Vector3 dir = (grid[1, y] - grid[0, y]).Normal; // inward from left
+			grid[0, y] += dir * shrinkAmount;
+
+			dir = (grid[lines - 2, y] - grid[lines - 1, y]).Normal; // inward from right
+			grid[lines - 1, y] += dir * shrinkAmount;
+		}
+
+		// Step 3: Draw straight grid lines
+		for ( int y = 0; y < lines; y++ )
+		{
+			for ( int x = 0; x < lines; x++ )
+			{
+				if ( x < lines - 1 )
+					Gizmo.Draw.Line( grid[x, y], grid[x + 1, y] );
+				if ( y < lines - 1 )
+					Gizmo.Draw.Line( grid[x, y], grid[x, y + 1] );
+			}
+		}
+
+		var result = new List<Vector3>();
+		foreach ( var point in grid )
+			result.Add( point );
+
+		return result;
 	}
+
+
+
 
 	public void DrawCorners( Vector3[] face )
 	{

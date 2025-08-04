@@ -74,6 +74,7 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "ReturnSpeed": 5,
+        "SprintHold": false,
         "SwingAndBob": true,
         "SwingInfluence": 0.05
       }

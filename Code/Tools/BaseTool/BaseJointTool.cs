@@ -2,7 +2,7 @@ namespace Seekers;
 
 public abstract class BaseJointTool : BaseTool
 {
-	SelectionPoint selected = new();
+	public SelectionPoint selected = new();
 
 	public virtual bool CanConstraintToSelf => false;
 
@@ -33,12 +33,12 @@ public abstract class BaseJointTool : BaseTool
 		return false;
 	}
 
-	public override bool Secondary( SceneTraceResult trace )
+	public override bool Reload( SceneTraceResult trace )
 	{
 		if ( !trace.Hit )
 			return false;
 
-		if ( Input.Pressed( "attack2" ) && trace.GameObject.Components.TryGet<PropHelper>( out var propHelper ) )
+		if ( Input.Pressed( "reload" ) && trace.GameObject.Components.TryGet<PropHelper>( out var propHelper ) )
 		{
 			Disconnect( trace.GameObject );
 

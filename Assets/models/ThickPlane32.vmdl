@@ -1,0 +1,163 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:modeldoc29:version{3cec427c-1b0e-4d48-a90a-0436f33a6041} -->
+{
+	rootNode = 
+	{
+		_class = "RootNode"
+		children = 
+		[
+			{
+				_class = "PhysicsShapeList"
+				children = 
+				[
+					{
+						_class = "PhysicsHullFromRender"
+						parent_bone = ""
+						surface_prop = "default"
+						collision_tags = "solid"
+						faceMergeAngle = 20.0
+						maxHullVertices = 32
+					},
+				]
+			},
+			{
+				_class = "RenderMeshList"
+				children = 
+				[
+					{
+						_class = "RenderPrimitiveMesh"
+						mesh = 
+						{
+							vertices_stream_data = 
+							{
+								num_values = 8
+								streams = 
+								[
+									{
+										name = "position"
+										type = "position_3d"
+										values = 
+										[
+											[ -16.0, -16.0, 4.0 ],
+											[ 16.0, -16.0, 4.0 ],
+											[ 16.0, 16.0, 4.0 ],
+											[ -16.0, 16.0, 4.0 ],
+											[ -16.0, 16.0, -4.0 ],
+											[ 16.0, 16.0, -4.0 ],
+											[ 16.0, -16.0, -4.0 ],
+											[ -16.0, -16.0, -4.0 ],
+										]
+									},
+								]
+							}
+							face_vertices_stream_data = 
+							{
+								num_values = 24
+								streams = 
+								[
+									{
+										name = "normal"
+										type = "normal_3d"
+										values = 
+										[
+											[ 0.0, 0.0, 1.0 ],
+											[ 0.0, 0.0, 1.0 ],
+											[ 0.0, 0.0, 1.0 ],
+											[ 0.0, 0.0, 1.0 ],
+											[ 0.0, 0.0, -1.0 ],
+											[ 0.0, 0.0, -1.0 ],
+											[ 0.0, 0.0, -1.0 ],
+											[ 0.0, 0.0, -1.0 ],
+											[ -1.0, 0.0, 0.0 ],
+											[ -1.0, 0.0, 0.0 ],
+											[ -1.0, 0.0, 0.0 ],
+											[ -1.0, 0.0, 0.0 ],
+											[ 1.0, 0.0, 0.0 ],
+											[ 1.0, 0.0, 0.0 ],
+											[ 1.0, 0.0, 0.0 ],
+											[ 1.0, 0.0, 0.0 ],
+											[ 0.0, 1.0, 0.0 ],
+											[ 0.0, 1.0, 0.0 ],
+											[ 0.0, 1.0, 0.0 ],
+											[ 0.0, 1.0, 0.0 ],
+											[ 0.0, -1.0, 0.0 ],
+											[ 0.0, -1.0, 0.0 ],
+											[ 0.0, -1.0, 0.0 ],
+											[ 0.0, -1.0, 0.0 ],
+										]
+									},
+									{
+										name = "texcoord"
+										type = "texcoord_2d"
+										values = 
+										[
+											[ 0.25, 0.25 ],
+											[ -0.25, 0.25 ],
+											[ -0.25, -0.25 ],
+											[ 0.25, -0.25 ],
+											[ 0.25, -0.25 ],
+											[ -0.25, -0.25 ],
+											[ -0.25, 0.25 ],
+											[ 0.25, 0.25 ],
+											[ 0.25, 0.625 ],
+											[ -0.25, 0.625 ],
+											[ -0.25, 0.5 ],
+											[ 0.25, 0.5 ],
+											[ -0.25, 0.5 ],
+											[ 0.25, 0.5 ],
+											[ 0.25, 0.625 ],
+											[ -0.25, 0.625 ],
+											[ 0.25, 0.625 ],
+											[ -0.25, 0.625 ],
+											[ -0.25, 0.5 ],
+											[ 0.25, 0.5 ],
+											[ -0.25, 0.5 ],
+											[ 0.25, 0.5 ],
+											[ 0.25, 0.625 ],
+											[ -0.25, 0.625 ],
+										]
+									},
+								]
+							}
+							face_groups = 
+							[
+								"materials/dev/gray_grid_8.vmat",
+								"materials/dev/reflectivity_30.vmat",
+							]
+							faces = 
+							[
+								{
+									group_index = 0
+									vertices = [ 0, 1, 2, 3 ]
+								},
+								{
+									group_index = 0
+									vertices = [ 4, 5, 6, 7 ]
+								},
+								{
+									group_index = 0
+									vertices = [ 4, 7, 0, 3 ]
+								},
+								{
+									group_index = 0
+									vertices = [ 2, 1, 6, 5 ]
+								},
+								{
+									group_index = 0
+									vertices = [ 5, 4, 3, 2 ]
+								},
+								{
+									group_index = 0
+									vertices = [ 1, 0, 7, 6 ]
+								},
+							]
+						}
+					},
+				]
+			},
+		]
+		model_archetype = ""
+		primary_associated_entity = ""
+		anim_graph_name = ""
+		base_model_name = ""
+	}
+}

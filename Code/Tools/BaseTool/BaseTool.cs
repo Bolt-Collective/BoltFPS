@@ -40,7 +40,7 @@ public abstract class BaseTool : Component
 
 		public static SelectionPoint GetPoint(SceneTraceResult result)
 		{
-			return new SelectionPoint( result.GameObject, result.GameObject.WorldTransform.PointToLocal( result.HitPosition ), result.GameObject.WorldTransform.PointToWorld( result.Normal ) );
+			return new SelectionPoint( result.GameObject, result.GameObject.WorldTransform.PointToLocal( result.HitPosition ), result.GameObject.WorldTransform.PointToLocal( result.Normal ) );
 		}
 	}
 }
