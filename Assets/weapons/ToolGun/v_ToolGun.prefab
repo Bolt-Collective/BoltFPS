@@ -3,7 +3,7 @@
     "__guid": "bd3313cd-1991-48d5-93b1-06ee69537202",
     "__version": 1,
     "Flags": 0,
-    "Name": "v_rust_python",
+    "Name": "v_toolgun",
     "Position": "0,0,0",
     "Rotation": "0,0,0,1",
     "Scale": "1,1,1",
@@ -62,7 +62,7 @@
         "__guid": "fccc3908-17ff-41ca-9c46-1aee27bf34da",
         "__enabled": true,
         "AnimParamTranslate": {
-          "b_deploy": null
+          "b_deploy": "deploy"
         },
         "BobCycleTime": 7,
         "BobDirection": "0,1,0.5",

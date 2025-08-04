@@ -26,7 +26,7 @@ public class Rope : BaseJointTool
 		var (point1, point2) = GetJointPoints( selection1, selection2 );
 		var rope = CreateRopeBetween( point1, point2, Slack, Rigid );
 
-		UndoSystem.Add( creator: Network.Owner.SteamId, callback: () =>
+		UndoSystem.Add( creator: Network.Owner.Id, callback: () =>
 		{
 			return UndoSystem.UndoObjects("Undone Rope", point1, point2, rope?.Attachment ?? null, rope.GameObject);
 		}, prop: point1 );

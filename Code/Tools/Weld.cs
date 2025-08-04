@@ -29,7 +29,7 @@ public class Weld : BaseJointTool
 		propHelper1?.Joints.Add( fixedJoint );
 		propHelper2?.Joints.Add( fixedJoint );
 
-		UndoSystem.Add( creator: Network.Owner.SteamId, callback: () =>
+		UndoSystem.Add( creator: Network.Owner.Id, callback: () =>
 		{
 			return UndoSystem.UndoObjects( "Undone Weld", point1, point2 );
 		}, prop: point1 );

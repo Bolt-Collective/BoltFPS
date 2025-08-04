@@ -32,7 +32,7 @@ public partial class NoCollide : BaseTool
 			var selectedObj = Selected;
 			var targetObj = trace.GameObject;
 
-			UndoSystem.Add( creator: Network.Owner.SteamId, callback: () =>
+			UndoSystem.Add( creator: Network.Owner.Id, callback: () =>
 			{
 				if ( !selectedObj.IsValid() || !targetObj.IsValid() )
 					return "skip";

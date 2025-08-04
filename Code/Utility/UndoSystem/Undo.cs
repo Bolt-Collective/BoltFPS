@@ -4,12 +4,12 @@ using Seekers;
 
 public class Undo
 {
-	public SteamId Creator;
+	public Guid Creator;
 	public GameObject Prop;
 	public Func<string> UndoCallback;
 	public float Time;
 
-	public Undo( SteamId creator, GameObject prop, Func<string> callback )
+	public Undo( Guid creator, GameObject prop, Func<string> callback )
 	{
 		Creator = creator;
 		Prop = prop;

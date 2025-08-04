@@ -46,6 +46,15 @@
 		StateHasChanged();
 	}
 
+	[Rpc.Broadcast]
+	public void BroadcastToast(string message, float duration = 3.0f, Guid id = default)
+	{
+		if (id != default && Connection.Local.Id != id)
+			return;
+
+		ActiveToasts.Add(new Toast(message, duration));
+	}
+
 	protected override void OnUpdate()
 	{
 		// Remove expired toasts

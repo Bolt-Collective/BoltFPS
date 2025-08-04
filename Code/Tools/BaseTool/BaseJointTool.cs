@@ -2,7 +2,7 @@ namespace Seekers;
 
 public abstract class BaseJointTool : BaseTool
 {
-	SelectionPoint selected;
+	SelectionPoint selected = new();
 
 	public virtual bool CanConstraintToSelf => false;
 
@@ -14,7 +14,8 @@ public abstract class BaseJointTool : BaseTool
 		if ( Input.Pressed( "attack1" ) )
 		{
 			var newSelectionPoint = SelectionPoint.GetPoint( trace );
-			if ( selected == null )
+			newSelectionPoint.Active = true;
+			if ( !selected.Active )
 			{
 				selected = newSelectionPoint;
 				return true;
@@ -25,7 +26,7 @@ public abstract class BaseJointTool : BaseTool
 
 			Join( selected, newSelectionPoint );
 
-			selected = null;
+			selected.Active = false;
 			return true;
 		}
 
@@ -41,7 +42,7 @@ public abstract class BaseJointTool : BaseTool
 		{
 			Disconnect( trace.GameObject );
 
-			selected = null;
+			selected.Active = false;
 			return true;
 		}
 

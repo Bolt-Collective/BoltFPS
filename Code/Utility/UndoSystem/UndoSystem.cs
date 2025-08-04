@@ -1,8 +1,9 @@
+using BoltFPS;
 using Sandbox;
 using Sandbox.Diagnostics;
 using Seekers;
 using System;
-using BoltFPS;
+using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 
 public sealed class UndoSystem : GameObjectSystem<UndoSystem>
@@ -11,9 +12,9 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 	{
 	}
 
-	private static Dictionary<long, List<Undo>> Undos = new();
+	private static Dictionary<Guid, List<Undo>> Undos = new();
 
-	private static List<Undo> Get(SteamId id)
+	private static List<Undo> Get(Guid id)
 	{
 		if ( !Undos.ContainsKey( id ) )
 			Undos.Add( id, new List<Undo>() );
@@ -41,9 +42,8 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 		return message;
 	}
 
-	private static Undo GetFirstAndRemove(SteamId id)
+	private static Undo GetFirstAndRemove(Guid id)
 	{
-
 		if ( !Undos.ContainsKey( id ) )
 			Undos.Add( id, new List<Undo>() );
 
@@ -55,7 +55,7 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 		return undo;
 	}
 
-	private static void AddUndo( SteamId id, Undo undo)
+	private static void AddUndo( Guid id, Undo undo)
 	{
 		if ( !Undos.ContainsKey( id ) )
 		{
@@ -65,12 +65,12 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 		Undos[id].Insert( 0, undo );
 	}
 
-	public static bool Remove( SteamId steamId, Undo undo )
+	public static bool Remove( Guid id, Undo undo )
 	{
-		if ( !Undos.ContainsKey( steamId ) )
-			Undos.Add( steamId, new List<Undo>() );
+		if ( !Undos.ContainsKey( id) )
+			Undos.Add( id, new List<Undo>() );
 
-		return Undos[steamId].Remove( undo );
+		return Undos[id].Remove( undo );
 	}
 
 	[ConCmd( "undo" )]
@@ -80,29 +80,35 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 		if ( !player.IsValid() )
 			return;
 
-		Undo undo = GetFirstAndRemove( player.SteamId );
+		BroadcastUndo( player.Network.Owner.Id );
+	}
 
-		if (undo != null)
+	[Rpc.Host]
+	public static void BroadcastUndo(Guid id)
+	{
+		Undo undo = GetFirstAndRemove( id );
+
+		if ( undo != null )
 		{
 			if ( undo.UndoCallback != null )
 			{
 				var undoMessage = undo.UndoCallback();
-				if (undoMessage == "skip")
+				if ( undoMessage == "skip" )
 				{
 					PlayerUndo();
 					return;
 				}
 				if ( undoMessage != "" )
 				{
-					ToastNotification.Current.AddToast( undoMessage );
+					ToastNotification.Current.BroadcastToast( undoMessage, 3, id );
 
-					if ( undo.Prop != null) CreateUndoParticles( undo.Prop.WorldPosition );
+					if ( undo.Prop != null ) CreateUndoParticles( undo.Prop.WorldPosition );
 				}
 			}
 		}
 	}
 
-	public static void Add( SteamId creator, Func<string> callback, GameObject prop= null)
+	public static void Add( Guid creator, Func<string> callback, GameObject prop= null)
 	{
 		if ( creator == default ) return;
 

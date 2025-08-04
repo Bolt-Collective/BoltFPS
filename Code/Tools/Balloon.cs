@@ -64,7 +64,7 @@ public class BalloonTool : BaseTool
 
 			var rope = Rope.CreateRopeBetween( connectionPoint, connectionPoint2, 100 );
 
-			UndoSystem.Add( creator: Network.Owner.SteamId, callback: () =>
+			UndoSystem.Add( creator: Network.Owner.Id, callback: () =>
 			{
 				return UndoSystem.UndoObjects( "Undone Balloon", rope?.Attachment ?? null, rope.GameObject, balloon );
 			}, prop: balloon );

@@ -23,11 +23,13 @@ public abstract class BaseTool : Component
 	{
 
 	}
-	public class SelectionPoint
+	public struct SelectionPoint
 	{
 		public GameObject GameObject { get; set; }
 		public Vector3 LocalPosition { get; set; }
 		public Vector3 LocalNormal { get; set; }
+
+		public bool Active { get; set; } = false;
 
 		public SelectionPoint ( GameObject gameObject, Vector3 localPosition, Vector3 localNormal )
 		{
