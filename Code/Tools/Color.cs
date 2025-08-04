@@ -16,7 +16,7 @@ public partial class ColorTool : BaseTool
 			if ( !trace.GameObject.Root.Components.TryGet<PropHelper>( out var propHelper ) )
 				return false;
 
-			BroadcastColor( propHelper, Color );
+			BroadcastColor( propHelper.GameObject, Color );
 
 			return true;
 		}
@@ -34,7 +34,7 @@ public partial class ColorTool : BaseTool
 			if ( !trace.GameObject.Root.Components.TryGet<PropHelper>( out var propHelper ) )
 				return false;
 
-			BroadcastColor( propHelper, Color.White );
+			BroadcastColor( propHelper.GameObject, Color.White );
 
 			return true;
 		}
@@ -43,10 +43,13 @@ public partial class ColorTool : BaseTool
 	}
 
 	[Rpc.Broadcast]
-	private void BroadcastColor( PropHelper propHelper, Color color )
+	private void BroadcastColor( GameObject prop, Color color )
 	{
 		// TODO: Fix this for other clients
+		if ( prop.Components.TryGet<PropHelper>( out var propHelper ) && propHelper.Prop.IsValid())
+			propHelper.Prop.Tint = color;
 
-		propHelper.Prop.Tint = color;
+		if ( prop.Components.TryGet<ModelRenderer>( out var modelRenderer ) )
+			modelRenderer.Tint = color;
 	}
 }

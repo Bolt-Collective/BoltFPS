@@ -1,3 +1,5 @@
+using Seekers;
+
 public class VerletRope : Component
 {
 	[Property] public GameObject Attachment { get; set; }
@@ -174,6 +176,9 @@ public class VerletRope : Component
 		ropePoint2.NetworkSpawn();
 		ropePoint1.Network.AssignOwnership( Connection.Host );
 		ropePoint1.NetworkSpawn();
+
+		ropePoint1.AddComponent<JointPoint>().otherPoint = ropePoint2;
+		ropePoint2.AddComponent<JointPoint>().otherPoint = ropePoint1;
 
 		if (rigid)
 		{
