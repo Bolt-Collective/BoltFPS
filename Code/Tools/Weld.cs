@@ -26,10 +26,6 @@ public class Weld : BaseJointTool
 
 		selected.GameObject.WorldTransform = selected.GameObject.WorldTransform.RotateAround( trace.HitPosition, Rotation.FromToRotation( selectionDirection, -trace.Normal ) );
 
-		//selected.GameObject.WorldRotation = Rotation.FromToRotation( selectionDirection, -trace.Normal ) * selected.GameObject.WorldRotation;
-
-		//selected.GameObject.WorldPosition += trace.EndPosition - selectionPoint;
-
 		selected.Active = false;
 
 		return true;

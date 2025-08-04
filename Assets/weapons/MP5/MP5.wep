@@ -1,7 +1,9 @@
 {
   "DisplayName": "MP5",
   "Catagory": "Base Weapons",
-  "Icon": "icons/weapons/guns/mp5_01.png",
+  "Duplicates": true,
+  "ReplenishAmmo": false,
+  "Icon": "icons/3d/w_mp5_c.vmdl_c.png",
   "Description": "",
   "Details": null,
   "__references": [],

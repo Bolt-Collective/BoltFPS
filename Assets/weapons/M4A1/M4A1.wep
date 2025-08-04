@@ -1,7 +1,9 @@
 {
   "DisplayName": "M4A1",
   "Catagory": "Base Weapons",
-  "Icon": "icons/weapons/guns/m4_01.png",
+  "Duplicates": true,
+  "ReplenishAmmo": false,
+  "Icon": "icons/3d/w_m4a1_c.vmdl_c.png",
   "Description": "",
   "Details": null,
   "__references": [],

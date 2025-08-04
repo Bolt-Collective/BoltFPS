@@ -3,15 +3,23 @@
   "GameObjects": [
     {
       "__guid": "bce4e289-5070-425d-9dc8-b8fde637a5c8",
+      "__version": 1,
       "Flags": 0,
       "Name": "2D Skybox",
       "Position": "60.85344,48.29187,-56.94836",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
       "Tags": "skybox",
       "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkInterpolation": true,
+      "NetworkOrphaned": 0,
+      "OwnerTransfer": 1,
       "Components": [
         {
           "__type": "Sandbox.SkyBox2D",
           "__guid": "fc11f72a-309a-4df3-97fe-e76a5dbba0ce",
+          "__enabled": true,
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
@@ -27,16 +35,26 @@
     },
     {
       "__guid": "9756bd1b-0e15-4679-a5e2-dcdcb044c6df",
+      "__version": 1,
       "Flags": 0,
       "Name": "Box",
       "Position": "16,-32,0",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "",
       "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkInterpolation": true,
+      "NetworkOrphaned": 0,
+      "OwnerTransfer": 1,
       "Components": [
         {
           "__type": "Sandbox.MeshComponent",
           "__guid": "59300359-988e-4166-ae7f-8db8dfa0cea5",
+          "__enabled": true,
           "Collision": "Mesh",
           "Color": "1,1,1,1",
+          "Elasticity": null,
           "Friction": null,
           "HideInGame": false,
           "IsTrigger": false,
@@ -119,6 +137,7 @@
           "OnTriggerEnter": null,
           "OnTriggerExit": null,
           "RenderType": "On",
+          "RollingResistance": null,
           "SmoothingAngle": 40,
           "Static": true,
           "Surface": null,
@@ -129,14 +148,23 @@
     },
     {
       "__guid": "64140d84-8f58-446b-acef-2962c871b37b",
+      "__version": 1,
       "Flags": 0,
       "Name": "Network",
       "Position": "0,0,119.4833",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "",
       "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkInterpolation": true,
+      "NetworkOrphaned": 0,
+      "OwnerTransfer": 1,
       "Components": [
         {
           "__type": "Seekers.BasicNetworkHelper",
           "__guid": "d5d2f1fa-0c28-4042-8b98-6c05559ce096",
+          "__enabled": true,
           "DevMode": false,
           "KickedPlayers": [],
           "OnComponentDestroy": null,
@@ -155,12 +183,14 @@
             76561199407136830,
             76561198289339378
           ],
+          "StartingWeapons": [],
           "StartServer": true
         },
         {
           "__type": "Seekers.TeamManager",
           "__guid": "168486c2-ebbe-41f6-9974-c6888eb25883",
-          "DefaultTeam": "team/skeletons.team",
+          "__enabled": true,
+          "DefaultTeam": "teams/basic.team",
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
@@ -173,14 +203,23 @@
     },
     {
       "__guid": "b94d50e2-125f-48cf-bc96-1020807328bb",
+      "__version": 1,
       "Flags": 0,
       "Name": "UI",
       "Position": "65.58156,825.8718,1353.204",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "",
       "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkInterpolation": true,
+      "NetworkOrphaned": 0,
+      "OwnerTransfer": 1,
       "Components": [
         {
           "__type": "Sandbox.ScreenPanel",
           "__guid": "63b8bc28-ae9e-4156-9d38-e9d6113c2d5f",
+          "__enabled": true,
           "AutoScreenScale": true,
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
@@ -197,6 +236,7 @@
         {
           "__type": "Seekers.RootHUD",
           "__guid": "76c400a4-2ec1-4dff-800d-37042cda4aa1",
+          "__enabled": true,
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
@@ -207,6 +247,7 @@
         {
           "__type": "Seekers.Crosshair",
           "__guid": "562d84a6-a741-4bea-af83-4f83ac5a1649",
+          "__enabled": true,
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
@@ -217,6 +258,7 @@
         {
           "__type": "Seekers.Scoreboard",
           "__guid": "fdc4d9bf-ca90-4cff-8587-0c74b344bf64",
+          "__enabled": true,
           "ForceOpen": false,
           "IconOveride": null,
           "NameOveride": null,
@@ -238,6 +280,7 @@
         {
           "__type": "Seekers.WeaponPicker",
           "__guid": "36dcdbf0-bef6-49c2-8b85-0be04c1b66dd",
+          "__enabled": true,
           "BackgroundBlur": 15,
           "BackgroundColour": "0,0,0,0.09",
           "CanShow": true,
@@ -249,42 +292,22 @@
           "OnComponentUpdate": null,
           "ShowAction": "buy",
           "ShowOnKey": true,
-          "WeaponCatagories": [
+          "WeaponCategories": [
             {
-              "DisplayName": "Primary",
+              "DisplayName": "poo",
               "Weapons": [
                 "weapons/m4a1/m4a1.wep",
-                "weapons/m700/m700.wep"
+                "weapons/mp5/mp5.wep"
               ],
-              "SelectedWeapon": null
-            },
-            {
-              "DisplayName": "Secondary",
-              "Weapons": [
-                "weapons/usp/usp.wep",
-                "weapons/mp5/mp5.wep",
-                "weapons/spaghelli m4/m4.wep",
-                "weapons/rust_pistol/rust_pistol.wep",
-                "weapons/rust_shotgun/rust_shotgun.wep",
-                "weapons/rust_smg/rust_smg.wep",
-                "weapons/rust_python/rust_python.wep"
-              ],
-              "SelectedWeapon": null
-            },
-            {
-              "DisplayName": "Equipment",
-              "Weapons": [
-                "weapons/grenade/grenade.wep",
-                "weapons/crowbar/crowbar.wep",
-                "weapons/golden_crowbar/golden_crowbar.wep"
-              ],
-              "SelectedWeapon": null
+              "SelectedWeapons": [],
+              "MaxSelections": 1
             }
           ]
         },
         {
           "__type": "Seekers.EnsuredLoadout",
           "__guid": "607fefe9-930e-4ed8-b26f-547f491d987e",
+          "__enabled": true,
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
@@ -295,6 +318,7 @@
         {
           "__type": "Seekers.BasicLoadoutManager",
           "__guid": "0f50e56f-83ea-4b8b-8ceb-4262fc664d9a",
+          "__enabled": true,
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
@@ -305,6 +329,7 @@
         {
           "__type": "Seekers.HealthVisuals",
           "__guid": "ad15d3bd-6a30-4551-bc60-67ba65325c2b",
+          "__enabled": true,
           "BloodTextures": [
             "textures/blood_splatter/decal_blood_splatter_01.png",
             "textures/blood_splatter/decal_blood_splatter_02.png",
@@ -391,8 +416,9 @@
           }
         },
         {
-          "__type": "LargeMessage",
+          "__type": "BoltFPS.LargeMessage",
           "__guid": "455993e0-6196-499f-8a66-28e6507f60c7",
+          "__enabled": true,
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
@@ -405,16 +431,23 @@
     },
     {
       "__guid": "16c0b168-7054-4c83-b54f-33ab2166d74d",
+      "__version": 1,
       "Flags": 0,
       "Name": "Sun",
       "Position": "-223.6157,-231.8087,376.692",
       "Rotation": "-0.06526309,0.5272028,-0.4957224,0.6870642",
+      "Scale": "1,1,1",
       "Tags": "light_directional,light",
       "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkInterpolation": true,
+      "NetworkOrphaned": 0,
+      "OwnerTransfer": 1,
       "Components": [
         {
           "__type": "Sandbox.DirectionalLight",
           "__guid": "5a4053fe-1251-4536-857f-bfef668cd2dc",
+          "__enabled": true,
           "FogMode": "Enabled",
           "FogStrength": 1,
           "LightColor": "0.91373,0.98039,1,1",
@@ -449,9 +482,9 @@
       "IncludedBodies": ""
     }
   },
-  "ResourceVersion": 2,
+  "ResourceVersion": 3,
   "Title": null,
   "Description": null,
   "__references": [],
-  "__version": 2
+  "__version": 3
 }
