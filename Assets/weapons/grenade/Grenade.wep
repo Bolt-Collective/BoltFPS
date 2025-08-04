@@ -1,6 +1,8 @@
 {
   "DisplayName": "Grenade",
   "Catagory": "Base Weapons",
+  "Duplicates": false,
+  "ReplenishAmmo": true,
   "Icon": "icons/weapons/grenades/he_grenade_01.png",
   "Description": "",
   "Details": null,

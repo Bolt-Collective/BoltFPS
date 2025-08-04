@@ -27,11 +27,10 @@ WeaponWheel {
     font-weight: semibold;
 
     img {
-      position: absolute;
       left: 7px;
-      height: 100%;
-      width: 133px;
-      background-size: cover;
+      flex-grow: 1;
+      background-size: 150px;
+      background-repeat: no-repeat;
       background-position: center;
     }
 

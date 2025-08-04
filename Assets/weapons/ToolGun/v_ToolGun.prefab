@@ -3,7 +3,7 @@
     "__guid": "bd3313cd-1991-48d5-93b1-06ee69537202",
     "__version": 1,
     "Flags": 0,
-    "Name": "v_toolgun",
+    "Name": "v_rust_python",
     "Position": "0,0,0",
     "Rotation": "0,0,0,1",
     "Scale": "1,1,1",
@@ -19,14 +19,14 @@
         "__guid": "2fcd7f65-021f-4649-8115-0de0a2184180",
         "__enabled": true,
         "AnimationGraph": null,
-        "BodyGroups": 147,
+        "BodyGroups": 18446744073709551615,
         "BoneMergeTarget": null,
         "CreateAttachments": false,
         "CreateBoneObjects": false,
         "MaterialGroup": null,
         "MaterialOverride": null,
         "Materials": null,
-        "Model": "models/weapons/sbox_pistol_usp/v_usp.vmdl",
+        "Model": "weapons/rust_python/v_python.vmdl",
         "Morphs": {},
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
@@ -35,9 +35,7 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "Parameters": {
-          "bools": {
-            "b_twohanded": true
-          },
+          "bools": {},
           "ints": {},
           "floats": {},
           "vectors": {},
@@ -63,12 +61,14 @@
         "__type": "Seekers.ViewModel",
         "__guid": "fccc3908-17ff-41ca-9c46-1aee27bf34da",
         "__enabled": true,
-        "AnimParamTranslate": {},
+        "AnimParamTranslate": {
+          "b_deploy": null
+        },
         "BobCycleTime": 7,
         "BobDirection": "0,1,0.5",
         "InertiaDamping": 20,
         "MaxOffsetLength": 10,
-        "Offset": "-2,0,0",
+        "Offset": "0,0,-72.6",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -76,78 +76,11 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "ReturnSpeed": 5,
-        "SwingAndBob": false,
+        "SwingAndBob": true,
         "SwingInfluence": 0.05
       }
     ],
-    "Children": [
-      {
-        "__guid": "2862f30a-1a5d-4580-a00f-903732e90009",
-        "__version": 1,
-        "Flags": 0,
-        "Name": "Arms",
-        "Position": "0,0,0",
-        "Rotation": "0,0,0,1",
-        "Scale": "1,1,1",
-        "Tags": "",
-        "Enabled": true,
-        "NetworkMode": 2,
-        "NetworkInterpolation": true,
-        "NetworkOrphaned": 0,
-        "OwnerTransfer": 1,
-        "Components": [
-          {
-            "__type": "Sandbox.SkinnedModelRenderer",
-            "__guid": "1fa0f26d-6c02-4af0-a3ec-e537751fef65",
-            "__enabled": true,
-            "AnimationGraph": null,
-            "BodyGroups": 21,
-            "BoneMergeTarget": {
-              "_type": "component",
-              "component_id": "2fcd7f65-021f-4649-8115-0de0a2184180",
-              "go": "bd3313cd-1991-48d5-93b1-06ee69537202",
-              "component_type": "SkinnedModelRenderer"
-            },
-            "CreateAttachments": false,
-            "CreateBoneObjects": false,
-            "MaterialGroup": null,
-            "MaterialOverride": null,
-            "Materials": null,
-            "Model": "models/first_person/first_person_arms.vmdl",
-            "Morphs": {},
-            "OnComponentDestroy": null,
-            "OnComponentDisabled": null,
-            "OnComponentEnabled": null,
-            "OnComponentFixedUpdate": null,
-            "OnComponentStart": null,
-            "OnComponentUpdate": null,
-            "Parameters": {
-              "bools": {},
-              "ints": {},
-              "floats": {},
-              "vectors": {},
-              "rotations": {}
-            },
-            "PlaybackRate": 1,
-            "RenderOptions": {
-              "GameLayer": false,
-              "OverlayLayer": true,
-              "BloomLayer": false,
-              "AfterUILayer": false
-            },
-            "RenderType": "Off",
-            "Sequence": {
-              "Name": null,
-              "Looping": true,
-              "Blending": false
-            },
-            "Tint": "1,1,1,1",
-            "UseAnimGraph": true
-          }
-        ],
-        "Children": []
-      }
-    ],
+    "Children": [],
     "__properties": {
       "NetworkInterpolation": true,
       "TimeScale": 1,
@@ -174,7 +107,7 @@
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
   "__references": [
-    "facepunch.v_usp#90537"
+    "rust.vpython#76270"
   ],
   "__version": 2
 }

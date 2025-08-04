@@ -112,7 +112,7 @@ public partial class ToolGun : BaseWeapon
 		Gizmo.Draw.Color = Color.Red;
 		Gizmo.Draw.SolidSphere( closestIntersection, 0.5f );
 
-		if ( !Input.Down( "run" ) )
+		if ( !Input.Down( "run" ) || (Owner?.Controller?.WishMove ?? Vector3.Zero).Length > 0.1f )
 			return;
 
 		Owner.Controller.IgnoreCam = true;

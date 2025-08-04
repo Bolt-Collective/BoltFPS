@@ -29,21 +29,19 @@ public static class Explosion
 
 			var distance = obj.WorldPosition.Distance( point );
 			var direction = (obj.WorldPosition - point).Normal;
-			var force = direction * distance * 50f;
+			
 			var damage = baseDamage * falloff.Evaluate( distance / radius );
+
+			var force = direction * damage * 2500f;
 
 			if ( tr.Hit && tr.GameObject.IsValid() )
 			{
 				if ( !obj.Root.IsDescendant( tr.GameObject ) )
 					continue;
 
-				var calcForce = tr.Direction * 250000 * damage;
-
-				force = calcForce;
-
 				if ( tr.GameObject.Components.TryGet<Rigidbody>( out var prop ) )
 				{
-					prop.ApplyForce( calcForce );
+					prop.ApplyForce( force );
 				}
 			}
 

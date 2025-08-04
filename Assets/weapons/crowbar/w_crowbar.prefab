@@ -24,12 +24,13 @@
           "Scale": "1,1,1",
           "Rotation": "0,0,0,1"
         },
+        "Chamber": true,
         "CrosshairType": "Dot",
         "Damage": 25,
         "DeploySound": "sounds/weapons/switch/switch_3.sound",
         "Handedness": "Right",
         "HoldType": "Swing",
-        "Icon": null,
+        "Icon": "icons/weapons/melee/crowbar.png",
         "ItemResource": null,
         "LeftIK": {
           "Active": true,
