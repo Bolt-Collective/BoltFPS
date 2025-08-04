@@ -3,7 +3,7 @@ using System.Text.Json.Nodes;
 namespace Seekers;
 
 [Library( "weapon_tool", Title = "Toolgun" )]
-public class ToolGun : BaseWeapon
+public partial class ToolGun : BaseWeapon
 {
 	[ConVar( "tool_current" )] public static string UserToolCurrent { get; set; } = "tool_boxgun";
 
@@ -40,6 +40,86 @@ public class ToolGun : BaseWeapon
 		{
 			UpdateTool();
 		}
+	}
+
+    protected override void OnUpdate()
+    {
+        base.OnUpdate();
+		if ( IsProxy )
+			return;
+
+		if(Owner?.Inventory.IsValid() ?? false)
+			Owner.Inventory.CanChange = !Input.Down("run");
+
+		if (Input.Down("run") && Input.MouseWheel.Length > 0.5f)
+		{
+			float x = Input.MouseWheel.y;
+			int result = MathF.Sign( x );
+
+			subDiv += result;
+
+			subDiv = subDiv.Clamp( 1, 10 );
+		}
+
+		var trace = BasicTraceTool();
+
+		if ( !trace.Hit )
+			return;
+
+		GameObject gameObject = trace.GameObject.Root;
+
+		if ( !gameObject.IsValid() )
+			return;
+
+		BBox bounds = default;
+
+		if (trace.GameObject.Root.Components.TryGet(out ModelPhysics modelPhysics) && trace.GameObject.Components.TryGet(out Collider collider))
+		{
+			gameObject = trace.GameObject;
+			bounds = collider.LocalBounds;
+		}
+        else if ( trace.GameObject.Root.Components.TryGet(out ModelRenderer modelRenderer))
+        {
+			bounds = modelRenderer.LocalBounds;
+        }
+
+		if ( bounds == default )
+			return;
+		
+        var intersections = CreateGrid( bounds, gameObject, trace );
+
+		if ( !Owner?.Controller.IsValid() ?? true )
+			return;
+
+		Owner.Controller.IgnoreCam = false;
+
+		if ( intersections.Count <= 0 )
+			return;
+
+		Vector3 closestIntersection = intersections[0];
+		float closestDistance = 100000;
+		foreach(var intersection in intersections)
+		{
+			var distance = intersection.Distance( trace.HitPosition );
+
+			if ( distance > closestDistance )
+				continue;
+
+			closestIntersection = intersection;
+			closestDistance = distance;
+		}
+
+		Gizmo.Draw.Color = Color.Red;
+		Gizmo.Draw.SolidSphere( closestIntersection, 0.5f );
+
+		if ( !Input.Down( "run" ) )
+			return;
+
+		Owner.Controller.IgnoreCam = true;
+
+		var direction = closestIntersection - Scene.Camera.WorldPosition;
+
+		Owner.Controller.LookAt( closestIntersection );
 	}
 
 	public override void AttackPrimary()
@@ -90,11 +170,17 @@ public class ToolGun : BaseWeapon
 		if ( comp == null )
 			return;
 
-		
-
 		var tool = Components.Create( comp, true );
 
+		var baseTool = tool as BaseTool;
+
+		if ( !baseTool.IsValid() )
+		{
+			tool?.Destroy();
+		}
+
 		LoadTool( tool );
+		tool.Enabled = true;
 
 		if ( CurrentTool.IsValid() && lastTool != UserToolCurrent)
 			SaveTool( CurrentTool );
@@ -102,10 +188,11 @@ public class ToolGun : BaseWeapon
 		lastTool = UserToolCurrent;
 
 		CurrentTool?.Destroy();
-
-		CurrentTool = Components.Get<BaseTool>();
+		CurrentTool = baseTool;
 		CurrentTool.Owner = Owner;
 		CurrentTool.Parent = this;
+
+		
 
 		GameObject.Network.Refresh();
 	}

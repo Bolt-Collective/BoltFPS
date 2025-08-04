@@ -295,8 +295,6 @@ public partial class Crosshair : Component
 
 			float screenOffset = MathF.Abs( thirdPersonOffsetX ) * screenHeight / (screenHeight * 2 * screenDistance);
 
-			Log.Info( crosshairWidth - screenOffset );
-
 			crosshairWidth = MathF.Max( 0, crosshairWidth - screenOffset );
 		}
 

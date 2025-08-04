@@ -59,7 +59,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		if ( Owner.IsValid() && Owner.Controller.IsValid() && Owner.Inventory.IsValid())
 		{
-			Owner.Controller.IgnoreInput = Input.Down( "use" ) && GrabbedObject.IsValid();
+			Owner.Controller.IgnoreCam = Input.Down( "use" ) && GrabbedObject.IsValid();
 
 			Owner.Inventory.CanChange = !GrabbedObject.IsValid();
 		}

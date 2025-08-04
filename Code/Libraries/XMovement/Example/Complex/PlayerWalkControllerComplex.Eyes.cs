@@ -24,7 +24,7 @@ public partial class PlayerWalkControllerComplex : Component
 	/// <summary>
 	/// Constructs a ray using the camera's GameObject
 	/// </summary>
-	public virtual Ray AimRay => new(Head.WorldPosition + EyeAngles.Forward, EyeAngles.Forward);
+	public virtual Ray AimRay => new( Head.WorldPosition + EyeAngles.Forward, EyeAngles.Forward );
 
 	protected void SetupHead()
 	{
@@ -55,10 +55,13 @@ public partial class PlayerWalkControllerComplex : Component
 
 	public virtual void DoEyeLook()
 	{
-		if ( !IsProxy && !IgnoreInput )
+		if ( !IsProxy )
 		{
-			LocalEyeAngles += Input.AnalogLook * AimSensitivityScale;
-			LocalEyeAngles = LocalEyeAngles.WithPitch( LocalEyeAngles.pitch.Clamp( -89f, 89f ) );
+			if ( !IgnoreCam )
+			{
+				LocalEyeAngles += Input.AnalogLook * AimSensitivityScale;
+				LocalEyeAngles = LocalEyeAngles.WithPitch( LocalEyeAngles.pitch.Clamp( -89f, 89f ) );
+			}
 
 			if ( IsInVR )
 			{
@@ -67,5 +70,14 @@ public partial class PlayerWalkControllerComplex : Component
 
 			PositionHead();
 		}
+	}
+
+	public void LookAt( Vector3 worldTarget )
+	{
+		var worldDirection = (worldTarget - Head.WorldPosition).Normal;
+
+		EyeAngles = Rotation.LookAt(worldDirection);
+
+		LocalEyeAngles = LocalEyeAngles.WithPitch( LocalEyeAngles.pitch.Clamp( -89f, 89f ) );
 	}
 }

@@ -6,7 +6,7 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 {
 	[RequireComponent] public Pawn Owner { get; set; }
 	[Sync, Property] public NetList<BaseWeapon> Weapons { get; set; } = new();
-	[Sync] public BaseWeapon ActiveWeapon { get; set; }
+	[Sync, Property] public BaseWeapon ActiveWeapon { get; set; }
 
 	public Action<GameObject, float> OnShootGameObject;
 

@@ -67,7 +67,9 @@ public partial class PlayerWalkControllerComplex : Component
 
 	public bool CanMove { get; set; } = true;
 
-	public bool IgnoreInput { get; set; }
+	public bool IgnoreMove { get; set; }
+
+	public bool IgnoreCam { get; set; }
 
 	public float MovementSpeedMultiplier { get; set; } = 1;
 
@@ -163,7 +165,7 @@ public partial class PlayerWalkControllerComplex : Component
 	public void BuildWishVelocity()
 	{
 		WishMove = Input.AnalogMove;
-		if ( IgnoreInput )
+		if ( IgnoreMove )
 			WishMove = 0;
 
 		if ( IsInVR ) WishMove = new Vector3( Input.VR.LeftHand.Joystick.Value.y, -Input.VR.LeftHand.Joystick.Value.x );
