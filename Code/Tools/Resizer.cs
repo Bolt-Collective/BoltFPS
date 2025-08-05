@@ -4,36 +4,45 @@ namespace Seekers;
 
 public class Resizer : BaseTool
 {
-	
+	[Property, Range( 0.01f, 0.1f )]
+	public float Rate { get; set; } = 0.033f;
 	public override bool Primary( SceneTraceResult trace )
 	{
-		if ( Input.Down( "attack1" ) )
-		{
-			Resize(trace.GameObject, 0.033f);
-			return true;
-		}
+		if ( !Input.Down( "attack1" ) )
+			return false;
 
-		return false;
+		if (!trace.GameObject.Root.Components.TryGet<PropHelper>(out var ph))
+			return false;
+
+		var target = trace.GameObject;
+
+		Resize(target, target.WorldScale, Rate);
+
+		return true;
 	}
 
 	public override bool Secondary( SceneTraceResult trace )
 	{
-		if ( Input.Down( "attack2" ) )
-		{
-			Resize(trace.GameObject, -0.033f);
-			return true;
-		}
+		if ( !Input.Down( "attack2" ) )
+			return false;
 
-		return false;
+		if ( !trace.GameObject.Root.Components.TryGet<PropHelper>( out var ph ) )
+			return false;
+
+		var target = trace.GameObject;
+
+		Resize( target, target.WorldScale, -Rate );
+
+		return true;
 	}
-	
+
 	[Rpc.Broadcast]
-	private void Resize( GameObject go, float size )
+	private void Resize( GameObject go, Vector3 currentScale, float size )
 	{
 		if ( !go.IsValid() ) return;
 		if ( go.IsProxy ) return;
 
-		var newScale = go.WorldScale + size;
+		var newScale = currentScale + size;
 		if ( newScale.Length < 0.1f ) return;
 		if ( newScale.Length > 1000f ) return;
 

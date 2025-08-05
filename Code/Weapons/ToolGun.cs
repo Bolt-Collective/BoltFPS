@@ -5,7 +5,7 @@ namespace Seekers;
 [Library( "weapon_tool", Title = "Toolgun" )]
 public partial class ToolGun : BaseWeapon
 {
-	[ConVar( "tool_current" )] public static string UserToolCurrent { get; set; } = "tool_boxgun";
+	public static string UserToolCurrent { get; set; }
 
 	public BaseTool CurrentTool { get; set; }
 
