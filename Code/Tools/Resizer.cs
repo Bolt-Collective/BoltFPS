@@ -9,7 +9,7 @@ public class Resizer : BaseTool
 	{
 		if ( Input.Down( "attack1" ) )
 		{
-			Resize(trace.GameObject.Root, 0.033f);
+			Resize(trace.GameObject, 0.033f);
 			return true;
 		}
 
@@ -20,7 +20,7 @@ public class Resizer : BaseTool
 	{
 		if ( Input.Down( "attack2" ) )
 		{
-			Resize(trace.GameObject.Root, -0.033f);
+			Resize(trace.GameObject, -0.033f);
 			return true;
 		}
 
