@@ -5,8 +5,9 @@ public partial class ToolGun : BaseWeapon
 {
 	public List<Vector3> CreateGrid( BBox localBounds, GameObject gameObject, SceneTraceResult trace )
 	{
+		Gizmo.Draw.IgnoreDepth = true;
 		BBox bounds = localBounds;
-		var transform = new Transform( Vector3.Zero, gameObject.WorldRotation );
+		var transform = new Transform( Vector3.Zero, gameObject.WorldRotation, gameObject.WorldScale );
 		Vector3 OffsetToWorld( Vector3 local ) => transform.PointToWorld( local ) + gameObject.WorldPosition;
 
 		var corners = bounds.Corners.Select( OffsetToWorld ).ToArray();
