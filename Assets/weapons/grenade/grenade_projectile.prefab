@@ -1,14 +1,23 @@
 {
   "RootObject": {
     "__guid": "e880d234-b3f1-4740-b449-6bda8c947f5d",
+    "__version": 1,
     "Flags": 0,
     "Name": "grenade_projectile",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
     "Tags": "projectile",
     "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
     "Components": [
       {
         "__type": "Seekers.HEGrenade",
         "__guid": "ba0c3e5a-7a26-41e7-92c4-f99eaa81dc16",
+        "__enabled": true,
         "CanDealDamage": true,
         "DamageFalloff": [
           {
@@ -45,10 +54,12 @@
       {
         "__type": "Sandbox.ModelRenderer",
         "__guid": "1ee4d3e4-c100-4d0e-bf60-5b155120d248",
+        "__enabled": true,
         "BodyGroups": 1,
         "CreateAttachments": false,
         "MaterialGroup": null,
         "MaterialOverride": null,
+        "Materials": null,
         "Model": "models/weapons/sbox_grenade_explosive/w_he_grenade.vmdl",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
@@ -68,7 +79,9 @@
       {
         "__type": "Sandbox.SphereCollider",
         "__guid": "6961c214-51e2-4266-bae5-39657242092d",
+        "__enabled": true,
         "Center": "0,0,1.4",
+        "Elasticity": null,
         "Friction": null,
         "IsTrigger": false,
         "OnComponentDestroy": null,
@@ -82,6 +95,7 @@
         "OnTriggerEnter": null,
         "OnTriggerExit": null,
         "Radius": 1.3,
+        "RollingResistance": null,
         "Static": false,
         "Surface": "surfaces/grenade.simpact",
         "SurfaceVelocity": "0,0,0"
@@ -89,6 +103,7 @@
       {
         "__type": "Sandbox.Rigidbody",
         "__guid": "0dcd4036-4fd9-40f9-8118-9c8d5bddc198",
+        "__enabled": true,
         "AngularDamping": 0,
         "Gravity": true,
         "LinearDamping": 0,
@@ -115,16 +130,10 @@
       }
     ],
     "Children": [],
-    "__variables": [],
     "__properties": {
-      "FixedUpdateFrequency": 50,
-      "MaxFixedUpdates": 5,
-      "NetworkFrequency": 30,
       "NetworkInterpolation": true,
-      "PhysicsSubSteps": 1,
-      "ThreadedAnimation": true,
       "TimeScale": 1,
-      "UseFixedUpdate": true,
+      "WantsSystemScene": true,
       "Metadata": {},
       "NavMesh": {
         "Enabled": false,
@@ -138,15 +147,16 @@
         "ExcludedBodies": "",
         "IncludedBodies": ""
       }
-    }
+    },
+    "__variables": []
   },
+  "ResourceVersion": 2,
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "ResourceVersion": 1,
   "__references": [
     "facepunch.w_he_grenade#58001"
   ],
-  "__version": 1
+  "__version": 2
 }
