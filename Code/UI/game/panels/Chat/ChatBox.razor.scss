@@ -58,7 +58,6 @@ Chatbox {
 
     textentry {
       color: white;
-      background: linear-gradient(rgba(#CF702A, 0.5), rgba(#CF702A 0.2));
       font-size: 19px;
       font-weight: 600;
       border-radius: 10px;
@@ -67,6 +66,11 @@ Chatbox {
       height: 40px;
       width: 100%;
       padding: 12px;
+
+      &:focus {
+        background: linear-gradient(rgba(#CF702A, 0.5), rgba(#CF702A 0.2));
+
+      }
     }
 
     .btn-settings {
