@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Sandbox;
 using Sandbox.Citizen;
 using Sandbox.Components;
@@ -239,6 +240,15 @@ public partial class BaseWeapon : Component
 	{
 		GameObject.NetworkInterpolation = false;
 
+		if ( !Owner.IsValid() )
+			return;
+
+		if ( !Owner.Controller.IsValid() )
+			return;
+
+		if ( !Owner.Inventory.IsValid() )
+			return;
+
 		Owner?.Renderer?.Set( "holdtype", (int)HoldType );
 		Owner?.Renderer?.Set( "holdtype_handedness", (int)Handedness );
 
@@ -250,9 +260,11 @@ public partial class BaseWeapon : Component
 		}
 
 		if ( WorldModel.IsValid() )
+		{
 			WorldModel.RenderType = !Owner?.Controller?.BodyVisible ?? false
 				? ModelRenderer.ShadowRenderType.ShadowsOnly
 				: ModelRenderer.ShadowRenderType.On;
+		}
 
 		if ( IsProxy )
 			return;
@@ -265,12 +277,12 @@ public partial class BaseWeapon : Component
 		Owner?.Controller?.Tags.Set( "viewer",
 			Owner.Controller.CameraMode.Equals( PlayerWalkControllerComplex.CameraModes.ThirdPerson ) );
 
-		if (Owner?.Controller.IsValid() ?? false)
+		if ( Owner?.Controller.IsValid() ?? false )
 		{
 			Owner.Controller.IgnoreMove = false;
 			Owner.Controller.IgnoreCam = false;
 		}
-			
+
 
 		if ( Owner?.Inventory.IsValid() ?? false )
 			Owner.Inventory.CanChange = true;
@@ -547,12 +559,15 @@ public partial class BaseWeapon : Component
 		{
 			var tagMaterial = "";
 
-			foreach ( var tag in tr.Tags )
+			if ( tr.Tags.Any() )
 			{
-				if ( tag.StartsWith( "m-" ) || tag.StartsWith( "m_" ) )
+				foreach ( var tag in tr.Tags )
 				{
-					tagMaterial = tag.Remove( 0, 2 );
-					break;
+					if ( tag.StartsWith( "m-" ) || tag.StartsWith( "m_" ) )
+					{
+						tagMaterial = tag.Remove( 0, 2 );
+						break;
+					}
 				}
 			}
 
@@ -594,7 +609,7 @@ public partial class BaseWeapon : Component
 			KnockBack( gameObject, calcForce );
 		}
 
-		
+
 		if ( gameObject.Components.TryGet<NetworkedProp>( out var netProp ) )
 		{
 			netProp.Damage( damage );

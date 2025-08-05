@@ -15,8 +15,8 @@ public static partial class SurfaceExtensions
 		{
 			GameObject particle = self.PrefabCollection.BulletImpact;
 			if ( particle == null ) particle = self.PrefabCollection.BluntImpact;
-			if (surf == null) return;
-			
+			if ( surf == null ) return;
+
 			while ( particle == null && !surf.IsDefault() )
 			{
 				surf = ReplaceSurface( surf?.GetProperBaseSurface() );
@@ -46,7 +46,7 @@ public static partial class SurfaceExtensions
 			{
 				var impact = particle.Clone();
 				impact.WorldPosition = tr.EndPosition;
-				impact.SetParent( tr.GameObject, true );
+				impact.SetParent( null, true );
 				impact.WorldRotation = Rotation.LookAt( -tr.Normal );
 			}
 		}

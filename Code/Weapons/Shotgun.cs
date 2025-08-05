@@ -60,7 +60,7 @@ partial class Shotgun : BaseWeapon
 	protected override void ShootEffects()
 	{
 		base.ShootEffects();
-		AttachParticleSystem( _eject, "eject", 1, LocalWorldModel.GameObject );
+		AttachParticleSystem( _eject, "eject", 1, LocalWorldModel?.GameObject );
 		ViewModel?.Set( "b_attack", true );
 	}
 
