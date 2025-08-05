@@ -42,11 +42,11 @@
   "PrefabCollection": {
     "BulletImpact": {
       "_type": "gameobject",
-      "prefab": "prefabs/surface/metal_bullet.prefab"
+      "prefab": "weapons/common/effects/impact_metal.prefab"
     },
     "BluntImpact": {
       "_type": "gameobject",
-      "prefab": "prefabs/surface/metal_bullet.prefab"
+      "prefab": "weapons/common/effects/impact_metal.prefab"
     }
   },
   "SoundCollection": {
