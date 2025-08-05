@@ -1,6 +1,6 @@
 ﻿namespace Seekers;
 
-[Library( "tool_rotate_alighn", Title = "Rotate Alighn", Description = "Alighn Object To Rotation", Group = "construction" )]
+[Library( "tool_rotate_align", Title = "Rotate Align", Description = "Align Object To Rotation", Group = "construction" )]
 public partial class AlighnRotation : BaseTool
 {
 	[Property] public float RotationSnapDegrees { get; set; } = 90f;
