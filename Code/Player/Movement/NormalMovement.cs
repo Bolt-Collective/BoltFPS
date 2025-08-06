@@ -38,6 +38,8 @@ public partial class NormalMovement : Movement
 
 	public bool EnableSprinting = true;
 
+	public bool EnableCrouching = true;
+
 	public enum MoveModes
 	{
 		Walk, 
@@ -76,7 +78,7 @@ public partial class NormalMovement : Movement
 
 	private void Walk()
 	{
-		if (Input.Pressed("Duck") || Input.Pressed("Slide") )
+		if (Input.Pressed("Duck") && EnableCrouching )
 		{
 			MoveMode = MoveModes.Crouch;
 
@@ -103,7 +105,7 @@ public partial class NormalMovement : Movement
 
 	private void Crouch()
 	{
-		if ( !Input.Down( "Duck" ) && !Input.Down("Slide") && StandCheck() )
+		if ( (!Input.Down( "Duck" ) && !Input.Down("Slide") && StandCheck()) || !EnableCrouching)
 		{
 			MoveMode = MoveModes.Walk;
 
