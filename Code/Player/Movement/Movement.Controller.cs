@@ -195,7 +195,7 @@ public abstract partial class Movement : Component
 	public void MoveTo(Vector3 position)
 	{
 		var ray = Scene.Trace.Ray( WorldPosition, WorldPosition );
-		var mover = new CharacterControllerHelper( BuildTrace( ray ), WorldPosition, position - WorldPosition );
+		var mover = new CharacterControllerHelper( BuildTrace( ray ), WorldPosition, (position - WorldPosition) / Time.Delta );
 		var previousVelocity = Velocity;
 
 		if ( IsGrounded )
