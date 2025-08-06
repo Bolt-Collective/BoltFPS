@@ -192,6 +192,31 @@ public abstract partial class Movement : Component
 		previousHeight = Height;
 	}
 
+	public void MoveTo(Vector3 position)
+	{
+		var ray = Scene.Trace.Ray( WorldPosition, WorldPosition );
+		var mover = new CharacterControllerHelper( BuildTrace( ray ), WorldPosition, position - WorldPosition );
+		var previousVelocity = Velocity;
+
+		if ( IsGrounded )
+		{
+			mover.TryMoveWithStep( Time.Delta, StepHeight );
+		}
+		else
+		{
+			mover.TryMove( Time.Delta );
+		}
+
+		WorldPosition = mover.Position;
+
+		Velocity = mover.Velocity;
+
+		if ( IsStuck() )
+			TryUnstuck( previousVelocity );
+
+		CategorizePosition();
+	}
+
 
 	public bool IsStuck()
 	{
