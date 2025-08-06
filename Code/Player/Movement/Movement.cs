@@ -154,8 +154,8 @@ public abstract partial class Movement : Component
 		lastVel = newVel;
 		newVel = Velocity;
 
-		Collider.Center  = new Vector3( 0, 0, Height/2 );
-		Collider.Scale = new Vector3(Radius * 2f + 5, Radius * 2 + 5, Height + 5 );
+		Collider.Center  = new Vector3( 0, 0, Height/2 + 2 );
+		Collider.Scale = new Vector3(Radius * 2f + 5, Radius * 2 + 5, Height );
 
 		if ( IsProxy )
 			return;
