@@ -171,7 +171,67 @@ public partial class MapLoader : MapInstance
 		if ( kv.TypeName == "prop_physics" && Game.IsPlaying )
 		{
 			go.Components.Create<DestroyOnMapCleanup>();
-			go.NetworkSpawn( null );
+			go.Components.Create<PropHelper>();
+			go.NetworkSpawn( Connection.Host );
+		}
+
+		if ( kv.TypeName == "snd_event_point" && Game.IsPlaying )
+		{
+			string soundName = kv.GetValue<string>( "soundName" );
+			bool startOnSpawn = kv.GetValue<bool>( "startOnSpawn" );
+			bool stopOnNew = kv.GetValue<bool>( "stopOnNew" );
+			
+			float soundVolume = kv.GetValue<float>( "soundVolume" );
+			float soundPitch = kv.GetValue<float>( "soundPitch" );
+			
+			bool overrideDefault = kv.GetValue<bool>( "overrideParams" );
+			
+			var soundEvent = go.Components.Create<SoundPointComponent>();
+			soundEvent.SoundOverride = true;
+
+			soundEvent.SoundEvent = new SoundEvent( soundName );
+			soundEvent.SoundEvent.Volume = soundVolume;
+			soundEvent.SoundEvent.Pitch = soundPitch;
+			soundEvent.PlayOnStart = startOnSpawn;
+			soundEvent.StopOnNew = stopOnNew;
+			soundEvent.OcclusionOverride = true;
+			soundEvent.Occlusion = true;
+			soundEvent.DistanceAttenuationOverride = true;
+			soundEvent.DistanceAttenuation = true;
+			soundEvent.Distance = 512;
+			
+			go.NetworkSpawn( Connection.Host );
+		}
+		
+		if (kv.TypeName == "snd_event_alignedbox" && Game.IsPlaying)
+		{
+			string soundName = kv.GetValue<string>( "soundName" );
+			bool startOnSpawn = kv.GetValue<bool>( "startOnSpawn" );
+			bool stopOnNew = kv.GetValue<bool>( "stopOnNew" );
+
+			float soundVolume = kv.GetValue<float>( "soundVolume" );
+			float soundPitch = kv.GetValue<float>( "soundPitch" );
+			
+			Vector3 mins = kv.GetValue<Vector3>( "mins" );
+			Vector3 maxs = kv.GetValue<Vector3>( "maxs" );
+
+			var soundBox = go.Components.Create<SoundBoxComponent>();
+			soundBox.SoundOverride = true;
+
+			soundBox.SoundEvent = new SoundEvent( soundName );
+			soundBox.SoundEvent.Volume = soundVolume;
+			soundBox.SoundEvent.Pitch = soundPitch;
+			soundBox.PlayOnStart = startOnSpawn;
+			soundBox.StopOnNew = stopOnNew;
+			soundBox.OcclusionOverride = true;
+			soundBox.Occlusion = true;
+			soundBox.DistanceAttenuationOverride = true;
+			soundBox.DistanceAttenuation = true;
+			soundBox.Distance = 512;
+			
+			soundBox.Scale = maxs - mins;
+
+			go.NetworkSpawn( Connection.Host );
 		}
 	}
 

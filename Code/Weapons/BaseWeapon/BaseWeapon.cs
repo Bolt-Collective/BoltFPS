@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Sandbox;
 using Sandbox.Citizen;
-using Sandbox.Components;
 using Sandbox.UI;
 using Sandbox.Utility;
 using XMovement;
@@ -607,12 +606,6 @@ public partial class BaseWeapon : Component
 		if ( gameObject.Components.TryGet<Rigidbody>( out var rb ) )
 		{
 			KnockBack( gameObject, calcForce );
-		}
-
-
-		if ( gameObject.Components.TryGet<NetworkedProp>( out var netProp ) )
-		{
-			netProp.Damage( damage );
 		}
 
 		if ( !owner.IsValid() )
