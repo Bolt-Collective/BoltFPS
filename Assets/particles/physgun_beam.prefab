@@ -258,7 +258,7 @@
             "EndCap": "None",
             "Face": "Camera",
             "FogStrength": 1,
-            "Lighting": true,
+            "Lighting": false,
             "OnComponentDestroy": null,
             "OnComponentDisabled": null,
             "OnComponentEnabled": null,
