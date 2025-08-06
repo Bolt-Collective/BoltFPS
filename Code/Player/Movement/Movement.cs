@@ -62,6 +62,7 @@ public abstract partial class Movement : Component
 	private float _startHeight;
 	protected override void OnStart()
 	{
+		Camera.Enabled = false;
 		_startHeight = Height;
 	}
 
@@ -88,6 +89,8 @@ public abstract partial class Movement : Component
 		Animate();
 
 		UpdateBodyVisibility();
+
+		Camera.Enabled = !IsProxy;
 
 		if ( IsProxy )
 			return;
