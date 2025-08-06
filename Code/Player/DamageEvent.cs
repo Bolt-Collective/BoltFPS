@@ -141,7 +141,7 @@ public record DamageInfo(
 			attackerColour = pawn.Owner?.Team.Color ?? Color.White;
 			if ( pawn.Inventory?.ActiveWeapon.IsValid() ?? false )
 				killMethods.Add( pawn.Inventory.ActiveWeapon.Icon );
-			if ( !pawn.Controller?.Controller.IsOnGround ?? false )
+			if ( !pawn.Controller?.IsGrounded ?? false )
 				killMethods.Add( "icons/kill methods/wings.png" );
 		}
 

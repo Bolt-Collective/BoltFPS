@@ -62,6 +62,9 @@ public partial class NormalMovement : Movement
 
 	private float heightVelocity;
 
+	public bool IsRunning => MaxSpeed == RunSpeed;
+	public bool IsCrouching => MoveMode == MoveModes.Crouch;
+
 	private void Walk()
 	{
 		if (Input.Pressed("Duck") || Input.Pressed("Slide") )
@@ -127,19 +130,5 @@ public partial class NormalMovement : Movement
 		Height = previousHeight;
 
 		return result;
-	}
-
-	public override void Animate()
-	{
-		var dir = Velocity;
-		var forward = WorldRotation.Forward.Dot( dir );
-
-		AnimationHelper?.WithVelocity( 0 );
-		AnimationHelper?.WithWishVelocity( 0 );
-
-		BodyModelRenderer?.Set( "skid_x", -forward );
-
-		BodyModelRenderer?.Set( "skid", 1 );
-
 	}
 }

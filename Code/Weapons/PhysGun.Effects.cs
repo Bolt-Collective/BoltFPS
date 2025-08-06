@@ -66,8 +66,8 @@ public partial class PhysGun
 			DisableHighlights( lastGrabbedObject );
 		}
 
-		var startPos = Owner.Controller.AimRay.Position;
-		var dir = Owner.Controller.AimRay.Forward;
+		var startPos = Owner.AimRay.Position;
+		var dir = Owner.AimRay.Forward;
 
 		var tr = Scene.Trace.Ray( startPos, startPos + dir * MaxTargetDistance )
 			.UseHitboxes()

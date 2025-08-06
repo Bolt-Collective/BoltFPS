@@ -3,6 +3,7 @@ using Sandbox.Citizen;
 using Sandbox.VR;
 using System;
 using System.ComponentModel.DataAnnotations;
+using static XMovement.PlayerWalkControllerComplex;
 
 public partial class Movement : Component
 {
@@ -10,7 +11,7 @@ public partial class Movement : Component
 	public SkinnedModelRenderer BodyModelRenderer { get; set; }
 
 	[Property]
-	public CitizenAnimationHelper AnimationHelper { get; set; }
+	public AnimationHelper AnimationHelper { get; set; }
 
 	[Property, Group( "Animator" )] public float RotationAngleLimit { get; set; } = 45.0f;
 	[Property, Group( "Animator" )] public float RotationSpeed { get; set; } = 1.0f;
@@ -20,6 +21,8 @@ public partial class Movement : Component
 
 	public virtual void Animate()
 	{
+		if ( !AnimationHelper.IsValid() )
+			return;
 		AnimationHelper.WithWishVelocity( WishVelocity );
 		AnimationHelper.WithVelocity( Velocity );
 
@@ -80,6 +83,42 @@ public partial class Movement : Component
 			_animRotationSpeed = _animRotationSpeed.Clamp( -90, 90 );
 
 			BodyModelRenderer.WorldRotation = newRotation;
+		}
+	}
+
+	public bool Spectating;
+	public bool Orbiting;
+
+	public bool BodyVisible;
+	public void UpdateBodyVisibility()
+	{
+		if ( !BodyModelRenderer.IsValid() )
+			return;
+		if ( IsProxy && !Spectating || Orbiting )
+		{
+			BodyVisible = true;
+			foreach ( var mdlrenderer in BodyModelRenderer.Components.GetAll<ModelRenderer>( FindMode.EverythingInSelfAndChildren ) )
+			{
+				mdlrenderer.RenderType = Sandbox.ModelRenderer.ShadowRenderType.On;
+			}
+			return;
+		}
+		if ( !ThirdPerson )
+		{
+			foreach ( var mdlrenderer in BodyModelRenderer.Components.GetAll<ModelRenderer>( FindMode.EverythingInSelfAndChildren ) )
+			{
+				mdlrenderer.RenderType = Sandbox.ModelRenderer.ShadowRenderType.ShadowsOnly;
+			}
+
+			BodyVisible = false;
+		}
+		else
+		{
+			foreach ( var mdlrenderer in BodyModelRenderer.Components.GetAll<ModelRenderer>( FindMode.EverythingInSelfAndChildren ) )
+			{
+				mdlrenderer.RenderType = Sandbox.ModelRenderer.ShadowRenderType.On;
+			}
+			BodyVisible = true;
 		}
 	}
 }

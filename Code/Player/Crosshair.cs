@@ -289,9 +289,9 @@ public partial class Crosshair : Component
 
 		var pawn = Pawn.Local;
 
-		if ( pawn.IsValid() && pawn.Controller.CameraMode == XMovement.PlayerWalkControllerComplex.CameraModes.ThirdPerson )
+		if ( pawn.IsValid() && pawn.Controller.ThirdPerson )
 		{
-			float thirdPersonOffsetX = pawn.Controller.ThirdPersonOffset.x;
+			float thirdPersonOffsetX = pawn.Controller.ThirdPersonCameraOffset.x;
 
 			float screenOffset = MathF.Abs( thirdPersonOffsetX ) * screenHeight / (screenHeight * 2 * screenDistance);
 

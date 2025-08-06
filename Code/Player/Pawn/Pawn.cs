@@ -38,15 +38,15 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 	public bool IsMe => Network.Owner == Connection.Local;
 
-	private PlayerWalkControllerComplex _controller;
+	private NormalMovement _controller;
 
-	public PlayerWalkControllerComplex Controller
+	public NormalMovement Controller
 	{
 		get
 		{
 			if ( !_controller.IsValid() )
 			{
-				_controller = GetComponent<PlayerWalkControllerComplex>();
+				_controller = GetComponent<NormalMovement>();
 			}
 
 			return _controller;
@@ -88,10 +88,10 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 		if ( Controller.IsValid() )
 		{
-			Controller.Controller.IgnoreLayers.Add( "prop" );
-			Controller.Controller.IgnoreLayers.Add( "particles" );
-			Controller.Controller.IgnoreLayers.Add( "projectile" );
-			Controller.Controller.IgnoreLayers.Add( "player" );
+			Controller.IgnoreLayers.Add( "prop" );
+			Controller.IgnoreLayers.Add( "particles" );
+			Controller.IgnoreLayers.Add( "projectile" );
+			Controller.IgnoreLayers.Add( "player" );
 		}
 	}
 
@@ -118,7 +118,10 @@ public partial class Pawn : ShrimplePawns.Pawn
 		var modelPhysics = Controller.BodyModelRenderer.AddComponent<ModelPhysics>();
 		modelPhysics.Model = Controller.BodyModelRenderer.Model;
 		modelPhysics.Renderer = Controller.BodyModelRenderer;
-		modelPhysics.PhysicsGroup?.AddVelocity( Controller.Controller.Velocity + damageInfo.Force / 15000 );
+		foreach (var body in modelPhysics.Bodies)
+		{
+			body.Component.Velocity += Controller.Velocity + damageInfo.Force / 15000;
+		}
 
 		GameObject.Destroy();
 	}
@@ -141,8 +144,6 @@ public partial class Pawn : ShrimplePawns.Pawn
 			return;
 
 		Pickup();
-
-		ClippingPrevention();
 
 		if ( Local?.Team == TeamManager.SpectatorsTeam )
 		{
@@ -179,8 +180,8 @@ public partial class Pawn : ShrimplePawns.Pawn
 			SoundExtensions.BroadcastSound( Flashlight ? "flashlight-on" : "flashlight-off", WorldPosition );
 		}
 
-		if ( Controller.IsValid() && Controller.IsRunning && Controller.EnableWalking &&
-		     Controller.WishMove.Length > 0 )
+		if ( Controller.IsValid() && Controller.IsRunning && !Controller.IgnoreMove &&
+		     Controller.Velocity.WithZ(0).Length > 0 && Controller.IsGrounded)
 		{
 			Stamina = (Stamina - StaminaDecay * StaminaDecayBoost * Time.Delta).Clamp( 0, 1 );
 			_staminaUsedTime = 0;
@@ -223,6 +224,6 @@ public partial class Pawn : ShrimplePawns.Pawn
 	[ConCmd( "noclip", ConVarFlags.Cheat )]
 	public static void Noclip()
 	{
-		Local.Controller.IsNoclipping = !Local.Controller.IsNoclipping;
+		//Local.Controller.IsNoclipping = !Local.Controller.IsNoclipping;
 	}
 }

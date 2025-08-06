@@ -4,7 +4,7 @@ using Sandbox.VR;
 using System;
 using static Sandbox.ModelPhysics;
 
-public abstract partial class Movement : Component, IScenePhysicsEvents
+public abstract partial class Movement : Component
 {
 	[Range( 0, 200 )]
 	[Property] public float Radius { get; set; } = 16.0f;
@@ -21,7 +21,6 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 	[Property] public bool IgnoreDynamic;
 
 	[Property, RequireComponent] public BoxCollider Collider { get; set; }
-	[Property, RequireComponent] public Rigidbody Body { get; set; }
 
 	[Property]
 	public TagSet IgnoreLayers { get; set; } = new();
@@ -34,28 +33,29 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 			hull = BoundingBox;
 		var trace = source.Size( in hull ).IgnoreGameObjectHierarchy( GameObject );
 
-		if ( IgnoreDynamic )
-			trace = trace.IgnoreDynamic();
-
 		return trace.WithoutTags( IgnoreLayers );
 	}
 
-	[Property, Sync] public bool IsGrounded { get; set; } = true;
+	public SceneTrace BuildTrace( Vector3 start, Vector3 end, BBox hull = default )
+	{
+		return BuildTrace( Scene.Trace.Ray( start, end ), hull );
+	}
+	[Property, Sync] public bool IsGrounded { get; set; }
 	public GameObject GroundObject;
+	public Surface GroundSurface;
 	public Vector3 OnGroundVelocity;
 	public GameObject PreviousGroundObject;
 	public Component GroundComponent;
-	public float GroundDistance;
 
 	void CategorizePosition()
 	{
 		var Position = WorldPosition;
-		var point = Position;
+		var point = Position + Vector3.Down * 2;
 		var vBumpOrigin = Position;
 		var wasOnGround = IsGrounded;
 
 		// We're flying upwards too fast, never land on ground
-		if ( !IsGrounded && Body.Velocity.z > 40.0f )
+		if ( !IsGrounded && Velocity.z > 40.0f )
 		{
 			ClearGround();
 			return;
@@ -65,22 +65,11 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 		// trace down one step height if we're already on the ground "step down". If not, search for floor right below us
 		// because if we do StepHeight we'll snap that many units to the ground
 		//
-		//float zOffset = wasOnGround ? StepHeight : 0.1f;
-		point.z -= StepHeight;
-
-		var box = new BBox( BoundingBox.Mins, BoundingBox.Maxs );
-		box.Mins *= 0.9f;
-		box.Maxs *= 0.9f;
-
-		box.Mins = box.Mins.WithZ( BoundingBox.Mins.z );
-		box.Maxs = box.Maxs.WithZ( BoundingBox.Maxs.z );
+		point.z -= wasOnGround ? StepHeight : 0.1f;
 
 
-		var pm = BuildTrace( Scene.Trace.Ray( vBumpOrigin, point ), box ).Run();
+		var pm = BuildTrace( Scene.Trace.Ray( vBumpOrigin, point ) ).Run();
 
-		Gizmo.Draw.Line( vBumpOrigin, point );
-
-		Log.Info( pm.Hit );
 		//
 		// we didn't hit - or the ground is too steep to be ground
 		//
@@ -96,12 +85,20 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 		IsGrounded = true;
 		PreviousGroundObject = GroundObject;
 		GroundObject = pm.GameObject;
+		GroundSurface = pm.Surface;
 
 		var body = pm.Body;
 		GroundComponent = body?.Component;
 
-		GroundDistance = pm.Distance;
+		//
+		// move to this ground position, if we moved, and hit
+		//
+		if ( wasOnGround && !pm.StartedSolid && pm.Fraction > 0.0f && pm.Fraction < 1.0f )
+		{
+			WorldPosition = pm.EndPosition;
+		}
 	}
+
 
 	/// <summary>
 	/// Disconnect from ground and punch our velocity. This is useful if you want the player to jump or something.
@@ -114,7 +111,6 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 	void ClearGround()
 	{
-		GroundDistance = 100;
 		IsGrounded = false;
 		GroundObject = default;
 		GroundComponent = default;
@@ -134,24 +130,11 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 	float VelocityOff;
 
-	void IScenePhysicsEvents.PrePhysicsStep()
-	{
-
-		if(GroundDistance < StepHeight)
-			TryStep( StepHeight );
-	}
-
-	void IScenePhysicsEvents.PostPhysicsStep()
-	{
-		UpdateGroundVelocity();
-
-		WorldPosition += OnGroundVelocity.WithZ(0) * Time.Delta;
-		Velocity = Body.Velocity;
-	}
 	void UpdateGroundVelocity()
 	{
 		if ( !IsGrounded )
 			return;
+
 		if ( GroundObject is null )
 		{
 			OnGroundVelocity = 0;
@@ -172,19 +155,40 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 	Vector3 lastGroundVelocity;
 	bool canSnap = false;
+	public bool CanMove = true;
 	private void Move()
 	{
 		wasGrounded = IsGrounded;
 
-		Body.Velocity = Velocity;
+		var ray = Scene.Trace.Ray( WorldPosition, WorldPosition );
+		var mover = new CharacterControllerHelper( BuildTrace( ray ), WorldPosition, Velocity );
+		var previousVelocity = Velocity;
 
-		if ( GroundDistance > 0.1f )
-			Body.Velocity += Scene.PhysicsWorld.Gravity * Time.Delta;
+		if ( IsGrounded )
+		{
+			mover.TryMoveWithStep( Time.Delta, StepHeight );
+		}
+		else
+		{
+			mover.TryMove( Time.Delta );
+		}
+
+		WorldPosition = mover.Position;
+
+		Velocity = mover.Velocity;
+
+		UpdateGroundVelocity();
+
+		WorldPosition += OnGroundVelocity.WithZ( 0 ) * Time.Delta;
+
+		if ( IsStuck() )
+			TryUnstuck( previousVelocity );
 
 		CategorizePosition();
-			
+
 		previousHeight = Height;
 	}
+
 
 	public bool IsStuck()
 	{
@@ -192,48 +196,84 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 		return result.StartedSolid;
 	}
 
+	Transform _previousTransform;
 
-	/*
-	public virtual void AddVelocity()
+	bool TryUnstuck( Vector3 velocity )
 	{
-		var body = Controller.Body;
-		var wish = Controller.WishVelocity;
-		if ( wish.IsNearZeroLength ) return;
+		var result = BuildTrace( Scene.Trace.Ray( WorldPosition, WorldPosition ) ).Run();
 
-		var groundFriction = 0.25f + Controller.GroundFriction * 10;
-		var groundVelocity = Controller.GroundVelocity;
-
-		var z = body.Velocity.z;
-
-		var velocity = (body.Velocity - Controller.GroundVelocity);
-		var speed = velocity.Length;
-
-		var maxSpeed = MathF.Max( wish.Length, speed );
-
-		if ( Controller.IsOnGround )
+		if ( !result.StartedSolid )
 		{
-			var amount = 1 * groundFriction;
-			velocity = velocity.AddClamped( wish * amount, wish.Length * amount );
-		}
-		else
-		{
-			var amount = 0.05f;
-			velocity = velocity.AddClamped( wish * amount, wish.Length );
+			_stuckTries = 0;
+			_previousTransform = Transform.World;
+			return false;
 		}
 
-		if ( velocity.Length > maxSpeed )
-			velocity = velocity.Normal * maxSpeed;
+		int AttemptsPerTick = 150;
 
-		velocity += groundVelocity;
-
-		if ( Controller.IsOnGround )
+		var normal = Vector3.Zero;
+		var pos = WorldPosition;
+		var startpos = WorldPosition;
+		for ( int i = 0; i < AttemptsPerTick; i++ )
 		{
-			velocity.z = z;
+			if ( i <= 2 )
+			{
+				pos = WorldPosition + Vector3.Up * ((i) * 0.2f);
+			}
+
+			if ( i < 80 )
+			{
+				normal = velocity.Normal * Time.Delta;
+				normal.z = Math.Max( 0, normal.z );
+				normal *= 1f;
+				var searchdistance = 0.2f;
+				if ( i > 70 ) searchdistance = 1f;
+				if ( i > 75 ) searchdistance = 3f;
+				normal *= searchdistance;
+				pos += normal;
+			}
+			else if ( i < 4 )
+			{
+				pos = WorldPosition + Vector3.Up * ((i) * 3f);
+			}
+			else
+			{
+				normal = Vector3.Random.Normal * (((float)_stuckTries) * 1.25f);
+				pos = WorldPosition + normal;
+				normal *= 0.25f;
+
+			}
+
+			result = BuildTrace( Scene.Trace.Ray( pos, pos ) ).Run();
+
+			var body = result.Body;
+			var component = body?.Component;
+
+			Vector3 stuckObjectVelocity = 0;
+			if ( component is Collider collider )
+			{
+				stuckObjectVelocity = collider.GetVelocityAtPoint( WorldPosition );
+			}
+
+			if ( component is Rigidbody rigidbody )
+			{
+				stuckObjectVelocity = rigidbody.GetVelocityAtPoint( WorldPosition );
+			}
+
+			if ( !result.StartedSolid )
+			{
+				Velocity += normal * 100 + stuckObjectVelocity;
+				WorldPosition = pos;
+				_previousTransform = Transform.World;
+				return false;
+			}
 		}
 
-		body.Velocity = velocity;
+		_stuckTries++;
+
+		_previousTransform = Transform.World;
+		return true;
 	}
-	*/
 
 	protected override void DrawGizmos()
 	{

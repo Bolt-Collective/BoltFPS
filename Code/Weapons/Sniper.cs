@@ -61,7 +61,7 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 		if ( !Scoped && Input.Pressed( "attack2" ) && Owner.IsValid() && !Owner.GrabbedObject.IsValid() )
 			Scope();
 		if ( Scoped && !scopingIn && (Input.Released( "attack2" ) || Owner.Controller.IsRunning ||
-		                              !Owner.Controller.Controller.IsOnGround || IsReloading) )
+		                              !Owner.Controller.IsGrounded || IsReloading) )
 			UnScope();
 	}
 
@@ -75,11 +75,11 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 		if ( !(Owner?.Controller.IsValid() ?? false) )
 			return;
 
-		float velocity = Owner.Controller.Controller.Velocity.Length / 25.0f;
+		float velocity = Owner.Controller.Velocity.Length / 25.0f;
 		float blur = 1.0f / (velocity + 1.0f);
 		blur = MathX.Clamp( blur, 0.1f, 1.0f );
 
-		if ( !Owner.Controller.Controller.IsOnGround )
+		if ( !Owner.Controller.IsGrounded )
 			blur = 0.1f;
 
 		SpreadIncrease = (Scoped ? 1 - blur : 1) * SpreadMult;

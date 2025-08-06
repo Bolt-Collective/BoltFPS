@@ -1,5 +1,6 @@
 using Sandbox;
 using Sandbox.VR;
+using Seekers;
 using System;
 
 public abstract partial class Movement : Component
@@ -32,6 +33,21 @@ public abstract partial class Movement : Component
 	[Property]
 	public float Gravity { get; set; } = 600f;
 
+	[Property, Group( "Camera Variables" )]
+	public bool ThirdPerson { get; set; } = false;
+
+	[Property, Group( "Camera Variables" )]
+	public Vector3 ThirdPersonCameraOffset {get;set;} = new Vector3( -180, -20, 0 );
+
+	[Property, Group( "Camera Variables" )]
+	public GameObject Head { get; set; }
+
+	[Property, Group( "Camera Variables" )]
+	public CameraComponent Camera { get; set; }
+
+	[Property, Group( "Camera Variables" )]
+	public ScreenShaker ScreenShaker { get; set; }
+
 	public Vector3 wishDirection;
 
 	private Vector3 lastVel;
@@ -46,6 +62,7 @@ public abstract partial class Movement : Component
 
 	protected override void OnStart()
 	{
+		
 	}
 
 	public bool OverrideVelocity;
@@ -69,6 +86,8 @@ public abstract partial class Movement : Component
 	protected override void OnUpdate()
 	{
 		Animate();
+
+		UpdateBodyVisibility();
 
 		if ( IsProxy )
 			return;
@@ -103,12 +122,12 @@ public abstract partial class Movement : Component
 	{
 		ApplyHalfGravity();
 
-		if ( GroundDistance < 1.1f && IsGrounded)
+		if ( IsGrounded )
 			GroundVelocity();
 		else
 			AirVelocity();
 
-		if ( (Input.Pressed( "Jump" ) || (AutoBH && Input.Down( "Jump" ))) && GroundDistance < 1.1f && IsGrounded )
+		if ( (Input.Pressed( "Jump" ) || (AutoBH && Input.Down( "Jump" ))) && IsGrounded )
 		{
 			OnJump?.Invoke();
 			LaunchUpwards( JumpPower );
@@ -133,7 +152,7 @@ public abstract partial class Movement : Component
 		newVel = Velocity;
 
 		Collider.Center  = new Vector3( 0, 0, Height/2 );
-		Collider.Scale = new Vector3(Radius * 2, Radius * 2, Height );
+		Collider.Scale = new Vector3(Radius * 2f + 5, Radius * 2 + 5, Height + 5 );
 
 		if ( IsProxy )
 			return;
@@ -156,20 +175,38 @@ public abstract partial class Movement : Component
 	public Vector3 CameraPosOffset;
 	public Angles CameraRotOffset;
 
+	public bool IgnoreMove { get; set; }
+
+	public bool IgnoreCam { get; set; }
+
+	public float AimSensitivityScale = 1;
+
 	public virtual void UpdateCamera()
 	{
-		var camera = Scene.Camera;
-		if ( !camera.IsValid() )
+		if ( !Camera.IsValid() )
 			return;
 
-		camera.FieldOfView = Preferences.FieldOfView;
+		Camera.FieldOfView = Preferences.FieldOfView;
 
-		EyeAngles += Input.AnalogLook;
+		if (!IgnoreCam)
+			EyeAngles += Input.AnalogLook * AimSensitivityScale;
+
 		EyeAngles = EyeAngles.WithPitch( EyeAngles.pitch.Clamp( -89f, 89f ) );
 
 		var targetTransform = new Transform( CameraPosition(), CameraRotation() );
 
-		camera.WorldTransform = targetTransform;
+		Head.WorldTransform = targetTransform;
+
+		Camera.LocalPosition = ThirdPerson ? ThirdPersonCameraOffset : 0;
+	}
+
+	public void LookAt( Vector3 worldTarget )
+	{
+		var worldDirection = (worldTarget - Head.WorldPosition).Normal;
+
+		EyeAngles = Rotation.LookAt( worldDirection );
+
+		EyeAngles = EyeAngles.WithPitch( EyeAngles.pitch.Clamp( -89f, 89f ) );
 	}
 
 	public virtual Vector3 CameraPosition()
@@ -184,6 +221,12 @@ public abstract partial class Movement : Component
 
 	public virtual void GetWishDirection()
 	{
+		if ( IgnoreMove )
+		{
+			wishDirection = 0;
+			return;
+		}
+
 		var dir = Input.AnalogMove.Normal;
 
 		wishDirection = dir.x * forwardDirection + dir.y * -rightDirection;

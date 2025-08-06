@@ -101,16 +101,16 @@ public class ViewModel : Component
 		}
 		else
 		{
-			var velocity = pawn.Controller.Controller.IsOnGround
-				? GetPercentageBetween( pawn.Controller.Controller.Velocity.Length, 0, pawn.Controller.WalkSpeed )
+			var velocity = pawn.Controller.IsGrounded
+				? GetPercentageBetween( pawn.Controller.Velocity.Length, 0, pawn.Controller.WalkSpeed )
 					.Clamp( 0, 1 )
 				: 0;
 			Animate(
 				YawInertia,
 				PitchInertia,
 				velocity,
-				pawn.Controller.IsRunning && Renderer.GetFloat( "attack_hold" ) <= 0 && pawn.Controller.WishMove.Length >= 0.1f && SprintHold,
-				pawn.Controller.Controller.IsOnGround,
+				pawn.Controller.IsRunning && Renderer.GetFloat( "attack_hold" ) <= 0 && pawn.Controller.wishDirection.Length >= 0.1f && SprintHold,
+				pawn.Controller.IsGrounded,
 				pawn.Inventory.ActiveWeapon.Ammo <= 0
 			);
 		}
@@ -156,7 +156,7 @@ public class ViewModel : Component
 	private void DoSwingAndBob( float newPitch, float pitchDelta, float yawDelta )
 	{
 		var player = Pawn.Local;
-		var playerVelocity = player.Controller.Controller.Velocity;
+		var playerVelocity = player.Controller.Velocity;
 
 		var verticalDelta = playerVelocity.z * Time.Delta;
 		var viewDown = Rotation.FromPitch( newPitch < 89f && newPitch > -89f ? newPitch : lastPitch ).Up * -1.0f;

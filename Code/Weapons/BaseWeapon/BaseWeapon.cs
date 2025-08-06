@@ -274,7 +274,7 @@ public partial class BaseWeapon : Component
 		}
 
 		Owner?.Controller?.Tags.Set( "viewer",
-			Owner.Controller.CameraMode.Equals( PlayerWalkControllerComplex.CameraModes.ThirdPerson ) );
+			Owner.Controller.ThirdPerson );
 
 		if ( Owner?.Controller.IsValid() ?? false )
 		{
@@ -647,7 +647,7 @@ public partial class BaseWeapon : Component
 	{
 		var ray = Owner.AimRay;
 		SpawnGrenade( Client.Local.GetPawn<Pawn>(), ray.Position, ray.Forward, projectile, force, distance,
-			Owner?.Controller?.Controller.Velocity ?? Vector3.Zero );
+			Owner?.Controller?.Velocity ?? Vector3.Zero );
 	}
 
 	[Rpc.Broadcast]

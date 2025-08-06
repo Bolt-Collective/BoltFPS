@@ -34,10 +34,10 @@ public class Footsteps : Component
 		if ( !Player.IsValid() )
 			return;
 
-		if ( !Player.Controller.Controller.IsOnGround )
+		if ( !Player.Controller.IsGrounded )
 			return;
 
-		if ( Player.Controller.Controller.Velocity.Length < 55 )
+		if ( Player.Controller.Velocity.Length < 55 )
 			return;
 
 		if ( _timeSinceStep < GetStepFrequency() )
@@ -51,7 +51,7 @@ public class Footsteps : Component
 
 		var tagMaterial = "";
 
-		foreach ( var tag in Player.Controller.Controller.MoveTraceResult.Tags )
+		foreach ( var tag in Player.Controller.GroundObject.Tags )
 		{
 			if ( tag.StartsWith( "m-" ) || tag.StartsWith( "m_" ) )
 			{
@@ -60,7 +60,7 @@ public class Footsteps : Component
 			}
 		}
 
-		var actualSurf = Player.Controller.Controller.MoveTraceResult.Surface;
+		var actualSurf = Player.Controller.GroundSurface;
 
 		var GroundSurface = tagMaterial == ""
 			? actualSurf.ReplaceSurface()
@@ -68,7 +68,7 @@ public class Footsteps : Component
 
 		var sound = leftFoot ? GroundSurface.SoundCollection.FootLeft : GroundSurface.SoundCollection.FootRight;
 
-		var worldPosition = Player.Controller.Controller.MoveTraceResult.EndPosition;
+		var worldPosition = Player.Controller.WorldPosition;
 
 		if ( sound is null )
 		{
@@ -82,7 +82,7 @@ public class Footsteps : Component
 		}
 
 		SoundExtensions.BroadcastSound( sound, worldPosition,
-			GetStepVolume() * Player.Controller.Controller.WishVelocity.Length.Remap( 0, 400, 0, 1 ),
+			GetStepVolume() * Player.Controller.WishVelocity.Length.Remap( 0, 400, 0, 1 ),
 			spacialBlend:
 			Player.IsValid() && Player.IsMe ? 0 : 1 );
 
