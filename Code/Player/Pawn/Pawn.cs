@@ -179,7 +179,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 			SoundExtensions.BroadcastSound( Flashlight ? "flashlight-on" : "flashlight-off", WorldPosition );
 		}
 
-		if ( Controller.IsValid() && Controller.IsRunning && !Controller.IgnoreMove &&
+		if ( Controller.IsValid() && Controller.IsSprinting && !Controller.IgnoreMove &&
 		     Controller.Velocity.WithZ(0).Length > 0 && Controller.IsGrounded)
 		{
 			Stamina = (Stamina - StaminaDecay * StaminaDecayBoost * Time.Delta).Clamp( 0, 1 );
@@ -191,7 +191,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 		}
 
 		if ( Controller.IsValid() )
-			Controller.EnableRunning = Stamina > 0;
+			Controller.EnableSprinting = Stamina > 0;
 
 		if ( Controller.IsValid() )
 		{

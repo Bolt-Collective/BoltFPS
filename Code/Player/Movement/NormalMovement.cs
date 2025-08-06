@@ -37,7 +37,7 @@ public partial class NormalMovement : Movement
 	[Property, Sync]
 	public MoveModes MoveMode { get; set; }
 
-	public bool EnableRunning = true;
+	public bool EnableSprinting = true;
 
 	public enum MoveModes
 	{
@@ -63,6 +63,7 @@ public partial class NormalMovement : Movement
 	private float heightVelocity;
 
 	public bool IsRunning => MaxSpeed == RunSpeed;
+	public bool IsSprinting => MaxSpeed == SprintSpeed;
 	public bool IsCrouching => MoveMode == MoveModes.Crouch;
 
 	private void Walk()
@@ -85,7 +86,7 @@ public partial class NormalMovement : Movement
 
 		MaxSpeed = RunSpeed;
 
-		if ( Input.Down( "Run" ) && EnableRunning)
+		if ( Input.Down( "Run" ) && EnableSprinting)
 			MaxSpeed = SprintSpeed;
 
 		if ( Input.Down( "Walk" ) )
