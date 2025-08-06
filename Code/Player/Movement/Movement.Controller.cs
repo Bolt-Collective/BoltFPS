@@ -1,7 +1,10 @@
 using Sandbox;
+using Sandbox.Services;
+using Sandbox.VR;
 using System;
+using static Sandbox.ModelPhysics;
 
-public abstract partial class Movement : Component
+public abstract partial class Movement : Component, IScenePhysicsEvents
 {
 	[Range( 0, 200 )]
 	[Property] public float Radius { get; set; } = 16.0f;
@@ -17,17 +20,19 @@ public abstract partial class Movement : Component
 
 	[Property] public bool IgnoreDynamic;
 
-	[Property, RequireComponent] public CapsuleCollider Collider { get; set; }
+	[Property, RequireComponent] public BoxCollider Collider { get; set; }
+	[Property, RequireComponent] public Rigidbody Body { get; set; }
 
 	[Property]
 	public TagSet IgnoreLayers { get; set; } = new();
 
-	public BBox BoundingBox => new BBox( new Vector3( -Radius, -Radius, 0 ), new Vector3( Radius, Radius, Height ) );
+	public BBox BoundingBox => new BBox( new Vector3( -Radius, -Radius, 1 ), new Vector3( Radius, Radius, Height ) );
 
-	public SceneTrace BuildTrace( SceneTrace source )
+	public SceneTrace BuildTrace( SceneTrace source, BBox hull = default )
 	{
-		BBox hull = BoundingBox;
-		var trace = source.Size( in hull ).IgnoreGameObjectHierarchy( base.GameObject );
+		if (hull == default)
+			hull = BoundingBox;
+		var trace = source.Size( in hull ).IgnoreGameObjectHierarchy( GameObject );
 
 		if ( IgnoreDynamic )
 			trace = trace.IgnoreDynamic();
@@ -37,8 +42,9 @@ public abstract partial class Movement : Component
 
 	[Property, Sync] public bool IsGrounded { get; set; } = true;
 	public GameObject GroundObject;
+	public Vector3 OnGroundVelocity;
 	public GameObject PreviousGroundObject;
-	public Collider GroundCollider;
+	public Component GroundComponent;
 
 	void CategorizePosition()
 	{
@@ -48,7 +54,7 @@ public abstract partial class Movement : Component
 		var wasOnGround = IsGrounded;
 
 		// We're flying upwards too fast, never land on ground
-		if ( !IsGrounded && Velocity.z > 40.0f )
+		if ( !IsGrounded && Body.Velocity.z > 40.0f )
 		{
 			ClearGround();
 			return;
@@ -60,8 +66,11 @@ public abstract partial class Movement : Component
 		//
 		point.z -= wasOnGround ? StepHeight : 0.1f;
 
+		var box = new BBox( BoundingBox.Mins, BoundingBox.Maxs );
+		box.Mins *= 0.9f;
+		box.Maxs *= 0.9f;
 
-		var pm = BuildTrace( Scene.Trace.Ray( vBumpOrigin, point ) ).Run();
+		var pm = BuildTrace( Scene.Trace.Ray( vBumpOrigin, point ), box ).Run();
 
 		//
 		// we didn't hit - or the ground is too steep to be ground
@@ -78,15 +87,17 @@ public abstract partial class Movement : Component
 		IsGrounded = true;
 		PreviousGroundObject = GroundObject;
 		GroundObject = pm.GameObject;
-		GroundCollider = pm.Shape?.Collider as Collider;
+
+		var body = pm.Body;
+		GroundComponent = body?.Component;
 
 		//
 		// move to this ground position, if we moved, and hit
 		//
-		if ( wasOnGround && !pm.StartedSolid && pm.Fraction > 0.0f && pm.Fraction < 1.0f )
-		{
-			WorldPosition = pm.EndPosition;
-		}
+		//if ( wasOnGround && !pm.StartedSolid && pm.Fraction > 0.0f && pm.Fraction < 1.0f )
+		//{
+		//	WorldPosition = pm.EndPosition;
+		//}
 	}
 
 	/// <summary>
@@ -102,7 +113,7 @@ public abstract partial class Movement : Component
 	{
 		IsGrounded = false;
 		GroundObject = default;
-		GroundCollider = default;
+		GroundComponent = default;
 	}
 
 	[Property, Sync] public Vector3 Velocity { get; set; } = new Vector3();
@@ -114,75 +125,109 @@ public abstract partial class Movement : Component
 		Velocity -= 0 * Time.Delta * 0.5f;
 	}
 
-	GameObject lastGroundObject;
-	Transform lastGroundTransform;
-	Vector3 lastPosition;
-	private Vector3 PlatformVelocity()
-	{
-		if ( !GroundObject.IsValid() || !IsGrounded )
-		{
-			lastGroundObject = null;
-			return Vector3.Zero;
-		}
-
-		var direction = Vector3.Zero;
-
-		if (GroundObject == lastGroundObject)
-		{
-			var localPosition = lastGroundTransform.PointToLocal( lastPosition );
-			var targetPosition = GroundObject.WorldTransform.PointToWorld( localPosition );
-			direction = (targetPosition - lastPosition);
-			Gizmo.Draw.IgnoreDepth = true;
-			Gizmo.Draw.Line( lastPosition, targetPosition );
-			Velocity += direction;
-		}
-
-		lastGroundObject = GroundObject;
-		lastGroundTransform = new Transform( GroundObject.WorldPosition, GroundObject.WorldRotation, GroundObject.WorldScale );
-		lastPosition = WorldPosition;
-		return direction;
-	}
-
 	float previousHeight;
 	bool wasGrounded;
-	public bool noPlatform;
-	Vector3 platformVelocity;
+
+	float VelocityOff;
+
+	void IScenePhysicsEvents.PrePhysicsStep()
+	{
+		if(IsGrounded)
+			TryStep( StepHeight );
+	}
+
+	void IScenePhysicsEvents.PostPhysicsStep()
+	{
+		UpdateGroundVelocity();
+
+		WorldPosition += OnGroundVelocity * Time.Delta;
+		Velocity = Body.Velocity;
+	}
+	void UpdateGroundVelocity()
+	{
+		if ( !IsGrounded )
+			return;
+		if ( GroundObject is null )
+		{
+			OnGroundVelocity = 0;
+			return;
+		}
+
+		if ( GroundComponent is Collider collider )
+		{
+			OnGroundVelocity = collider.GetVelocityAtPoint( WorldPosition );
+		}
+
+		if ( GroundComponent is Rigidbody rigidbody )
+		{
+			OnGroundVelocity = rigidbody.GetVelocityAtPoint( WorldPosition );
+		}
+
+	}
+
+	Vector3 lastGroundVelocity;
 	private void Move()
 	{
-		if (!IsGrounded && wasGrounded && !noPlatform)
-		{
-			Velocity += platformVelocity / Time.Delta;
-		}
 		wasGrounded = IsGrounded;
 
-		platformVelocity = PlatformVelocity();
+		Body.Velocity = Velocity;
 
-		var ray = Scene.Trace.Ray( WorldPosition, WorldPosition );
-		var mover = new CharacterControllerHelper( BuildTrace( ray ), WorldPosition, Velocity );
-		var previousVelocity = Velocity;
+		if ( !IsGrounded )
+			Body.Velocity += Scene.PhysicsWorld.Gravity * Time.Delta;
 
-		if ( IsGrounded )
+		CategorizePosition();
+			
+		previousHeight = Height;
+	}
+
+	public bool IsStuck()
+	{
+		var result = BuildTrace( Scene.Trace.Ray( WorldPosition, WorldPosition ) ).Run();
+		return result.StartedSolid;
+	}
+
+
+	/*
+	public virtual void AddVelocity()
+	{
+		var body = Controller.Body;
+		var wish = Controller.WishVelocity;
+		if ( wish.IsNearZeroLength ) return;
+
+		var groundFriction = 0.25f + Controller.GroundFriction * 10;
+		var groundVelocity = Controller.GroundVelocity;
+
+		var z = body.Velocity.z;
+
+		var velocity = (body.Velocity - Controller.GroundVelocity);
+		var speed = velocity.Length;
+
+		var maxSpeed = MathF.Max( wish.Length, speed );
+
+		if ( Controller.IsOnGround )
 		{
-			mover.TryMoveWithStep( Time.Delta, StepHeight );
+			var amount = 1 * groundFriction;
+			velocity = velocity.AddClamped( wish * amount, wish.Length * amount );
 		}
 		else
 		{
-			mover.TryMove( Time.Delta );
+			var amount = 0.05f;
+			velocity = velocity.AddClamped( wish * amount, wish.Length );
 		}
 
-		WorldPosition = mover.Position;
-		if ( !noPlatform )
-			WorldPosition += platformVelocity;
+		if ( velocity.Length > maxSpeed )
+			velocity = velocity.Normal * maxSpeed;
 
-		Velocity = mover.Velocity;
+		velocity += groundVelocity;
 
-		if ( IsStuck() )
-			TryUnstuck(previousVelocity);
+		if ( Controller.IsOnGround )
+		{
+			velocity.z = z;
+		}
 
-		CategorizePosition();
-
-		previousHeight = Height;
+		body.Velocity = velocity;
 	}
+	*/
 
 	protected override void DrawGizmos()
 	{
@@ -191,75 +236,4 @@ public abstract partial class Movement : Component
 
 
 	int _stuckTries;
-
-	public bool IsStuck()
-	{
-		var result = BuildTrace( Scene.Trace.Ray( WorldPosition, WorldPosition ) ).Run();
-		return result.StartedSolid;
-	}
-
-	Transform _previousTransform;
-
-	bool TryUnstuck( Vector3 velocity )
-	{
-		var result = BuildTrace( Scene.Trace.Ray( WorldPosition, WorldPosition ) ).Run();
-
-		if ( !result.StartedSolid )
-		{
-			_stuckTries = 0;
-			_previousTransform = Transform.World;
-			return false;
-		}
-
-		int AttemptsPerTick = 150;
-
-		var normal = Vector3.Zero;
-		var pos = WorldPosition;
-		var startpos = WorldPosition;
-		for ( int i = 0; i < AttemptsPerTick; i++ )
-		{
-			if ( i <= 2 )
-			{
-				pos = WorldPosition + Vector3.Up * ((i) * 0.2f);
-			}
-
-			if ( i < 80 )
-			{
-				normal = velocity.Normal * Time.Delta;
-				normal.z = Math.Max( 0, normal.z );
-				normal *= 1f;
-				var searchdistance = 0.2f;
-				if ( i > 70 ) searchdistance = 1f;
-				if ( i > 75 ) searchdistance = 3f;
-				normal *= searchdistance;
-				pos += normal;
-			}
-			else if ( i < 4 )
-			{
-				pos = WorldPosition + Vector3.Up * ((i) * 3f);
-			}
-			else
-			{
-				normal = Vector3.Random.Normal * (((float)_stuckTries) * 1.25f);
-				pos = WorldPosition + normal;
-				normal *= 0.25f;
-
-			}
-
-			result = BuildTrace( Scene.Trace.Ray( pos, pos ) ).Run();
-
-			if ( !result.StartedSolid )
-			{
-				Velocity += normal / Time.Delta;
-				WorldPosition = pos;
-				_previousTransform = Transform.World;
-				return false;
-			}
-		}
-
-		_stuckTries++;
-
-		_previousTransform = Transform.World;
-		return true;
-	}
 }

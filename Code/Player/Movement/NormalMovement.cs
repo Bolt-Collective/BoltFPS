@@ -42,8 +42,7 @@ public partial class NormalMovement : Movement
 	public enum MoveModes
 	{
 		Walk, 
-		Crouch,
-		Slide
+		Crouch
 	}
 
 	protected override void OnUpdate()
@@ -56,9 +55,6 @@ public partial class NormalMovement : Movement
 			case MoveModes.Crouch:
 				Crouch();
 				break;
-			case MoveModes.Slide:
-				Slide(); 
-				break;
 		}
 
 		base.OnUpdate();
@@ -68,14 +64,6 @@ public partial class NormalMovement : Movement
 
 	private void Walk()
 	{
-		if ( MaxSpeed == SprintSpeed && IsGrounded && ( Input.Pressed("Slide") || Input.Pressed("Duck") ) )
-		{
-			MoveMode = MoveModes.Slide;
-			AddSpeed( SlideBoost, 1000 );
-			Slide();
-			return;
-		}
-
 		if (Input.Pressed("Duck") || Input.Pressed("Slide") )
 		{
 			MoveMode = MoveModes.Crouch;
@@ -99,64 +87,6 @@ public partial class NormalMovement : Movement
 
 		if ( Input.Down( "Walk" ) )
 			MaxSpeed = WalkSpeed;
-	}
-
-	private void Slide()
-	{
-		Height = MathX.SmoothDamp( Height, SlideHeight, ref heightVelocity, 0.1f, Time.Delta );
-		if ( Velocity.Length < WalkSpeed + 10 )
-		{
-			ExitSlide();
-			return;
-		}
-		MaxSpeed = WalkSpeed;
-	}
-
-	private void ExitSlide()
-	{
-		if ( StandCheck() && !Input.Down("Slide") && !Input.Down("Duck") )
-		{
-			MoveMode = MoveModes.Walk;
-
-			if ( !IsGrounded )
-			{
-				WorldPosition -= Vector3.Up * (StandingHeight - CrouchHeight);
-				Height = StandingHeight;
-			}
-
-			Walk();
-			return;
-		}
-
-		MoveMode = MoveModes.Crouch;
-		Crouch();
-	}
-
-	Vector3 previousWish;
-
-	public override void GroundVelocity()
-	{
-		if ( MoveMode != MoveModes.Slide )
-		{
-			base.GroundVelocity();
-			return;
-		}
-
-		ApplyFriction( SlideFriction );
-
-		var wish = wishDirection;
-
-		if(wishDirection.Length < 0.5f)
-		{
-			wish = previousWish;
-		}
-
-		var currentSpeed = Vector3.Dot( Velocity, wishDirection.Normal * 2);
-		var addSpeed = (MaxSpeed - currentSpeed).Clamp( 0, MaxAccelM * MaxSpeed * Time.Delta );
-
-		previousWish = wishDirection;
-
-		Velocity += addSpeed * wishDirection;
 	}
 
 	private void Crouch()
@@ -201,24 +131,15 @@ public partial class NormalMovement : Movement
 
 	public override void Animate()
 	{
-		if (MoveMode != MoveModes.Slide)
-		{
-			BodyModelRenderer.Set( "skid", 0 );
-			BodyModelRenderer.Set( "skid_x", 0 );
-			BodyModelRenderer.Set( "skid_y", 0 );
-			base.Animate();
-			return;
-		}
-
 		var dir = Velocity;
 		var forward = WorldRotation.Forward.Dot( dir );
 
-		AnimationHelper.WithVelocity( 0 );
-		AnimationHelper.WithWishVelocity( 0 );
+		AnimationHelper?.WithVelocity( 0 );
+		AnimationHelper?.WithWishVelocity( 0 );
 
-		BodyModelRenderer.Set( "skid_x", -forward );
+		BodyModelRenderer?.Set( "skid_x", -forward );
 
-		BodyModelRenderer.Set( "skid", 1 );
+		BodyModelRenderer?.Set( "skid", 1 );
 
 	}
 }

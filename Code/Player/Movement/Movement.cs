@@ -18,6 +18,10 @@ public abstract partial class Movement : Component
 
 	[Group( "Movement Variables" )]
 	[Property]
+	public float MaxAirAccelM { get; set; } = 20f;
+
+	[Group( "Movement Variables" )]
+	[Property]
 	public float Friction { get; set; } = 6f;
 
 	[Group( "Movement Variables" )]
@@ -128,8 +132,8 @@ public abstract partial class Movement : Component
 		lastVel = newVel;
 		newVel = Velocity;
 
-		Collider.Start = new Vector3( 0, 0, Radius );
-		Collider.End = new Vector3( 0, 0, Height - Radius );
+		Collider.Center  = new Vector3( 0, 0, Height/2 );
+		Collider.Scale = new Vector3(Radius * 2, Radius * 2, Height );
 
 		if ( IsProxy )
 			return;
@@ -163,23 +167,7 @@ public abstract partial class Movement : Component
 		EyeAngles += Input.AnalogLook;
 		EyeAngles = EyeAngles.WithPitch( EyeAngles.pitch.Clamp( -89f, 89f ) );
 
-		IsBobbing = wishDirection.Length > 0.1f;
-
-		if ( IsBobbing )
-		{
-			_cameraBobTime += Time.Delta * CameraBobFrequency;
-			var offsetY = MathF.Sin( _cameraBobTime ) * CameraBobAmplitude;
-			_cameraBobOffset = Vector3.Up * offsetY;
-		}
-		else
-		{
-			_cameraBobOffset = Vector3.Lerp( _cameraBobOffset, Vector3.Zero, Time.Delta * 10f );
-		}
-
-		var targetTransform = new Transform( CameraPosition() + _cameraBobOffset, CameraRotation() );
-
-		targetTransform.Position = targetTransform.PointToWorld( CameraPosOffset );
-		targetTransform.Rotation *= CameraRotOffset;
+		var targetTransform = new Transform( CameraPosition(), CameraRotation() );
 
 		camera.WorldTransform = targetTransform;
 	}
@@ -200,7 +188,6 @@ public abstract partial class Movement : Component
 
 		wishDirection = dir.x * forwardDirection + dir.y * -rightDirection;
 	}
-
 	public virtual void GroundVelocity()
 	{
 		ApplyFriction( Friction );
@@ -218,7 +205,7 @@ public abstract partial class Movement : Component
 
 	public virtual void AirVelocity()
 	{
-		AddSpeed( MaxAirSpeed, MaxAccelM );
+		AddSpeed( MaxAirSpeed, MaxAirAccelM );
 	}
 
 	public void ApplyFriction( float friction )
