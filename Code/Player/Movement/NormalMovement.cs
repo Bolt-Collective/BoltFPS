@@ -61,6 +61,7 @@ public partial class NormalMovement : Movement
 		base.OnUpdate();
 	}
 
+	[Property]
 	public bool CanSetHeight = true;
 	private void SetHeight(float height)
 	{
