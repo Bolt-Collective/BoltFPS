@@ -192,27 +192,27 @@ public abstract partial class Movement : Component
 		previousHeight = Height;
 	}
 
-	public void MoveTo(Vector3 position)
+	public void MoveTo( Vector3 targetPosition, bool useStep )
 	{
-		var ray = Scene.Trace.Ray( WorldPosition, WorldPosition );
-		var dir = (position - WorldPosition) / Time.Delta;
-		var mover = new CharacterControllerHelper( BuildTrace( ray ), WorldPosition, dir );
+		if ( TryUnstuck(Velocity) )
+			return;
 
-		if ( IsGrounded )
+		var pos = WorldPosition;
+		var delta = targetPosition - pos;
+
+		var mover = new CharacterControllerHelper( BuildTrace( pos, pos ), pos, delta );
+		mover.MaxStandableAngle = GroundAngle;
+
+		if ( useStep )
 		{
-			mover.TryMoveWithStep( Time.Delta, StepHeight );
+			mover.TryMoveWithStep( 1.0f, StepHeight );
 		}
 		else
 		{
-			mover.TryMove( Time.Delta );
+			mover.TryMove( 1.0f );
 		}
 
 		WorldPosition = mover.Position;
-
-		if ( IsStuck() )
-			TryUnstuck( dir );
-
-		CategorizePosition();
 	}
 
 
