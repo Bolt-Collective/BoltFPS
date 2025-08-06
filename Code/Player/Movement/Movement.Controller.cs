@@ -192,7 +192,7 @@ public abstract partial class Movement : Component
 		previousHeight = Height;
 	}
 
-	public void MoveTo( Vector3 targetPosition, bool useStep )
+	public void MoveTo( Vector3 targetPosition, bool useStep, BBox hull = default )
 	{
 		if ( TryUnstuck(Velocity) )
 			return;
@@ -200,7 +200,7 @@ public abstract partial class Movement : Component
 		var pos = WorldPosition;
 		var delta = targetPosition - pos;
 
-		var mover = new CharacterControllerHelper( BuildTrace( pos, pos ), pos, delta );
+		var mover = new CharacterControllerHelper( BuildTrace( pos, pos, hull ), pos, delta );
 		mover.MaxStandableAngle = GroundAngle;
 
 		if ( useStep )
