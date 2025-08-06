@@ -33,7 +33,6 @@ public partial class NormalMovement : Movement
 	public float SlideBoost { get; set; } = 500f;
 
 
-
 	[Property, Sync]
 	public MoveModes MoveMode { get; set; }
 
@@ -60,6 +59,15 @@ public partial class NormalMovement : Movement
 		base.OnUpdate();
 	}
 
+	public bool CanSetHeight = true;
+	private void SetHeight(float height)
+	{
+		if ( !CanSetHeight )
+			return;
+
+		Height = height;
+	}
+
 	private float heightVelocity;
 
 	public bool IsRunning => MaxSpeed == RunSpeed;
@@ -82,7 +90,7 @@ public partial class NormalMovement : Movement
 			return;
 		}
 
-		Height = MathX.SmoothDamp(Height, StandingHeight, ref heightVelocity, 0.1f, Time.Delta);
+		SetHeight( MathX.SmoothDamp(Height, StandingHeight, ref heightVelocity, 0.1f, Time.Delta) );
 
 		MaxSpeed = RunSpeed;
 
@@ -109,7 +117,7 @@ public partial class NormalMovement : Movement
 			return;
 		}
 
-		Height = MathX.SmoothDamp( Height, CrouchHeight, ref heightVelocity, 0.1f, Time.Delta );
+		SetHeight( MathX.SmoothDamp( Height, CrouchHeight, ref heightVelocity, 0.1f, Time.Delta ) );
 
 		MaxSpeed = CrouchSpeed;
 		
