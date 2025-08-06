@@ -25,8 +25,8 @@ public partial class Movement : Component
 			return;
 		AnimationHelper.WithWishVelocity( WishVelocity );
 		AnimationHelper.WithVelocity( Velocity );
-
-		AnimationHelper.DuckLevel = (1 - (Height / 69)) * 100;
+		Log.Info( (1 - (Height / _startHeight)) );
+		AnimationHelper.DuckLevel = (1 - (Height / _startHeight)) * 10;
 		AnimationHelper.WithLook( EyeAngles.Forward * 100, 1, 1, 1.0f );
 		AnimationHelper.IsGrounded = IsGrounded || IsTouchingLadder;
 		AnimationHelper.IsClimbing = IsTouchingLadder;

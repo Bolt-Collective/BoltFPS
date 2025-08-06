@@ -6,7 +6,7 @@
       "__version": 1,
       "Flags": 0,
       "Name": "player",
-      "Position": "83.44147,0,62.86838",
+      "Position": "-139.8118,0,62.86838",
       "Rotation": "0,0,0,1",
       "Scale": "1,1,1",
       "Tags": "player",
@@ -22,12 +22,7 @@
           "__enabled": true,
           "AnimationHelper": null,
           "BodyModelRenderer": null,
-          "Camera": {
-            "_type": "component",
-            "component_id": "d94acebb-3660-48e6-939a-7f5a886764a2",
-            "go": "de325658-15c8-4c6c-a993-1bb54db2427f",
-            "component_type": "CameraComponent"
-          },
+          "Camera": null,
           "ClimbSpeed": 100,
           "Collider": {
             "_type": "component",
@@ -40,10 +35,7 @@
           "Friction": 6,
           "Gravity": 600,
           "GroundAngle": 45,
-          "Head": {
-            "_type": "gameobject",
-            "go": "65d9d77c-ab8a-4502-9a7e-a24e763de9c3"
-          },
+          "Head": null,
           "Height": 64,
           "IgnoreDynamic": false,
           "IgnoreLayers": "",

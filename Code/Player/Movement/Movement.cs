@@ -59,10 +59,10 @@ public abstract partial class Movement : Component
 	{
 		AutoBH = !AutoBH;
 	}
-
+	private float _startHeight;
 	protected override void OnStart()
 	{
-		
+		_startHeight = Height;
 	}
 
 	public bool OverrideVelocity;
