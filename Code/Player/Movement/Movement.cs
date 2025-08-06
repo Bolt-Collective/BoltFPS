@@ -103,12 +103,12 @@ public abstract partial class Movement : Component
 	{
 		ApplyHalfGravity();
 
-		if ( IsGrounded )
+		if ( GroundDistance < 1.1f && IsGrounded)
 			GroundVelocity();
 		else
 			AirVelocity();
 
-		if ( (Input.Pressed( "Jump" ) || (AutoBH && Input.Down( "Jump" ))) && IsGrounded )
+		if ( (Input.Pressed( "Jump" ) || (AutoBH && Input.Down( "Jump" ))) && GroundDistance < 1.1f && IsGrounded )
 		{
 			OnJump?.Invoke();
 			LaunchUpwards( JumpPower );

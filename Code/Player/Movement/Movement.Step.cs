@@ -7,7 +7,7 @@ using static Sandbox.ModelPhysics;
 
 public abstract partial class Movement : Component, IScenePhysicsEvents
 {
-	public bool StepDebug { get; set; } = true;
+	public bool StepDebug { get; set; } = false;
 
 	// set when we stepped this tick, so at the end of the physics step we can restore our position
 	bool _didstep;
@@ -27,7 +27,9 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 		var from = WorldPosition;
 		var vel = Velocity.WithZ( 0 ) * Time.Delta;
 		BBox bigBox = new BBox( BoundingBox.Mins, BoundingBox.Maxs );
-		bigBox.Grow( 5f );
+		bigBox = bigBox.Grow( 5f );
+		bigBox.Mins = bigBox.Mins.WithZ( BoundingBox.Mins.z );
+		bigBox.Maxs = bigBox.Maxs.WithZ( BoundingBox.Maxs.z );
 
 		SceneTraceResult result;
 
@@ -128,6 +130,13 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 			_didstep = true;
 			_stepPosition = result.EndPosition + Vector3.Up * 0.1f;
+
+			bigBox = bigBox.Grow( 5 );
+			bigBox.Mins = bigBox.Mins.WithZ( BoundingBox.Mins.z );
+			bigBox.Maxs = bigBox.Maxs.WithZ( BoundingBox.Maxs.z );
+			var slopeCheck = BuildTrace( Scene.Trace.Ray( _stepPosition, _stepPosition ), bigBox ).Run();
+			if ( slopeCheck.Hit )
+				return;
 
 			Body.WorldPosition = Body.WorldPosition.WithZ( _stepPosition.z + 2 );
 

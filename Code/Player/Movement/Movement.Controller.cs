@@ -45,11 +45,12 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 	public Vector3 OnGroundVelocity;
 	public GameObject PreviousGroundObject;
 	public Component GroundComponent;
+	public float GroundDistance;
 
 	void CategorizePosition()
 	{
 		var Position = WorldPosition;
-		var point = Position + Vector3.Down * 2;
+		var point = Position;
 		var vBumpOrigin = Position;
 		var wasOnGround = IsGrounded;
 
@@ -64,14 +65,22 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 		// trace down one step height if we're already on the ground "step down". If not, search for floor right below us
 		// because if we do StepHeight we'll snap that many units to the ground
 		//
-		point.z -= wasOnGround ? StepHeight : 0.1f;
+		//float zOffset = wasOnGround ? StepHeight : 0.1f;
+		point.z -= StepHeight;
 
 		var box = new BBox( BoundingBox.Mins, BoundingBox.Maxs );
 		box.Mins *= 0.9f;
 		box.Maxs *= 0.9f;
 
+		box.Mins = box.Mins.WithZ( BoundingBox.Mins.z );
+		box.Maxs = box.Maxs.WithZ( BoundingBox.Maxs.z );
+
+
 		var pm = BuildTrace( Scene.Trace.Ray( vBumpOrigin, point ), box ).Run();
 
+		Gizmo.Draw.Line( vBumpOrigin, point );
+
+		Log.Info( pm.Hit );
 		//
 		// we didn't hit - or the ground is too steep to be ground
 		//
@@ -91,13 +100,7 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 		var body = pm.Body;
 		GroundComponent = body?.Component;
 
-		//
-		// move to this ground position, if we moved, and hit
-		//
-		//if ( wasOnGround && !pm.StartedSolid && pm.Fraction > 0.0f && pm.Fraction < 1.0f )
-		//{
-		//	WorldPosition = pm.EndPosition;
-		//}
+		GroundDistance = pm.Distance;
 	}
 
 	/// <summary>
@@ -111,6 +114,7 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 	void ClearGround()
 	{
+		GroundDistance = 100;
 		IsGrounded = false;
 		GroundObject = default;
 		GroundComponent = default;
@@ -132,7 +136,8 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 	void IScenePhysicsEvents.PrePhysicsStep()
 	{
-		if(IsGrounded)
+
+		if(GroundDistance < StepHeight)
 			TryStep( StepHeight );
 	}
 
@@ -140,7 +145,7 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 	{
 		UpdateGroundVelocity();
 
-		WorldPosition += OnGroundVelocity * Time.Delta;
+		WorldPosition += OnGroundVelocity.WithZ(0) * Time.Delta;
 		Velocity = Body.Velocity;
 	}
 	void UpdateGroundVelocity()
@@ -166,13 +171,14 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 	}
 
 	Vector3 lastGroundVelocity;
+	bool canSnap = false;
 	private void Move()
 	{
 		wasGrounded = IsGrounded;
 
 		Body.Velocity = Velocity;
 
-		if ( !IsGrounded )
+		if ( GroundDistance > 0.1f )
 			Body.Velocity += Scene.PhysicsWorld.Gravity * Time.Delta;
 
 		CategorizePosition();
