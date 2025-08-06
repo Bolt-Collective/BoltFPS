@@ -1,6 +1,5 @@
 ﻿using Sandbox.Citizen;
 using ShrimplePawns;
-using XMovement;
 
 namespace Seekers;
 

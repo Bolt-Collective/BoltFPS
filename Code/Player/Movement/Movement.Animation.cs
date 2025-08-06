@@ -3,7 +3,6 @@ using Sandbox.Citizen;
 using Sandbox.VR;
 using System;
 using System.ComponentModel.DataAnnotations;
-using static XMovement.PlayerWalkControllerComplex;
 
 public partial class Movement : Component
 {
@@ -25,7 +24,6 @@ public partial class Movement : Component
 			return;
 		AnimationHelper.WithWishVelocity( WishVelocity );
 		AnimationHelper.WithVelocity( Velocity );
-		Log.Info( (1 - (Height / _startHeight)) );
 		AnimationHelper.DuckLevel = (1 - (Height / _startHeight)) * 10;
 		AnimationHelper.WithLook( EyeAngles.Forward * 100, 1, 1, 1.0f );
 		AnimationHelper.IsGrounded = IsGrounded || IsTouchingLadder;

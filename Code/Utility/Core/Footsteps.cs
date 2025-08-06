@@ -1,5 +1,4 @@
-﻿using XMovement;
-
+﻿
 namespace Seekers;
 
 public class Footsteps : Component
