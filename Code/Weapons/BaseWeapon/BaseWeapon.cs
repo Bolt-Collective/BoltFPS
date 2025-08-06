@@ -475,6 +475,10 @@ public partial class BaseWeapon : Component
 			.IgnoreGameObjectHierarchy( ignore )
 			.Size( radius );
 
+		var triggerHitboxTrace = Game.ActiveScene.Trace.Ray( start, end )
+			.HitTriggersOnly()
+			.WithTag( "triggerhitbox" );
+
 		//
 		// If we're not underwater then we can hit water
 		//
@@ -484,8 +488,15 @@ public partial class BaseWeapon : Component
 		*/
 
 		var tr = trace.Run();
+		var ttr = triggerHitboxTrace.Run();
 
-		if ( tr.Hit )
+		if ( ttr.Hit && !tr.Hit )
+			yield return ttr;
+
+		else if (ttr.Hit && ttr.Distance < tr.Distance)
+			yield return ttr;
+
+		else if ( tr.Hit )
 			yield return tr;
 
 		//
