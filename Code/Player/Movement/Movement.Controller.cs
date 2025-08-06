@@ -33,6 +33,9 @@ public abstract partial class Movement : Component
 			hull = BoundingBox;
 		var trace = source.Size( in hull ).IgnoreGameObjectHierarchy( GameObject );
 
+		if ( IgnoreDynamic )
+			trace = trace.IgnoreDynamic();
+
 		return trace.WithoutTags( IgnoreLayers );
 	}
 
