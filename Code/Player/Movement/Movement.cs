@@ -200,7 +200,13 @@ public abstract partial class Movement : Component
 
 		Head.WorldTransform = targetTransform;
 
-		Camera.LocalPosition = ThirdPerson ? ThirdPersonCameraOffset : 0;
+		if (ThirdPerson)
+		{
+			var trace = Scene.Trace.Ray( Head.WorldPosition, Head.WorldTransform.PointToWorld( ThirdPersonCameraOffset ) ).IgnoreGameObjectHierarchy( GameObject ). Radius(5).Run();
+			Camera.WorldPosition = trace.EndPosition;
+		}
+		else
+			Camera.LocalPosition = 0;
 	}
 
 	public void LookAt( Vector3 worldTarget )

@@ -11,12 +11,59 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	[Property, Sync] public bool Invincible { get; set; } = false;
 
 	[Sync] public Prop Prop { get; set; }
+
+	private string _material;
+	[Sync] public string Material
+	{
+		get
+		{
+			return _material;
+		}
+		set
+		{
+			if ( value == _material )
+				return;
+
+			_material = value;
+
+			SetMaterial( Material );
+		}
+	}
 	[Sync] public ModelPhysics ModelPhysics { get; set; }
 	[Sync] public Rigidbody Rigidbody { get; set; }
 
 	//public List<FixedJoint> Welds { get; set; } = [];
 	//public List<SpringJoint> Ropes { get; set; } = [];
 	//public List<(GameObject to, Vector3 toPoint, Vector3 frompoint)> RopePoints { get; set; } = [];
+
+	public async void SetMaterial(string material)
+	{
+		if ( material == null || material == "" )
+			return;
+
+		Material setMaterial = null;
+
+		if ( material.Count( x => x == '.' ) == 1 && !material.EndsWith( ".vmat", StringComparison.OrdinalIgnoreCase ) && !material.EndsWith( ".vmat_c", StringComparison.OrdinalIgnoreCase ) )
+		{
+			
+			var package = await Package.Fetch( material, false );
+
+			if ( package != null && package.TypeName == "material" && package.Revision != null )
+				setMaterial = await Sandbox.Material.LoadAsync( package.GetMeta( "PrimaryAsset", "" ));
+		}
+		else
+		{
+			setMaterial = await Sandbox.Material.LoadAsync( material );
+		}
+
+		if ( !setMaterial.IsValid() )
+			return;
+
+		foreach(var modelRenderer in Components.GetAll<ModelRenderer>(FindMode.EnabledInSelfAndDescendants))
+		{
+			modelRenderer.MaterialOverride = setMaterial;
+		}
+	}
 
 	[Property]
 	public List<Joint> Joints { get; set; } = [];
