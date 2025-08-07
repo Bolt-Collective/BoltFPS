@@ -145,6 +145,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		{
 			var tr = Scene.Trace.Ray( Owner.AimRay, MaxTargetDistance )
 			.UseHitboxes()
+			.WithoutTags( "movement" )
 			.IgnoreGameObjectHierarchy( GameObject.Root )
 			.Run();
 
@@ -289,6 +290,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		var tr = Scene.Trace.Ray( Owner.AimRay, MaxTargetDistance )
 			.UseHitboxes()
 			.WithAnyTags( "solid", "player", "debris", "nocollide" )
+			.WithoutTags("movement")
 			.IgnoreGameObjectHierarchy( GameObject.Root )
 			.Run();
 

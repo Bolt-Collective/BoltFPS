@@ -13,7 +13,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	[Sync] public Prop Prop { get; set; }
 
 	private string _material;
-	[Sync] public string Material
+	[Sync, Property] public string Material
 	{
 		get
 		{
@@ -43,16 +43,20 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		Material setMaterial = null;
 
+		Log.Info( "ppooo" );
+
 		if ( material.Count( x => x == '.' ) == 1 && !material.EndsWith( ".vmat", StringComparison.OrdinalIgnoreCase ) && !material.EndsWith( ".vmat_c", StringComparison.OrdinalIgnoreCase ) )
 		{
-			
 			var package = await Package.Fetch( material, false );
+
+			await package.MountAsync();
 
 			if ( package != null && package.TypeName == "material" && package.Revision != null )
 				setMaterial = await Sandbox.Material.LoadAsync( package.GetMeta( "PrimaryAsset", "" ));
 		}
 		else
 		{
+			
 			setMaterial = await Sandbox.Material.LoadAsync( material );
 		}
 
