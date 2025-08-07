@@ -3,7 +3,7 @@ using Sandbox.VR;
 using Seekers;
 using System;
 
-public abstract partial class Movement : Component
+public abstract partial class Movement : Component, IScenePhysicsEvents
 {
 	[Group( "Movement Variables" )]
 	[Property]
@@ -48,8 +48,6 @@ public abstract partial class Movement : Component
 	[Property, Group( "Camera Variables" )]
 	public ScreenShaker ScreenShaker { get; set; }
 
-	public BoxCollider Collider { get; set; }
-
 	public Vector3 wishDirection;
 
 	private Vector3 lastVel;
@@ -68,7 +66,6 @@ public abstract partial class Movement : Component
 	{
 		Camera.Enabled = false;
 		Camera.FieldOfView = Preferences.FieldOfView;
-		Collider = GetComponent<BoxCollider>();
 
 		_startHeight = Height;
 	}
@@ -93,6 +90,7 @@ public abstract partial class Movement : Component
 
 	protected override void OnUpdate()
 	{
+
 		Animate();
 
 		UpdateBodyVisibility();
@@ -128,38 +126,11 @@ public abstract partial class Movement : Component
 
 	protected override void OnFixedUpdate()
 	{
-
-		var velocity = Velocity;
-		var speed = velocity.Length;
-		var direction = velocity.Normal;
-
-		if ( speed <= 0.001f )
-			direction = Vector3.Zero;
-
-		var baseScale = new Vector3( Radius * 2f, Radius * 2f, Height );
-
-		var stretchAmount = speed * 0.05f;
-		var stretch = direction * stretchAmount;
-
-		var scale = baseScale + new Vector3(
-			MathF.Abs( stretch.x ),
-			MathF.Abs( stretch.y ),
-			MathF.Abs( stretch.z )
-		);
-
-		Collider.Scale = scale;
-
-		var centerOffset = new Vector3(
-			direction.x * (stretchAmount / 2),
-			direction.y * (stretchAmount / 2),
-			(Height / 2f) + 2 + direction.z * (stretchAmount / 2)
-		);
-
-		Collider.Center = centerOffset;
+		SetCollisionBox();
 	}
 
-
 	public Action OnJump;
+
 
 	public void WalkMove()
 	{

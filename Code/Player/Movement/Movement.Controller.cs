@@ -22,7 +22,7 @@ public abstract partial class Movement : Component
 	{
 		if ( hull == default )
 			hull = BoundingBox;
-		var trace = source.Size( in hull ).IgnoreGameObjectHierarchy( GameObject );
+		var trace = source.Size( in hull ).IgnoreGameObjectHierarchy( GameObject ).WithoutTags( "movement" );
 
 		if ( ignoreDynamic )
 			trace = trace.IgnoreDynamic();
