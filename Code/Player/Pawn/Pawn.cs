@@ -117,7 +117,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 		var modelPhysics = Controller.BodyModelRenderer.AddComponent<ModelPhysics>();
 		modelPhysics.Model = Controller.BodyModelRenderer.Model;
 		modelPhysics.Renderer = Controller.BodyModelRenderer;
-		foreach (var body in modelPhysics.Bodies)
+		foreach ( var body in modelPhysics.Bodies )
 		{
 			body.Component.Velocity += Controller.Velocity + damageInfo.Force / 15000;
 		}
@@ -180,7 +180,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 		}
 
 		if ( Controller.IsValid() && Controller.IsSprinting && !Controller.IgnoreMove &&
-		     Controller.Velocity.WithZ(0).Length > 0 && Controller.IsGrounded)
+		     Controller.Velocity.WithZ( 0 ).Length > 0 && Controller.IsGrounded )
 		{
 			Stamina = (Stamina - StaminaDecay * StaminaDecayBoost * Time.Delta).Clamp( 0, 1 );
 			_staminaUsedTime = 0;
@@ -199,6 +199,11 @@ public partial class Pawn : ShrimplePawns.Pawn
 			Controller.Camera.FieldOfView =
 				Screen.CreateVerticalFieldOfView( Preferences.FieldOfView / Zoom, 9.0f / 16.0f );
 			Controller.AimSensitivityScale = 1 / Zoom;
+		}
+
+		if ( Input.Pressed( "View" ) )
+		{
+			Controller.ThirdPerson = !Controller.ThirdPerson;
 		}
 	}
 

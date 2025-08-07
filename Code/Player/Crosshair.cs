@@ -129,7 +129,6 @@ public partial class Crosshair : Component
 
 		if ( player.IsValid() && player.Controller.Camera.IsValid() )
 		{
-
 			var equipment = player.Inventory?.ActiveWeapon;
 
 			if ( equipment.IsValid() )
@@ -139,7 +138,8 @@ public partial class Crosshair : Component
 
 				float spread = equipment.Spread + equipment.SpreadIncrease;
 
-				gap += CalculateCrosshairWidth( spread, Screen.CreateVerticalFieldOfView( player.Controller.Camera.FieldOfView ), 720 ) * 175f * scale;
+				gap += CalculateCrosshairWidth( spread,
+					Screen.CreateVerticalFieldOfView( player.Controller.Camera.FieldOfView ), 720 ) * 175f * scale;
 
 				hasAmmo = equipment.Ammo > 0;
 				lowAmmo = equipment.Ammo <= equipment.MaxAmmo / 4;
@@ -172,7 +172,7 @@ public partial class Crosshair : Component
 			linesCol = Color.Orange;
 		}
 
-		if ( player.IsValid() && player.Controller.IsRunning )
+		if ( player.IsValid() && player.Controller.IsSprinting )
 		{
 			linesTarget = 0;
 		}
@@ -204,7 +204,8 @@ public partial class Crosshair : Component
 			size += gap;
 
 			hud.DrawCircle( center, w, color );
-			hud.DrawRect( new Rect( center - ((size / 2f)), size ), Color.Transparent, new( float.MaxValue, float.MaxValue, float.MaxValue, float.MaxValue ), new( w, w, w, w ), linesCol );
+			hud.DrawRect( new Rect( center - ((size / 2f)), size ), Color.Transparent,
+				new(float.MaxValue, float.MaxValue, float.MaxValue, float.MaxValue), new(w, w, w, w), linesCol );
 		}
 
 		if ( type == CrosshairType.Dot )
@@ -223,7 +224,8 @@ public partial class Crosshair : Component
 			float translationFactor = isKillHitmarker ? 1.0f : 1.0f - (TimeSinceAttacked / HitmarkerTime);
 			translationFactor = translationFactor.Clamp( 0.0f, 1.0f );
 
-			float opacityFactor = isKillHitmarker ? 1.0f : (1.0f - (TimeSinceAttacked / HitmarkerTime)).Clamp( 0.0f, 1.0f );
+			float opacityFactor =
+				isKillHitmarker ? 1.0f : (1.0f - (TimeSinceAttacked / HitmarkerTime)).Clamp( 0.0f, 1.0f );
 			// Apply scaling factor to line length
 			float hitmarkerLength = initialHitmarkerLength;
 
@@ -236,7 +238,9 @@ public partial class Crosshair : Component
 			var bottomLeft = center + new Vector2( -diagonalOffset, diagonalOffset );
 			var bottomRight = center + new Vector2( diagonalOffset, diagonalOffset );
 
-			var hitColor = isHeadshotHitmarker || isKillHitmarker ? Color.Red.WithAlpha( opacityFactor ) : Color.White.WithAlpha( 0.5f * opacityFactor );
+			var hitColor = isHeadshotHitmarker || isKillHitmarker
+				? Color.Red.WithAlpha( opacityFactor )
+				: Color.White.WithAlpha( 0.5f * opacityFactor );
 
 			// Draw the four diagonal lines with adjusted length and position
 			hud.DrawLine( topLeft, topLeft + new Vector2( -hitmarkerLength, -hitmarkerLength ), w, hitColor );
@@ -266,13 +270,12 @@ public partial class Crosshair : Component
 			if ( hitboxTags.HasFlag( HitboxTags.Head ) )
 			{
 				Hitmarker = HitmarkerType.Headshot;
-				Sound.Play( "hitmarkerheadshot", Mixer.FindMixerByName("UI") );
+				Sound.Play( "hitmarkerheadshot", Mixer.FindMixerByName( "UI" ) );
 			}
 			else
 			{
 				Sound.Play( "hitmarker", Mixer.FindMixerByName( "UI" ) );
 			}
-
 		}
 	}
 
@@ -300,5 +303,4 @@ public partial class Crosshair : Component
 
 		return crosshairWidth;
 	}
-
 }

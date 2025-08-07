@@ -37,7 +37,7 @@ public abstract partial class Movement : Component
 	public bool ThirdPerson { get; set; } = false;
 
 	[Property, Group( "Camera Variables" )]
-	public Vector3 ThirdPersonCameraOffset {get;set;} = new Vector3( -180, -20, 0 );
+	public Vector3 ThirdPersonCameraOffset { get; set; } = new Vector3( -180, -20, 0 );
 
 	[Property, Group( "Camera Variables" )]
 	public GameObject Head { get; set; }
@@ -59,10 +59,14 @@ public abstract partial class Movement : Component
 	{
 		AutoBH = !AutoBH;
 	}
+
 	private float _startHeight;
+
 	protected override void OnStart()
 	{
 		Camera.Enabled = false;
+		Camera.FieldOfView = Preferences.FieldOfView;
+
 		_startHeight = Height;
 	}
 
@@ -189,9 +193,7 @@ public abstract partial class Movement : Component
 		if ( !Camera.IsValid() )
 			return;
 
-		Camera.FieldOfView = Preferences.FieldOfView;
-
-		if (!IgnoreCam)
+		if ( !IgnoreCam )
 			EyeAngles += Input.AnalogLook * AimSensitivityScale;
 
 		EyeAngles = EyeAngles.WithPitch( EyeAngles.pitch.Clamp( -89f, 89f ) );
@@ -240,6 +242,7 @@ public abstract partial class Movement : Component
 
 		wishDirection = dir.x * forwardDirection + dir.y * -rightDirection;
 	}
+
 	public virtual void GroundVelocity()
 	{
 		ApplyFriction( Friction );

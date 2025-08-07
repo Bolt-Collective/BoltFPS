@@ -128,6 +128,9 @@ public sealed class SpectatorPawn : Pawn
 			return;
 		}
 
+		if ( !SpectatedPawn.Controller.IsValid() )
+			return;
+
 		if ( !SpectatedPawn.Controller.Camera.IsValid() )
 			return;
 

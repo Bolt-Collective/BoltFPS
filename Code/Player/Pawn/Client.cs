@@ -170,9 +170,12 @@ public partial class Client : ShrimplePawns.Client
 				pawn.HealthComponent.Health = pawn.HealthComponent?.MaxHealth ?? 100;
 			}
 
-			foreach ( var weapon in weapons )
+			if ( weapons != null && weapons.Any() )
 			{
-				pawn.Inventory.Pickup( weapon.GetDetails() );
+				foreach ( var weapon in weapons )
+				{
+					pawn.Inventory.Pickup( weapon.GetDetails() );
+				}
 			}
 
 			GoToSpawn( pawn );

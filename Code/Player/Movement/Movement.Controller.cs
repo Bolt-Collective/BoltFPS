@@ -6,30 +6,25 @@ using static Sandbox.ModelPhysics;
 
 public abstract partial class Movement : Component
 {
-	[Range( 0, 200 )]
-	[Property] public float Radius { get; set; } = 16.0f;
+	[Range( 0, 200 )] [Property] public float Radius { get; set; } = 16.0f;
 
-	[Range( 0, 200 )]
-	[Property, Sync] public float Height { get; set; } = 64.0f;
+	[Range( 0, 200 )] [Property, Sync] public float Height { get; set; } = 64.0f;
 
-	[Range( 0, 50 )]
-	[Property] public float StepHeight { get; set; } = 18.0f;
+	[Range( 0, 50 )] [Property] public float StepHeight { get; set; } = 18.0f;
 
-	[Range( 0, 90 )]
-	[Property] public float GroundAngle { get; set; } = 45.0f;
+	[Range( 0, 90 )] [Property] public float GroundAngle { get; set; } = 45.0f;
 
 	[Property] public bool IgnoreDynamic;
 
 	[Property, RequireComponent] public BoxCollider Collider { get; set; }
 
-	[Property]
-	public TagSet IgnoreLayers { get; set; } = new();
+	[Property] public TagSet IgnoreLayers { get; set; } = new();
 
 	public BBox BoundingBox => new BBox( new Vector3( -Radius, -Radius, 1 ), new Vector3( Radius, Radius, Height ) );
 
 	public SceneTrace BuildTrace( SceneTrace source, BBox hull = default )
 	{
-		if (hull == default)
+		if ( hull == default )
 			hull = BoundingBox;
 		var trace = source.Size( in hull ).IgnoreGameObjectHierarchy( GameObject );
 
@@ -43,6 +38,7 @@ public abstract partial class Movement : Component
 	{
 		return BuildTrace( Scene.Trace.Ray( start, end ), hull );
 	}
+
 	[Property, Sync] public bool IsGrounded { get; set; }
 	public GameObject GroundObject;
 	public Surface GroundSurface;
@@ -153,12 +149,12 @@ public abstract partial class Movement : Component
 		{
 			OnGroundVelocity = rigidbody.GetVelocityAtPoint( WorldPosition );
 		}
-
 	}
 
 	Vector3 lastGroundVelocity;
 	bool canSnap = false;
 	public bool CanMove = true;
+
 	private void Move()
 	{
 		wasGrounded = IsGrounded;
@@ -194,7 +190,7 @@ public abstract partial class Movement : Component
 
 	public void MoveTo( Vector3 targetPosition, bool useStep, BBox hull = default )
 	{
-		if ( TryUnstuck(Velocity) )
+		if ( TryUnstuck( Velocity ) )
 			return;
 
 		var pos = WorldPosition;
@@ -267,7 +263,6 @@ public abstract partial class Movement : Component
 				normal = Vector3.Random.Normal * (((float)_stuckTries) * 1.25f);
 				pos = WorldPosition + normal;
 				normal *= 0.25f;
-
 			}
 
 			result = BuildTrace( Scene.Trace.Ray( pos, pos ) ).Run();

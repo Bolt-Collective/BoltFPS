@@ -6,11 +6,9 @@ using System.ComponentModel.DataAnnotations;
 
 public partial class Movement : Component
 {
-	[Property]
-	public SkinnedModelRenderer BodyModelRenderer { get; set; }
+	[Property] public SkinnedModelRenderer BodyModelRenderer { get; set; }
 
-	[Property]
-	public AnimationHelper AnimationHelper { get; set; }
+	[Property] public AnimationHelper AnimationHelper { get; set; }
 
 	[Property, Group( "Animator" )] public float RotationAngleLimit { get; set; } = 45.0f;
 	[Property, Group( "Animator" )] public float RotationSpeed { get; set; } = 1.0f;
@@ -36,15 +34,22 @@ public partial class Movement : Component
 			AnimationHelper.MoveRotationSpeed = _animRotationSpeed * 5;
 			_animRotationSpeed = 0;
 		}
+
 		RotateBody();
 	}
+
 	public virtual void RotateBody()
 	{
+		if ( !BodyModelRenderer.IsValid() )
+			return;
+
 		if ( IsTouchingLadder && RotationFaceLadders )
 		{
-			BodyModelRenderer.WorldRotation = Rotation.Lerp( BodyModelRenderer.WorldRotation, Rotation.LookAt( LadderNormal * -1 ), Time.Delta * 5.0f );
+			BodyModelRenderer.WorldRotation = Rotation.Lerp( BodyModelRenderer.WorldRotation,
+				Rotation.LookAt( LadderNormal * -1 ), Time.Delta * 5.0f );
 			return;
 		}
+
 		var targetAngle = new Angles( 0, EyeAngles.yaw, 0 ).ToRotation();
 
 		var velocity = WishVelocity.WithZ( 0 );
@@ -70,7 +75,8 @@ public partial class Movement : Component
 
 		if ( velocity.Length > 10 )
 		{
-			var newRotation = Rotation.Slerp( BodyModelRenderer.WorldRotation, targetAngle, Time.Delta * 2.0f * RotationSpeed * velocity.Length.Remap( 0, 100 ) );
+			var newRotation = Rotation.Slerp( BodyModelRenderer.WorldRotation, targetAngle,
+				Time.Delta * 2.0f * RotationSpeed * velocity.Length.Remap( 0, 100 ) );
 
 			var a = newRotation.Angles();
 			var b = BodyModelRenderer.WorldRotation.Angles();
@@ -88,6 +94,7 @@ public partial class Movement : Component
 	public bool Orbiting;
 
 	public bool BodyVisible;
+
 	public void UpdateBodyVisibility()
 	{
 		if ( !BodyModelRenderer.IsValid() )
@@ -95,15 +102,19 @@ public partial class Movement : Component
 		if ( IsProxy && !Spectating || Orbiting )
 		{
 			BodyVisible = true;
-			foreach ( var mdlrenderer in BodyModelRenderer.Components.GetAll<ModelRenderer>( FindMode.EverythingInSelfAndChildren ) )
+			foreach ( var mdlrenderer in BodyModelRenderer.Components.GetAll<ModelRenderer>(
+				         FindMode.EverythingInSelfAndChildren ) )
 			{
 				mdlrenderer.RenderType = Sandbox.ModelRenderer.ShadowRenderType.On;
 			}
+
 			return;
 		}
+
 		if ( !ThirdPerson )
 		{
-			foreach ( var mdlrenderer in BodyModelRenderer.Components.GetAll<ModelRenderer>( FindMode.EverythingInSelfAndChildren ) )
+			foreach ( var mdlrenderer in BodyModelRenderer.Components.GetAll<ModelRenderer>(
+				         FindMode.EverythingInSelfAndChildren ) )
 			{
 				mdlrenderer.RenderType = Sandbox.ModelRenderer.ShadowRenderType.ShadowsOnly;
 			}
@@ -112,10 +123,12 @@ public partial class Movement : Component
 		}
 		else
 		{
-			foreach ( var mdlrenderer in BodyModelRenderer.Components.GetAll<ModelRenderer>( FindMode.EverythingInSelfAndChildren ) )
+			foreach ( var mdlrenderer in BodyModelRenderer.Components.GetAll<ModelRenderer>(
+				         FindMode.EverythingInSelfAndChildren ) )
 			{
 				mdlrenderer.RenderType = Sandbox.ModelRenderer.ShadowRenderType.On;
 			}
+
 			BodyVisible = true;
 		}
 	}
