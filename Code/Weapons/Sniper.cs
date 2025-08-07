@@ -60,7 +60,7 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 		if ( !Scoped && Input.Pressed( "attack2" ) && Owner.IsValid() && !Owner.GrabbedObject.IsValid() )
 			Scope();
-		if ( Scoped && !scopingIn && (Input.Released( "attack2" ) || Owner.Controller.IsRunning ||
+		if ( Scoped && !scopingIn && (Input.Released( "attack2" ) || Owner.Controller.IsSprinting ||
 		                              !Owner.Controller.IsGrounded || IsReloading) )
 			UnScope();
 	}
