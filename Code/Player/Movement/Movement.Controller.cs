@@ -14,21 +14,17 @@ public abstract partial class Movement : Component
 
 	[Range( 0, 90 )] [Property] public float GroundAngle { get; set; } = 45.0f;
 
-	[Property] public bool IgnoreDynamic;
-
-	[Property, RequireComponent] public BoxCollider Collider { get; set; }
-
 	[Property] public TagSet IgnoreLayers { get; set; } = new();
 
 	public BBox BoundingBox => new BBox( new Vector3( -Radius, -Radius, 1 ), new Vector3( Radius, Radius, Height ) );
 
-	public SceneTrace BuildTrace( SceneTrace source, BBox hull = default )
+	public SceneTrace BuildTrace( SceneTrace source, BBox hull = default, bool ignoreDynamic = false )
 	{
 		if ( hull == default )
 			hull = BoundingBox;
 		var trace = source.Size( in hull ).IgnoreGameObjectHierarchy( GameObject );
 
-		if ( IgnoreDynamic )
+		if ( ignoreDynamic )
 			trace = trace.IgnoreDynamic();
 
 		return trace.WithoutTags( IgnoreLayers );
@@ -180,8 +176,7 @@ public abstract partial class Movement : Component
 
 		WorldPosition += OnGroundVelocity.WithZ( 0 ) * Time.Delta;
 
-		if ( IsStuck() )
-			TryUnstuck( previousVelocity );
+		TryUnstuck( previousVelocity );
 
 		CategorizePosition();
 

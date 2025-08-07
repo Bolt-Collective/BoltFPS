@@ -48,6 +48,8 @@ public abstract partial class Movement : Component
 	[Property, Group( "Camera Variables" )]
 	public ScreenShaker ScreenShaker { get; set; }
 
+	public BoxCollider Collider { get; set; }
+
 	public Vector3 wishDirection;
 
 	private Vector3 lastVel;
@@ -66,6 +68,7 @@ public abstract partial class Movement : Component
 	{
 		Camera.Enabled = false;
 		Camera.FieldOfView = Preferences.FieldOfView;
+		Collider = GetComponent<BoxCollider>();
 
 		_startHeight = Height;
 	}
@@ -123,6 +126,39 @@ public abstract partial class Movement : Component
 		Move();
 	}
 
+	protected override void OnFixedUpdate()
+	{
+
+		var velocity = Velocity;
+		var speed = velocity.Length;
+		var direction = velocity.Normal;
+
+		if ( speed <= 0.001f )
+			direction = Vector3.Zero;
+
+		var baseScale = new Vector3( Radius * 2f, Radius * 2f, Height );
+
+		var stretchAmount = speed * 0.05f;
+		var stretch = direction * stretchAmount;
+
+		var scale = baseScale + new Vector3(
+			MathF.Abs( stretch.x ),
+			MathF.Abs( stretch.y ),
+			MathF.Abs( stretch.z )
+		);
+
+		Collider.Scale = scale;
+
+		var centerOffset = new Vector3(
+			direction.x * (stretchAmount / 2),
+			direction.y * (stretchAmount / 2),
+			(Height / 2f) + 2 + direction.z * (stretchAmount / 2)
+		);
+
+		Collider.Center = centerOffset;
+	}
+
+
 	public Action OnJump;
 
 	public void WalkMove()
@@ -149,22 +185,6 @@ public abstract partial class Movement : Component
 			return;
 
 		Velocity += Vector3.Down * Gravity / 2 * Time.Delta;
-	}
-
-	Vector3 newVel;
-
-	protected override void OnFixedUpdate()
-	{
-		lastVel = newVel;
-		newVel = Velocity;
-
-		Collider.Center  = new Vector3( 0, 0, Height/2 + 2 );
-		Collider.Scale = new Vector3(Radius * 2f + 5, Radius * 2 + 5, Height );
-
-		if ( IsProxy )
-			return;
-
-		SimulateWeight();
 	}
 
 	public Vector3 forwardDirection => Scene.Camera?.WorldTransform.Forward.WithZ( 0 ).Normal ?? default;
