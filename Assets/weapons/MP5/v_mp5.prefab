@@ -1,13 +1,23 @@
 {
   "RootObject": {
     "__guid": "d6d104e0-3ea1-4fd0-9779-c152c3d342da",
+    "__version": 1,
     "Flags": 0,
     "Name": "v_mp5",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
     "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
     "Components": [
       {
         "__type": "Sandbox.SkinnedModelRenderer",
         "__guid": "99a326f9-c9de-4186-a861-d1d8156c841e",
+        "__enabled": true,
         "AnimationGraph": null,
         "BodyGroups": 147,
         "BoneMergeTarget": null,
@@ -15,6 +25,7 @@
         "CreateBoneObjects": false,
         "MaterialGroup": null,
         "MaterialOverride": null,
+        "Materials": null,
         "Model": "models/weapons/sbox_smg_mp5/v_mp5.vmdl",
         "Morphs": {},
         "OnComponentDestroy": null,
@@ -39,7 +50,9 @@
         },
         "RenderType": "Off",
         "Sequence": {
-          "Name": null
+          "Name": null,
+          "Looping": true,
+          "Blending": false
         },
         "Tint": "1,1,1,1",
         "UseAnimGraph": true
@@ -47,11 +60,13 @@
       {
         "__type": "Seekers.ViewModel",
         "__guid": "1a378c00-e605-44bf-8713-51d7724f8d63",
+        "__enabled": true,
+        "AnimParamTranslate": {},
         "BobCycleTime": 7,
         "BobDirection": "0,1,0.5",
         "InertiaDamping": 20,
         "MaxOffsetLength": 10,
-        "offset": "-2,0,0",
+        "Offset": "-5,0,0",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -59,6 +74,7 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "ReturnSpeed": 5,
+        "SprintHold": false,
         "SwingAndBob": false,
         "SwingInfluence": 0.05
       }
@@ -66,13 +82,23 @@
     "Children": [
       {
         "__guid": "e4df9561-c7f5-49a3-a346-3b3071ceaa9c",
+        "__version": 1,
         "Flags": 0,
         "Name": "Arms",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
         "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
         "Components": [
           {
             "__type": "Sandbox.SkinnedModelRenderer",
             "__guid": "57d73b7e-08aa-41ac-adbc-66873df66949",
+            "__enabled": true,
             "AnimationGraph": null,
             "BodyGroups": 21,
             "BoneMergeTarget": {
@@ -85,6 +111,7 @@
             "CreateBoneObjects": false,
             "MaterialGroup": null,
             "MaterialOverride": null,
+            "Materials": null,
             "Model": "models/first_person/first_person_arms.vmdl",
             "Morphs": {},
             "OnComponentDestroy": null,
@@ -109,24 +136,21 @@
             },
             "RenderType": "Off",
             "Sequence": {
-              "Name": null
+              "Name": null,
+              "Looping": true,
+              "Blending": false
             },
             "Tint": "1,1,1,1",
             "UseAnimGraph": true
           }
-        ]
+        ],
+        "Children": []
       }
     ],
-    "__variables": [],
     "__properties": {
-      "FixedUpdateFrequency": 50,
-      "MaxFixedUpdates": 5,
-      "NetworkFrequency": 30,
       "NetworkInterpolation": true,
-      "PhysicsSubSteps": 1,
-      "ThreadedAnimation": true,
       "TimeScale": 1,
-      "UseFixedUpdate": true,
+      "WantsSystemScene": true,
       "Metadata": {},
       "NavMesh": {
         "Enabled": false,
@@ -140,15 +164,16 @@
         "ExcludedBodies": "",
         "IncludedBodies": ""
       }
-    }
+    },
+    "__variables": []
   },
+  "ResourceVersion": 2,
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "ResourceVersion": 1,
   "__references": [
     "facepunch.v_mp5#90538"
   ],
-  "__version": 1
+  "__version": 2
 }

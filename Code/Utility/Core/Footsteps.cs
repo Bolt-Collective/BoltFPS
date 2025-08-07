@@ -1,5 +1,4 @@
-﻿
-namespace Seekers;
+﻿namespace Seekers;
 
 public class Footsteps : Component
 {
@@ -16,7 +15,7 @@ public class Footsteps : Component
 	private float GetStepFrequency()
 	{
 		if ( Player.Controller.IsCrouching ) return 0.5f;
-		if ( Player.Controller.IsRunning ) return 0.28f;
+		if ( Player.Controller.IsSprinting ) return 0.28f;
 		return 0.39f;
 	}
 
