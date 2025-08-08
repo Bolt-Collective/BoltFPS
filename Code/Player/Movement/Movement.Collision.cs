@@ -66,7 +66,6 @@ public abstract partial class Movement : Component, ISceneCollisionEvents
 
 	public void SetCollisionBox()
 	{
-		Log.Info( MathF.Round( Velocity.Length ) );
 		if ( !Networking.IsHost )
 			return;
 

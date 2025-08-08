@@ -6,7 +6,7 @@ public class BalloonTool : BaseTool
 	PreviewModel PreviewModel;
 	RealTimeSince timeSinceDisabled;
 
-	protected override void OnAwake()
+	protected override void OnStart()
 	{
 		if ( IsProxy )
 			return;
@@ -124,6 +124,7 @@ public class BalloonTool : BaseTool
 			}
 		}
 
+		go.Network.AssignOwnership(Connection.Host);
 		go.NetworkSpawn();
 		go.Network.SetOrphanedMode( NetworkOrphaned.Host );
 

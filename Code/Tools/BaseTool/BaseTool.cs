@@ -42,11 +42,11 @@ public abstract class BaseTool : Component
 		{
 			GameObject = trace.GameObject;
 			LocalPosition = trace.GameObject.WorldTransform.PointToLocal(trace.HitPosition);
-			LocalNormal = trace.GameObject.WorldTransform.PointToLocal( trace.Normal );
+			LocalNormal = trace.GameObject.WorldTransform.WithPosition(0).PointToLocal( trace.Normal );
 		}
 
 		public Vector3 WorldPosition => GameObject.WorldTransform.PointToWorld(LocalPosition);
-		public Vector3 WorldNormal => GameObject.WorldTransform.PointToWorld(LocalNormal);
+		public Vector3 WorldNormal => GameObject.WorldTransform.WithPosition(0).PointToWorld(LocalNormal);
 	}
 }
 

@@ -219,7 +219,7 @@ public partial class ToolGun : BaseWeapon
 	}
 
 
-	public SceneTraceResult TraceTool( Vector3 start, Vector3 end, float radius = 2.0f )
+	public SceneTraceResult TraceTool( Vector3 start, Vector3 end, float radius = 0f )
 	{
 		var trace = Scene.Trace.Ray( start, end )
 				.UseHitboxes()
