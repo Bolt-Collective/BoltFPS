@@ -1,6 +1,5 @@
 namespace Seekers;
 
-public class MaterialPath : Attribute { }
 [Library( "tool_material", Title = "Material", Description = "Change render color and alpha of entities", Group = "construction" )]
 public partial class MaterialTool : BaseTool
 {

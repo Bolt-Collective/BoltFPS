@@ -13,7 +13,7 @@ public abstract class BaseJointTool : BaseTool
 
 		if ( Input.Pressed( "attack1" ) )
 		{
-			var newSelectionPoint = SelectionPoint.GetPoint( trace );
+			var newSelectionPoint = new SelectionPoint( trace );
 			newSelectionPoint.Active = true;
 			if ( !selected.Active )
 			{
@@ -62,7 +62,7 @@ public abstract class BaseJointTool : BaseTool
 		
 	}
 
-	public (GameObject, GameObject) GetJointPoints( SelectionPoint selection1, SelectionPoint selection2 )
+	public static (GameObject, GameObject) GetJointPoints( SelectionPoint selection1, SelectionPoint selection2 )
 	{
 		var g1 = new GameObject();
 		g1.SetParent( selection1.GameObject );

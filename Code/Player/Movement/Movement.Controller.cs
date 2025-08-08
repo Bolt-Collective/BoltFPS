@@ -98,10 +98,26 @@ public abstract partial class Movement : Component
 	/// <summary>
 	/// Disconnect from ground and punch our velocity. This is useful if you want the player to jump or something.
 	/// </summary>
-	public void Punch( in Vector3 amount )
+	[Rpc.Owner]
+	public void Punch( Vector3 amount, bool clearGround = true )
 	{
 		ClearGround();
 		Velocity += amount;
+	}
+
+	[Rpc.Owner]
+	public void Slow( Vector3 amount, bool clearGround = true )
+	{
+		var newVel = Velocity.Normal + amount;
+
+		if ( Velocity.Length <= 1f )
+			return;
+
+		if ( Velocity.Angle(newVel) < 90 )
+			Velocity += amount;
+		else
+			Velocity = 0;
+
 	}
 
 	void ClearGround()
