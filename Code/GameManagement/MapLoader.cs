@@ -88,7 +88,7 @@ public partial class MapLoader : MapInstance
 	}
 
 	[Rpc.Broadcast]
-	public static async void ChangeMap( string map )
+	private static async void ChangeMap( string map )
 	{
 		Instance.ClientIsLoadingMap = true;
 

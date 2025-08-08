@@ -8,7 +8,7 @@ partial class MachineGun : BaseWeapon
 	[Property] public float MinRecoil { get; set; } = 0.5f;
 	[Property] public float MaxRecoil { get; set; } = 1f;
 
-	[Property] public RecoilPattern RecoilPattern { get; set; } = new();
+	[Property] public RecoilPattern RecoilPattern { get; set; }
 
 	public override void AttackPrimary()
 	{

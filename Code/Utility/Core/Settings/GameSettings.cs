@@ -11,13 +11,13 @@ public class GameSettings
 	[Title( "Dynamic" ), Group( "Crosshair" )]
 	public bool DynamicCrosshair { get; set; } = true;
 
-	[Title( "Length" ), Group( "Crosshair" ), Range( 2, 50, 1 )]
+	[Title( "Length" ), Group( "Crosshair" ), Step( 1 )]
 	public float CrosshairLength { get; set; } = 2;
 
-	[Title( "Width" ), Group( "Crosshair" ), Range( 1, 10, 1 )]
+	[Title( "Width" ), Group( "Crosshair" ), Step( 1 )]
 	public float CrosshairWidth { get; set; } = 2;
 
-	[Title( "Distance" ), Group( "Crosshair" ), Range( -5, 50, 0.1f )]
+	[Title( "Distance" ), Group( "Crosshair" ), Step( 0.1f )]
 	public float CrosshairDistance { get; set; } = 15;
 
 	[Title( "Color" ), Group( "Crosshair" )]

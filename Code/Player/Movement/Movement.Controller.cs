@@ -139,7 +139,6 @@ public abstract partial class Movement : Component
 	float previousHeight;
 	bool wasGrounded;
 
-	float VelocityOff;
 
 	void UpdateGroundVelocity()
 	{
@@ -163,8 +162,6 @@ public abstract partial class Movement : Component
 		}
 	}
 
-	Vector3 lastGroundVelocity;
-	bool canSnap = false;
 	public bool CanMove = true;
 
 	private void Move()
