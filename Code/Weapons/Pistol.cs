@@ -8,7 +8,7 @@ partial class Pistol : BaseWeapon, Component.ICollisionListener
 	[Property] public float MinRecoil { get; set; } = 0.5f;
 	[Property] public float MaxRecoil { get; set; } = 1f;
 
-	[Property] public RecoilPattern RecoilPattern { get; set; } = new();
+	[Property] public RecoilPattern RecoilPattern { get; set; }
 
 	public override bool CanPrimaryAttack() => base.CanPrimaryAttack() && Input.Pressed( "attack1" );
 

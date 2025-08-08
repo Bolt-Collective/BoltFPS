@@ -50,7 +50,6 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 	public Vector3 wishDirection;
 
-	private Vector3 lastVel;
 
 	private static bool AutoBH;
 
@@ -161,12 +160,10 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 	public Vector3 forwardDirection => Scene.Camera?.WorldTransform.Forward.WithZ( 0 ).Normal ?? default;
 	public Vector3 rightDirection => Scene.Camera?.WorldTransform.Right.WithZ( 0 ).Normal ?? default;
 
-	private float _cameraBobTime;
 	public float CameraBobFrequency = 8f;
 	public float CameraBobAmplitude = 2f;
 	public bool IsBobbing;
 
-	private Vector3 _cameraBobOffset;
 
 	[Sync] public Angles EyeAngles { get; set; }
 
