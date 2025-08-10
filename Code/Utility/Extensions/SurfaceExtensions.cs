@@ -46,7 +46,15 @@ public static partial class SurfaceExtensions
 			{
 				var impact = particle.Clone();
 				impact.WorldPosition = tr.EndPosition;
-				impact.SetParent( null, true );
+				
+				if (tr.GameObject.IsValid())
+				{
+					impact.SetParent( tr.GameObject, true );
+				}
+				else
+				{
+					impact.SetParent( null );
+				}
 				impact.WorldRotation = Rotation.LookAt( -tr.Normal );
 			}
 		}
