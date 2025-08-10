@@ -2,7 +2,8 @@
 
 public class JointPoint : Component
 {
-	public GameObject otherPoint;
+	[Property]
+	public GameObject otherPoint { get; set; }
 
 	protected override void OnDestroy()
 	{

@@ -210,8 +210,10 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		foreach ( Joint joint in result )
 		{
-			GameObject object1 = joint.Body1.GameObject.Root;
-			GameObject object2 = joint.Body2.GameObject.Root;
+			if ( !joint.GameObject.IsValid() || !joint.Body.IsValid() )
+				continue;
+			GameObject object1 = joint.GameObject.Root;
+			GameObject object2 = joint.Body.Root;
 
 			if ( !returned.Contains( object1 ) ) returned.Add( object1 );
 			if ( !returned.Contains( object2 ) ) returned.Add( object2 );
@@ -230,11 +232,14 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		foreach ( var joint in propHelper.Joints )
 		{
-			GameObject jointObject = joint.Body1?.GameObject;
+			if ( !joint.GameObject.IsValid() )
+				continue;
+
+			GameObject jointObject = joint.GameObject.Root;
 
 			if ( jointObject == propHelper.GameObject )
 			{
-				jointObject = joint.Body2?.GameObject;
+				jointObject = joint.Body.Root;
 			}
 
 			if ( !jointObject.IsValid() )

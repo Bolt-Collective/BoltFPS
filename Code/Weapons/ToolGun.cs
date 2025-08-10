@@ -219,14 +219,19 @@ public partial class ToolGun : BaseWeapon
 	}
 
 
-	public SceneTraceResult TraceTool( Vector3 start, Vector3 end, float radius = 0f )
+	public static SceneTraceResult TraceTool( GameObject[] ignors, Vector3 start, Vector3 end, float radius = 0f )
 	{
-		var trace = Scene.Trace.Ray( start, end )
+		var trace = Game.ActiveScene.Trace.Ray( start, end )
 				.UseHitboxes()
 				.WithAnyTags( "solid", "nocollide", "npc", "glass" )
 				.WithoutTags( "debris", "player", "movement" )
-				.IgnoreGameObjectHierarchy( Owner.GameObject )
 				.Size( radius );
+
+
+		foreach (var ignore in ignors)
+		{
+			trace = trace.IgnoreGameObjectHierarchy( ignore );
+		}
 
 		var tr = trace.Run();
 
@@ -235,6 +240,6 @@ public partial class ToolGun : BaseWeapon
 
 	public SceneTraceResult BasicTraceTool()
 	{
-		return TraceTool( Owner.AimRay.Position, Owner.AimRay.Position + Owner.AimRay.Forward * 5000 );
+		return TraceTool( [Owner.GameObject], Owner.AimRay.Position, Owner.AimRay.Position + Owner.AimRay.Forward * 5000 );
 	}
 }

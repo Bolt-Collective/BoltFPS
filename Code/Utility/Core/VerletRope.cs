@@ -28,6 +28,8 @@ public class VerletRope : Component
 
 	protected override void OnUpdate()
 	{
+		if ( !Attachment.IsValid() )
+			return;
 		Simulate( Time.Delta );
 		SatisfyConstraints();
 		Draw();
