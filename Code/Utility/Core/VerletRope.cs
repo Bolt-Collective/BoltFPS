@@ -145,16 +145,22 @@ public class VerletRope : Component
 		line.UseVectorPoints = true;
 		line.VectorPoints ??= new();
 		line.VectorPoints.Clear();
-		line.VectorPoints.AddRange( points.Select( p => p.Position ) );
+		line.VectorPoints.AddRange(
+		new[] { WorldPosition + -WorldTransform.Forward * line.Width.Evaluate(0) * 2 }
+		.Concat( points.Select( p => p.Position ) )
+		.Concat( [Attachment.WorldPosition + -Attachment.WorldTransform.Forward * line.Width.Evaluate(line.Width.Length) * 2] )
+		);
 	}
 
 	public static VerletRope AddRope( GameObject point1, GameObject point2, float len, string material = "materials/default/rope01.vmat", bool rigid = false )
 	{
 		var ropePoint1 = new GameObject(parent: point1.Parent);
 		ropePoint1.LocalPosition = point1.LocalPosition;
+		ropePoint1.LocalRotation = point1.LocalRotation;
 
 		var ropePoint2 = new GameObject( parent: point2.Parent );
 		ropePoint2.LocalPosition = point2.LocalPosition;
+		ropePoint2.LocalRotation = point2.LocalRotation;
 
 		var vertletRope = ropePoint1.AddComponent<VerletRope>();
 		vertletRope.SegmentCount = Math.Max( 2, MathX.CeilToInt( len / 16.0f ) );

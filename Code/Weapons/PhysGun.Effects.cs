@@ -73,7 +73,7 @@ public partial class PhysGun
 			.UseHitboxes()
 			.IgnoreGameObject( Owner.GameObject )
 			.WithAllTags( "solid" )
-			.WithoutTags( "player" )
+			.WithoutTags( "player", "movement" )
 			.Run();
 
 		beam ??= CreateBeam( tr.EndPosition );

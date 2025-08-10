@@ -67,10 +67,12 @@ public abstract class BaseJointTool : BaseTool
 		var g1 = new GameObject();
 		g1.SetParent( selection1.GameObject );
 		g1.LocalPosition = selection1.LocalPosition;
+		g1.LocalRotation = Rotation.LookAt( selection1.LocalNormal );
 
 		var g2 = new GameObject();
 		g2.SetParent( selection2.GameObject );
 		g2.LocalPosition = selection2.LocalPosition;
+		g2.LocalRotation = Rotation.LookAt( selection2.LocalNormal );
 
 		g1.AddComponent<JointPoint>().otherPoint = g2;
 		g2.AddComponent<JointPoint>().otherPoint = g1;
