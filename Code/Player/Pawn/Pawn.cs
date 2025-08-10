@@ -180,7 +180,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 		}
 
 		if ( Controller.IsValid() && Controller.IsSprinting && !Controller.IgnoreMove &&
-		     Controller.Velocity.WithZ( 0 ).Length > 0 && Controller.IsGrounded )
+		     Controller.Velocity.WithZ( 0 ).Length > 5 && Controller.IsGrounded )
 		{
 			Stamina = (Stamina - StaminaDecay * StaminaDecayBoost * Time.Delta).Clamp( 0, 1 );
 			_staminaUsedTime = 0;
