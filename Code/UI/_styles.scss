@@ -11,45 +11,48 @@ $bolt-orange: #C97D37;
 $bolt-gray: #4E4E4E;
 
 .root {
-  font-family: Work Sans;
   color: white;
   font-smooth: always;
+}
+
+.integral {
+  font-family: "Integral CF";
+}
+
+.greyed {
+  color: rgba(155, 155, 155, 0.7);
 }
 
 h1 {
   font-family: Work Sans;
   // font-size: 4rem;
-  font-size: 644px;
+  font-size: 48px;
   font-weight: lighter;
   color: white;
-  text-shadow: 4px 4px 0 black;
 }
 
 h2 {
   font-family: Work Sans;
   // font-size: 3rem;
-  font-size: 46px;
+  font-size: 42px;
   font-weight: lighter;
   color: white;
-  text-shadow: 2px 2px 0 black, 0 0 2px #FF9D23, -3px 0 2px #FF9D2370, 3px 0 2px #FF9D2370;
 }
 
 h3 {
   font-family: Work Sans;
   // font-size: 2.5rem;
-  font-size: 40px;
+  font-size: 36px;
   font-weight: lighter;
   color: white;
-  text-shadow: 2px 2px 0 black;
 }
 
 h4 {
   font-family: Work Sans;
   // font-size: 2rem;
-  font-size: 36px;
+  font-size: 30px;
   font-weight: light;
   color: white;
-  text-shadow: 2px 2px 0 black;
   line-height: 30px;
 }
 
@@ -58,9 +61,8 @@ h5 {
 
   // font-size: 1.5rem;
   font-size: 24px;
-  font-weight: bold;
+  font-weight: light;
   color: white;
-  text-shadow: 3px 2px 0 black;
 }
 
 p {
@@ -70,5 +72,4 @@ p {
   font-size: 16px;
   font-weight: lighter;
   color: white;
-  text-shadow: 2px 2px 0 black;
 }
