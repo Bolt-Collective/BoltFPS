@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Seekers;
 public abstract class BaseTool : Component
 {
@@ -63,10 +65,11 @@ public class InputBind
 	}
 	[KeyProperty] public bool Action { get; set; }
 
-	public InputBind (string key, bool action = true) 
+	[JsonConstructor]
+	public InputBind( string InputKey, bool Action )
 	{
-		InputKey = key;
-		Action = action;
+		this.InputKey = InputKey;
+		this.Action = Action;
 	}
 
 	public InputBind(InputBind inputBind)

@@ -6,10 +6,10 @@ namespace Seekers;
 public partial class Wheel : BaseTool
 {
 	[Property]
-	public InputBind Forwards { get; set; } = new( "uparrow" );
+	public InputBind Forwards { get; set; } = new( "uparrow",true );
 
 	[Property]
-	public InputBind Backwards { get; set; } = new( "downarrow" );
+	public InputBind Backwards { get; set; } = new( "downarrow",true );
 
 	[Property, Range( -10000f, 10000f )]
 	public float Torque { get; set; } = 600f;
