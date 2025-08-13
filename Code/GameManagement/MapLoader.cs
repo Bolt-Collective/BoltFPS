@@ -171,6 +171,7 @@ public partial class MapLoader : MapInstance
 		{
 			go.Components.Create<DestroyOnMapCleanup>();
 			go.Components.Create<PropHelper>();
+			go.SetParent( null );
 			go.NetworkSpawn( Connection.Host );
 		}
 
