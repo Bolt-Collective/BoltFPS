@@ -28,7 +28,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		{
 			if ( GrabbedObject != lastGrabbed && GrabbedObject != null )
 			{
-				_heldBody = GetBody( GrabbedObject );
+				_heldBody = GetBody( GrabbedObject ).PhysicsBody;
 			}
 
 			lastGrabbed = GrabbedObject;
@@ -36,10 +36,10 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		}
 	}
 
-	PhysicsBody GetBody( GameObject gameObject )
+	Rigidbody GetBody( GameObject gameObject )
 	{
 		Rigidbody rigidbody = gameObject.Components.Get<Rigidbody>();
-		return rigidbody.IsValid() ? rigidbody.PhysicsBody : null;
+		return rigidbody;
 	}
 
 	protected override void OnEnabled()
@@ -375,9 +375,9 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		if ( !gameObject.IsValid() )
 			return;
 
-		PhysicsBody body = GetBody( gameObject );
+		var body = GetBody( gameObject );
 		if ( body.IsValid() )
-			body.BodyType = PhysicsBodyType.Static;
+			body.MotionEnabled = false;
 
 		FreezeEffects();
 	}
@@ -388,8 +388,8 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		if ( !gameObject.IsValid() )
 			return;
 
-		PhysicsBody body = GetBody( gameObject );
+		var body = GetBody( gameObject );
 		if ( body.IsValid() )
-			body.BodyType = PhysicsBodyType.Dynamic;
+			body.MotionEnabled = true;
 	}
 }
