@@ -15,6 +15,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 	[Sync] public bool Beaming { get; set; }
 	[Sync] public Vector3 HoldPos { get; set; }
 	[Sync] public Rotation HoldRot { get; set; }
+	[Sync] public bool SnapRotation { get; set; }
 	[Sync] public GameObject GrabbedObject { get; set; }
 	[Sync] public Vector3 GrabbedPos { get; set; }
 
@@ -74,9 +75,33 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		Vector3.SmoothDamp( HeldBody.Position, HoldPos, ref velocity, 0.075f, Time.Delta );
 		HeldBody.Velocity = velocity;
 
-		var angularVelocity = HeldBody.AngularVelocity;
-		Rotation.SmoothDamp( HeldBody.Rotation, HoldRot, ref angularVelocity, 0.075f, Time.Delta );
-		HeldBody.AngularVelocity = angularVelocity;
+		if ( SnapRotation )
+		{
+			var locking = new PhysicsLock();
+			locking.Pitch = true;
+			locking.Yaw = true;
+			locking.Roll = true;
+			HeldBody.Locking = locking;
+
+			float rotateSpeed = 25f;
+			HeldBody.Rotation = Rotation.Slerp(
+				HeldBody.Rotation,
+				HoldRot,
+				Time.Delta * rotateSpeed
+			);
+
+			if ( HeldBody.Rotation.Distance( HoldRot ) < 0.001f )
+				HeldBody.Rotation = HoldRot;
+
+			return;
+		}
+		else
+		{
+			HeldBody.Locking = new PhysicsLock();
+			var angularVelocity = HeldBody.AngularVelocity;
+			Rotation.SmoothDamp( HeldBody.Rotation, HoldRot, ref angularVelocity, 0.075f, Time.Delta );
+			HeldBody.AngularVelocity = angularVelocity;
+		}
 	}
 
 	bool grabbed;
@@ -126,6 +151,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		if ( Input.Down( "run" ) && Input.Down( "use" ) )
 		{
+			SnapRotation = true;
 			var angles = HoldRot.Angles();
 
 			HoldRot = Rotation.From(
@@ -134,6 +160,8 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 				MathF.Round( angles.roll / RotateSnapAt ) * RotateSnapAt
 			);
 		}
+		else
+			SnapRotation = false;
 	}
 
 	[Rpc.Broadcast]
@@ -319,6 +347,8 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 	[Rpc.Broadcast]
 	private void TryEndGrab()
 	{
+		if ( HeldBody.IsValid() )
+			HeldBody.Locking = new PhysicsLock();
 		GrabbedObject = null;
 		lastGrabbed = null;
 	}
