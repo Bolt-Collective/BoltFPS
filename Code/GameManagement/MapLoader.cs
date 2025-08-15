@@ -235,8 +235,8 @@ public partial class MapLoader : MapInstance
 		}
 	}
 
-	[ConCmd( "changemap" )]
-	private static void ChangeMapCmd( string map )
+	[ConCmd( "changemap", ConVarFlags.Admin )]
+	public static void ChooseMap( string map )
 	{
 		if ( string.IsNullOrWhiteSpace( map ) )
 		{
