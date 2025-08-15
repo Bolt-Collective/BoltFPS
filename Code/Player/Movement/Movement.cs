@@ -166,8 +166,8 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 
 	[Sync] public Angles EyeAngles { get; set; }
-	
-	[Property] public Vector3 CameraPosOffset { get; set; } = Vector3.Zero;
+
+	public Vector3 CameraPosOffset;
 	public Angles CameraRotOffset;
 
 	public bool IgnoreMove { get; set; }
@@ -190,13 +190,10 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 		Head.WorldTransform = targetTransform;
 
-		var eyeRot = EyeAngles.ToRotation();
 		if (ThirdPerson)
 		{
-			var trace = Scene.Trace.Ray( Head.WorldPosition, Head.WorldTransform.PointToWorld( ThirdPersonCameraOffset ) )
-				.IgnoreGameObjectHierarchy( GameObject )
-				.Run();
-			Camera.LocalPosition = trace.EndPosition - Head.WorldPosition + CameraPosOffset;
+			var trace = Scene.Trace.Ray( Head.WorldPosition, Head.WorldTransform.PointToWorld( ThirdPersonCameraOffset ) ).IgnoreGameObjectHierarchy( GameObject ). Radius(5).Run();
+			Camera.WorldPosition = trace.EndPosition;
 		}
 		else
 			Camera.LocalPosition = 0;
