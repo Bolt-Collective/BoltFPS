@@ -147,7 +147,8 @@ public partial class BaseWeapon : Component
 
 		var attachment = LocalWorldModel.GetAttachment( "muzzle" );
 
-		var origin = attachment.HasValue ? LocalWorldModel.GetAttachment( "muzzle" ).Value.Position : startPosition;
+		var origin = attachment.HasValue && Owner.Controller.ThirdPerson ? 
+			LocalWorldModel.GetAttachment( "muzzle" ).GetValueOrDefault().Position : startPosition;
 
 		var effect =
 			Tracer?.Clone( new CloneConfig
