@@ -1,0 +1,26 @@
+{
+  "publish": {
+    "Enabled": false,
+    "ProjectConfig": {
+      "Title": "Devtesting",
+      "Type": "map",
+      "Org": "local",
+      "Ident": "devtesting",
+      "Schema": 0,
+      "IncludeSourceFiles": false,
+      "Resources": null,
+      "PackageReferences": [],
+      "EditorReferences": [
+        "ele.dev_measure_pink#26652",
+        "facepunch.floor_riverbed_dirt_blend_a#18673",
+        "titanovsky.digital_camera#54425"
+      ],
+      "Mounts": null,
+      "IsStandaloneOnly": false,
+      "Metadata": {
+        "SingleAssetSource": "maps/devtesting.vmap",
+        "ParentPackage": "bolt.sandbox"
+      }
+    }
+  }
+}
