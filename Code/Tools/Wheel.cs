@@ -2,7 +2,7 @@
 
 namespace Seekers;
 
-[Library( "tool_wheel", Title = "Wheel", Description = "Add Wheel To Object", Group = "construction" )]
+[Library( "tool_wheel", Title = "Wheel", Description = "Attach a Wheel To Object", Group = "construction" )]
 public partial class Wheel : BaseTool
 {
 	[Property]

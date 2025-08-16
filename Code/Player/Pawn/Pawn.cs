@@ -6,6 +6,9 @@ namespace Seekers;
 [Pawn( "prefabs/player.prefab" )]
 public partial class Pawn : ShrimplePawns.Pawn
 {
+	public override Team TeamRef => Owner.Team;
+	public override KnowledgeKind Kind => KnowledgeKind.Player;
+
 	private static Pawn _local;
 
 	public static Pawn Local

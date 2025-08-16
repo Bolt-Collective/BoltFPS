@@ -18,5 +18,27 @@ public sealed class Team : GameResource
 	[KeyProperty] public string Objective { get; set; }
 	[Property] public PrefabFile PawnPrefab { get; set; }
 	[Property] public bool FriendlyFire { get; set; } = true;
-	[Property] public List<Team> Friends { get; set; }
+
+	[Property] public bool UseEnemies { get; set; } = true;
+	[Property, ShowIf("UseEnemies", false)] public List<Team> Friends { get; set; }
+	[Property, ShowIf( "UseEnemies", true )] public List<Team> Enemies { get; set; }
+
+	public bool IsEnemy(Team team)
+	{
+		if (UseEnemies)
+			return Enemies.Contains(team);
+		else
+			return !Friends.Contains(team);
+	}
+
+	public bool IsEnemy(GameObject gameObject)
+	{
+		if ( gameObject.Root.Components.TryGet<Pawn>( out var pawn ) )
+			return IsEnemy( pawn.Owner.Team );
+
+		if ( gameObject.Root.Components.TryGet<NPC>( out var npc ) )
+			return IsEnemy( npc.TeamRef );
+
+		return false;
+	}
 }

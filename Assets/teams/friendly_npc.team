@@ -1,0 +1,16 @@
+{
+  "DisplayName": null,
+  "RespawnTime": 3,
+  "Color": "0,0,0,0",
+  "Image": null,
+  "Objective": null,
+  "PawnPrefab": null,
+  "FriendlyFire": true,
+  "UseEnemies": true,
+  "Friends": [],
+  "Enemies": [
+    "teams/enemy_npc.team"
+  ],
+  "__references": [],
+  "__version": 0
+}
