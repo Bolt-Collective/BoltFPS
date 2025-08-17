@@ -1,11 +1,14 @@
 using Sandbox;
+using Sandbox.Events;
 
 namespace Seekers;
 
-public sealed class BasicNetworkHelper : Component, Component.INetworkListener
+public class GameNetworkManager : SingletonComponent<GameNetworkManager>, Component.INetworkListener
 {
 	[Property] public bool StartServer { get; set; } = true;
 	[Property] public GameObject PlayerPrefab { get; set; }
+	
+	[Property] public GameObject ClientPrefab { get; set; }
 
 	[Property] [Group( "Dev" )] private readonly List<long> PlayerWhitelist = new()
 	{
@@ -37,21 +40,65 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 
 		return true;
 	}
+	
+	private Client GetOrCreateClient( Connection channel = null )
+	{
+		var Clients = Scene.GetAllComponents<Client>();
+
+		var possibleClient = Clients.FirstOrDefault( x =>
+		{
+			// A candidate player state has no owner.
+			return x.Connection is null && x.SteamId == channel.SteamId;
+		} );
+
+		if ( possibleClient.IsValid() )
+		{
+			Log.Warning( $"Found existing player state for {channel.SteamId} that we can re-use. {possibleClient}" );
+			return possibleClient;
+		}
+
+		if ( !ClientPrefab.IsValid() )
+		{
+			Log.Warning( "Could not spawn player as no ClientPrefab assigned." );
+			return null;
+		}
+
+		var clientObj = ClientPrefab.Clone();
+		clientObj.BreakFromPrefab();
+		clientObj.Name = $"Client - {channel.DisplayName}";
+		clientObj.Network.SetOrphanedMode( NetworkOrphaned.ClearOwner );
+
+		var client = clientObj.GetComponent<Client>();
+		client.SteamId = channel.SteamId;
+		
+		if ( !client.IsValid() )
+			return null;
+
+		return client;
+	}
 
 	void INetworkListener.OnActive( Connection channel )
 	{
 		var existingClient = Scene.Components.GetAll<Client>().FirstOrDefault( x => x.Connection == channel );
 		if ( existingClient.IsValid() && !Application.IsDedicatedServer )
 			return;
+		
+		Log.Info( $"Player '{channel.DisplayName}' is becoming active" );
 
-		var clientObj = Game.ActiveScene.CreateObject();
-		clientObj.Name = $"Client - {channel.DisplayName}";
-		clientObj.Tags.Add( "engine" );
+		var cl = GetOrCreateClient( channel );
+		if ( !cl.IsValid() )
+		{
+			throw new Exception( $"Something went wrong when trying to create Client for {channel.DisplayName}" );
+		}
 
-		var client = clientObj.AddComponent<Client>();
-		client.SteamId = channel.SteamId;
-		clientObj.NetworkSpawn( channel );
+		OnPlayerJoined( existingClient, channel );
+	}
 
+	public virtual void OnPlayerJoined(Client client, Connection channel)
+	{
+		if (!client.Network.Active)
+			client.GameObject.NetworkSpawn( channel );
+		
 		client.AssignConnection( channel );
 		client.Team = TeamManager.Instance.DefaultTeam;
 
@@ -65,6 +112,23 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 		{
 			client.Respawn( channel, weapons: StartingWeapons );
 		}
+		
+		Scene.Dispatch( new PlayerJoinedEvent( client ) );
+	}
+	
+	
+	void INetworkListener.OnDisconnected( Connection channel )
+	{
+		Log.Info( $"Player '{channel.DisplayName}' is disconnecting" );
+		var cl = Scene.GetAllComponents<Client>().FirstOrDefault( x => x.Connection == channel );
+
+		if ( !cl.IsValid() )
+		{
+			Log.Warning( $"No Client found for {channel.DisplayName}" );
+			return;
+		}
+
+		Scene.Dispatch( new PlayerDisconnectedEvent( cl ) );
 	}
 
 	protected override async Task OnLoad()
@@ -88,18 +152,7 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 		if ( !Networking.IsActive )
 			return;
 	}
-
-	protected override void OnFixedUpdate()
-	{
-		foreach ( var client in Scene.Components.GetAll<Client>( FindMode.EnabledInSelfAndChildren ) )
-		{
-			if ( client.GetPawn<Pawn>().IsValid() )
-				continue;
-
-			client.Respawn( client.Network.Owner, weapons: StartingWeapons );
-		}
-	}
-
+	
 
 	public Transform FindSpawnLocation()
 	{
