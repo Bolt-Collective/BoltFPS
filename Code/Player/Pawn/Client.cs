@@ -7,7 +7,7 @@ public partial class Client : ShrimplePawns.Client
 
 	public static Client Local => Game.ActiveScene.GetAllComponents<Client>().FirstOrDefault( x => !x.IsProxy );
 
-	[Sync( SyncFlags.FromHost ), Property] public long SteamId { get; set; }
+	[Sync( SyncFlags.FromHost ), Property] public ulong SteamId { get; set; }
 
 	[Sync, Property] public int Kills { get; set; }
 	[Sync, Property] public int Deaths { get; set; }
@@ -142,6 +142,15 @@ public partial class Client : ShrimplePawns.Client
 	public void IncrementStat( string ident, double value )
 	{
 		Sandbox.Services.Stats.Increment( ident, value );
+	}
+
+	/// <summary>
+	/// Kick a blud for a particular reason
+	/// </summary>
+	/// <param name="reason">Reason</param>
+	public void Kick(string reason = "No reason provided.")
+	{
+		Connection.Kick(reason);
 	}
 
 	public void Respawn( Connection channel, GameObject prefab = null, List<ItemResource> weapons = default )
