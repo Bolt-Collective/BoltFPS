@@ -15,6 +15,7 @@ public struct KnowledgeRecord
 {
 	public string Id;
 	public KnowledgeKind Kind;
+	public Knowable Knowable;
 	public Team Team;
 	public Vector3 LastPos;
 	public float LastSeenTime;
@@ -58,10 +59,10 @@ public abstract class Knowable : Component, IKnowable
 		{
 			if ( onlyEnemies && !TeamRef.IsEnemy( rec.Team ) )
 				continue;
-
+			
 			if ( kind != default && rec.Kind != kind )
 				continue;
-
+			
 			var distance = Position.DistanceSquared( rec.LastPos );
 			if ( distance < bestDist )
 			{
@@ -131,6 +132,7 @@ public class KnowledgeScanner : GameObjectSystem
 				thisKnowable.Memory[knowable.KnowableID] = new KnowledgeRecord
 				{
 					Id = knowable.KnowableID,
+					Knowable = target,
 					Kind = knowable.Kind,
 					Team = knowable.Team,
 					LastPos = knowable.Position,

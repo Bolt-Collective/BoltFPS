@@ -5,6 +5,8 @@ public abstract partial class NPC : Knowable
 {
 	[Property] public string Name { get; set; }
 
+	[Property, RequireComponent] public NavMeshAgent Agent { get; set; }
+
 	[Property] public Tool CurrentTool { get; set; }
 
 	[Property] public Team Team { get; set; }
@@ -33,6 +35,10 @@ public abstract partial class NPC : Knowable
 	{
 		public ToolMode ToolMode { get; set; }
 		public Specifiers Specification { get; set; } = Specifiers.Weapon;
+
+		public float MaxEngageDistance { get; set; } = 700;
+		public float IdealEngageDistance { get; set; } = 512;
+		public float MinEngageDistance { get; set; } = 256;
 
 		public CitizenAnimationHelper.HoldTypes HoldTypes { get; set; } = CitizenAnimationHelper.HoldTypes.Pistol;
 

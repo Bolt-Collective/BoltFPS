@@ -103,6 +103,7 @@ public sealed class BasicNetworkHelper : Component, Component.INetworkListener
 
 	public Transform FindSpawnLocation()
 	{
+		return new Transform( WorldPosition );
 		//
 		// If we have any SpawnPoint components in the scene, then use those
 		//
