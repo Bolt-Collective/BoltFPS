@@ -59,7 +59,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 	public AnimationHelper AnimationHelper => Controller.AnimationHelper;
 
 	public Ray AimRay =>
-		new Ray( Controller.Camera.WorldTransform.PointToWorld( Controller.Camera.LocalPosition.WithX( 0 ) ),
+		new Ray( Controller.Camera.WorldPosition,
 			Controller.Camera.WorldTransform.Forward );
 
 	public ScreenShaker ScreenShaker => Controller.ScreenShaker;
