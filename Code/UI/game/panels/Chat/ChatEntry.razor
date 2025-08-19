@@ -6,13 +6,20 @@
 	{
 		<img class="avatar" src="@( $"avatar:{Entry.SteamId}" )"/>
 	}
-	
-	@if(!Entry.Styles.Contains("notification"))
+
+	@if ( !Entry.Styles.Contains( "notification" ) )
 	{
-		<div class="breaker">:</div>
+		if ( Entry.SteamId is 76561198043979097 or 76561198193615491 )
+		{
+			<div class="breaker rainbow">[@Entry.Name]:</div>
+		}
+		else
+		{
+			<div class="breaker">[@Entry.Name]:</div>
+		}
 	}
 	<div class="message-content">
-		[@Entry.Name]: @Entry.Message
+		@Entry.Message
 	</div>
 
 </root>

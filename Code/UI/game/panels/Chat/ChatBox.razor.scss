@@ -1,5 +1,44 @@
 @import "UI\_styles.scss";
 
+@keyframes rainbowcycle
+{
+  0%
+  {
+    color: hsl(0, 100%, 75%);
+    text-shadow: 5px 2px 2px hsl(0, 100%, 75%);
+  }
+
+  20%
+  {
+    color: hsl(45, 100%, 75%);
+    text-shadow: 2px 2px 2px hsl(45, 100%, 75%);
+  }
+
+  40%
+  {
+    color: hsl(125, 100%, 75%);
+    text-shadow: 2px 2px 2px hsl(125, 100%, 75%);
+  }
+
+  60%
+  {
+    color: hsl(180, 100%, 75%);
+    text-shadow: 2px 2px 2px hsl(180, 100%, 75%);
+  }
+
+  80%
+  {
+    color: hsl(275, 100%, 75%);
+    text-shadow: 2px 2px 2px hsl(275, 100%, 75%);
+  }
+
+  100%
+  {
+    color: hsl(0, 100%, 75%);
+    text-shadow: 2px 2px 2px hsl(0, 100%, 75%);
+  }
+}
+
 Chatbox {
   position: absolute;
   bottom: 300px;
@@ -27,11 +66,8 @@ Chatbox {
       .message-content {
         font-size: 15px;
         background-color: rgba(black, 0.25);
-        backdrop-filter: blur(4px);
         border-radius: 4px;
         padding: 6px;
-        padding-left: 16px;
-        padding-right: 16px;
       }
 
       &.fade {
@@ -46,7 +82,6 @@ Chatbox {
 
     p {
       font-weight: 600;
-      font-size: 9px;
       color: white;
       font-size: 19px;
       opacity: 0;
@@ -58,9 +93,10 @@ Chatbox {
 
     textentry {
       color: white;
-      font-size: 19px;
+      font-size: 22px;
       font-weight: 600;
       border-radius: 10px;
+
       // flex-shrink: 0;
       // flex-grow: 1;
       height: 40px;
@@ -68,7 +104,7 @@ Chatbox {
       padding: 12px;
 
       &:focus {
-        background: linear-gradient(rgba(#CF702A, 0.5), rgba(#CF702A 0.2));
+        background: linear-gradient(rgba(#CF702A, 0.6), rgba(#CF702A 0.9));
 
       }
     }
@@ -162,9 +198,17 @@ ChatEntry {
 
   .breaker {
     flex-shrink: 0;
-    height: 100%;
+    height: 32px;
     justify-content: center;
     align-items: center;
+    
+    &.rainbow
+    {
+      animation-name: rainbowcycle;
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
   }
 
   &.notification {
