@@ -29,7 +29,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 	{
 		get
 		{
-			if ( ( GrabbedObject != lastGrabbed && !GrabbedObject.IsValid() ) || _heldBody == null )
+			if ( (GrabbedObject != lastGrabbed && !GrabbedObject.IsValid()) || _heldBody == null )
 			{
 				_heldBody = GetBody( GrabbedObject );
 			}
@@ -41,7 +41,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 	PhysicsBody GetBody( GameObject gameObject )
 	{
-		Log.Info(gameObject);
+		Log.Info( gameObject );
 		Rigidbody rigidbody = gameObject.Components.Get<Rigidbody>();
 		return rigidbody.PhysicsBody;
 	}
@@ -114,6 +114,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 		var tr = Scene.Trace.Ray( eyePos, eyePos + eyeDir * MaxPullDistance )
 			.UseHitboxes()
 			.WithAnyTags( "solid", "debris", "nocollide" )
+			.WithoutTags( "movement" )
 			.IgnoreGameObjectHierarchy( GameObject.Root )
 			.Radius( 2.0f )
 			.Run();
@@ -123,7 +124,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 			return;
 
 		var rb = tr.GameObject.Components.Get<Rigidbody>( true );
-		
+
 		if ( !rb.IsValid() )
 			return;
 
@@ -132,8 +133,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 		if ( tr.GameObject.Tags.Has( "grabbed" ) )
 			return;
-		
-		
+
 
 		if ( Input.Down( "use" ) )
 		{
@@ -212,7 +212,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 	private void GrabStart( GameObject gameObject, Vector3 grabPos, Rotation grabRot, Vector3 hitPos )
 	{
 		GrabEnd();
-		
+
 		GrabbedObject = gameObject;
 
 		heldRot = Controller.EyeAngles.ToRotation().Inverse * GrabbedObject.WorldRotation;

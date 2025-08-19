@@ -89,7 +89,6 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 	protected override void OnUpdate()
 	{
-
 		Animate();
 
 		UpdateBodyVisibility();
@@ -190,9 +189,14 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 		Head.WorldTransform = targetTransform;
 
-		if (ThirdPerson)
+		if ( ThirdPerson )
 		{
-			var trace = Scene.Trace.Ray( Head.WorldPosition, Head.WorldTransform.PointToWorld( ThirdPersonCameraOffset ) ).IgnoreGameObjectHierarchy( GameObject ). Radius(5).Run();
+			var trace = Scene.Trace
+				.Ray( Head.WorldPosition, Head.WorldTransform.PointToWorld( ThirdPersonCameraOffset ) )
+				.WithoutTags( "movement" )
+				.IgnoreGameObjectHierarchy( GameObject )
+				.Radius( 1f )
+				.Run();
 			Camera.WorldPosition = trace.EndPosition;
 		}
 		else
