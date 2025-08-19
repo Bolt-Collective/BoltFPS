@@ -55,14 +55,14 @@
 
 		int splatterCount = MathX.FloorToInt( SplatterCurve.Evaluate(1- Health));
 		
-		if ( splatterCount > Splatters.Count )
+		if ( splatterCount > Splatters?.Count )
 		{
-			for ( int i = 0; i < splatterCount - Splatters.Count; i++ )
+			for ( int i = 0; i < splatterCount - Splatters?.Count; i++ )
 				AddSplatter();
 		}
-		else if ( splatterCount < Splatters.Count)
+		else if ( splatterCount < Splatters?.Count)
 		{
-			Splatters.RemoveRange( 0, Splatters.Count - splatterCount );
+			Splatters?.RemoveRange( 0, Splatters.Count - splatterCount );
 		}
 	}
 
@@ -70,7 +70,7 @@
 	void AddSplatter()
 	{
 		var texture = BloodTextures[Game.Random.Next(0,BloodTextures.Count)];
-		Splatters.Add( (texture, GetRandomScreenEdgePoint(), Game.Random.Next(0,360), Time.Now) );
+		Splatters?.Add( (texture, GetRandomScreenEdgePoint(), Game.Random.Next(0,360), Time.Now) );
 	}
 
 	Vector2 GetRandomScreenEdgePoint()
