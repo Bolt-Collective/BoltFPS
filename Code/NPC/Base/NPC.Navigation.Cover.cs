@@ -6,21 +6,47 @@ namespace Seekers;
 
 public abstract partial class NPC : Knowable
 {
-
-	public CoverGenerator.CoverPoint CurrentCover;
+	private CoverGenerator.CoverPoint _currentCover;
+	public CoverGenerator.CoverPoint CurrentCover
+	{
+		get
+		{
+			if (_currentCover != null && _currentCover.Owner != this)
+				_currentCover = null;
+			return _currentCover;
+		}
+		set
+		{
+			_currentCover = value;
+		}
+	}
 
 	TimeUntil nextCoverCheck;
+
+	public void SetCoverPoint(CoverGenerator.CoverPoint coverPoint)
+	{
+		if ( CurrentCover != null )
+			CurrentCover.Owner = null;
+
+		if (coverPoint != null)
+			coverPoint.Owner = this;
+
+		CurrentCover = coverPoint;
+	}
 
 	public void FindCover(Knowable enemy, bool forceNew = false)
 	{
 		if ( (CurrentCoverIsValid(enemy) && !forceNew ) || !CoverGenerator.Instance.coversGenerated )
 			return;
 
+		if ( CurrentCover != null )
+			CurrentCover.Owner = null;
+		CurrentCover = null;
+
 		if ( nextCoverCheck > 0 )
 			return;
 
 		nextCoverCheck = 0.2f;
-
 		RetrieveCover(enemy);
 	}
 
@@ -50,7 +76,7 @@ public abstract partial class NPC : Knowable
 
 		var collectedCovers = CoverGenerator.GetChunksInRadius( enemy.GameObject.WorldPosition, MaxEngageDistance )
 			.OrderBy( c => MathF.Abs( c.Position.Distance( WorldPosition ) - IdealEngageDistance ) )
-			.Where( c => c.Height >= 20 );
+			.Where( c => c.Height >= 20);
 
 		var crouchCovers = collectedCovers.Where( c => c.Height <= 32 ).ToList();
 
@@ -65,6 +91,12 @@ public abstract partial class NPC : Knowable
 	{
 		foreach ( var cover in new List<CoverGenerator.CoverPoint>( validCovers ) )
 		{
+			if (cover.IsOwned)
+			{
+				validCovers.Remove( cover );
+				continue;
+			}
+
 			var enemyDirection = (enemy.GameObject.WorldPosition - cover.Position).WithZ( 0 ).Normal;
 
 			if ( Vector3.GetAngle( cover.Direction, enemyDirection ) > MinCoverAngle )
@@ -73,9 +105,26 @@ public abstract partial class NPC : Knowable
 				continue;
 			}
 
-			var distance = GetPathLength( ActiveMesh.GetSimplePath( enemy.Position, cover.Position ) );
+			var distance = enemy.GameObject.WorldPosition.Distance( cover.Position );
 
 			if ( distance > MaxEngageDistance || distance < MinEngageDistance )
+			{
+				validCovers.Remove( cover );
+				continue;
+			}
+			var path = ActiveMesh.GetSimplePath( enemy.GameObject.WorldPosition, cover.Position );
+
+			if (path.Count > 0 && path.Last().Distance(cover.Position) > 10)
+			{
+				validCovers.Remove( cover );
+				
+				continue;
+			}
+
+
+			var pathDistance = GetPathLength( path );
+
+			if ( pathDistance > distance * 2)
 			{
 				validCovers.Remove( cover );
 				continue;
@@ -90,7 +139,7 @@ public abstract partial class NPC : Knowable
 			var path = ActiveMesh.GetSimplePath( WorldPosition, cover.Position );
 			var currentDistanceToPlayer = WorldPosition.Distance( enemy.GameObject.WorldPosition );
 
-			if ( currentDistanceToPlayer < MinEngageDistance * 1.2f && GetClosestDistanceOnPath( path, enemy.GameObject.WorldPosition ) < currentDistanceToPlayer )
+			if ( currentDistanceToPlayer > MinEngageDistance * 1.2f && GetClosestDistanceOnPath( path, enemy.GameObject.WorldPosition ) < MinEngageDistance )
 			{
 				validCovers.Remove( cover );
 				continue;
@@ -101,7 +150,7 @@ public abstract partial class NPC : Knowable
 	public void FinalizeCoverCheck()
 	{
 		coverCheckStep = 0;
-		CurrentCover = validCovers.Count > 0 ? validCovers[0] : null;
+		SetCoverPoint( validCovers.Count > 0 ? validCovers[0] : null );
 	}
 
 	private Vector3 currentCoverCheckPosition;
@@ -162,6 +211,9 @@ public abstract partial class NPC : Knowable
 
 	public static float GetPathLength( List<Vector3> path )
 	{
+		if (path.Count <= 0)
+			return float.MaxValue;
+
 		float length = 0f;
 
 		for ( int i = 1; i < path.Count; i++ )

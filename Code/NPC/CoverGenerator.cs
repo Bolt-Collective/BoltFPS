@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
+using BoltFPS;
+
 
 namespace Seekers;
 
@@ -9,6 +11,26 @@ public class CoverGenerator : GameObjectSystem
 	{
 		public Vector3 Position;
 		public Vector3 Direction;
+		public Knowable Owner;
+
+		public void Own(Knowable owner)
+		{
+			Owner = owner;
+		}
+
+		public bool IsOwned
+		{
+			get
+			{
+				if ( Owner.IsValid() )
+					return true;
+
+				Owner = null;
+
+				return false;
+			}
+		}
+
 		public CoverPoint(Vector3 pos, Vector3 dir)
 		{
 			Position = pos; Direction = dir;
@@ -159,15 +181,14 @@ public class CoverGenerator : GameObjectSystem
 			if ( !SphereIntersectsChunk( pos, radius, key ) )
 				continue;
 
-			if ( debug )
-				DrawChunkGizmo( key );
+			//if ( debug )
+			//	DrawChunkGizmo( key );
 
 			results.AddRange( list );
 		}
 
 		return results.Count == 0 ? null : results;
 	}
-
 
 	public static void DrawChunkGizmo( (int x, int y, int z) coords )
 	{
@@ -183,9 +204,11 @@ public class CoverGenerator : GameObjectSystem
 	{
 		Listen(Stage.StartUpdate, 10, StartGeneration, "");
 	}
+
 	const bool debug = true;
 	public bool coversGenerated = false;
 	bool started = false;
+	public static bool doGenerateCover = false;
 
 	public static CoverGenerator Instance = null;
 
@@ -195,15 +218,22 @@ public class CoverGenerator : GameObjectSystem
 		if ( !Game.IsPlaying )
 		{
 			started = false;
+			doGenerateCover = false;
 			Instance = null;
 			searched = 0;
 			return;
 		}
 
+		Instance = this;
+
+		if ( !doGenerateCover )
+			return;
+
 		if (!started)
 		{
+			checkedPoints = new List<Vector3>();
 			coverChunks.Clear();
-			Instance = this;	
+			ToastNotification.Current?.BroadcastToast( "Generating Cover Points, Please Wait", 3);
 		}
 			
 
@@ -244,12 +274,21 @@ public class CoverGenerator : GameObjectSystem
 
 		var nearestChunk = GetChunksInRadius( camera.WorldPosition, chunkSize ) ?? new();
 
+		int i = 0;
 		foreach ( var cover in nearestChunk )
 		{
+			i++;
 			Gizmo.Draw.Color = Color.White;
 			if ( cover.Position.Distance( camera.WorldPosition ) > chunkSize )
 				continue;
-			Gizmo.Draw.Line( cover.Position, cover.Position + cover.Direction.WithZ( 0 ) * 10 );
+			Gizmo.Draw.Line( cover.Position, cover.Position + cover.Direction.WithZ( 0 ) * 10 + (Vector3.Up *(i % 16)));
+
+			Gizmo.Draw.Color = Color.Red;
+
+			if ( cover.IsOwned )
+				Gizmo.Draw.Line( cover.Position, cover.Owner.GameObject.WorldPosition );
+
+
 			if (cover.Position.Distance(camera.WorldPosition) > chunkSize / 4)
 				continue;
 
@@ -261,23 +300,20 @@ public class CoverGenerator : GameObjectSystem
 			Gizmo.Draw.Line( cover.Position, cover.Position + Vector3.Up * cover.Height );
 		}
 	}
-
+	private static List<Vector3> checkedPoints;
 	public static void GenerateCovers( float count, BBox bounds )
 	{
-		var checkedPoints = new List<Vector3>();
-
 		for ( int i = 0; i < count; i++ )
 		{
-			//random not every 32 chunk because it actually runs better
 			Vector3 point = Game.ActiveScene.NavMesh.GetRandomPoint( bounds ) ?? default;
 
 			if (point == default)
 				continue;
 
 			point = new Vector3(
-				MathF.Floor( point.x / 16 ) * 16,
-				MathF.Floor( point.y / 16 ) * 16,
-				MathF.Floor( point.z / 16 ) * 16
+				MathF.Floor( point.x / 32 ) * 32,
+				MathF.Floor( point.y / 32 ) * 32,
+				MathF.Floor( point.z / 32 ) * 32
 			);
 
 			Vector3 edge = Game.ActiveScene.NavMesh.GetClosestEdge( point, 32 ) ?? default;
@@ -285,27 +321,37 @@ public class CoverGenerator : GameObjectSystem
 			if ( edge == default )
 				continue;
 
-			edge =  new Vector3(
+			var roundEdge =  new Vector3(
 				MathF.Floor( edge.x / 16 ) * 16,
 				MathF.Floor( edge.y / 16 ) * 16,
-				edge.z
+				MathF.Floor( edge.z / 16 ) * 16
 			);
 
-			if ( checkedPoints.Contains( edge.WithZ(MathF.Floor(edge.z / 16) * 16) ) )
+			if ( checkedPoints.Contains( roundEdge ) )
 				continue;
 
-			checkedPoints.Add( edge.WithZ( MathF.Floor( edge.z / 16 ) * 16 ) );
+			checkedPoints.Add( roundEdge );
 			 
 			var direction = (edge - point).WithZ(0).Normal;
 
 			var radius = Game.ActiveScene.NavMesh.AgentRadius;
+			var height = Game.ActiveScene.NavMesh.AgentHeight;
 			var wallCheck = WallCheck( edge, direction, radius, radius * 0.5f );
 
 			var rotation = Rotation.LookAt( direction );
 			var wallCheckLeft = WallCheck( edge + rotation.Left * radius, direction, radius, 5 ); 
-			var wallCheckRight = WallCheck( edge + rotation.Right * radius, direction, radius, 5 );
+			var wallCheckRight = WallCheck( edge + rotation.Right * height, direction, radius, 5 );
 
 			if ( !wallCheck.Hit || !wallCheckLeft.Hit || !wallCheckRight.Hit )
+				continue;
+
+			var openCheckLeftShort = WallCheck( edge + rotation.Left * radius * 2, direction, radius, 5 );
+			var openCheckLeftFar = WallCheck( edge + rotation.Left * radius * 4, direction, radius, 5 );
+			var openCheckRightShort = WallCheck( edge + rotation.Right * radius * 2, direction, radius, 5 );
+			var openCheckRightFar = WallCheck( edge + rotation.Right * radius * 4, direction, radius, 5 );
+			var openCheckTop = WallCheck( edge, direction, height, 5 );
+
+			if ( openCheckRightShort.Hit && openCheckRightFar.Hit && openCheckLeftShort.Hit && openCheckLeftFar.Hit && openCheckTop.Hit )
 				continue;
 
 			AddCover( new CoverPoint( edge, -wallCheck.Normal ) );

@@ -7,9 +7,11 @@ public abstract partial class NPC : Knowable
 
 	[Property, RequireComponent] public NavMeshAgent Agent { get; set; }
 
-	[Property] public Tool CurrentTool { get; set; }
+	[Property, Sync] public Tool CurrentTool { get; set; }
 
 	[Property] public Team Team { get; set; }
+
+	[Property] public GameObject Hold { get; set; }
 
 	public override Team TeamRef => Team;
 
@@ -23,6 +25,35 @@ public abstract partial class NPC : Knowable
 		CurrentTool.ToolMode.Use(Target);
 
 		return true;
+	}
+
+	protected override void OnFixedUpdate()
+	{
+		ToolVisuals();
+		previousTool = CurrentTool;
+		if ( !Networking.IsHost )
+			return;
+	}
+
+	private Tool previousTool;
+	public void ToolVisuals()
+	{
+		
+		if ( !CurrentTool.IsValid() || previousTool != CurrentTool )
+		{
+			foreach ( var child in Hold.Children )
+				child.Destroy();
+
+			return;
+		}
+
+		if ( Hold.Children.Count > 0 )
+			return;
+
+		var toolModel = CurrentTool.Model.Clone();
+
+		toolModel.SetParent( Hold );
+		toolModel.LocalTransform = new();
 	}
 
 	public abstract class ToolMode
@@ -39,6 +70,7 @@ public abstract partial class NPC : Knowable
 		public float MaxEngageDistance { get; set; } = 700;
 		public float IdealEngageDistance { get; set; } = 512;
 		public float MinEngageDistance { get; set; } = 256;
+		public float DistancePadding { get; set; } = 0.4f;
 
 		public CitizenAnimationHelper.HoldTypes HoldTypes { get; set; } = CitizenAnimationHelper.HoldTypes.Pistol;
 

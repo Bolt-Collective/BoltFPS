@@ -35,7 +35,7 @@ public enum KnowledgeKind
 
 public abstract class Knowable : Component, IKnowable
 {
-	[Property] public string KnowableID { get; set; } = Guid.NewGuid().ToString();
+	public string KnowableID { get; set; } = Guid.NewGuid().ToString();
 	public virtual KnowledgeKind Kind => KnowledgeKind.NPC;
 	public virtual Team TeamRef => null;
 
@@ -113,6 +113,7 @@ public class KnowledgeScanner : GameObjectSystem
 		{
 			if ( target is not IKnowable knowable )
 				continue;
+
 			if ( !knowable.GameObject.IsValid() )
 				continue;
 
