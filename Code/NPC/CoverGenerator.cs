@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
+using System.Security.Cryptography.X509Certificates;
 using BoltFPS;
+using Sandbox;
 
 
 namespace Seekers;
@@ -213,6 +215,8 @@ public class CoverGenerator : GameObjectSystem
 	public static CoverGenerator Instance = null;
 
 	float searched = 0;
+
+	RealTimeSince generateTime;
 	public void StartGeneration()
 	{
 		if ( !Game.IsPlaying )
@@ -231,9 +235,10 @@ public class CoverGenerator : GameObjectSystem
 
 		if (!started)
 		{
-			checkedPoints = new List<Vector3>();
+			checkedPoints = new();
 			coverChunks.Clear();
-			ToastNotification.Current?.BroadcastToast( "Generating Cover Points, Please Wait", 3);
+			generateTime = 0;
+			ToastNotification.Current?.BroadcastToast( "Generating Cover Points, Expect Stutters", 3);
 		}
 			
 
@@ -251,13 +256,18 @@ public class CoverGenerator : GameObjectSystem
 		if ( coversGenerated )
 			return;
 
-		if ( searched > count * 25 )
+		if ( searched > count * 5 )
+		{
 			coversGenerated = true;
+			return;
+		}
+			
 		
-		GenerateCovers( count, bounds );
-		float progress = 1f - (float)searched / (count * 60);
-		Log.Info( progress );
-		searched += count;
+		GenerateCovers( count / 160, bounds );
+		searched += count / 160;
+
+		if ( searched > count * 5 )
+			ToastNotification.Current?.BroadcastToast( $"Finished Generating in {MathF.Round(generateTime)}s", 3 );
 	}
 
 	private static void Debug()
@@ -300,9 +310,10 @@ public class CoverGenerator : GameObjectSystem
 			Gizmo.Draw.Line( cover.Position, cover.Position + Vector3.Up * cover.Height );
 		}
 	}
-	private static List<Vector3> checkedPoints;
+	private static List<Vector3> checkedPoints = new();
 	public static void GenerateCovers( float count, BBox bounds )
 	{
+		var radius = Game.ActiveScene.NavMesh.AgentRadius;
 		for ( int i = 0; i < count; i++ )
 		{
 			Vector3 point = Game.ActiveScene.NavMesh.GetRandomPoint( bounds ) ?? default;
@@ -310,52 +321,112 @@ public class CoverGenerator : GameObjectSystem
 			if (point == default)
 				continue;
 
-			point = new Vector3(
-				MathF.Floor( point.x / 32 ) * 32,
-				MathF.Floor( point.y / 32 ) * 32,
-				MathF.Floor( point.z / 32 ) * 32
-			);
-
 			Vector3 edge = Game.ActiveScene.NavMesh.GetClosestEdge( point, 32 ) ?? default;
 
 			if ( edge == default )
 				continue;
 
-			var roundEdge =  new Vector3(
-				MathF.Floor( edge.x / 16 ) * 16,
-				MathF.Floor( edge.y / 16 ) * 16,
-				MathF.Floor( edge.z / 16 ) * 16
-			);
 
-			if ( checkedPoints.Contains( roundEdge ) )
+			var pDir = (edge - point).Normal;
+			var pRotation = Rotation.LookAt( pDir );
+
+			var leftPoint = Game.ActiveScene.NavMesh.GetClosestEdge( edge + pRotation.Left, 16 ) ?? default;
+			var rightPoint = Game.ActiveScene.NavMesh.GetClosestEdge( edge + pRotation.Right, 16 ) ?? default;
+
+			if ( leftPoint == default || rightPoint == default )
 				continue;
 
-			checkedPoints.Add( roundEdge );
-			 
-			var direction = (edge - point).WithZ(0).Normal;
+			var dir = (leftPoint - rightPoint).Normal;
+			var rotation = Rotation.LookAt( dir );
 
-			var radius = Game.ActiveScene.NavMesh.AgentRadius;
-			var height = Game.ActiveScene.NavMesh.AgentHeight;
-			var wallCheck = WallCheck( edge, direction, radius, radius * 0.5f );
+			var faceDir = Vector3.GetAngle(pDir, rotation.Left) > Vector3.GetAngle(pDir, rotation.Right) ? rotation.Right : rotation.Left;
 
-			var rotation = Rotation.LookAt( direction );
-			var wallCheckLeft = WallCheck( edge + rotation.Left * radius, direction, radius, 5 ); 
-			var wallCheckRight = WallCheck( edge + rotation.Right * height, direction, radius, 5 );
+			var maxCheck = MathF.Round( MathF.Max( bounds.Size.x * 100, bounds.Size.y * 100 ) );
 
-			if ( !wallCheck.Hit || !wallCheckLeft.Hit || !wallCheckRight.Hit )
-				continue;
+			var point1 = FindEndAlongEdge( edge, dir, maxCheck, radius );
+			point1 += (edge - point1).Normal * radius * 2;
 
-			var openCheckLeftShort = WallCheck( edge + rotation.Left * radius * 2, direction, radius, 5 );
-			var openCheckLeftFar = WallCheck( edge + rotation.Left * radius * 4, direction, radius, 5 );
-			var openCheckRightShort = WallCheck( edge + rotation.Right * radius * 2, direction, radius, 5 );
-			var openCheckRightFar = WallCheck( edge + rotation.Right * radius * 4, direction, radius, 5 );
-			var openCheckTop = WallCheck( edge, direction, height, 5 );
+			var point1Trace = WallCheck( point1, Vector3.Down, radius * 0.7f );
+			point1 = point1Trace.Hit ? point1Trace.EndPosition : edge;
 
-			if ( openCheckRightShort.Hit && openCheckRightFar.Hit && openCheckLeftShort.Hit && openCheckLeftFar.Hit && openCheckTop.Hit )
-				continue;
+			var point2 = FindEndAlongEdge( edge, -dir, maxCheck, radius );
+			point2 += (edge - point2).Normal * radius * 2;
 
-			AddCover( new CoverPoint( edge, -wallCheck.Normal ) );
+			var point2Trace = WallCheck( point2, Vector3.Down, radius * 0.7f );
+			point2 = point2Trace.Hit ? point2Trace.EndPosition : edge;
+
+			TryAddCoverPoint( point1, edge, faceDir, radius );
+			TryAddCoverPoint( point2, edge, faceDir, radius );
 		}
+	}
+
+	public static void TryAddCoverPoint( Vector3 point, Vector3 edge, Vector3 direction, float radius )
+	{
+		if ( point == edge )
+			return;
+
+		var round = (int)MathF.Round( radius * 4 );
+
+		var roundPoint = new Vector3(
+			MathF.Floor( point.x / round ) * round,
+			MathF.Floor( point.y / round ) * round,
+			MathF.Floor( point.z / round ) * round
+		);
+
+		if ( checkedPoints.Contains( roundPoint ) )
+			return;
+
+		var rotation = Rotation.LookAt( direction );
+
+		var openCheckLeftShort = WallCheck( point + rotation.Left * radius * 2, direction, radius, 5 );
+		var openCheckLeftFar = WallCheck( point + rotation.Left * radius * 4, direction, radius, 5 );
+		var openCheckRightShort = WallCheck( point + rotation.Right * radius * 2, direction, radius, 5 );
+		var openCheckRightFar = WallCheck( point + rotation.Right * radius * 4, direction, radius, 5 );
+		var openCheckTop = WallCheck( point, direction, Game.ActiveScene.NavMesh.AgentHeight, 5 );
+
+		if ( openCheckRightShort.Hit && openCheckRightFar.Hit && openCheckLeftShort.Hit && openCheckLeftFar.Hit && openCheckTop.Hit )
+			return;
+
+		checkedPoints.Add( roundPoint );
+
+		var wallCheck = WallCheck( point, direction, radius, radius * 0.5f );
+		if ( wallCheck.Hit )
+			AddCover( new CoverPoint( point, direction ) );
+	}
+
+	public static Vector3 FindEndAlongEdge( Vector3 edge, Vector3 dir, float maxCheck, float radius )
+	{
+		var point = edge;
+
+		for ( int e = 1; e < maxCheck; e++ )
+		{
+			var ePoint = edge + dir * e * radius;
+			var eEdge = Game.ActiveScene.NavMesh.GetClosestEdge( ePoint, 32 ) ?? default;
+			if ( eEdge == default )
+				break;
+
+			var closetPointOnDirection = ClosestPointOnEdge( eEdge, edge, edge + dir );
+
+			if ( closetPointOnDirection.WithZ(eEdge.z).Distance( eEdge ) < 3 )
+				continue;
+
+			point = closetPointOnDirection;
+			break;
+		}
+
+		return point;
+	}
+
+	public static Vector3 ClosestPointOnEdge(Vector3 position, Vector3 a, Vector3 b)
+	{
+		Vector3 ab = b - a;
+		Vector3 ap = position - a;
+
+		float t = Vector3.Dot( ap, ab ) / Vector3.Dot( ab, ab );
+
+		Vector3 projection = a + t * ab;
+
+		return projection;
 	}
 
 	public static SceneTraceResult WallCheck( Vector3 position, Vector3 direction, float height, float size = 0 ) => Game.ActiveScene.Trace.Ray( position + Vector3.Up * height, position + Vector3.Up * height + direction * MathF.Abs( Game.ActiveScene.NavMesh.AgentRadius ) * 2 ).IgnoreDynamic().Run();
