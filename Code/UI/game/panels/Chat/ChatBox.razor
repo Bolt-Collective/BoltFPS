@@ -84,6 +84,7 @@
 
 		if ( string.IsNullOrWhiteSpace( text ) ) return;
 
+		if (!Client.Local.Team.IsValid())
 		AddMessage( Steam.SteamId.ToString(), text, Client.Local.Team.Color, Client.Local.Team.DisplayName, CurrentMessageType );
 	}
 
@@ -92,7 +93,7 @@
 	{
 		if ( string.IsNullOrWhiteSpace( message ) ) return;
 
-		var snd = Sound.Play("ui.drag.stop");
+		var snd = Sound.Play("ui-chat");
 		snd.Volume = 0.2f;
 		
 		if ( messageType == MessageType.Team && teamName != Client.Local.Team.DisplayName )

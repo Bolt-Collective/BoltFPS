@@ -9,6 +9,7 @@ Scoreboard {
     height: 100%;
     color: white;
     flex-direction: column;
+    
 
     .topbar {
         position: absolute;
@@ -113,6 +114,8 @@ Scoreboard {
         display: flex;
         flex-direction: column;
         border-radius: 15px;
+        
+        
 
         .team-header {
             position: relative;
@@ -201,6 +204,7 @@ Scoreboard {
 
         &:hover {
             background-color: rgba( #292929, 1);
+            sound-in: "ui-button-click-snap";
         }
     }
 }
