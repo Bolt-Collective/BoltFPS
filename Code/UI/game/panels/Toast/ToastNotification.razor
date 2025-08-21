@@ -9,7 +9,7 @@
 		@foreach ( var toast in ActiveToasts )
 		{
 			<div class="toast">
-				@toast.Message
+				<h5>@toast.Message</h5>
 			</div>
 		}
 	</div>
@@ -43,6 +43,7 @@
 	public void AddToast( string message, float duration = 3.0f )
 	{
 		ActiveToasts.Add( new Toast( message, duration ) );
+		Sound.Play( "ui-toast" );
 		StateHasChanged();
 	}
 
