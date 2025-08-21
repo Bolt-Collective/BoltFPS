@@ -47,8 +47,8 @@
     "BluntImpact": null
   },
   "SoundCollection": {
-    "FootLeft": null,
-    "FootRight": null,
+    "FootLeft": "surfaces/sounds/metallic/metal_bullet_impact.sound",
+    "FootRight": "surfaces/sounds/metallic/metal_bullet_impact.sound",
     "FootLaunch": null,
     "FootLand": null,
     "Bullet": "surfaces/sounds/metallic/metal_bullet_impact.sound",
