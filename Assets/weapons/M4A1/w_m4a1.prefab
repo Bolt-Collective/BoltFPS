@@ -52,7 +52,7 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "ParentBone": "hold_r",
-        "PrimaryRate": 8.333333,
+        "PrimaryRate": 9,
         "RecoilPattern": {
           "Points": [
             "0.388125,1",
@@ -90,7 +90,7 @@
         "ReloadSound": "sounds/weapons/reloads/m4a1reload.sound",
         "ReloadTime": 2.5,
         "SecondaryRate": 1,
-        "ShootSound": "sounds/weapons/m4a1/m4_shot.sound",
+        "ShootSound": "sounds/guns/akm/ar1_shoot 01.sound",
         "ShowAmmo": true,
         "Spread": 0,
         "TracerEffect": null,
