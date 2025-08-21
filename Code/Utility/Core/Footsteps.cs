@@ -269,15 +269,9 @@ public class Footsteps : Component
 		if ( Player.Controller.Velocity.Length < 1.0f )
 			return;
 
-		var tr = Scene.Trace
-			.Ray( Player.WorldPosition + Vector3.Up * 20, Player.WorldPosition + Vector3.Up * -20 )
-			.Run();
-
-		if ( !tr.Hit || tr.Surface == null )
-			return;
-
 		float velocityFactor = Player.Controller.WishVelocity.Length.Remap( 0, 400, 0, 1 );
-		HandleFootsteps( tr.HitPosition, tr.Surface, tr.GameObject, velocityFactor, Player.IsMe );
+		HandleFootsteps( Player.WorldPosition, Player.Controller.GroundSurface, Player.Controller.GroundObject,
+			velocityFactor, Player.IsMe );
 	}
 
 	private void ObjectFootsteps()
