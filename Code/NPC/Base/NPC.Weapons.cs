@@ -2,15 +2,18 @@
 
 public abstract partial class NPC : Knowable
 {
-	public bool CanHitEnemy(Knowable Enemy)
+	public Vector3? CanHitEnemy(Knowable Enemy)
 	{
-		var trace = Scene.Trace.Ray( Hold.WorldPosition, Enemy.WorldPosition + Vector3.Up * 32 ).UseHitboxes().IgnoreGameObjectHierarchy(GameObject).WithoutTags( "movement" ).Run();
+		foreach (var shootTarget in Enemy.ShootTargets)
+		{
+			var trace = Scene.Trace.Ray( Hold.WorldPosition, shootTarget.WorldPosition ).UseHitboxes().IgnoreGameObjectHierarchy( GameObject ).WithoutTags( "movement" ).Run();
 
-		Gizmo.Draw.Line( Hold.WorldPosition, Enemy.WorldPosition + Vector3.Up * 32 );
+			if ( !trace.Hit )
+				continue;
 
-		if ( !trace.Hit )
-			return false;
-
-		return trace.GameObject.Root == Enemy.GameObject.Root;
+			if( trace.GameObject.Root == Enemy.GameObject.Root )
+				return shootTarget.WorldPosition;
+		}
+		return null;
 	}
 }

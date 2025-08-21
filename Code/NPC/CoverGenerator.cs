@@ -207,7 +207,7 @@ public class CoverGenerator : GameObjectSystem
 		Listen(Stage.StartUpdate, 10, StartGeneration, "");
 	}
 
-	const bool debug = true;
+	const bool debug = false;
 	public bool coversGenerated = false;
 	bool started = false;
 	public static bool doGenerateCover = false;
@@ -261,7 +261,6 @@ public class CoverGenerator : GameObjectSystem
 			coversGenerated = true;
 			return;
 		}
-			
 		
 		GenerateCovers( count / 160, bounds );
 		searched += count / 160;
@@ -341,6 +340,9 @@ public class CoverGenerator : GameObjectSystem
 
 			var faceDir = Vector3.GetAngle(pDir, rotation.Left) > Vector3.GetAngle(pDir, rotation.Right) ? rotation.Right : rotation.Left;
 
+			if ( Vector3.GetAngle( faceDir, Vector3.Up ) < 45 )
+				continue;
+
 			var maxCheck = MathF.Round( MathF.Max( bounds.Size.x * 100, bounds.Size.y * 100 ) );
 
 			var point1 = FindEndAlongEdge( edge, dir, maxCheck, radius );
@@ -355,14 +357,15 @@ public class CoverGenerator : GameObjectSystem
 			var point2Trace = WallCheck( point2, Vector3.Down, radius * 0.7f );
 			point2 = point2Trace.Hit ? point2Trace.EndPosition : edge;
 
-			TryAddCoverPoint( point1, edge, faceDir, radius );
-			TryAddCoverPoint( point2, edge, faceDir, radius );
+			TryAddCoverPoint( point1, faceDir, radius );
+			TryAddCoverPoint( point2, faceDir, radius );
+			TryAddCoverPoint( point2.LerpTo(point1, 0.5f), faceDir, radius );
 		}
 	}
 
-	public static void TryAddCoverPoint( Vector3 point, Vector3 edge, Vector3 direction, float radius )
+	public static void TryAddCoverPoint( Vector3 point, Vector3 direction, float radius )
 	{
-		if ( point == edge )
+		if ( point == default )
 			return;
 
 		var round = (int)MathF.Round( radius * 4 );
@@ -396,7 +399,7 @@ public class CoverGenerator : GameObjectSystem
 
 	public static Vector3 FindEndAlongEdge( Vector3 edge, Vector3 dir, float maxCheck, float radius )
 	{
-		var point = edge;
+		Vector3 point = default;
 
 		for ( int e = 1; e < maxCheck; e++ )
 		{

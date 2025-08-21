@@ -197,7 +197,7 @@ public partial class HealthComponent : Component, IRespawnable
 				Victim = this
 			};
 
-		if (Connection.Local.Id == attacker.Network.OwnerId )
+		if (attacker.IsValid() && Connection.Local.Id == attacker.Network.OwnerId )
 			AddKill();
 
 		if ( !IsProxy )
