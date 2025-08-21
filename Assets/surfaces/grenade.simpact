@@ -46,9 +46,9 @@
     "FootRight": null,
     "FootLaunch": null,
     "FootLand": null,
-    "Bullet": "surfaces/sounds/metallic.hard.sound",
-    "ImpactHard": "surfaces/sounds/metallic.hard.sound",
-    "ImpactSoft": "surfaces/sounds/metallic.hard.sound",
+    "Bullet": "surfaces/sounds/grenade/grenade_impact.sound",
+    "ImpactHard": "surfaces/sounds/grenade/grenade_impact.sound",
+    "ImpactSoft": "surfaces/sounds/grenade/grenade_impact.sound",
     "ScrapeRough": null,
     "ScrapeSmooth": null,
     "Break": null

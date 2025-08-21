@@ -50,10 +50,10 @@
     }
   },
   "SoundCollection": {
-    "FootLeft": "surfaces/sounds/wood/wood_impact_sound.sound",
-    "FootRight": "surfaces/sounds/wood/wood_impact_sound.sound",
-    "FootLaunch": null,
-    "FootLand": null,
+    "FootLeft": "surfaces/sounds/wood/wood_footsteps.sound",
+    "FootRight": "surfaces/sounds/wood/wood_footsteps.sound",
+    "FootLaunch": "surfaces/sounds/wood/wood_footsteps.sound",
+    "FootLand": "surfaces/sounds/wood/wood_footsteps.sound",
     "Bullet": "surfaces/sounds/wood/wood_impact_sound.sound",
     "ImpactHard": "surfaces/sounds/wood/wood_impact_heavy.sound",
     "ImpactSoft": "surfaces/sounds/wood/wood_impact_sound.sound",
