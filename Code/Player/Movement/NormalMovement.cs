@@ -48,6 +48,9 @@ public partial class NormalMovement : Movement
 
 	protected override void OnUpdate()
 	{
+		if (IsProxy)
+			return;
+		
 		switch(MoveMode)
 		{
 			case MoveModes.Walk:
