@@ -40,17 +40,23 @@
     "ScrapeSmooth": null
   },
   "PrefabCollection": {
-    "BulletImpact": null,
-    "BluntImpact": null
+    "BulletImpact": {
+      "_type": "gameobject",
+      "prefab": "prefabs/surface/dirt-bullet.prefab"
+    },
+    "BluntImpact": {
+      "_type": "gameobject",
+      "prefab": "prefabs/surface/dirt-bullet.prefab"
+    }
   },
   "SoundCollection": {
-    "FootLeft": null,
-    "FootRight": null,
-    "FootLaunch": null,
-    "FootLand": null,
-    "Bullet": null,
-    "ImpactHard": null,
-    "ImpactSoft": null,
+    "FootLeft": "sounds/footsteps/footstep-dirt.sound",
+    "FootRight": "sounds/footsteps/footstep-dirt.sound",
+    "FootLaunch": "sounds/footsteps/footstep-dirt.sound",
+    "FootLand": "sounds/footsteps/footstep-dirt.sound",
+    "Bullet": "sounds/footsteps/footstep-dirt.sound",
+    "ImpactHard": "sounds/footsteps/footstep-dirt.sound",
+    "ImpactSoft": "sounds/footsteps/footstep-dirt.sound",
     "ScrapeRough": null,
     "ScrapeSmooth": null,
     "Break": null
