@@ -25,6 +25,8 @@ public sealed class Team : GameResource
 
 	public bool IsEnemy(Team team)
 	{
+		if ( team == this )
+			return false;
 		if (UseEnemies)
 			return Enemies.Contains(team);
 		else

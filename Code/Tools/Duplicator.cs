@@ -99,8 +99,6 @@ public partial class Duplicator : BaseTool
 		
 		var jsonObject = JsonObject.Parse( SavedDupe ).AsObject();
 
-		SceneUtility.MakeIdGuidsUnique( jsonObject );
-
 		dupe.Deserialize( jsonObject );
 
 		if (!SpawnAtOrigalPosition)
@@ -118,6 +116,8 @@ public partial class Duplicator : BaseTool
 		{
 			return UndoSystem.UndoObjects( "Undone Dupe", props.ToArray() );
 		}, prop: props[0] );
+
+		dupe.DestroyImmediate();
 	}
 
 	[Rpc.Host]
@@ -134,7 +134,11 @@ public partial class Duplicator : BaseTool
 			prop.SetParent( dupe );
 		}
 
-		SavedDupe = dupe.Serialize().ToString();
+		var dupeObject = dupe.Serialize();
+
+		SceneUtility.MakeIdGuidsUnique( dupeObject );
+
+		SavedDupe = dupeObject.ToString();
 
 		foreach ( var prop in props )
 		{

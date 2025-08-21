@@ -1,0 +1,15 @@
+{
+  "ToolMode": null,
+  "Specification": "Weapon",
+  "MaxEngageDistance": 700,
+  "IdealEngageDistance": 512,
+  "MinEngageDistance": 256,
+  "DistancePadding": 0.4,
+  "HoldTypes": "Rifle",
+  "Model": {
+    "_type": "gameobject",
+    "prefab": "weapons/m4a1/npc_m4a1.prefab"
+  },
+  "__references": [],
+  "__version": 0
+}

@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Sandbox;
 using Sandbox.Citizen;
+using Sandbox.Events;
 using Sandbox.UI;
 using Sandbox.Utility;
 using static System.Net.Mime.MediaTypeNames;
@@ -11,6 +12,10 @@ namespace Seekers;
 /// A common base we can use for weapons so we don't have to implement the logic over and over
 /// again. Feel free to not use this and to implement it however you want to.
 /// </summary>
+/// 
+
+public record BulletHitEvent(Vector3 position) : IGameEvent;
+
 [Icon( "sports_martial_arts" )]
 public partial class BaseWeapon : Component
 {
@@ -117,7 +122,6 @@ public partial class BaseWeapon : Component
 
 	public Transform Attachment( string name ) => LocalWorldModel?.GetAttachment( name ) ?? WorldTransform;
 
-
 	protected override void OnAwake()
 	{
 		var obj = Owner?.Controller?.BodyModelRenderer?.GetBoneObject( ParentBone );
@@ -134,10 +138,10 @@ public partial class BaseWeapon : Component
 		LeftIK.Active = true;
 	}
 
-	private bool IsNearby( Vector3 position )
+	public static bool IsNearby( Vector3 position )
 	{
-		if ( !Scene.Camera.IsValid() ) return false;
-		return position.DistanceSquared( Scene.Camera.WorldPosition ) < 4194304f;
+		if ( !Game.ActiveScene.Camera.IsValid() ) return false;
+		return position.DistanceSquared( Game.ActiveScene.Camera.WorldPosition ) < 4194304f;
 	}
 
 	[Rpc.Broadcast]
@@ -607,8 +611,10 @@ public partial class BaseWeapon : Component
 	}
 
 	public static void DoDamage( GameObject gameObject, float damage, Vector3 calcForce, Vector3 hitPosition,
-		HitboxTags hitboxTags = default, Pawn owner = null, Component inflictor = null )
+		HitboxTags hitboxTags = default, Pawn owner = null, Component inflictor = null, Team ownerTeam = null )
 	{
+		Game.ActiveScene.Dispatch( new BulletHitEvent( hitPosition ) );
+
 		if ( gameObject.Components.TryGet<PropHelper>( out var prop ) )
 		{
 			prop.AddDamage( damage );
@@ -619,16 +625,20 @@ public partial class BaseWeapon : Component
 			KnockBack( gameObject, calcForce );
 		}
 
-		if ( !owner.IsValid() )
+		if ( !ownerTeam.IsValid() && owner.IsValid() )
+			ownerTeam = owner.Team;
+
+		if ( !ownerTeam.IsValid() )
 			return;
+
 
 		if ( gameObject.Root.Components.TryGet<HealthComponent>( out var player,
 			    FindMode.EverythingInSelfAndChildren ) )
 		{
-			if ( !owner.Team.FriendlyFire && gameObject.Tags.Has( "player" ) )
+			if ( !ownerTeam.FriendlyFire && gameObject.Tags.Has( "player" ) )
 			{
 				var team = player.GameObject.Root.GetComponent<Pawn>()?.Team ?? null;
-				if ( team == owner.Team || owner.Team.Friends.Contains( team ) )
+				if ( team == ownerTeam || ownerTeam.Friends.Contains( team ) )
 					return;
 			}
 
