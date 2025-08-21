@@ -83,8 +83,9 @@ public abstract class NPCGun : NPCTool
 				? tr.Surface
 				: (Surface.FindByName( tagMaterial ) ?? tr.Surface);
 
-			surface.DoBulletImpact( tr, !hitSurfaces.Contains( surface ) || shots < 3 );
-			DoTracer( tr.StartPosition, tr.EndPosition, tr.Distance, true );
+			// add back when the peformance isn't garbo
+			//surface.DoBulletImpact( tr, !hitSurfaces.Contains( surface ) || shots < 3 );
+			//DoTracer( tr.StartPosition, tr.EndPosition, tr.Distance, true );
 
 			hitSurfaces.Add( surface );
 

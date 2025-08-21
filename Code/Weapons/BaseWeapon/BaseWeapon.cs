@@ -144,9 +144,14 @@ public partial class BaseWeapon : Component
 		return position.DistanceSquared( Game.ActiveScene.Camera.WorldPosition ) < 4194304f;
 	}
 
+	[ConVar( ConVarFlags.Saved )] public static bool bolt_tracers { get; set; } = true;
+
 	[Rpc.Broadcast]
 	protected void DoTracer( Vector3 startPosition, Vector3 endPosition, float distance, bool muzzle )
 	{
+		if (!bolt_tracers)
+			return; 
+
 		if ( !IsNearby( startPosition ) && !IsNearby( endPosition ) ) return;
 
 		var attachment = LocalWorldModel.GetAttachment( "muzzle" );

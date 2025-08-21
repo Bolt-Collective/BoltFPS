@@ -5,10 +5,13 @@ using Seekers;
 /// </summary>
 public static partial class SurfaceExtensions
 {
-	[ConVar( ConVarFlags.Saved )] public static bool bolt_impactparticles { get; set; } = true;
+	[ConVar( ConVarFlags.Saved )] public static bool bolt_impacteffects { get; set; } = true;
 
 	public static void DoBulletImpact( this Surface self, SceneTraceResult tr, bool playSound = true )
 	{
+		if ( !bolt_impacteffects )
+			return;
+
 		var surf = ReplaceSurface( self );
 
 		if ( tr.Hit )
@@ -17,7 +20,7 @@ public static partial class SurfaceExtensions
 			if ( particle == null ) particle = self.PrefabCollection.BluntImpact;
 			if ( surf == null ) return;
 
-			while ( particle == null && !surf.IsDefault() )
+			if ( particle == null && !surf.IsDefault() )
 			{
 				surf = ReplaceSurface( surf?.GetProperBaseSurface() );
 				particle = surf?.PrefabCollection.BulletImpact;
@@ -26,7 +29,7 @@ public static partial class SurfaceExtensions
 
 			var sound = surf?.SoundCollection.Bullet;
 
-			while ( !sound.IsValid() && !surf.IsDefault() )
+			if ( !sound.IsValid() && !surf.IsDefault() )
 			{
 				if ( !sound.IsValid() )
 				{
