@@ -207,7 +207,6 @@ public class Footsteps : Component
 		if ( !EnableLandingSounds || IsProxy || !Player.IsValid() ) return;
 		if ( _timeSinceLanding < LandingCooldown ) return;
 
-		// Cast down to find surface at feet
 		var tr = Scene.Trace
 			.Ray( Player.WorldPosition + Vector3.Up * 20, Player.WorldPosition + Vector3.Up * -20 )
 			.Run();
@@ -217,20 +216,16 @@ public class Footsteps : Component
 		float verticalSpeed = -Player.Controller.Velocity.z; // positive when falling
 		if ( verticalSpeed < LandingMinSpeed ) return;
 
-		// Resolve surface and choose hard/soft
 		Surface groundSurface = null;
 		try { groundSurface = tr.Surface.ReplaceSurface(); }
 		catch { groundSurface = tr.Surface; }
 
 		if ( groundSurface == null || !groundSurface.IsValid() ) return;
 
-		var impactSound = verticalSpeed >= LandingHardSpeed
-			? groundSurface.SoundCollection.ImpactHard
-			: groundSurface.SoundCollection.ImpactSoft;
+		var impactSound = groundSurface.SoundCollection.FootLand;
 
 		if ( impactSound is null ) return;
 
-		// Volume scales with landing speed
 		float norm = verticalSpeed.Remap( LandingMinSpeed, LandingHardSpeed * 1.5f, 0.4f, 1.0f ).Clamp( 0.0f, 1.0f );
 		float pitch = Game.Random.Float( MinPitch, MaxPitch ) * (verticalSpeed >= LandingHardSpeed ? 0.98f : 1.02f);
 		SoundExtensions.BroadcastSound( impactSound, tr.HitPosition, GetStepVolume() * norm, pitch,
@@ -251,7 +246,6 @@ public class Footsteps : Component
 
 		if ( !Player.IsValid() ) return;
 
-		// Landing detection: trigger when transitioning to grounded
 		bool grounded = Player.Controller.IsGrounded;
 		if ( grounded && !_wasGrounded )
 		{

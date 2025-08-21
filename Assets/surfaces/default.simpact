@@ -53,7 +53,7 @@
     "FootLeft": "surfaces/sounds/footsteps.concrete.sound",
     "FootRight": "surfaces/sounds/footsteps.concrete.sound",
     "FootLaunch": "surfaces/sounds/footsteps.concrete.sound",
-    "FootLand": "surfaces/sounds/footsteps.concrete.sound",
+    "FootLand": "surfaces/sounds/concrete/concrete_foot_land.sound",
     "Bullet": "surfaces/sounds/concrete/concrete_bullet_impact.sound",
     "ImpactHard": "surfaces/sounds/impact.concrete.sound",
     "ImpactSoft": "surfaces/sounds/impact.concrete.sound",
