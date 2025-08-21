@@ -1,8 +1,4 @@
 {
-  "BulletImpact": {
-    "_type": "gameobject",
-    "prefab": "particles/surfaces/impact.brick.prefab"
-  },
   "BaseSurface": "surfaces/grass.surface",
   "AudioSurface": "Generic",
   "Description": "Grass",
@@ -12,6 +8,7 @@
   "Thickness": -1,
   "RollingResistance": 0,
   "BounceThreshold": 40,
+  "Dampening": 0,
   "ImpactEffects": {
     "Regular": [],
     "Bullet": [],
@@ -42,13 +39,29 @@
     "ScrapeRough": null,
     "ScrapeSmooth": null
   },
-  "Breakables": {
-    "BreakSound": null,
-    "GenericGibs": null
+  "PrefabCollection": {
+    "BulletImpact": {
+      "_type": "gameobject",
+      "prefab": "prefabs/surface/dirt-bullet.prefab"
+    },
+    "BluntImpact": {
+      "_type": "gameobject",
+      "prefab": "prefabs/surface/dirt-bullet.prefab"
+    }
+  },
+  "SoundCollection": {
+    "FootLeft": "sounds/impacts/melee/impact-melee-grass.sound",
+    "FootRight": "sounds/impacts/melee/impact-melee-grass.sound",
+    "FootLaunch": "sounds/impacts/melee/impact-melee-grass.sound",
+    "FootLand": "sounds/impacts/melee/impact-melee-grass.sound",
+    "Bullet": "sounds/impacts/melee/impact-melee-grass.sound",
+    "ImpactHard": "sounds/impacts/melee/impact-melee-grass.sound",
+    "ImpactSoft": "sounds/impacts/melee/impact-melee-grass.sound",
+    "ScrapeRough": null,
+    "ScrapeSmooth": null,
+    "Break": null
   },
   "Tags": null,
-  "__references": [
-    "facepunch.impactbrick#88475"
-  ],
+  "__references": [],
   "__version": 0
 }
