@@ -7,7 +7,7 @@ namespace Seekers;
 public partial class Duplicator : BaseTool
 {
 	[Property,Range(0, 2048)]
-	public float Area { get; set; } = 1024;
+	public float SaveArea { get; set; } = 1024;
 
 	[Property,Sync]
 	public bool SpawnAtOrigalPosition { get; set; }
@@ -30,17 +30,18 @@ public partial class Duplicator : BaseTool
 		if ( !trace.Hit || !Input.Pressed( "attack2" ) )
 			return false;
 
+		var groundTrace = ToolGun.TraceTool( [Owner.GameObject, trace.GameObject], trace.HitPosition, trace.HitPosition + Vector3.Down * 1024 );
+
 		if (!Input.Down("run"))
 		{
 			Vector3 position = trace.HitPosition.WithZ( Owner.WorldPosition.z );
-			var groundTrace = ToolGun.TraceTool( [Owner.GameObject, trace.GameObject], trace.HitPosition, trace.HitPosition + Vector3.Down * 1024 );
 			if (groundTrace.Hit)
 				position = groundTrace.HitPosition;
 			SaveDupe( trace.GameObject, trace.GameObject.WorldTransform.PointToLocal( trace.HitPosition.WithZ(Owner.WorldPosition.z) ) );
 			return true;
 		}
 
-		var gameObjects = Scene.FindInPhysics( BBox.FromPositionAndSize( Owner.WorldPosition, 1024 ) );
+		var gameObjects = Scene.FindInPhysics( BBox.FromPositionAndSize( trace.HitPosition, 1024 ) );
 		var props = new List<GameObject>();
 		foreach ( var gameObject in gameObjects )
 		{
@@ -53,7 +54,7 @@ public partial class Duplicator : BaseTool
 			props.Add( gameObject.Root );
 		}
 
-		SaveDupe( props, Owner.WorldPosition);
+		SaveDupe( props, groundTrace.HitPosition);
 
 		return true;
 	}
@@ -66,10 +67,20 @@ public partial class Duplicator : BaseTool
 
 		if ( !Input.Down( "run" ) )
 			return;
+
+		if ( !Parent.IsValid() )
+			return;
+
+		var trace = Parent.BasicTraceTool();
+
+		if ( !trace.Hit )
+			return;	
+
 		Gizmo.Draw.IgnoreDepth = false;
+		Gizmo.Draw.Color = Color.Green.WithAlpha( 0.2f );
+		Gizmo.Draw.SolidBox( BBox.FromPositionAndSize( trace.EndPosition, 1024 ) );
 		Gizmo.Draw.Color = Color.Green.WithAlpha( 0.5f );
-		Gizmo.Draw.SolidBox( BBox.FromPositionAndSize( Owner.WorldPosition, 1024 ) );
-		var gameObjects = Scene.FindInPhysics( BBox.FromPositionAndSize( WorldPosition, 1024 ) );
+		var gameObjects = Scene.FindInPhysics( BBox.FromPositionAndSize( trace.EndPosition, 1024 ) );
 		var props = new List<PropHelper>();
 		foreach ( var gameObject in gameObjects )
 		{
