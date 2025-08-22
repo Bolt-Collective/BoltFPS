@@ -58,6 +58,9 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 		if ( IsProxy || !Enabled )
 			return;
 
+		if ( !(Owner?.Controller.IsValid() ?? false) )
+			return;
+
 		if ( !Scoped && Input.Pressed( "attack2" ) && Owner.IsValid() && !Owner.GrabbedObject.IsValid() )
 			Scope();
 		if ( Scoped && !scopingIn && (Input.Released( "attack2" ) || Owner.Controller.IsSprinting ||
@@ -97,17 +100,17 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 		{
 			if ( scopeCommandList != null )
 			{
-				Scene.Camera.RemoveCommandList( scopeCommandList );
+				Scene?.Camera?.RemoveCommandList( scopeCommandList );
 				scopeCommandList = null;
 			}
 
 			scopeCommandList = new CommandList( "SniperScope" );
-			scopeCommandList.Attributes.Set( "BlurAmount",
+			scopeCommandList?.Attributes.Set( "BlurAmount",
 				Easing.EaseOut( Normalize( BlurLerp, 0.5f, 1 ).Clamp( 0, 1 ) ).Clamp( 0.1f, 1f ) );
-			scopeCommandList.Attributes.Set( "Offset",
+			scopeCommandList?.Attributes.Set( "Offset",
 				new Vector2( AnglesLerp.yaw, -AnglesLerp.pitch ) * AngleOffsetScale );
-			scopeCommandList.Blit( ScopeOverlay );
-			Scene.Camera.AddCommandList( scopeCommandList, Stage.AfterTransparent, 100 );
+			scopeCommandList?.Blit( ScopeOverlay );
+			Scene?.Camera?.AddCommandList( scopeCommandList, Stage.AfterTransparent, 100 );
 		}
 	}
 
@@ -145,7 +148,7 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 	public async void UnScope()
 	{
-		Scene.Camera.RemoveCommandList( scopeCommandList );
+		Scene?.Camera?.RemoveCommandList( scopeCommandList );
 		scopeCommandList = null;
 		Scoped = false;
 		AnglesLerp = new Angles();
