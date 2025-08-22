@@ -37,7 +37,7 @@ public abstract class NPCGun : NPCTool
 
 		nextShot = 1/Rate;
 
-		SoundExtensions.BroadcastSound( ShootSound, pos );
+		SoundExtensions.BroadcastSound( ShootSound, WorldPosition );
 
 		for (int i = 0; i < Shots; i++ )
 			ShootBullet( Muzzle.WorldPosition, (pos - Muzzle.WorldPosition).Normal, Damage, 1 );

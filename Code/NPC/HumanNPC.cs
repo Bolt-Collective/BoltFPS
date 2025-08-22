@@ -12,9 +12,11 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 	[Property] public float CrouchCoverHeight { get; set; } = 45;
 	[Property] public float BulletHitAwarenessRange { get; set; } = 256;
 
-	[Property] public float BulletHitScareAmount = 0.1f;
+	[Property] public float BulletHitScareAmount { get; set; } = 0.1f;
 
-	[Property] public float ReactionTime = 0.4f;
+	[Property] public float ReactionTime { get; set; } = 0.4f;
+
+	[Property] public float AimLerp { get; set; } = 20f;
 
 	[Property] public RangedFloat AttackTime { get; set; } = new RangedFloat( 2, 5 );
 	[Property] public RangedFloat CoverTime { get; set; } = new RangedFloat( 2, 5 );
@@ -47,7 +49,7 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 	public bool DoShootEnemy => CanHitEnemy.HasValue && timeSinceNoHit > ReactionTime;
 	Vector3? CanHitEnemy;
 	RealTimeSince timeSinceNoHit;
-
+	Vector3 aimPoint;
 	public override void Think()
 	{
 
@@ -72,10 +74,13 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 
 		if ( DoShootEnemy )
 		{
-			var shot = Gun?.Shoot( CanHitEnemy.Value, 25 ) ?? false;
+			aimPoint = aimPoint.LerpTo( CanHitEnemy.Value, AimLerp * Time.Delta );
+			var shot = Gun?.Shoot( aimPoint, 25 ) ?? false;
 			if ( shot )
 				ShootEffects();
 		}
+		else
+			aimPoint = ClosestEnemy.WorldPosition;
 
 		CalculateState();
 

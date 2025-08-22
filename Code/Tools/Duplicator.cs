@@ -96,8 +96,12 @@ public partial class Duplicator : BaseTool
 			return;
 
 		var dupe = new GameObject();
+
+		Log.Info( SavedDupe );
 		
 		var jsonObject = JsonObject.Parse( SavedDupe ).AsObject();
+
+		SceneUtility.MakeIdGuidsUnique( jsonObject );
 
 		dupe.Deserialize( jsonObject );
 
@@ -131,7 +135,11 @@ public partial class Duplicator : BaseTool
 
 		foreach ( var prop in props )
 		{
-			prop.SetParent( dupe );
+			if ( prop.Root.Components.TryGet<PropHelper>(out var propHelper) )
+			{
+				prop.SetParent( dupe );
+				Log.Info( prop.Name );	
+			}
 		}
 
 		var dupeObject = dupe.Serialize();
@@ -156,25 +164,7 @@ public partial class Duplicator : BaseTool
 
 		var props = PhysGun.GetAllConnectedProps( gameObject );
 
-		if ( props.Count <= 0 )
-			return;
-
-		var dupe = new GameObject();
-		dupe.WorldPosition = gameObject.WorldTransform.PointToWorld( localPoint );
-
-		foreach ( var prop in props )
-		{
-			prop.SetParent( dupe );
-		}
-
-		SavedDupe = dupe.Serialize().ToString();
-
-		foreach (var prop in props)
-		{
-			prop.SetParent( null );
-		}
-
-		dupe.DestroyImmediate();
+		SaveDupe( props, gameObject.WorldTransform.PointToWorld( localPoint ) );
 	}
 
 }

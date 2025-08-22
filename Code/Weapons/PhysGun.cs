@@ -1,3 +1,5 @@
+using Sandbox.Audio;
+
 namespace Seekers;
 
 public partial class PhysGun : BaseWeapon, Component.INetworkListener
@@ -376,6 +378,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 			return;
 
 		var body = GetBody( gameObject );
+
 		if ( body.IsValid() )
 			body.MotionEnabled = false;
 
@@ -389,6 +392,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 			return;
 
 		var body = GetBody( gameObject );
+
 		if ( body.IsValid() )
 			body.MotionEnabled = true;
 	}
