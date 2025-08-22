@@ -17,7 +17,7 @@ public abstract partial class NPC : Knowable
 
 		var targetPosition = enemy.GameObject.WorldPosition + enemyTo * IdealEngageDistance;
 
-		if (WallCheck(targetPosition + Vector3.Up * 32, enemyTo * IdealEngageDistance).Hit)
+		if (WallCheck(enemy.GameObject.WorldPosition, enemyTo * IdealEngageDistance).Hit)
 		{
 			var rotateCheck = RotateCheck( enemyTo, enemy );
 			if ( rotateCheck.HasValue )

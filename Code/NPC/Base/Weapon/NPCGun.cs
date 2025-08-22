@@ -4,26 +4,60 @@ public abstract class NPCGun : NPCTool
 {
 	[Property] public GameObject Muzzle { get; set; }
 	[Property] public GameObject TracerEffect { get; set; }
+	[Property] public SoundEvent ShootSound { get; set; }
+	[Property] public SoundEvent ReloadSound { get; set; }
 	[Property] public float Ammo { get; set; }
 	[Property] public float MaxAmmo { get; set; }
 	[Property] public float Rate { get; set; }
+	[Property] public float ReloadTime { get; set; }
+	[Property] public float Shots { get; set; } = 1;
 	[Property] public float Damage { get; set; } = 15;
+	[Property] public float Range { get; set; } = 1024;
 
 	protected override void OnFixedUpdate()
 	{
 		base.OnFixedUpdate();
 		if ( !Networking.IsHost )
 			return;
+
+		if (reloading && reloadTime > ReloadTime)
+		{
+			FinishReload();
+		}
 	}
 	TimeUntil nextShot;
-	public virtual void Shoot( Vector3 pos, float spread = 0.1f )
+	public virtual bool Shoot( Vector3 pos, float spread = 0.1f )
 	{
-		if ( nextShot > 0 && Ammo > 0 )
-			return;
+		if ( nextShot > 0 || Ammo <= 0 || pos.Distance(WorldPosition) > Range)
+			return false;
+
+		pos += Vector3.Random * Spread;
+
+		Ammo--;
 
 		nextShot = 1/Rate;
 
-		ShootBullet( Muzzle.WorldPosition, (pos - Muzzle.WorldPosition).Normal, Damage, 1, Spread + spread );
+		SoundExtensions.BroadcastSound( ShootSound, pos );
+
+		for (int i = 0; i < Shots; i++ )
+			ShootBullet( Muzzle.WorldPosition, (pos - Muzzle.WorldPosition).Normal, Damage, 1 );
+
+		return true;
+	}
+
+	public bool reloading;
+	RealTimeSince reloadTime;
+	public virtual void Reload()
+	{
+		SoundExtensions.BroadcastSound( ReloadSound, WorldPosition );
+		reloading = true;
+		reloadTime = 0;
+	}
+
+	public virtual void FinishReload()
+	{
+		reloading = false;
+		Ammo = MaxAmmo;
 	}
 
 	[Property] public float Spread { get; set; } = 1;

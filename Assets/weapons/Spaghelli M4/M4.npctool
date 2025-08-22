@@ -1,0 +1,15 @@
+{
+  "ToolMode": null,
+  "Specification": "Weapon",
+  "MaxEngageDistance": 350,
+  "IdealEngageDistance": 256,
+  "MinEngageDistance": 128,
+  "DistancePadding": 0.4,
+  "HoldTypes": "Shotgun",
+  "Model": {
+    "_type": "gameobject",
+    "prefab": "weapons/spaghelli m4/npc_spaghelli m4.prefab"
+  },
+  "__references": [],
+  "__version": 0
+}

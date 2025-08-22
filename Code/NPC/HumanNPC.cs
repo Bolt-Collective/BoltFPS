@@ -48,12 +48,8 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 	Vector3? CanHitEnemy;
 	RealTimeSince timeSinceNoHit;
 
-	protected override void OnFixedUpdate()
+	public override void Think()
 	{
-		base.OnFixedUpdate();
-
-		if ( !Networking.IsHost )
-			return;
 
 		if ( CoverGenerator.Instance == null || !CoverGenerator.Instance.coversGenerated )
 			return;
@@ -75,7 +71,11 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 			timeSinceNoHit = 0;
 
 		if ( DoShootEnemy )
-			Gun?.Shoot( CanHitEnemy.Value, 0.1f );
+		{
+			var shot = Gun?.Shoot( CanHitEnemy.Value, 25 ) ?? false;
+			if ( shot )
+				ShootEffects();
+		}
 
 		CalculateState();
 
@@ -98,6 +98,12 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 		//AttackPosition();
 	}
 
+	[Rpc.Broadcast]
+	public void ShootEffects()
+	{
+		Body.Set( "b_attack", true );
+	}
+
 	public override void Animate()
 	{
 		AnimationHelper.HoldType = CurrentTool.IsValid() ? CurrentTool.HoldTypes : AnimationHelper.HoldTypes.None;
@@ -109,6 +115,16 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 	{
 		StateManager.Set( States.Reload, -1 );
 		var healthScare = (HealthComponent.Health / HealthComponent.MaxHealth).Clamp( 0.2f, 1 );
+
+		if (Gun.IsValid() && Gun.Ammo <= 0)
+		{
+			StateManager.Set( States.Reload, 4 );
+			return;
+		}
+		else
+		{
+			StateManager.Set( States.Reload, -1 );
+		}
 
 		switch ( CurrentState )
 		{
@@ -156,10 +172,27 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 
 	public void Reload()
 	{
-		AttackPosition();
+		if ( !Gun.IsValid() )
+			return;
+
+		if (!Gun.reloading && Gun.Ammo <= 0)
+		{
+			Gun.Reload();
+			ReloadEffects();
+		}
+
+		AttackPosition(0.5f);
 	}
+
+	[Rpc.Broadcast]
+	public void ReloadEffects()
+	{
+		Body.Set( "b_reload", true );
+	}
+
+
 	TimeUntil nextRotate;
-	public void AttackPosition()
+	public void AttackPosition( float rotateMod = 1 )
 	{
 		FindCover( ClosestEnemy );
 
@@ -176,15 +209,15 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 			Agent.MoveTo( targetPosition.Value );
 		}
 
-		Rotate();
+		Rotate(rotateMod);
 	}
 
-	public void Rotate()
+	public void Rotate(float timeMod = 1)
 	{
 		if ( nextRotate > 0 )
 			return;
 
-		nextRotate = RotateTime.GetValue();
+		nextRotate = RotateTime.GetValue() * timeMod;
 
 		bool negative = Game.Random.Next( 0, 2 ) == 1;
 		var rotation = new Angles( 0, negative ? -RotateAngle.GetValue() : RotateAngle.GetValue(), 0 );

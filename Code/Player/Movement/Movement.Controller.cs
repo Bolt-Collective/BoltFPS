@@ -42,6 +42,8 @@ public abstract partial class Movement : Component
 	public GameObject PreviousGroundObject;
 	public Component GroundComponent;
 
+	public bool SnapToGround = true;
+
 	void CategorizePosition()
 	{
 		var Position = WorldPosition;
@@ -88,7 +90,7 @@ public abstract partial class Movement : Component
 		//
 		// move to this ground position, if we moved, and hit
 		//
-		if ( wasOnGround && !pm.StartedSolid && pm.Fraction > 0.0f && pm.Fraction < 1.0f )
+		if ( wasOnGround && !pm.StartedSolid && pm.Fraction > 0.0f && pm.Fraction < 1.0f && SnapToGround )
 		{
 			WorldPosition = pm.EndPosition;
 		}
@@ -163,27 +165,17 @@ public abstract partial class Movement : Component
 	}
 
 	public bool CanMove = true;
-
 	private void Move()
 	{
 		wasGrounded = IsGrounded;
 
-		var ray = Scene.Trace.Ray( WorldPosition, WorldPosition );
-		var mover = new CharacterControllerHelper( BuildTrace( ray ), WorldPosition, Velocity );
 		var previousVelocity = Velocity;
 
-		if ( IsGrounded )
-		{
-			mover.TryMoveWithStep( Time.Delta, StepHeight );
-		}
-		else
-		{
-			mover.TryMove( Time.Delta );
-		}
+		var movePos = MovePos();
 
-		WorldPosition = mover.Position;
+		WorldPosition = movePos.pos;
 
-		Velocity = mover.Velocity;
+		Velocity = movePos.velocity;
 
 		UpdateGroundVelocity();
 
@@ -194,6 +186,23 @@ public abstract partial class Movement : Component
 		CategorizePosition();
 
 		previousHeight = Height;
+	}
+
+	public virtual (Vector3 pos, Vector3 velocity) MovePos()
+	{
+		var ray = Scene.Trace.Ray( WorldPosition, WorldPosition );
+		var mover = new CharacterControllerHelper( BuildTrace( ray ), WorldPosition, Velocity );
+
+		if ( IsGrounded )
+		{
+			mover.TryMoveWithStep( Time.Delta, StepHeight );
+		}
+		else
+		{
+			mover.TryMove( Time.Delta );
+		}
+
+		return (mover.Position, mover.Velocity);
 	}
 
 	public void MoveTo( Vector3 targetPosition, bool useStep, BBox hull = default )
@@ -220,7 +229,7 @@ public abstract partial class Movement : Component
 	}
 
 
-	public bool IsStuck()
+	public virtual bool IsStuck()
 	{
 		var result = BuildTrace( Scene.Trace.Ray( WorldPosition, WorldPosition ) ).Run();
 		return result.StartedSolid;
@@ -228,7 +237,7 @@ public abstract partial class Movement : Component
 
 	Transform _previousTransform;
 
-	bool TryUnstuck( Vector3 velocity )
+	public virtual bool TryUnstuck( Vector3 velocity )
 	{
 		var result = BuildTrace( Scene.Trace.Ray( WorldPosition, WorldPosition ) ).Run();
 

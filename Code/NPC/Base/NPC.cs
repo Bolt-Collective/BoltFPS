@@ -5,6 +5,8 @@ namespace Seekers;
 public abstract partial class NPC : Knowable
 {
 	[Property] public string Name { get; set; }
+	[Property] public string Catagory { get; set; } = "Core";
+	[Property, ImageAssetPath] public string Icon { get; set; }
 
 	[Property, RequireComponent] public NavMeshAgent Agent { get; set; }
 	[Property, RequireComponent] public HealthComponent HealthComponent { get; set; }
@@ -52,9 +54,19 @@ public abstract partial class NPC : Knowable
 
 	protected override void OnStart()
 	{
+		EnableAgent();
 		if ( HealthComponent.IsValid() )
 			HealthComponent.OnKilled += OnKilled;
 	}
+
+	private async void EnableAgent()
+	{
+		await Task.DelaySeconds( 1 );
+		Agent.Enabled = true;
+	}
+
+	[ConVar]
+	public static bool bolt_npcthinking { get; set; } = true;
 
 	protected override void OnFixedUpdate()
 	{
@@ -63,6 +75,14 @@ public abstract partial class NPC : Knowable
 		previousTool = CurrentTool;
 		if ( !Networking.IsHost )
 			return;
+		if ( !bolt_npcthinking )
+			return;
+		Think();
+	}
+
+	public virtual void Think()
+	{
+
 	}
 
 	public virtual void OnKilled( DamageInfo damageInfo )

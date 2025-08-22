@@ -648,7 +648,8 @@ public partial class BaseWeapon : Component
 			}
 
 			player.TakeDamage( owner, damage, inflictor, hitPosition, calcForce, hitboxTags );
-			Crosshair.Instance.Trigger( player, damage, hitboxTags );
+			if (owner.IsValid())
+				Crosshair.Instance.Trigger( player, damage, hitboxTags );
 		}
 	}
 

@@ -130,7 +130,7 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 	public Action OnJump;
 
 
-	public void WalkMove()
+	public virtual void WalkMove()
 	{
 		ApplyHalfGravity();
 
