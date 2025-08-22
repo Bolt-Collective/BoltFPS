@@ -77,14 +77,12 @@ public class ViewModel : Component
 		LocalPosition = Offset;
 		WorldRotation = inRot;
 
-		/*
-		 * This causes fucked up shit
+
 		if ( Renderer.TryGetBoneTransformLocal( "camera", out var bone ) )
 		{
 			pawn.Controller.Camera.LocalPosition += bone.Position;
-			pawn.Controller.Camera.LocalRotation *= bone.Rotation;
+			pawn.Controller.Camera.LocalRotation = bone.Rotation * 2;
 		}
-		*/
 
 		var newPitch = WorldRotation.Pitch();
 		var newYaw = WorldRotation.Yaw();

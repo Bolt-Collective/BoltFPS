@@ -1,3 +1,4 @@
+@using Sandbox.UI
 @inherits PanelComponent
 @namespace Seekers
 
@@ -16,5 +17,12 @@
 		base.OnAwake();
 
 		Instance = this;
+	}
+
+	protected override void OnStart()
+	{
+		base.OnStart();
+
+		Panel.FindRootPanel().StyleSheet.Add( StyleSheet.FromFile( "UI/_styles.scss" ) );
 	}
 }

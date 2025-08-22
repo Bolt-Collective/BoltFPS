@@ -38,17 +38,20 @@
     "ScrapeSmooth": null
   },
   "PrefabCollection": {
-    "BulletImpact": null,
+    "BulletImpact": {
+      "_type": "gameobject",
+      "prefab": "prefabs/surface/default-bullet.prefab"
+    },
     "BluntImpact": null
   },
   "SoundCollection": {
-    "FootLeft": null,
-    "FootRight": null,
-    "FootLaunch": null,
-    "FootLand": null,
-    "Bullet": null,
-    "ImpactHard": null,
-    "ImpactSoft": null,
+    "FootLeft": "surfaces/sounds/footsteps.concrete.sound",
+    "FootRight": "surfaces/sounds/footsteps.concrete.sound",
+    "FootLaunch": "surfaces/sounds/footsteps.concrete.sound",
+    "FootLand": "surfaces/sounds/concrete/concrete_foot_land.sound",
+    "Bullet": "surfaces/sounds/concrete/concrete_bullet_impact.sound",
+    "ImpactHard": "surfaces/sounds/impact.concrete.sound",
+    "ImpactSoft": "surfaces/sounds/impact.concrete.sound",
     "ScrapeRough": null,
     "ScrapeSmooth": null,
     "Break": null

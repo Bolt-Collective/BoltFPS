@@ -52,7 +52,7 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "ParentBone": "hold_r",
-        "PrimaryRate": 9,
+        "PrimaryRate": 10,
         "RecoilPattern": {
           "Points": [
             "0.388125,1",

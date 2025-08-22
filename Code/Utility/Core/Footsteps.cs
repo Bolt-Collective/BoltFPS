@@ -91,7 +91,7 @@ public class Footsteps : Component
 
 	private float GetStepFrequency()
 	{
-		if ( Player == null ) return ObjectStepFrequency;
+		if ( !Player.IsValid() ) return ObjectStepFrequency;
 		if ( Player.Controller.IsCrouching ) return CrouchingStepFrequency;
 		if ( Player.Controller.IsSprinting ) return SprintingStepFrequency;
 		return WalkingStepFrequency;
@@ -99,7 +99,7 @@ public class Footsteps : Component
 
 	private float GetStepVolume( float velocityFactor = 1.0f )
 	{
-		if ( Player == null ) return ObjectStepVolume;
+		if ( !Player.IsValid() ) return ObjectStepVolume;
 		if ( Player.Controller.IsCrouching ) return CrouchingStepVolume;
 		if ( Player.Controller.IsSprinting ) return SprintingStepVolume * velocityFactor;
 		return WalkingStepVolume * velocityFactor;
@@ -109,7 +109,7 @@ public class Footsteps : Component
 		float volumeMultiplier = 1.0f,
 		bool isLocalPlayer = false )
 	{
-		if ( IsProxy || surface == null || !surface.IsValid() )
+		if ( surface == null || !surface.IsValid() )
 			return;
 
 		var tagMaterial = "";
@@ -180,7 +180,7 @@ public class Footsteps : Component
 		}
 
 		float pitch = Game.Random.Float( MinPitch, MaxPitch ) * pitchMul;
-		SoundExtensions.BroadcastSound( sound, position, finalVolume, pitch, spacialBlend: isLocalPlayer ? 0 : 1 );
+		SoundExtensions.BroadcastSound( sound, position, finalVolume, pitch, spacialBlend: isLocalPlayer ? 1 : 0 );
 
 		if ( DebugFootsteps )
 		{
@@ -207,7 +207,6 @@ public class Footsteps : Component
 		if ( !EnableLandingSounds || IsProxy || !Player.IsValid() ) return;
 		if ( _timeSinceLanding < LandingCooldown ) return;
 
-		// Cast down to find surface at feet
 		var tr = Scene.Trace
 			.Ray( Player.WorldPosition + Vector3.Up * 20, Player.WorldPosition + Vector3.Up * -20 )
 			.Run();
@@ -217,24 +216,20 @@ public class Footsteps : Component
 		float verticalSpeed = -Player.Controller.Velocity.z; // positive when falling
 		if ( verticalSpeed < LandingMinSpeed ) return;
 
-		// Resolve surface and choose hard/soft
 		Surface groundSurface = null;
 		try { groundSurface = tr.Surface.ReplaceSurface(); }
 		catch { groundSurface = tr.Surface; }
 
 		if ( groundSurface == null || !groundSurface.IsValid() ) return;
 
-		var impactSound = verticalSpeed >= LandingHardSpeed
-			? groundSurface.SoundCollection.ImpactHard
-			: groundSurface.SoundCollection.ImpactSoft;
+		var impactSound = groundSurface.SoundCollection.FootLand;
 
 		if ( impactSound is null ) return;
 
-		// Volume scales with landing speed
 		float norm = verticalSpeed.Remap( LandingMinSpeed, LandingHardSpeed * 1.5f, 0.4f, 1.0f ).Clamp( 0.0f, 1.0f );
 		float pitch = Game.Random.Float( MinPitch, MaxPitch ) * (verticalSpeed >= LandingHardSpeed ? 0.98f : 1.02f);
 		SoundExtensions.BroadcastSound( impactSound, tr.HitPosition, GetStepVolume() * norm, pitch,
-			spacialBlend: Player.IsMe ? 0 : 1 );
+			spacialBlend: Player.IsMe ? 1 : 0 );
 
 		if ( DebugFootsteps )
 		{
@@ -247,11 +242,9 @@ public class Footsteps : Component
 
 	private void PlayerControllerFootsteps()
 	{
-		if ( IsProxy ) return;
 
 		if ( !Player.IsValid() ) return;
 
-		// Landing detection: trigger when transitioning to grounded
 		bool grounded = Player.Controller.IsGrounded;
 		if ( grounded && !_wasGrounded )
 		{
