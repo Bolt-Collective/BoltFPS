@@ -67,7 +67,7 @@ public partial class NormalMovement : Movement
 
 		SnapToGround = MoveMode != MoveModes.NoClip;
 
-		if (CanNoClip && Input.Pressed("noClip"))
+		if (CanNoClip && Input.Pressed("Noclip"))
 		{
 			if (MoveMode == MoveModes.NoClip)
 				MoveMode = MoveModes.Walk;
