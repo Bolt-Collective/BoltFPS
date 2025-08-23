@@ -6,14 +6,22 @@ namespace Seekers;
 [Library( "tool_duplicator", Title = "Duplicator", Description = "Duplicate Contraptions", Group = "construction" )]
 public partial class Duplicator : BaseTool
 {
+	[Property]
+	private FileBrowser FileBrowser { get; set; }
+	
 	[Property,Range(0, 2048)]
 	public float SaveArea { get; set; } = 1024;
 
 	[Property,Sync]
-	public bool SpawnAtOrigalPosition { get; set; }
+	public bool SpawnAtOriginalPosition { get; set; }
 
 	[Sync( SyncFlags.FromHost )]
 	public string SavedDupe { get; set; }
+
+	protected override void OnStart()
+	{
+		FileBrowser.TargetFolder = "dupes";
+	}
 
 	public override bool Primary( SceneTraceResult trace )
 	{
@@ -116,7 +124,7 @@ public partial class Duplicator : BaseTool
 
 		dupe.Deserialize( jsonObject );
 
-		if (!SpawnAtOrigalPosition)
+		if (!SpawnAtOriginalPosition)
 			dupe.WorldPosition = position;
 
 		var props = new List<GameObject>();

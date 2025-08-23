@@ -1,0 +1,108 @@
+@using System.IO
+@using Sandbox;
+@using Sandbox.UI;
+
+@namespace Seekers
+
+@inherits Panel
+
+<root class="file-browser">
+	<div class="file-tree">
+		@foreach ( var folder in GetFoldersFromDirectory( TargetFolder ) )
+		{
+			<div class="node folder" style="margin-left:@( GetDepth( folder ) * 16 )px">
+				<img src="icons/menu/Folder.svg?w=20&h=20"/>
+				<p>@GetLastSegment( folder )</p>
+			</div>
+
+			@foreach ( var file in GetFilesFromDirectory( folder, recursive: false ) )
+			{
+				<div class="node file" style="margin-left:@( GetDepth( folder ) * 16 + 16 )px">
+					<img src="icons/menu/Stack.svg?w=64&h=64"/>
+					<p>@Path.GetFileName( file )</p>
+				</div>
+			}
+		}
+
+		@foreach ( var file in GetFilesFromDirectory( string.Empty, recursive: false ) )
+		{
+			<div class="node file" style="margin-left:16px">
+				<img src="icons/menu/Stack.svg?w=64&h=64"/>
+				<p>@Path.GetFileName( file )</p>
+			</div>
+		}
+	</div>
+</root>
+
+@code
+{
+	/// <summary>
+	/// What folder to display files from in Data
+	/// </summary>
+	public string TargetFolder { get; set; } = "folder";
+
+
+	bool CreatingANode = false;
+
+	public FileBrowser()
+	{
+		if ( string.IsNullOrWhiteSpace( TargetFolder ) )
+			return;
+
+		if ( !FileSystem.Data.DirectoryExists( TargetFolder ) )
+		{
+			FileSystem.Data.CreateDirectory( TargetFolder );
+		}
+	}
+
+	public List<string> GetFoldersFromDirectory( string directory )
+	{
+		var dir = FileSystem.Data.FindDirectory( directory, recursive: true );
+
+		var dirList = dir.ToList();
+		dirList.Sort();
+
+		return dirList;
+	}
+
+	public List<string> GetFilesFromDirectory( string folder, bool recursive )
+	{
+		var basePath = string.IsNullOrWhiteSpace( folder )
+			? TargetFolder
+			: Path.Combine( TargetFolder, folder );
+
+		var files = FileSystem.Data.FindFile( basePath, recursive: recursive );
+
+		var fileList = files.ToList();
+		fileList.Sort();
+
+		return fileList;
+	}
+
+	private static int GetDepth( string relativePath )
+	{
+		if ( string.IsNullOrWhiteSpace( relativePath ) )
+			return 0;
+
+		var norm = relativePath.Replace( '\\', '/' ).Trim( '/' );
+		if ( string.IsNullOrEmpty( norm ) )
+			return 0;
+
+		return norm.Count( c => c == '/' );
+	}
+
+	private static string GetLastSegment( string relativePath )
+	{
+		if ( string.IsNullOrWhiteSpace( relativePath ) )
+			return string.Empty;
+
+		var norm = relativePath.Replace( '\\', '/' ).TrimEnd( '/' );
+		var i = norm.LastIndexOf( '/' );
+		return i >= 0 ? norm[(i + 1)..] : norm;
+	}
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine( GetFoldersFromDirectory( TargetFolder ) );
+	}
+}
