@@ -379,6 +379,11 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		var body = GetBody( gameObject );
 
+		var renderer = gameObject.GetComponent<ModelRenderer>();
+
+		if ( renderer.IsValid() && renderer is not SkinnedModelRenderer && body.MotionEnabled == false )
+			Scene.NavMesh.GenerateTiles( Scene.PhysicsWorld, renderer.Bounds );
+
 		if ( body.IsValid() )
 			body.MotionEnabled = false;
 
@@ -392,6 +397,11 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 			return;
 
 		var body = GetBody( gameObject );
+
+		var renderer = gameObject.GetComponent<ModelRenderer>();
+
+		if ( renderer.IsValid() && renderer is not SkinnedModelRenderer && body.MotionEnabled == false )
+			Scene.NavMesh.GenerateTiles( Scene.PhysicsWorld, renderer.Bounds );
 
 		if ( body.IsValid() )
 			body.MotionEnabled = true;
