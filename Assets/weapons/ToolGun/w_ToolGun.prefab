@@ -78,67 +78,6 @@
         "OwnerTransfer": 1,
         "Components": [],
         "Children": []
-      },
-      {
-        "__guid": "6cfd3f44-4f07-45ca-87ec-adcb4a74ae25",
-        "__version": 1,
-        "Flags": 0,
-        "Name": "Model",
-        "Position": "-0.003046989,-0.02934529,4.48695",
-        "Rotation": "-0.00000002607706,-0.000000339397,-0.0000002257278,0.9999977",
-        "Scale": "0.3794387,0.3794387,0.3794387",
-        "Tags": "",
-        "Enabled": true,
-        "NetworkMode": 2,
-        "NetworkInterpolation": true,
-        "NetworkOrphaned": 0,
-        "OwnerTransfer": 1,
-        "Components": [
-          {
-            "__type": "Sandbox.SkinnedModelRenderer",
-            "__guid": "e6dfcaf5-e5d4-42f0-ada3-615978f66a7d",
-            "__enabled": true,
-            "AnimationGraph": null,
-            "BodyGroups": 18446744073709551615,
-            "BoneMergeTarget": null,
-            "CreateAttachments": false,
-            "CreateBoneObjects": false,
-            "MaterialGroup": null,
-            "MaterialOverride": null,
-            "Materials": null,
-            "Model": "weapons/rust_python/w_python.vmdl",
-            "Morphs": {},
-            "OnComponentDestroy": null,
-            "OnComponentDisabled": null,
-            "OnComponentEnabled": null,
-            "OnComponentFixedUpdate": null,
-            "OnComponentStart": null,
-            "OnComponentUpdate": null,
-            "Parameters": {
-              "bools": {},
-              "ints": {},
-              "floats": {},
-              "vectors": {},
-              "rotations": {}
-            },
-            "PlaybackRate": 1,
-            "RenderOptions": {
-              "GameLayer": true,
-              "OverlayLayer": false,
-              "BloomLayer": false,
-              "AfterUILayer": false
-            },
-            "RenderType": "On",
-            "Sequence": {
-              "Name": null,
-              "Looping": true,
-              "Blending": false
-            },
-            "Tint": "1,1,1,1",
-            "UseAnimGraph": true
-          }
-        ],
-        "Children": []
       }
     ],
     "__properties": {
@@ -166,8 +105,6 @@
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "__references": [
-    "rust.wpython#76233"
-  ],
+  "__references": [],
   "__version": 2
 }

@@ -3,12 +3,12 @@
 [Spawnable, Library( "weapon_machinegun", Title = "Machine Gun" )]
 partial class MachineGun : BaseWeapon
 {
-	[Property] public bool EjectCasing { get; set; } = true;
-	[Property] public override float Damage { get; set; } = 5f;
-	[Property] public float MinRecoil { get; set; } = 0.5f;
-	[Property] public float MaxRecoil { get; set; } = 1f;
+	[Feature( "Firing" ), Property] public bool EjectCasing { get; set; } = true;
+	[Feature( "Firing" ), Property] public override float Damage { get; set; } = 5f;
+	[Feature( "Firing" ), Property] public float MinRecoil { get; set; } = 0.5f;
+	[Feature( "Firing" ), Property] public float MaxRecoil { get; set; } = 1f;
 
-	[Property] public RecoilPattern RecoilPattern { get; set; }
+	[Feature( "Firing" ), Property] public RecoilPattern RecoilPattern { get; set; }
 
 	public override void AttackPrimary()
 	{

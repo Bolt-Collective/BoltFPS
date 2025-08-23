@@ -3,10 +3,10 @@ namespace Seekers;
 [Spawnable, Library( "weapon_grenade" )]
 partial class Grenade : BaseWeapon, Component.ICollisionListener
 {
-	[Property] private GameObject Projectile { get; set; }
-	[Property] private float ThrowDelay { get; set; } = 1;
-	[Property] private float ThrowForce { get; set; } = 200;
-	[Property] private float DropForce { get; set; } = 100;
+	[Feature( "Firing" ), Property] private GameObject Projectile { get; set; }
+	[Feature( "Firing" ), Property] private float ThrowDelay { get; set; } = 1;
+	[Feature( "Firing" ), Property] private float ThrowForce { get; set; } = 200;
+	[Feature( "Firing" ), Property] private float DropForce { get; set; } = 100;
 
 	public override bool CanReload() => false;
 

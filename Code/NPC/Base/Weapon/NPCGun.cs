@@ -31,7 +31,7 @@ public abstract class NPCGun : NPCTool
 		if ( nextShot > 0 || Ammo <= 0 || pos.Distance(WorldPosition) > Range)
 			return false;
 
-		pos += Vector3.Random * Spread;
+		pos += Vector3.Random * Spread * WorldPosition.Distance(pos) * 0.001f;
 
 		Ammo--;
 

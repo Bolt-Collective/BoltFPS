@@ -8,25 +8,25 @@ namespace Seekers;
 public partial class Sniper : BaseWeapon, Component.ICollisionListener
 {
 	public bool Scoped;
-	[Property] public Material ScopeOverlay { get; set; }
-	[Property] public SoundEvent ZoomSound { get; set; }
-	[Property] public SoundEvent UnzoomSound { get; set; }
-	[Property] public override float Damage { get; set; } = 50f;
-	[Property] public float MinRecoil { get; set; } = 0.5f;
-	[Property] public float MaxRecoil { get; set; } = 1f;
-	[Property] public float SpreadMult { get; set; } = 0.2f;
+	[Feature( "Scope" ), Property] public Material ScopeOverlay { get; set; }
+	[Feature( "Sounds" ), Property] public SoundEvent ZoomSound { get; set; }
+	[Feature( "Sounds" ), Property] public SoundEvent UnzoomSound { get; set; }
+	[Feature( "Firing" ), Property] public override float Damage { get; set; } = 50f;
+	[Feature( "Firing" ), Property] public float MinRecoil { get; set; } = 0.5f;
+	[Feature( "Firing" ), Property] public float MaxRecoil { get; set; } = 1f;
+	[Feature( "Firing" ), Property] public float SpreadMult { get; set; } = 0.2f;
 	public RealTimeSince TimeSinceDischarge { get; set; }
 
 	CommandList scopeCommandList;
 
 	private int ZoomLevel { get; set; } = 0;
-	[Property] private float BlurLerp { get; set; } = 1.0f;
+	[Feature( "Scope" ), Property] private float BlurLerp { get; set; } = 1.0f;
 
 	private Angles LastAngles;
 
 	private Angles AnglesLerp;
 
-	[Property] private float AngleOffsetScale { get; set; } = 0.01f;
+	[Feature( "Scope" ), Property] private float AngleOffsetScale { get; set; } = 0.01f;
 
 	public override bool CanPrimaryAttack()
 	{

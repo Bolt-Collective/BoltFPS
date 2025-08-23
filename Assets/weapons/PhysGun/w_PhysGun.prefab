@@ -72,67 +72,6 @@
     ],
     "Children": [
       {
-        "__guid": "9aa96ce8-1b9c-45a2-afb6-b0dc6c271685",
-        "__version": 1,
-        "Flags": 0,
-        "Name": "Model",
-        "Position": "1.268736,-0.02934529,1.397888",
-        "Rotation": "-0.00000002607706,-0.000000339397,-0.0000002257278,0.9999977",
-        "Scale": "1,1,1",
-        "Tags": "",
-        "Enabled": true,
-        "NetworkMode": 2,
-        "NetworkInterpolation": true,
-        "NetworkOrphaned": 0,
-        "OwnerTransfer": 1,
-        "Components": [
-          {
-            "__type": "Sandbox.SkinnedModelRenderer",
-            "__guid": "236b1467-27ee-4305-b074-657d3b39b1db",
-            "__enabled": true,
-            "AnimationGraph": null,
-            "BodyGroups": 9493,
-            "BoneMergeTarget": null,
-            "CreateAttachments": false,
-            "CreateBoneObjects": false,
-            "MaterialGroup": null,
-            "MaterialOverride": null,
-            "Materials": null,
-            "Model": "models/weapons/sbox_pistol_usp/w_usp.vmdl",
-            "Morphs": {},
-            "OnComponentDestroy": null,
-            "OnComponentDisabled": null,
-            "OnComponentEnabled": null,
-            "OnComponentFixedUpdate": null,
-            "OnComponentStart": null,
-            "OnComponentUpdate": null,
-            "Parameters": {
-              "bools": {},
-              "ints": {},
-              "floats": {},
-              "vectors": {},
-              "rotations": {}
-            },
-            "PlaybackRate": 1,
-            "RenderOptions": {
-              "GameLayer": true,
-              "OverlayLayer": false,
-              "BloomLayer": false,
-              "AfterUILayer": false
-            },
-            "RenderType": "On",
-            "Sequence": {
-              "Name": null,
-              "Looping": true,
-              "Blending": false
-            },
-            "Tint": "1,1,1,1",
-            "UseAnimGraph": true
-          }
-        ],
-        "Children": []
-      },
-      {
         "__guid": "9dc98730-2197-429a-93fc-17b9616d6cad",
         "__version": 1,
         "Flags": 0,
@@ -175,8 +114,6 @@
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "__references": [
-    "facepunch.w_usp#33631"
-  ],
+  "__references": [],
   "__version": 2
 }

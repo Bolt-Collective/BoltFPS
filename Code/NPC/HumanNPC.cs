@@ -59,7 +59,7 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 		Gun = ToolObject?.GetComponent<NPCGun>() ?? null;
 
 		ClosestEnemy = GetNearest(true)?.Knowable ?? null;
-
+		Agent.UpdateRotation = !ClosestEnemy.IsValid() && Agent.Velocity.Length > 10;
 		if ( !ClosestEnemy.IsValid() )
 		{
 			None();
@@ -75,7 +75,7 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 		if ( DoShootEnemy )
 		{
 			aimPoint = aimPoint.LerpTo( CanHitEnemy.Value, AimLerp * Time.Delta );
-			var shot = Gun?.Shoot( aimPoint, 25 ) ?? false;
+			var shot = Gun?.Shoot( aimPoint, 0.1f ) ?? false;
 			if ( shot )
 				ShootEffects();
 		}
@@ -153,10 +153,23 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 			StateManager.Set( current, 0 );
 		}
 	}
-
+	TimeUntil nextWonder;
+	[Property] public RangedFloat WonderTime { get; set; } = new RangedFloat( 1, 4 );
+	[Property] public float WonderRange { get; set; } = 250;
 	public void None()
 	{
+		if ( nextWonder > 0 )
+			return;
 
+		nextWonder = WonderTime.GetValue();
+
+		Vector3 wonderPoint = ActiveMesh.GetRandomPoint( WorldPosition, WonderRange ) ?? default;
+
+		if ( wonderPoint == default )
+			return;
+
+		Agent.MoveTo( wonderPoint );
+		
 	}
 
 	public void Cover()

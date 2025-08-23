@@ -19,11 +19,44 @@ public record BulletHitEvent(Vector3 position) : IGameEvent;
 [Icon( "sports_martial_arts" )]
 public partial class BaseWeapon : Component
 {
-	[Property] public string Name { get; set; }
-	[Property] public WeaponIK LeftIK { get; set; }
-	[Property] public CrosshairType CrosshairType { get; set; }
+	[Feature( "General" ), Property] public string Name { get; set; }
+	[Feature( "General" ), Property] public ItemResource ItemResource { get; set; }
+	[Feature( "General" ), Property, ImageAssetPath] public string Icon { get; set; }
 
-	[Property] public ItemResource ItemResource { get; set; }
+	[Feature( "Animation" ), Property] public WeaponIK LeftIK { get; set; }
+	[Feature( "Animation" ), Property]
+	public CitizenAnimationHelper.HoldTypes HoldType { get; set; }
+		= CitizenAnimationHelper.HoldTypes.HoldItem;
+	[Feature( "Animation" ), Property]
+	public CitizenAnimationHelper.Hand Handedness { get; set; }
+		= CitizenAnimationHelper.Hand.Right;
+	[Feature( "Animation" ), Property] public string ParentBone { get; set; } = "hold_r";
+	[Feature( "Animation" ), Property] public Transform BoneOffset { get; set; } = new Transform( 0 );
+
+	[Feature( "Models" ), Property] public GameObject ViewModelPrefab { get; set; }
+	[Feature( "Models" ), Property] public GameObject TracerEffect { get; set; }
+
+	[Feature( "Sounds" ), Property]
+	public SoundEvent DeploySound { get; set; } =
+		ResourceLibrary.Get<SoundEvent>( "sounds/weapons/switch/switch_3.sound" );
+
+	[Feature( "Sounds" ), Property] public SoundEvent ReloadSound { get; set; }
+	[Feature( "Sounds" ), Property] public SoundEvent ReloadShortSound { get; set; }
+	[Feature( "Sounds" ), Property] public SoundEvent ShootSound { get; set; }
+
+	[Feature( "Firing" ), Property] public float PrimaryRate { get; set; } = 5.0f;
+	[Feature( "Firing" ), Property] public float SecondaryRate { get; set; } = 15.0f;
+	[Feature( "Firing" ), Property] public virtual float Damage { get; set; }
+	[Feature( "Firing" ), Property] public virtual float Spread { get; set; }
+	[Feature( "Firing" ), Property] public virtual float SpreadIncrease { get; set; }
+
+	[Feature( "Ammo" ), Property] public int Ammo { get; set; }
+	[Feature( "Ammo" ), Property] public int MaxAmmo { get; set; }
+	[Feature( "Ammo" ), Property] public bool Chamber { get; set; } = true;
+	[Feature( "Ammo" ), Property] public bool ShowAmmo { get; set; } = true;
+	[Feature( "Ammo" ), Property] public float ReloadTime { get; set; } = 3.0f;
+
+	[Feature( "UI" ), Property] public CrosshairType CrosshairType { get; set; }
 
 	public class WeaponIK
 	{
@@ -44,19 +77,6 @@ public partial class BaseWeapon : Component
 		public bool IsLeft { get; set; }
 	}
 
-	[Property, Group( "Sounds" )]
-	public SoundEvent DeploySound { get; set; } =
-		ResourceLibrary.Get<SoundEvent>( "sounds/weapons/switch/switch_3.sound" );
-
-	[Property, Group( "Sounds" )] public SoundEvent ReloadSound { get; set; }
-	[Property, Group( "Sounds" )] public SoundEvent ReloadShortSound { get; set; }
-	[Property, Group( "Sounds" )] public SoundEvent ShootSound { get; set; }
-
-	[Property, ImageAssetPath] public string Icon { get; set; }
-	[Property] public GameObject ViewModelPrefab { get; set; }
-
-	[Property] public GameObject TracerEffect { get; set; }
-
 	private GameObject Tracer
 	{
 		get
@@ -66,29 +86,6 @@ public partial class BaseWeapon : Component
 			return GameObject.GetPrefab( $"/weapons/common/effects/tracer.prefab" );
 		}
 	}
-
-	[Property] public string ParentBone { get; set; } = "hold_r";
-	[Property] public Transform BoneOffset { get; set; } = new Transform( 0 );
-
-	[Property]
-	public CitizenAnimationHelper.HoldTypes HoldType { get; set; } = CitizenAnimationHelper.HoldTypes.HoldItem;
-
-	[Property] public CitizenAnimationHelper.Hand Handedness { get; set; } = CitizenAnimationHelper.Hand.Right;
-
-	[Property] public float PrimaryRate { get; set; } = 5.0f;
-	[Property] public float SecondaryRate { get; set; } = 15.0f;
-
-	[Property] public float ReloadTime { get; set; } = 3.0f;
-
-	[Property] public virtual float Damage { get; set; }
-
-	[Property] public int Ammo { get; set; }
-	[Property] public int MaxAmmo { get; set; }
-	[Property] public bool Chamber { get; set; } = true;
-	[Property] public bool ShowAmmo { get; set; } = true;
-
-	[Property] public virtual float Spread { get; set; }
-	public virtual float SpreadIncrease { get; set; }
 
 	[Sync] public bool IsSitting { get; set; }
 	[Sync] public bool IsReloading { get; set; }
@@ -120,7 +117,14 @@ public partial class BaseWeapon : Component
 
 	public bool ForceDisableViewmodel;
 
-	public Transform Attachment( string name ) => LocalWorldModel?.GetAttachment( name ) ?? WorldTransform;
+	public Transform Attachment( string name )
+	{
+		if (LocalWorldModel == ViewModel?.Renderer)
+		{
+			return ViewModel.GetAttachment( name );
+		}
+		return LocalWorldModel?.GetAttachment( name ) ?? WorldTransform;
+	}
 
 	protected override void OnAwake()
 	{

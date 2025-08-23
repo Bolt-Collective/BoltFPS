@@ -26,12 +26,14 @@
           "Scale": "1,1,1",
           "Rotation": "0,0,0,1"
         },
+        "Chamber": true,
         "CrosshairType": "None",
         "Damage": 50,
         "DeploySound": "sounds/weapons/switch/weapon_switch.sound",
         "Handedness": "Both",
         "HoldType": "Rifle",
         "Icon": "icons/weapons/guns/m700_01.png",
+        "ItemResource": null,
         "LeftIK": {
           "Active": true,
           "GameObject": {
@@ -60,6 +62,7 @@
         "ShootSound": "sounds/weapons/m700/m700_shot.sound",
         "ShowAmmo": true,
         "Spread": 0,
+        "SpreadIncrease": 0,
         "SpreadMult": 0.2,
         "TracerEffect": null,
         "UnzoomSound": null,
@@ -67,7 +70,6 @@
           "_type": "gameobject",
           "prefab": "weapons/m700/v_m700.prefab"
         },
-        "WeaponResource": null,
         "ZoomSound": "sounds/weapons/m700/m700_zoom.sound"
       }
     ],

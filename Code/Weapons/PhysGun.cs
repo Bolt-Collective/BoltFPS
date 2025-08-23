@@ -4,15 +4,15 @@ namespace Seekers;
 
 public partial class PhysGun : BaseWeapon, Component.INetworkListener
 {
-	[Property] public float MinTargetDistance { get; set; } = 0.0f;
-	[Property] public float MaxTargetDistance { get; set; } = 10000.0f;
-	[Property] public float LinearFrequency { get; set; } = 20.0f;
-	[Property] public float LinearDampingRatio { get; set; } = 1.0f;
-	[Property] public float AngularFrequency { get; set; } = 20.0f;
-	[Property] public float AngularDampingRatio { get; set; } = 1.0f;
-	[Property] public float TargetDistanceSpeed { get; set; } = 25.0f;
-	[Property] public float RotateSpeed { get; set; } = 0.125f;
-	[Property] public float RotateSnapAt { get; set; } = 45.0f;
+	[Feature( "Physics" ), Property] public float MinTargetDistance { get; set; } = 0.0f;
+	[Feature( "Physics" ), Property] public float MaxTargetDistance { get; set; } = 10000.0f;
+	[Feature( "Physics" ), Property] public float LinearFrequency { get; set; } = 20.0f;
+	[Feature( "Physics" ), Property] public float LinearDampingRatio { get; set; } = 1.0f;
+	[Feature( "Physics" ), Property] public float AngularFrequency { get; set; } = 20.0f;
+	[Feature( "Physics" ), Property] public float AngularDampingRatio { get; set; } = 1.0f;
+	[Feature( "Physics" ), Property] public float TargetDistanceSpeed { get; set; } = 25.0f;
+	[Feature( "Physics" ), Property] public float RotateSpeed { get; set; } = 0.125f;
+	[Feature( "Physics" ), Property] public float RotateSnapAt { get; set; } = 45.0f;
 
 	[Sync] public bool Beaming { get; set; }
 	[Sync] public Vector3 HoldPos { get; set; }
@@ -381,8 +381,11 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		var renderer = gameObject.GetComponent<ModelRenderer>();
 
+		if (!gameObject.Tags.Contains("frozen"))
+			gameObject.Tags.Add( "frozen" );
+
 		if ( renderer.IsValid() && renderer is not SkinnedModelRenderer && body.MotionEnabled == false )
-			Scene.NavMesh.GenerateTiles( Scene.PhysicsWorld, renderer.Bounds );
+			Scene.NavMesh.GenerateTiles( Scene.PhysicsWorld, renderer.Bounds.Grow( renderer.Bounds.Size.Length ) );
 
 		if ( body.IsValid() )
 			body.MotionEnabled = false;
@@ -398,10 +401,12 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		var body = GetBody( gameObject );
 
+		gameObject.Tags.Remove( "frozen" );
+
 		var renderer = gameObject.GetComponent<ModelRenderer>();
 
 		if ( renderer.IsValid() && renderer is not SkinnedModelRenderer && body.MotionEnabled == false )
-			Scene.NavMesh.GenerateTiles( Scene.PhysicsWorld, renderer.Bounds );
+			Scene.NavMesh.GenerateTiles( Scene.PhysicsWorld, renderer.Bounds.Grow(renderer.Bounds.Size.Length) );
 
 		if ( body.IsValid() )
 			body.MotionEnabled = true;

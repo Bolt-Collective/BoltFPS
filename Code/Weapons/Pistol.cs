@@ -3,12 +3,12 @@ namespace Seekers;
 [Spawnable, Library( "weapon_pistol" )]
 partial class Pistol : BaseWeapon, Component.ICollisionListener
 {
-	[Property] public override float Damage { get; set; } = 9f;
+	[Feature( "Firing" ), Property] public override float Damage { get; set; } = 9f;
 	public RealTimeSince TimeSinceDischarge { get; set; }
-	[Property] public float MinRecoil { get; set; } = 0.5f;
-	[Property] public float MaxRecoil { get; set; } = 1f;
+	[Feature( "Firing" ), Property] public float MinRecoil { get; set; } = 0.5f;
+	[Feature( "Firing" ), Property] public float MaxRecoil { get; set; } = 1f;
 
-	[Property] public RecoilPattern RecoilPattern { get; set; }
+	[Feature( "Firing" ), Property] public RecoilPattern RecoilPattern { get; set; }
 
 	public override bool CanPrimaryAttack() => base.CanPrimaryAttack() && Input.Pressed( "attack1" );
 

@@ -3,12 +3,12 @@
 [Spawnable, Library( "weapon_shotgun" )]
 partial class Shotgun : BaseWeapon
 {
-	[Property] public float MinRecoil { get; set; } = 2f;
-	[Property] public float MaxRecoil { get; set; } = 3f;
-	[Property] public override float Damage { get; set; } = 4f;
-	[Property] public override float Spread { get; set; } = 0.1f;
-	[Property] public int Bullets { get; set; } = 27;
-	[Property] public SoundEvent LoadSound { get; set; }
+	[Feature( "Firing" ), Property] public float MinRecoil { get; set; } = 2f;
+	[Feature( "Firing" ), Property] public float MaxRecoil { get; set; } = 3f;
+	[Feature( "Firing" ), Property] public override float Damage { get; set; } = 4f;
+	[Feature( "Firing" ), Property] public override float Spread { get; set; } = 0.1f;
+	[Feature( "Firing" ), Property] public int Bullets { get; set; } = 27;
+	[Feature( "Sounds" ), Property] public SoundEvent LoadSound { get; set; }
 
 	public override bool CanPrimaryAttack()
 	{

@@ -1,4 +1,5 @@
 using ShrimplePawns;
+using System.Net.Mail;
 
 namespace Seekers;
 
@@ -26,6 +27,14 @@ public class ViewModel : Component
 	[Property] public Vector3 Offset { get; set; }
 
 	[Property] public Dictionary<string, string> AnimParamTranslate { get; set; }
+	[Property] public Dictionary<string, GameObject> AttachmentTranslate { get; set; }
+
+	public Transform GetAttachment(string name)
+	{
+		if (AttachmentTranslate != null && AttachmentTranslate.ContainsKey(name))
+			return AttachmentTranslate[name].WorldTransform;
+		return Renderer?.GetAttachment( name ) ?? WorldTransform;
+	}
 
 	public string GetAnim( string name )
 	{
