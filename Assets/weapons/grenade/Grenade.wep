@@ -3,7 +3,7 @@
   "Catagory": "Base Weapons",
   "Duplicates": false,
   "ReplenishAmmo": true,
-  "Icon": "icons/weapons/grenades/he_grenade_01.png",
+  "Icon": "icons/3d/hegrenade.png",
   "Description": "",
   "Details": null,
   "__references": [],

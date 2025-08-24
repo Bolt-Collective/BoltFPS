@@ -133,10 +133,9 @@ public partial class NormalMovement : Movement
 		if ( MoveMode != MoveModes.NoClip )
 			return base.MovePos();
 
-		var previousPosition = WorldPosition;
-		var newPosition = WorldPosition + Velocity;
+		var newPosition = WorldPosition + Velocity * Time.Delta;
 
-		return (newPosition, newPosition - previousPosition);
+		return (newPosition, Velocity);
 	}
 
 	private void Walk()

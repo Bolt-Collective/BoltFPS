@@ -1,6 +1,6 @@
 ﻿namespace Seekers;
 
-[Library( "tool_rope", Title = "Rope", Description = "Create a rope between 2 points", Group = "construction" )]
+[Library( "tool_rope", Title = "Rope", Description = "Create a rope between 2 points", Group = "constraints" )]
 public class Rope : BaseJointTool
 {
 	[Range( -500, 500 )]

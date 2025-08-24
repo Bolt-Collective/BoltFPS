@@ -1,7 +1,9 @@
 {
   "DisplayName": "M700",
   "Catagory": "Base Weapons",
-  "Icon": "icons/weapons/guns/m700_01.png",
+  "Duplicates": true,
+  "ReplenishAmmo": false,
+  "Icon": "icons/3d/m700.png",
   "Description": "",
   "Details": null,
   "__references": [],

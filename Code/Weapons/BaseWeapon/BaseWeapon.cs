@@ -578,8 +578,17 @@ public partial class BaseWeapon : Component
 		// ShootBullet is coded in a way where we can have bullets pass through shit
 		// or bounce off shit, in which case it'll return multiple results
 		//
-		foreach ( var tr in TraceBullet( GameObject.Root, pos, pos + forward * 5000, bulletSize ) )
+		foreach ( var trace in TraceBullet( GameObject.Root, pos, pos + forward * 5000, bulletSize ) )
 		{
+			var tr = trace;
+
+			if (Owner?.Controller?.ThirdPerson ?? false)
+			{
+				var headCheck = TraceBullet( GameObject.Root, Owner.Controller.Head.WorldPosition, tr.HitPosition );
+				if ( headCheck.Count() > 0 )
+					tr = headCheck.Last();
+			}
+
 			var tagMaterial = "";
 
 			if ( tr.Tags.Any() )

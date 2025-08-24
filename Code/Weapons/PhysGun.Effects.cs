@@ -135,8 +135,8 @@ public partial class PhysGun
 
 		var distance = line1.VectorPoints[0].Distance( line1.VectorPoints[2] );
 
-		line1.VectorPoints[1] = beam.WorldPosition + beam.WorldTransform.Forward * distance * 0.5f;
-		line2.VectorPoints[1] = beam.WorldPosition + beam.WorldTransform.Forward * distance * 0.5f;
+		line1.VectorPoints[1] = beam.WorldPosition + WorldTransform.Forward * distance * 0.5f;
+		line2.VectorPoints[1] = beam.WorldPosition + WorldTransform.Forward * distance * 0.5f;
 	}
 
 	private GameObject CreateBeam( Vector3 endPos ) =>

@@ -32,7 +32,7 @@
         "DeploySound": "sounds/weapons/switch/switch_2.sound",
         "Handedness": "Right",
         "HoldType": "Pistol",
-        "Icon": "icons/weapons/guns/usp_01.png",
+        "Icon": "icons/weapons/tools/physgun.png",
         "ItemResource": "weapons/physgun/physgun.wep",
         "LeftIK": {
           "Active": true,
@@ -44,7 +44,7 @@
         "MaxAmmo": 0,
         "MaxTargetDistance": 10000,
         "MinTargetDistance": 0,
-        "Name": "USP",
+        "Name": "Physgun",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -62,6 +62,7 @@
         "ShootSound": "sounds/guns/m1911/pistol_shoot.sound",
         "ShowAmmo": false,
         "Spread": 0,
+        "SpreadIncrease": 0,
         "TargetDistanceSpeed": 25,
         "TracerEffect": null,
         "ViewModelPrefab": {

@@ -1,6 +1,6 @@
 ﻿namespace Seekers;
 
-[Library( "tool_hinge", Title = "Hinge", Description = "Rotaional Joint", Group = "construction" )]
+[Library( "tool_hinge", Title = "Hinge", Description = "Rotaional Joint", Group = "constraints" )]
 public class Hinge : BaseJointTool
 {
 	[Property, Range( -180, 180 ), Sync]
