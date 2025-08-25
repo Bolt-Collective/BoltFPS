@@ -2,18 +2,17 @@ using Sandbox;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
+using ShrimplePawns;
 using static Sandbox.PhysicsContact;
+using Pawn = Seekers.Pawn;
 
 public partial class NormalMovement : Movement
 {
-	[Property]
-	public float StandingHeight { get; set; } = 64f;
+	[Property] public float StandingHeight { get; set; } = 64f;
 
-	[Property]
-	public float CrouchHeight { get; set; } = 38f;
+	[Property] public float CrouchHeight { get; set; } = 38f;
 
-	[Property]
-	public float SlideHeight { get; set; } = 20f;
+	[Property] public float SlideHeight { get; set; } = 20f;
 
 	[Property, Group( "Movement Variables" )]
 	public float RunSpeed { get; set; }
@@ -36,18 +35,20 @@ public partial class NormalMovement : Movement
 	[Property, Group( "Movement Variables" )]
 	public bool CanNoClip { get; set; }
 
-	[Property, Group( "Movement Variables" ), ShowIf("CanNoClip", true)]
-	public float NoClipSpeed { get; set; }
+	[Property, Group( "Movement Variables" ), ShowIf( "CanNoClip", true )]
+	[ConVar( "noclip_speed", ConVarFlags.Saved, Help = "Default noclip speed" )]
+	public static float NoClipSpeed { get; set; } = 300;
 
 	[Property, Group( "Movement Variables" ), ShowIf( "CanNoClip", true )]
-	public float NoClipSprintSpeed { get; set; }
+	[ConVar( "noclip_sprintspeed", ConVarFlags.Saved, Help = "Default noclip shift speed" )]
+	public static float NoClipSprintSpeed { get; set; } = 600;
 
 	[Property, Group( "Movement Variables" ), ShowIf( "CanNoClip", true )]
-	public float NoClipWalkSpeed { get; set; }
+	[ConVar( "noclip_walkspeed", ConVarFlags.Saved, Help = "Default alt (walk) speed, for slower movements" )]
+	public static float NoClipWalkSpeed { get; set; } = 100;
 
 
-	[Property, Sync]
-	public MoveModes MoveMode { get; set; }
+	[Property, Sync] public MoveModes MoveMode { get; set; }
 
 	public bool EnableSprinting = true;
 
@@ -55,7 +56,7 @@ public partial class NormalMovement : Movement
 
 	public enum MoveModes
 	{
-		Walk, 
+		Walk,
 		Crouch,
 		NoClip
 	}
@@ -63,20 +64,17 @@ public partial class NormalMovement : Movement
 	protected override void OnUpdate()
 	{
 		base.OnUpdate();
-		if (IsProxy)
+		if ( IsProxy )
 			return;
 
 		SnapToGround = MoveMode != MoveModes.NoClip;
 
-		if (CanNoClip && Input.Pressed("Noclip"))
+		if ( CanNoClip && Input.Pressed( "Noclip" ) )
 		{
-			if (MoveMode == MoveModes.NoClip)
-				MoveMode = MoveModes.Walk;
-			else
-				MoveMode = MoveModes.NoClip;
+			ToggleNoclip();
 		}
-		
-		switch(MoveMode)
+
+		switch ( MoveMode )
 		{
 			case MoveModes.Walk:
 				Walk();
@@ -84,15 +82,33 @@ public partial class NormalMovement : Movement
 			case MoveModes.Crouch:
 				Crouch();
 				break;
-			case MoveModes.NoClip: 
-				NoClip(); 
+			case MoveModes.NoClip:
+				NoClip();
 				break;
 		}
 	}
 
-	[Property]
-	public bool CanSetHeight = true;
-	private void SetHeight(float height)
+	[ConCmd( "noclip", ConVarFlags.Cheat )]
+	public static void ToggleNoclip()
+	{
+		var controller = Pawn.Local?.Controller;
+
+		if ( !controller.IsValid() )
+			return;
+
+		if ( controller.CanNoClip )
+		{
+			if ( controller.MoveMode == MoveModes.NoClip )
+				controller.MoveMode = MoveModes.Walk;
+			else
+				controller.MoveMode = MoveModes.NoClip;
+		}
+	}
+
+
+	[Property] public bool CanSetHeight = true;
+
+	private void SetHeight( float height )
 	{
 		if ( !CanSetHeight )
 			return;
@@ -108,7 +124,7 @@ public partial class NormalMovement : Movement
 
 	public override void WalkMove()
 	{
-		if (MoveMode != MoveModes.NoClip)
+		if ( MoveMode != MoveModes.NoClip )
 		{
 			base.WalkMove();
 			return;
@@ -139,25 +155,25 @@ public partial class NormalMovement : Movement
 
 	private void Walk()
 	{
-		if (Input.Pressed("Duck") && EnableCrouching )
+		if ( Input.Pressed( "Duck" ) && EnableCrouching )
 		{
 			MoveMode = MoveModes.Crouch;
 
-			if (!IsGrounded)
+			if ( !IsGrounded )
 			{
 				WorldPosition += Vector3.Up * (StandingHeight - CrouchHeight);
 				Height = CrouchHeight;
 			}
-			
+
 			Crouch();
 			return;
 		}
 
-		SetHeight( MathX.SmoothDamp(Height, StandingHeight, ref heightVelocity, 0.1f, Time.Delta) );
+		SetHeight( MathX.SmoothDamp( Height, StandingHeight, ref heightVelocity, 0.1f, Time.Delta ) );
 
 		MaxSpeed = RunSpeed;
 
-		if ( Input.Down( "Run" ) && EnableSprinting)
+		if ( Input.Down( "Run" ) && EnableSprinting )
 			MaxSpeed = SprintSpeed;
 
 		if ( Input.Down( "Walk" ) )
@@ -166,7 +182,7 @@ public partial class NormalMovement : Movement
 
 	private void Crouch()
 	{
-		if ( (!Input.Down( "Duck" ) && !Input.Down("Slide") && StandCheck()) || !EnableCrouching)
+		if ( (!Input.Down( "Duck" ) && !Input.Down( "Slide" ) && StandCheck()) || !EnableCrouching )
 		{
 			MoveMode = MoveModes.Walk;
 
@@ -203,12 +219,12 @@ public partial class NormalMovement : Movement
 		var previousHeight = Height;
 		Height = StandingHeight;
 
-		if(!IsGrounded)
+		if ( !IsGrounded )
 			WorldPosition -= Vector3.Up * (StandingHeight - CrouchHeight);
 
 		var result = !IsStuck();
 
-		if(!IsGrounded)
+		if ( !IsGrounded )
 			WorldPosition += Vector3.Up * (StandingHeight - CrouchHeight);
 
 		Height = previousHeight;
