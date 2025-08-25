@@ -4,6 +4,8 @@ namespace Seekers;
 [Group("render")]
 public partial class ColorTool : BaseTool
 {
+	public override bool UseGrid => false;
+
 	[Property]
 	public Color Color { get; set; } = Color.White;
 

@@ -4,6 +4,8 @@ namespace Seekers;
 [Group( "render" )]
 public partial class MaterialTool : BaseTool
 {
+	public override bool UseGrid => false;
+
 	[Property, MaterialPath]
 	public string Material { get; set; } 
 

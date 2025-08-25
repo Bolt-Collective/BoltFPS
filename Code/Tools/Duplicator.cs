@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Nodes;
 
 namespace Seekers;
@@ -7,6 +8,11 @@ namespace Seekers;
 [Group( "construction" )]
 public partial class Duplicator : BaseTool
 {
+
+	public override bool UseGrid => useGrid;
+
+	private bool useGrid = true;
+
 	[Property]
 	private FileBrowser FileBrowser { get; set; }
 	
@@ -73,6 +79,8 @@ public partial class Duplicator : BaseTool
 		base.OnUpdate();
 		if ( IsProxy )
 			return;
+
+		useGrid = !Input.Down( "run" );
 
 		if ( !Input.Down( "run" ) )
 			return;

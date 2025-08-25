@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 namespace Seekers;
 public abstract class BaseTool : Component
 {
+	public virtual bool UseGrid => true;
 	public ToolGun Parent { get; set; }
 	public Pawn Owner { get; set; }
 

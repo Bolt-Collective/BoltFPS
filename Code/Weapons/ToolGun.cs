@@ -71,6 +71,9 @@ public partial class ToolGun : BaseWeapon
 		if ( !gameObject.IsValid() )
 			return;
 
+		if ( !CurrentTool.IsValid() || !CurrentTool.UseGrid )
+			return;
+
 		BBox bounds = default;
 
 		if (trace.GameObject.Root.Components.TryGet(out ModelPhysics modelPhysics) && trace.GameObject.Components.TryGet(out Collider collider))

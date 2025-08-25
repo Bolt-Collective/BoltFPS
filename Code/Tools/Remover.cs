@@ -4,7 +4,7 @@ namespace Seekers;
 [Group( "construction" )]
 public partial class Remover : BaseTool
 {
-
+	public override bool UseGrid => false;
 	public override bool Primary( SceneTraceResult trace )
 	{
 		if ( Input.Pressed( "attack1" ) )

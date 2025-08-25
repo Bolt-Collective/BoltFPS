@@ -4,6 +4,7 @@
 [Group("construction")]
 public partial class AlignRotation : BaseTool
 {
+	public override bool UseGrid => false;
 	[Property] public float RotationSnapDegrees { get; set; } = 90f;
 
 	public override bool Primary( SceneTraceResult trace )

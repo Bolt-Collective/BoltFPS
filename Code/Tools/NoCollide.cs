@@ -8,6 +8,8 @@ namespace Seekers;
 [Group( "construction" )]
 public partial class NoCollide : BaseTool
 {
+	public override bool UseGrid => false;
+
 	[Sync(SyncFlags.FromHost)]
 	public static int code { get; set; }
 
