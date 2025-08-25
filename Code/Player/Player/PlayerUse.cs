@@ -11,8 +11,8 @@ public sealed class PlayerUse : Component
 	protected override void OnUpdate()
 	{
 		var eyeTrace = Scene.Trace
-			.Ray( Scene.Camera.Transform.World.ForwardRay, 60 )
-			.WithoutTags( "hidezone" )
+			.Ray( Pawn.AimRay, 60 )
+			.WithoutTags( "movement" )
 			.IgnoreGameObjectHierarchy( GameObject )
 			.Run();
 
