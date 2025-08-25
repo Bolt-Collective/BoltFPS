@@ -1,6 +1,6 @@
 ﻿using Seekers;
 
-public class WheelEntity : Component
+public class WheelEntity : OwnedEntity
 {
 	[Property]
 	public float Torque { get; set; } = 600;
@@ -33,11 +33,8 @@ public class WheelEntity : Component
 
 
 	float _lastForce;
-	protected override void OnUpdate()
+	public override void OwnerUpdate()
 	{
-		if ( Connection.Local.Id != Owner )
-			return;
-
 		float force = 0;
 
 		if (BackwardBind.Down())

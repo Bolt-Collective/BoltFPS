@@ -1,6 +1,6 @@
 ﻿using Seekers;
 
-public class ThrusterEntity : Component
+public class ThrusterEntity : OwnedEntity
 {
 	[Property]
 	public float Force { get; set; }
@@ -10,9 +10,6 @@ public class ThrusterEntity : Component
 
 	[Property]
 	public InputBind BackwardBind { get; set; }
-
-	[Property]
-	public Guid Owner { get; set; }
 
 	[Property]
 	public float CurrentForce;
@@ -33,11 +30,8 @@ public class ThrusterEntity : Component
 
 
 	float _lastForce;
-	protected override void OnUpdate()
+	public override void OwnerUpdate()
 	{
-		if ( Connection.Local.Id != Owner )
-			return;
-
 		float force = 0;
 
 		if (BackwardBind.Down())

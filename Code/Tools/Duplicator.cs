@@ -128,6 +128,11 @@ public partial class Duplicator : BaseTool
 		if (!SpawnAtOriginalPosition)
 			dupe.WorldPosition = position;
 
+		foreach(var ownedEntity in dupe.Components.GetAll<OwnedEntity>(FindMode.EnabledInSelfAndDescendants))
+		{
+			ownedEntity.Owner = Network.OwnerId;
+		}
+
 		var props = new List<GameObject>();
 		foreach (var prop in new List<GameObject>(dupe.Children))
 		{
