@@ -63,7 +63,7 @@ public partial class Thruster : BaseTool
 		if ( Input.Pressed( "attack1" ) )
 		{
 
-			CreateThruster( new SelectionPoint( trace ), Forwards, Backwards, Force, Network.Owner.Id );
+			CreateThruster( new SelectionPoint( trace ), Forwards.GetBroadcast(), Backwards.GetBroadcast(), Force, Network.Owner.Id );
 
 			return true;
 		}
@@ -72,7 +72,7 @@ public partial class Thruster : BaseTool
 	}
 
 	[Rpc.Host]
-	public static void CreateThruster(SelectionPoint selectionPoint, InputBind forwards, InputBind backwards, float force, Guid owner)
+	public static void CreateThruster(SelectionPoint selectionPoint, BroadcastBind forwards, BroadcastBind backwards, float force, Guid owner)
 	{
 		var thruster = new GameObject();
 		thruster.WorldPosition = selectionPoint.WorldPosition;

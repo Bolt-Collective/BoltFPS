@@ -19,27 +19,37 @@ public partial class AlignRotation : BaseTool
 			MathF.Round( rot.yaw / RotationSnapDegrees ) * RotationSnapDegrees,
 			MathF.Round( rot.roll / RotationSnapDegrees ) * RotationSnapDegrees
 		);
-		go.WorldRotation = Rotation.From( snappedAngles );
+
+		Rotate( trace.GameObject, Rotation.From( snappedAngles ) );
 
 		return true;
 	}
 
-	public override bool Secondary( SceneTraceResult trace )
+	[Rpc.Broadcast]
+	public void Rotate( GameObject gameObject, Rotation rot )
 	{
-		if ( !trace.Hit || !Input.Pressed( "attack2" ) )
-			return false;
+		if ( gameObject.IsProxy )
+			return;
 
-		var go = trace.GameObject; 
-
-		var rot = go.WorldRotation.Angles();
-		var snappedAngles = new Angles(
-			MathF.Round( rot.pitch / RotationSnapDegrees ) * RotationSnapDegrees,
-			MathF.Round( rot.yaw / RotationSnapDegrees ) * RotationSnapDegrees,
-			MathF.Round( rot.roll / RotationSnapDegrees ) * RotationSnapDegrees
-		);
-		go.WorldRotation = Rotation.From( snappedAngles );
-
-		return true;
+		gameObject.WorldRotation = rot;
 	}
+
+	//public override bool Secondary( SceneTraceResult trace )
+	//{
+	//	if ( !trace.Hit || !Input.Pressed( "attack2" ) )
+	//		return false;
+
+	//	var go = trace.GameObject; 
+
+	//	var rot = go.WorldRotation.Angles();
+	//	var snappedAngles = new Angles(
+	//		MathF.Round( rot.pitch / RotationSnapDegrees ) * RotationSnapDegrees,
+	//		MathF.Round( rot.yaw / RotationSnapDegrees ) * RotationSnapDegrees,
+	//		MathF.Round( rot.roll / RotationSnapDegrees ) * RotationSnapDegrees
+	//	);
+	//	go.WorldRotation = Rotation.From( snappedAngles );
+
+	//	return true;
+	//}
 
 }

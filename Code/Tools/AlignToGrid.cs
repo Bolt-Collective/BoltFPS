@@ -23,9 +23,18 @@ public partial class AlignToGrid : BaseTool
 			MathF.Round( currentPos.z / Grid ) * Grid
 		);
 
-		trace.GameObject.WorldPosition = snappedPos;
+		Snap( trace.GameObject, snappedPos );
 
 		return true;
+	}
+
+	[Rpc.Broadcast]
+	public void Snap(GameObject gameObject, Vector3 pos)
+	{
+		if ( gameObject.IsProxy )
+			return;
+
+		gameObject.WorldPosition = pos;
 	}
 
 	public override bool Secondary( SceneTraceResult trace )
@@ -47,7 +56,7 @@ public partial class AlignToGrid : BaseTool
 
 		var delta = snappedPos - hitPos;
 
-		go.WorldPosition += delta;
+		Snap(go, go.WorldPosition + delta);
 
 		return true;
 	}

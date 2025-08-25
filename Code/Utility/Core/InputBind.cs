@@ -34,6 +34,17 @@ public class InputBindManager : GameObjectSystem
 	}
 }
 
+public struct BroadcastBind
+{
+	public string InputKey;
+	public bool Action;
+	public BroadcastBind(string inputKey, bool action)
+	{
+		InputKey = inputKey;
+		Action = action;
+	}
+}
+
 public class InputBind
 {
 	public static List<InputBind> Overrides = new();
@@ -101,6 +112,17 @@ public class InputBind
 	{
 		InputKey = inputBind.InputKey;
 		Action = inputBind.Action;
+	}
+
+	public InputBind( BroadcastBind broadcastBind )
+	{
+		InputKey = broadcastBind.InputKey;
+		Action = broadcastBind.Action;
+	}
+
+	public BroadcastBind GetBroadcast()
+	{
+		return new BroadcastBind( InputKey, Action );
 	}
 
 	public bool Pressed()

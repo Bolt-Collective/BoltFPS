@@ -2,7 +2,7 @@
 
 public abstract class OwnedEntity : Component
 {
-	[Property]
+	[Property, Sync]
 	public Guid EntityOwner { get; set; }
 
 	protected override void OnUpdate()

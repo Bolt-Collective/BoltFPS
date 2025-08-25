@@ -63,8 +63,13 @@ public partial class Wheel : BaseTool
 	{
 		if ( Input.Pressed( "attack1" ) )
 		{
+			if (trace.GameObject.Components.TryGet<WheelEntity>(out var wheel) && wheel.EntityOwner == Connection.Local.Id)
+			{
+				ChangeValues( trace.GameObject, Forwards.GetBroadcast(), Backwards.GetBroadcast(), Torque );
+				return true;
+			}
 
-			CreateWheel( new SelectionPoint( trace ), Forwards, Backwards, Torque, Network.OwnerId );
+			CreateWheel( new SelectionPoint( trace ), Forwards.GetBroadcast(), Backwards.GetBroadcast(), Torque, Network.OwnerId );
 
 			return true;
 		}
@@ -72,18 +77,33 @@ public partial class Wheel : BaseTool
 		return false;
 	}
 
+	[Rpc.Broadcast]
+	public void ChangeValues(GameObject wheel, BroadcastBind forwards, BroadcastBind backwards, float torque )
+	{
+		if ( wheel.IsProxy )
+			return;
+
+		var wheelEntity = wheel.GetComponent<WheelEntity>();
+
+		if ( !wheelEntity.IsValid() )
+			return;
+
+		wheelEntity.Torque = torque;
+		wheelEntity.ForwardBind = new InputBind( forwards );
+		wheelEntity.BackwardBind = new InputBind( backwards );
+	}
+
 	[Rpc.Host]
-	public static void CreateWheel( SelectionPoint selectionPoint, InputBind forwards, InputBind backwards, float torque, Guid owner )
+	public static void CreateWheel( SelectionPoint selectionPoint, BroadcastBind forwards, BroadcastBind backwards, float torque, Guid owner )
 	{
 		var wheel = new GameObject();
 		wheel.WorldPosition = selectionPoint.WorldPosition + selectionPoint.WorldNormal * 8;
 		wheel.WorldRotation = Rotation.LookAt( selectionPoint.WorldNormal ) * Rotation.From( new Angles( 0, 90, 0 ) );
 
-		var modelRenderer = wheel.Components.Create<ModelRenderer>();
-		modelRenderer.Model = Model.Load( "models/citizen_props/wheel01.vmdl" );
+		var modelProp = wheel.Components.Create<Prop>();
+		modelProp.Model = Model.Load( "models/citizen_props/wheel01.vmdl" );
 
-		var modelCollider = wheel.Components.Create<ModelCollider>();
-		modelCollider.Model = Model.Load( "models/citizen_props/wheel01.vmdl" );
+		modelProp.AddComponent<PropHelper>();
 
 		var rb = wheel.AddComponent<Rigidbody>();
 
