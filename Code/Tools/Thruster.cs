@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Sandbox.UI;
+using System.Diagnostics;
 
 namespace Seekers;
 
@@ -78,8 +79,13 @@ public partial class Thruster : BaseTool
 		thruster.WorldPosition = selectionPoint.WorldPosition;
 		thruster.WorldRotation = Rotation.LookAt( selectionPoint.WorldNormal ) * Rotation.From( new Angles( 90, 0, 0 ) );
 
-		var modelRenderer = thruster.Components.Create<ModelRenderer>();
-		modelRenderer.Model = Model.Load( "models/thruster/thrusterprojector.vmdl" );
+		var prop =  thruster.Components.Create<Prop>();
+		prop.IsStatic = true;
+		prop.Model = Model.Load( "models/thruster/thrusterprojector.vmdl" );
+
+		thruster.Components.Create<PropHelper>();
+
+		thruster.GetComponent<ModelCollider>().Enabled = false;
 
 		thruster.Tags.Add( "thruster" );
 
