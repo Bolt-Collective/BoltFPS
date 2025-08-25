@@ -2,7 +2,8 @@
 
 namespace Seekers;
 
-[Library( "tool_resizer", Title = "Resizer", Description = "Increase/Decrease Size of Body", Group = "construction" )]
+[Library( "tool_resizer", Title = "Resizer", Description = "Increase/Decrease Size of Body")]
+[Group( "construction" )]
 public class Resizer : BaseTool
 {
 	[Property, Range( 0.01f, 0.1f )]

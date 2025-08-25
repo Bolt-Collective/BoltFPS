@@ -1,6 +1,7 @@
 ﻿namespace Seekers;
 
-[Library( "tool_balloon", Title = "Balloons", Description = "Create Balloons!", Group = "construction" )]
+[Library( "tool_balloon", Title = "Balloons", Description = "Create Balloons!" )]
+[Group( "construction" )]
 public class BalloonTool : BaseTool
 {
 	PreviewModel PreviewModel;

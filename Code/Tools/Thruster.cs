@@ -2,7 +2,8 @@
 
 namespace Seekers;
 
-[Library( "tool_thruster", Title = "Thruster", Description = "Add Thruster To Object", Group = "construction" )]
+[Library( "tool_thruster", Title = "Thruster", Description = "Add Thruster To Object" )]
+[Group( "construction" )]
 public partial class Thruster : BaseTool
 {
 	[Property]

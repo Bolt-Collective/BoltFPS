@@ -1,6 +1,7 @@
 ﻿namespace Seekers;
 
-[Library( "tool_weld", Title = "Weld", Description = "Weld two objects together", Group = "constraints" )]
+[Library( "tool_weld", Title = "Weld", Description = "Weld two objects together" )]
+[Group( "construction" )]
 public class Weld : BaseJointTool
 {
 

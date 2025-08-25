@@ -1,6 +1,7 @@
 ﻿namespace Seekers;
 
-[Library( "tool_push", Title = "Push Pull", Description = "Push and pull objects by set amount.", Group = "construction" )]
+[Library( "tool_push", Title = "Push Pull", Description = "Push and pull objects by set amount." )]
+[Group( "construction" )]
 public partial class PushPull : BaseTool
 {
 	[Property, Range( 0, 10 )]

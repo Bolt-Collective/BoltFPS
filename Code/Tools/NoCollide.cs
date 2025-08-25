@@ -4,7 +4,8 @@ using static Sandbox.Physics.CollisionRules;
 
 namespace Seekers;
 
-[Library( "no_collide", Title = "No Collide", Description = "Removes Collison for props tag with the tool", Group = "construction" )]
+[Library( "no_collide", Title = "No Collide", Description = "Removes Collison for props tag with the tool" )]
+[Group( "construction" )]
 public partial class NoCollide : BaseTool
 {
 	[Sync(SyncFlags.FromHost)]

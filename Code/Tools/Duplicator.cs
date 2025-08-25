@@ -3,7 +3,8 @@ using System.Text.Json.Nodes;
 
 namespace Seekers;
 
-[Library( "tool_duplicator", Title = "Duplicator", Description = "Duplicate Contraptions", Group = "construction" )]
+[Library( "tool_duplicator", Title = "Duplicator", Description = "Duplicate Contraptions")]
+[Group( "construction" )]
 public partial class Duplicator : BaseTool
 {
 	[Property]
