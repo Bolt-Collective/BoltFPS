@@ -62,6 +62,7 @@ public partial class NormalMovement : Movement
 
 	protected override void OnUpdate()
 	{
+		base.OnUpdate();
 		if (IsProxy)
 			return;
 
@@ -87,8 +88,6 @@ public partial class NormalMovement : Movement
 				NoClip(); 
 				break;
 		}
-
-		base.OnUpdate();
 	}
 
 	[Property]

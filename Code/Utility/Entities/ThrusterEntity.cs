@@ -53,8 +53,8 @@ public class ThrusterEntity : OwnedEntity
 			return;
 		if ( CurrentForce == 0 )
 			return;
-
-
+		if ( !rigidbody.IsValid() )
+			return;
 
 		velocity = Vector3.Lerp( velocity, WorldTransform.Down * CurrentForce, 0.4f );
 
