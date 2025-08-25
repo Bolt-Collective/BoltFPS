@@ -1,9 +1,86 @@
 ﻿using System.Text.Json.Serialization;
+using static Sandbox.Gizmo;
 
 namespace Seekers;
 
+public class InputBindManager : GameObjectSystem
+{
+	public List<InputBind> Overrides = new();
+
+	public static InputBindManager Instance = null;
+	public InputBindManager( Scene scene ) : base( scene )
+	{
+		Instance = this;
+		Listen( Stage.StartUpdate, 10, ManageOverrides, "" );
+	}
+
+	public void ManageOverrides()
+	{
+		Overrides = new List<InputBind>(InputBind.Overrides);
+		InputBind.Overrides = new();
+	}
+
+	public bool IsOveridden( InputBind inputBind)
+	{
+		foreach ( var bind in new List<InputBind>( Overrides ) )
+		{
+			if ( bind.InputKey != inputBind.InputKey )
+				continue;
+
+			return true;
+		}
+
+		return false;
+	}
+}
+
 public class InputBind
 {
+	public static List<InputBind> Overrides = new();
+
+	public static void Override(InputBind inputBind)
+	{
+		Overrides.Add(inputBind);
+	}
+
+	public bool IsDownOverriden()
+	{
+		if ( InputBindManager.Instance == null )
+			return false;
+
+		return InputBindManager.Instance.IsOveridden( this );
+	}
+
+	private bool lastPressed;
+	public bool IsPressedOverriden()
+	{
+		if ( InputBindManager.Instance == null )
+			return false;
+
+		var overriden = InputBindManager.Instance.IsOveridden( this );
+
+		var wasPressed = lastPressed;
+		lastPressed = overriden;
+
+		if ( overriden && wasPressed )
+			return false;
+
+		return overriden;
+	}
+
+	public bool IsUpOverriden()
+	{
+		if ( InputBindManager.Instance == null )
+			return false;
+
+		bool overriden = InputBindManager.Instance.IsOveridden( this );
+
+		bool justReleased = !overriden && lastPressed;
+		lastPressed = overriden;
+
+		return justReleased;
+	}
+
 	[KeyProperty] public string InputKey { get; set; }
 	public string InputName()
 	{
@@ -28,15 +105,23 @@ public class InputBind
 
 	public bool Pressed()
 	{
+		if ( IsPressedOverriden() )
+			return true;
+
 		return Action ? Input.Pressed( InputKey ) : Input.Keyboard.Pressed( InputKey );
 	}
-
 	public bool Down()
 	{
+		if ( IsDownOverriden() )
+			return true;
+
 		return Action ? Input.Down( InputKey ) : Input.Keyboard.Down( InputKey );
 	}
 	public bool Released()
 	{
+		if ( IsUpOverriden() )
+			return true;
+
 		return Action ? Input.Released( InputKey ) : Input.Keyboard.Released( InputKey );
 	}
 

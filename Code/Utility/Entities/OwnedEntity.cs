@@ -7,7 +7,6 @@ public abstract class OwnedEntity : Component
 
 	protected override void OnUpdate()
 	{
-		Log.Info( EntityOwner );
 		if ( Connection.Local.Id != EntityOwner )
 			return;
 
