@@ -1,7 +1,7 @@
 namespace Seekers;
 
 [Title( "HE Grenade" )]
-public partial class HEGrenade : BaseGrenade, IDescription
+public partial class HEGrenade : BaseGrenade
 {
 	[Property] public float DamageRadius { get; set; } = 512f;
 	[Property] public float MaxDamage { get; set; } = 100f;
