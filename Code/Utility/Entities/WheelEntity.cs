@@ -12,9 +12,6 @@ public class WheelEntity : OwnedEntity
 	public InputBind BackwardBind { get; set; }
 
 	[Property]
-	public Guid Owner { get; set; }
-
-	[Property]
 	public float CurrentForce;
 
 	Rigidbody _rigidbody;
@@ -29,8 +26,6 @@ public class WheelEntity : OwnedEntity
 			return _rigidbody;
 		}
 	}
-
-
 
 	float _lastForce;
 	public override void OwnerUpdate()
@@ -60,6 +55,7 @@ public class WheelEntity : OwnedEntity
 		velocity = Vector3.Lerp( velocity, WorldTransform.Left * CurrentForce, 0.4f );
 
 		rigidbody.ApplyTorque( velocity * 100000 );
+		rigidbody.ApplyForce( velocity.Length * Vector3.Down * 2000 );
 	}
 
 	[Rpc.Host]

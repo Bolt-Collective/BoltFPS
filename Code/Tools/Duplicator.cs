@@ -130,7 +130,7 @@ public partial class Duplicator : BaseTool
 
 		foreach(var ownedEntity in dupe.Components.GetAll<OwnedEntity>(FindMode.EnabledInSelfAndDescendants))
 		{
-			ownedEntity.Owner = Network.OwnerId;
+			ownedEntity.EntityOwner = Network.OwnerId;
 		}
 
 		var props = new List<GameObject>();

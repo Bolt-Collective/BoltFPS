@@ -12,8 +12,8 @@ public partial class Wheel : BaseTool
 	[Property]
 	public InputBind Backwards { get; set; } = new( "downarrow",true );
 
-	[Property, Range( -10000f, 10000f )]
-	public float Torque { get; set; } = 600f;
+	[Property, Range( -1000f, 1000f )]
+	public float Torque { get; set; } = 60f;
 
 	PreviewModel PreviewModel;
 	protected override void OnStart()
@@ -64,7 +64,7 @@ public partial class Wheel : BaseTool
 		if ( Input.Pressed( "attack1" ) )
 		{
 
-			CreateWheel( new SelectionPoint( trace ), Forwards, Backwards, Torque, Network.Owner.Id );
+			CreateWheel( new SelectionPoint( trace ), Forwards, Backwards, Torque, Network.OwnerId );
 
 			return true;
 		}
@@ -97,7 +97,7 @@ public partial class Wheel : BaseTool
 		wheelEntity.Torque = torque;
 		wheelEntity.ForwardBind = new InputBind( forwards );
 		wheelEntity.BackwardBind = new InputBind( backwards );
-		wheelEntity.Owner = owner;
+		wheelEntity.EntityOwner = owner;
 
 		wheel.NetworkSpawn();
 

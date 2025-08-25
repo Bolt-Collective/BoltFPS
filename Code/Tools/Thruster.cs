@@ -87,7 +87,7 @@ public partial class Thruster : BaseTool
 		thrusterEntity.Force = force;
 		thrusterEntity.ForwardBind = new InputBind( forwards );
 		thrusterEntity.BackwardBind = new InputBind( backwards );
-		thrusterEntity.Owner = owner;
+		thrusterEntity.EntityOwner = owner;
 
 		thruster.SetParent( selectionPoint.GameObject );
 

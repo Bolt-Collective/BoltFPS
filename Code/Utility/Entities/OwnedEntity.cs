@@ -3,11 +3,12 @@
 public abstract class OwnedEntity : Component
 {
 	[Property]
-	public Guid Owner { get; set; }
+	public Guid EntityOwner { get; set; }
 
 	protected override void OnUpdate()
 	{
-		if ( Connection.Local.Id != Owner )
+		Log.Info( EntityOwner );
+		if ( Connection.Local.Id != EntityOwner )
 			return;
 
 		OwnerUpdate();
