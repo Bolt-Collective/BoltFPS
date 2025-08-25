@@ -2,8 +2,14 @@ using Sandbox.Engine;
 
 namespace Seekers;
 
-public sealed class ButtonEntity : OwnedEntity
+public sealed class ButtonEntity : OwnedEntity, Component.IPressable
 {
+	public bool Press(IPressable.Event e)
+	{
+		Log.Info( "pressed" );
+		Set( Toggle ? !On : true );
+		return true;
+	}
 
 	[RequireComponent,Property]
 	public SkinnedModelRenderer Renderer { get; set; }
@@ -14,7 +20,6 @@ public sealed class ButtonEntity : OwnedEntity
 	[Property]
 	public InputBind InputBind { get; set; }
 
-	[Property]
 	public bool On { get; set; }
 
 	public override void OwnerUpdate()
@@ -30,6 +35,7 @@ public sealed class ButtonEntity : OwnedEntity
 	[Rpc.Broadcast]
 	public void Set(bool value)
 	{
+		Renderer.Set( "on", value );
 		On = value;
 	}
 
