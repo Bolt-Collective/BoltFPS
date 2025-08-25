@@ -1,6 +1,6 @@
 {
   "UI": false,
-  "Volume": "0.1",
+  "Volume": "0.5",
   "Pitch": "1",
   "Decibels": 70,
   "SelectionMode": "Random",
@@ -15,7 +15,7 @@
     "surfaces/sounds/concrete/step_02.vsnd",
     "surfaces/sounds/concrete/step_01.vsnd"
   ],
-  "Occlusion": false,
+  "Occlusion": true,
   "AirAbsorption": true,
   "Transmission": true,
   "OcclusionRadius": 64,
