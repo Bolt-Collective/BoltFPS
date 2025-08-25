@@ -109,6 +109,9 @@ public class Footsteps : Component
 		float volumeMultiplier = 1.0f,
 		bool isLocalPlayer = false )
 	{
+		if ( IsProxy )
+			return;
+
 		if ( surface == null || !surface.IsValid() )
 			return;
 
@@ -180,7 +183,9 @@ public class Footsteps : Component
 		}
 
 		float pitch = Game.Random.Float( MinPitch, MaxPitch ) * pitchMul;
-		SoundExtensions.BroadcastSound( sound, position, finalVolume, pitch, spacialBlend: isLocalPlayer ? 1 : 0 );
+
+		SoundExtensions.BroadcastSound( sound, position, finalVolume, pitch,
+			spacialBlend: isLocalPlayer ? 0 : 1 );
 
 		if ( DebugFootsteps )
 		{
@@ -242,7 +247,6 @@ public class Footsteps : Component
 
 	private void PlayerControllerFootsteps()
 	{
-
 		if ( !Player.IsValid() ) return;
 
 		bool grounded = Player.Controller.IsGrounded;
@@ -264,7 +268,7 @@ public class Footsteps : Component
 
 		float velocityFactor = Player.Controller.WishVelocity.Length.Remap( 0, 400, 0, 1 );
 		HandleFootsteps( Player.WorldPosition, Player.Controller.GroundSurface, Player.Controller.GroundObject,
-			velocityFactor, Player.IsMe );
+			velocityFactor, Player.IsValid() && Player.IsMe );
 	}
 
 	private void ObjectFootsteps()
