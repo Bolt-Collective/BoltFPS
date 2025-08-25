@@ -33,10 +33,14 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 	[Property]
 	public float Gravity { get; set; } = 600f;
 
-	[Property, Group( "Camera Variables" )]
+	[Group( "Camera Variables" )]
+	[Property]
+	public bool CanSetThirdPerson { get; set; } = true;
+
+	[Property, Group( "Camera Variables" ), ShowIf( nameof(CanSetThirdPerson), true )]
 	public bool ThirdPerson { get; set; } = false;
 
-	[Property, Group( "Camera Variables" )]
+	[Property, Group( "Camera Variables" ), ShowIf( nameof(CanSetThirdPerson), true )]
 	public Vector3 ThirdPersonCameraOffset { get; set; } = new Vector3( -180, -20, 0 );
 
 	[Property, Group( "Camera Variables" )]

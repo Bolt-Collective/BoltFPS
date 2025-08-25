@@ -204,7 +204,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 			Controller.AimSensitivityScale = 1 / Zoom;
 		}
 
-		if ( Input.Pressed( "View" ) )
+		if ( Input.Pressed( "View" ) && Controller.CanSetThirdPerson )
 		{
 			Controller.ThirdPerson = !Controller.ThirdPerson;
 		}

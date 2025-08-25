@@ -115,11 +115,10 @@ public abstract partial class Movement : Component
 		if ( Velocity.Length <= 1f )
 			return;
 
-		if ( Velocity.Angle(newVel) < 90 )
+		if ( Velocity.Angle( newVel ) < 90 )
 			Velocity += amount;
 		else
 			Velocity = 0;
-
 	}
 
 	void ClearGround()
@@ -165,6 +164,7 @@ public abstract partial class Movement : Component
 	}
 
 	public bool CanMove = true;
+
 	private void Move()
 	{
 		wasGrounded = IsGrounded;
@@ -316,6 +316,8 @@ public abstract partial class Movement : Component
 	protected override void DrawGizmos()
 	{
 		Gizmo.Draw.LineBBox( BoundingBox );
+
+		Gizmo.Draw.Arrow( Head.WorldTransform.PointToWorld( ThirdPersonCameraOffset ), Head.WorldPosition );
 	}
 
 
