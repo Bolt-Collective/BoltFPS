@@ -73,6 +73,9 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		if ( !HeldBody.IsValid() )
 			return;
 
+		if ( !HeldBody.MotionEnabled )
+			return;
+
 		var velocity = HeldBody.Velocity;
 		Vector3.SmoothDamp( HeldBody.Position, HoldPos, ref velocity, 0.075f, Time.Delta );
 		HeldBody.Velocity = velocity;
@@ -374,6 +377,9 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 	[Rpc.Broadcast]
 	public void Freeze( GameObject gameObject )
 	{
+		if ( gameObject.IsProxy )
+			return;
+
 		if ( !gameObject.IsValid() )
 			return;
 
@@ -396,6 +402,9 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 	[Rpc.Broadcast]
 	public void UnFreeze( GameObject gameObject )
 	{
+		if ( gameObject.IsProxy )
+			return;
+
 		if ( !gameObject.IsValid() )
 			return;
 

@@ -97,9 +97,9 @@ public partial class Movement : Component
 
 	public void UpdateBodyVisibility()
 	{
-		Log.Info( GameObject.Name );
 		if ( !BodyModelRenderer.IsValid() )
 			return;
+
 		if ( IsProxy && !Spectating || Orbiting )
 		{
 			BodyVisible = true;
