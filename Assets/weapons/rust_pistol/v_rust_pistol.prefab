@@ -1,13 +1,23 @@
 {
   "RootObject": {
     "__guid": "bd3313cd-1991-48d5-93b1-06ee69537202",
+    "__version": 1,
     "Flags": 0,
     "Name": "v_rust_pistol",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
     "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
     "Components": [
       {
         "__type": "Sandbox.SkinnedModelRenderer",
         "__guid": "2fcd7f65-021f-4649-8115-0de0a2184180",
+        "__enabled": true,
         "AnimationGraph": null,
         "BodyGroups": 18446744073709551615,
         "BoneMergeTarget": null,
@@ -15,6 +25,7 @@
         "CreateBoneObjects": false,
         "MaterialGroup": null,
         "MaterialOverride": null,
+        "Materials": null,
         "Model": "weapons/rust_pistol/v_rust_pistol.vmdl",
         "Morphs": {},
         "OnComponentDestroy": null,
@@ -42,7 +53,9 @@
         },
         "RenderType": "Off",
         "Sequence": {
-          "Name": null
+          "Name": null,
+          "Looping": true,
+          "Blending": false
         },
         "Tint": "1,1,1,1",
         "UseAnimGraph": true
@@ -50,16 +63,30 @@
       {
         "__type": "Seekers.ViewModel",
         "__guid": "fccc3908-17ff-41ca-9c46-1aee27bf34da",
+        "__enabled": true,
         "AnimParamTranslate": {
-          "b_attack": "fire",
-          "b_deploy": "deploy",
-          "b_reload": "reload"
+          "b_attack": {
+            "Param": "fire",
+            "Reset": false,
+            "ResetDelay": 0
+          },
+          "b_reload": {
+            "Param": "reload",
+            "Reset": false,
+            "ResetDelay": 0
+          },
+          "b_deploy": {
+            "Param": "deploy",
+            "Reset": false,
+            "ResetDelay": 0
+          }
         },
+        "AttachmentTranslate": {},
         "BobCycleTime": 7,
         "BobDirection": "0,1,0.5",
         "InertiaDamping": 20,
         "MaxOffsetLength": 10,
-        "offset": "-2,0,0",
+        "Offset": "-2,0,0",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -67,21 +94,16 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "ReturnSpeed": 5,
+        "SprintHold": false,
         "SwingAndBob": true,
         "SwingInfluence": 0.05
       }
     ],
     "Children": [],
-    "__variables": [],
     "__properties": {
-      "FixedUpdateFrequency": 50,
-      "MaxFixedUpdates": 5,
-      "NetworkFrequency": 30,
       "NetworkInterpolation": true,
-      "PhysicsSubSteps": 1,
-      "ThreadedAnimation": true,
       "TimeScale": 1,
-      "UseFixedUpdate": true,
+      "WantsSystemScene": true,
       "Metadata": {},
       "NavMesh": {
         "Enabled": false,
@@ -95,15 +117,16 @@
         "ExcludedBodies": "",
         "IncludedBodies": ""
       }
-    }
+    },
+    "__variables": []
   },
+  "ResourceVersion": 2,
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "ResourceVersion": 1,
   "__references": [
     "rust.v_rust_pistol#43970"
   ],
-  "__version": 1
+  "__version": 2
 }
