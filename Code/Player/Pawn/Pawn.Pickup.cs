@@ -13,6 +13,8 @@ public partial class Pawn : ShrimplePawns.Pawn
 	[Property, Group( "Pickup" )] public float DropCooldown => 0.5f;
 	[Property, Group( "Pickup" )] public float BreakLinearForce => 2000.0f;
 
+	[Property, Group( "Pickup" )] public bool CanPickupObjects { get; set; } = true;
+
 	[Sync] public Vector3 HoldPos { get; set; }
 	[Sync] public Rotation HoldRot { get; set; }
 	[Sync, Property] public GameObject GrabbedObject { get; set; }
@@ -137,7 +139,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 		if ( tr.GameObject.Components.TryGet<IPressable>( out var pressable ) )
 			return;
 
-		if ( Input.Down( "use" ) )
+		if ( Input.Down( "use" ) && CanPickupObjects )
 		{
 			var attachPos = tr.HitPosition;
 

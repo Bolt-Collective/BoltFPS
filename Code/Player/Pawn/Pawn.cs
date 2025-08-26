@@ -228,11 +228,4 @@ public partial class Pawn : ShrimplePawns.Pawn
 		Local.Owner.Team = ResourceLibrary.GetAll<Team>().FirstOrDefault( x => x.ResourceName == team );
 		Local.Owner.Respawn( Local.Owner.Connection );
 	}
-
-
-	[ConCmd( "noclip", ConVarFlags.Cheat )]
-	public static void Noclip()
-	{
-		//Local.Controller.IsNoclipping = !Local.Controller.IsNoclipping;
-	}
 }
