@@ -13,23 +13,27 @@ namespace Seekers;
 /// again. Feel free to not use this and to implement it however you want to.
 /// </summary>
 /// 
-
-public record BulletHitEvent(Vector3 position) : IGameEvent;
+public record BulletHitEvent( Vector3 position ) : IGameEvent;
 
 [Icon( "sports_martial_arts" )]
 public partial class BaseWeapon : Component
 {
 	[Feature( "General" ), Property] public string Name { get; set; }
 	[Feature( "General" ), Property] public ItemResource ItemResource { get; set; }
-	[Feature( "General" ), Property, ImageAssetPath] public string Icon { get; set; }
+
+	[Feature( "General" ), Property, ImageAssetPath]
+	public string Icon { get; set; }
 
 	[Feature( "Animation" ), Property] public WeaponIK LeftIK { get; set; }
+
 	[Feature( "Animation" ), Property]
 	public CitizenAnimationHelper.HoldTypes HoldType { get; set; }
 		= CitizenAnimationHelper.HoldTypes.HoldItem;
+
 	[Feature( "Animation" ), Property]
 	public CitizenAnimationHelper.Hand Handedness { get; set; }
 		= CitizenAnimationHelper.Hand.Right;
+
 	[Feature( "Animation" ), Property] public string ParentBone { get; set; } = "hold_r";
 	[Feature( "Animation" ), Property] public Transform BoneOffset { get; set; } = new Transform( 0 );
 
@@ -119,10 +123,11 @@ public partial class BaseWeapon : Component
 
 	public Transform Attachment( string name )
 	{
-		if (LocalWorldModel == ViewModel?.Renderer)
+		if ( LocalWorldModel == ViewModel?.Renderer )
 		{
 			return ViewModel.GetAttachment( name );
 		}
+
 		return LocalWorldModel?.GetAttachment( name ) ?? WorldTransform;
 	}
 
@@ -153,15 +158,16 @@ public partial class BaseWeapon : Component
 	[Rpc.Broadcast]
 	protected void DoTracer( Vector3 startPosition, Vector3 endPosition, float distance, bool muzzle )
 	{
-		if (!bolt_tracers)
-			return; 
+		if ( !bolt_tracers )
+			return;
 
 		if ( !IsNearby( startPosition ) && !IsNearby( endPosition ) ) return;
 
 		var attachment = LocalWorldModel.GetAttachment( "muzzle" );
 
-		var origin = attachment.HasValue && Owner.Controller.ThirdPerson ? 
-			LocalWorldModel.GetAttachment( "muzzle" ).GetValueOrDefault().Position : startPosition;
+		var origin = attachment.HasValue && Owner.Controller.ThirdPerson
+			? LocalWorldModel.GetAttachment( "muzzle" ).GetValueOrDefault().Position
+			: startPosition;
 
 		var effect =
 			Tracer?.Clone( new CloneConfig
@@ -327,7 +333,7 @@ public partial class BaseWeapon : Component
 			TimeSincePrimaryAttack = 0;
 			AttackPrimary();
 		}
-		else if ( canPrimaryAttack )
+		else if ( canPrimaryAttack && Input.Pressed( "attack1" ) )
 		{
 			AttackDry();
 		}
@@ -450,13 +456,10 @@ public partial class BaseWeapon : Component
 	public virtual void AttackDry()
 	{
 		ViewModel?.Set( "b_attack_dry", true );
-		BroadcastAttackDry();
-	}
+		SoundExtensions.BroadcastSound( "gun_dryfire", WorldPosition,
+			spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
 
-	[Rpc.Broadcast]
-	private void BroadcastAttackDry()
-	{
-		Owner?.Renderer?.Set( "b_attack_dry", true );
+		Owner?.Renderer?.SetParamNet( "b_attack_dry", true );
 	}
 
 	public virtual bool CanSecondaryAttack()
@@ -507,7 +510,7 @@ public partial class BaseWeapon : Component
 		if ( ttr.Hit && !tr.Hit )
 			yield return ttr;
 
-		else if (ttr.Hit && ttr.Distance < tr.Distance)
+		else if ( ttr.Hit && ttr.Distance < tr.Distance )
 			yield return ttr;
 
 		else if ( tr.Hit )
@@ -582,7 +585,7 @@ public partial class BaseWeapon : Component
 		{
 			var tr = trace;
 
-			if (Owner?.Controller?.ThirdPerson ?? false)
+			if ( Owner?.Controller?.ThirdPerson ?? false )
 			{
 				var headCheck = TraceBullet( GameObject.Root, Owner.Controller.Head.WorldPosition, tr.HitPosition );
 				if ( headCheck.Count() > 0 )
@@ -661,7 +664,7 @@ public partial class BaseWeapon : Component
 			}
 
 			player.TakeDamage( owner, damage, inflictor, hitPosition, calcForce, hitboxTags );
-			if (owner.IsValid())
+			if ( owner.IsValid() )
 				Crosshair.Instance.Trigger( player, damage, hitboxTags );
 		}
 	}
