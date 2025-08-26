@@ -14,7 +14,6 @@ public partial class ToolGun : BaseWeapon
 		base.OnEnabled();
 		if ( IsProxy )
 			return;
-		
 	}
 
 	protected override void OnDisabled()
@@ -42,16 +41,16 @@ public partial class ToolGun : BaseWeapon
 		}
 	}
 
-    protected override void OnUpdate()
-    {
-        base.OnUpdate();
+	protected override void OnUpdate()
+	{
+		base.OnUpdate();
 		if ( IsProxy )
 			return;
 
-		if(Owner?.Inventory.IsValid() ?? false)
-			Owner.Inventory.CanChange = !Input.Down("run");
+		if ( Owner?.Inventory.IsValid() ?? false )
+			Owner.Inventory.CanChange = !Input.Down( "run" );
 
-		if (Input.Down("run") && Input.MouseWheel.Length > 0.5f)
+		if ( Input.Down( "run" ) && Input.MouseWheel.Length > 0.5f )
 		{
 			float x = Input.MouseWheel.y;
 			int result = MathF.Sign( x );
@@ -76,20 +75,21 @@ public partial class ToolGun : BaseWeapon
 
 		BBox bounds = default;
 
-		if (trace.GameObject.Root.Components.TryGet(out ModelPhysics modelPhysics) && trace.GameObject.Components.TryGet(out Collider collider))
+		if ( trace.GameObject.Root.Components.TryGet( out ModelPhysics modelPhysics ) &&
+		     trace.GameObject.Components.TryGet( out Collider collider ) )
 		{
 			gameObject = trace.GameObject;
 			bounds = collider.LocalBounds;
 		}
-        else if ( trace.GameObject.Root.Components.TryGet(out ModelRenderer modelRenderer))
-        {
+		else if ( trace.GameObject.Root.Components.TryGet( out ModelRenderer modelRenderer ) )
+		{
 			bounds = modelRenderer.LocalBounds;
-        }
+		}
 
 		if ( bounds == default )
 			return;
-		
-        var intersections = CreateGrid( bounds, gameObject, trace );
+
+		var intersections = CreateGrid( bounds, gameObject, trace );
 
 		if ( !Owner?.Controller.IsValid() ?? true )
 			return;
@@ -101,7 +101,7 @@ public partial class ToolGun : BaseWeapon
 
 		Vector3 closestIntersection = intersections[0];
 		float closestDistance = 100000;
-		foreach(var intersection in intersections)
+		foreach ( var intersection in intersections )
 		{
 			var distance = intersection.Distance( trace.HitPosition );
 
@@ -158,12 +158,11 @@ public partial class ToolGun : BaseWeapon
 	[Rpc.Broadcast]
 	void ToolEffects( Vector3 position )
 	{
-		if ( !IsProxy && CurrentTool.IsValid())
+		if ( !IsProxy && CurrentTool.IsValid() )
 			SaveTool( CurrentTool );
-		//Particles.MakeParticleSystem( "particles/tool_hit.vpcf", new Transform( position ) );
 		ViewModel?.Set( "b_attack", true );
 		Owner.Controller?.BodyModelRenderer?.Set( "b_attack", true );
-		Sound.Play( "sounds/balloon_pop_cute.sound", WorldPosition );
+		Sound.Play( ShootSound, WorldPosition );
 	}
 
 	public void UpdateTool()
@@ -185,7 +184,7 @@ public partial class ToolGun : BaseWeapon
 		LoadTool( tool );
 		tool.Enabled = true;
 
-		if ( CurrentTool.IsValid() && lastTool != UserToolCurrent)
+		if ( CurrentTool.IsValid() && lastTool != UserToolCurrent )
 			SaveTool( CurrentTool );
 
 		lastTool = UserToolCurrent;
@@ -195,12 +194,11 @@ public partial class ToolGun : BaseWeapon
 		CurrentTool.Owner = Owner;
 		CurrentTool.Parent = this;
 
-		
 
 		GameObject.Network.Refresh();
 	}
 
-	public void SaveTool(Component tool)
+	public void SaveTool( Component tool )
 	{
 		var jsonNode = tool.Serialize();
 
@@ -210,14 +208,14 @@ public partial class ToolGun : BaseWeapon
 		FileSystem.Data.WriteJson( $"tool-data/{tool.GetType().Name}.json", jsonNode );
 	}
 
-	public void LoadTool(Component tool)
+	public void LoadTool( Component tool )
 	{
 		if ( !FileSystem.Data.FileExists( $"tool-data/{tool.GetType().Name}.json" ) )
 			return;
 
 		var jsonObject = FileSystem.Data.ReadJson<JsonObject>( $"tool-data/{tool.GetType().Name}.json" );
 
-		if(jsonObject != null)
+		if ( jsonObject != null )
 			tool.DeserializeImmediately( jsonObject );
 	}
 
@@ -225,13 +223,13 @@ public partial class ToolGun : BaseWeapon
 	public static SceneTraceResult TraceTool( GameObject[] ignors, Vector3 start, Vector3 end, float radius = 0f )
 	{
 		var trace = Game.ActiveScene.Trace.Ray( start, end )
-				.UseHitboxes()
-				.WithAnyTags( "solid", "nocollide", "npc", "glass", "worldprop" )
-				.WithoutTags( "debris", "player", "movement" )
-				.Size( radius );
+			.UseHitboxes()
+			.WithAnyTags( "solid", "nocollide", "npc", "glass", "worldprop" )
+			.WithoutTags( "debris", "player", "movement" )
+			.Size( radius );
 
 
-		foreach (var ignore in ignors)
+		foreach ( var ignore in ignors )
 		{
 			trace = trace.IgnoreGameObjectHierarchy( ignore );
 		}
@@ -243,6 +241,7 @@ public partial class ToolGun : BaseWeapon
 
 	public SceneTraceResult BasicTraceTool()
 	{
-		return TraceTool( [Owner.GameObject], Owner.AimRay.Position, Owner.AimRay.Position + Owner.AimRay.Forward * 5000 );
+		return TraceTool( [Owner.GameObject], Owner.AimRay.Position,
+			Owner.AimRay.Position + Owner.AimRay.Forward * 5000 );
 	}
 }

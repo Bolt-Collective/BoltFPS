@@ -51,9 +51,10 @@
         "ReloadSound": "sounds/weapons/reloads/uspreload.sound",
         "ReloadTime": 1.5,
         "SecondaryRate": 15,
-        "ShootSound": "sounds/guns/m1911/pistol_shoot.sound",
+        "ShootSound": "sounds/toolgun/toolgun-fire.sound",
         "ShowAmmo": false,
         "Spread": 0,
+        "SpreadIncrease": 0,
         "TracerEffect": null,
         "ViewModelPrefab": {
           "_type": "gameobject",
@@ -105,6 +106,8 @@
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "__references": [],
+  "__references": [
+    "mdlresrc.toolgunshoot#10038"
+  ],
   "__version": 2
 }

@@ -206,11 +206,11 @@ ServerSettings, MapSelector, ServerBrowser {
     mask-image: linear-gradient(white 0%, white 95%, black 99%);
   }
 
-  PackageList {
+  CustomPackageList {
     mask-image: linear-gradient(white 0%, white 95%, black 99%);
   }
 
-  .mapDisplay, PackageList {
+  .mapDisplay, CustomPackageList {
     flex-shrink: 0;
 
     .card-package {
@@ -257,10 +257,10 @@ ServerSettings, MapSelector, ServerBrowser {
         margin-top: 0;
         width: 100%;
         gap: 0;
-        padding: 25px;
+        padding: 5px;
 
         .title {
-          font-family: Work Sans Bold;
+          font-family: Work Sans;
           color: white;
           justify-content: flex-start;
           align-items: flex-start;
