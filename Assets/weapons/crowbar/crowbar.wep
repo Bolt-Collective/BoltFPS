@@ -1,6 +1,6 @@
 {
   "DisplayName": "Crowbar",
-  "Catagory": "Base Weapons",
+  "Catagory": "Melee",
   "Duplicates": true,
   "ReplenishAmmo": false,
   "Icon": "icons/3d/crowbar.png",

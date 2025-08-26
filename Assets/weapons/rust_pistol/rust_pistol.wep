@@ -1,6 +1,8 @@
 {
   "DisplayName": "Pistol",
-  "Catagory": "Rust Weapons",
+  "Catagory": "Rust",
+  "Duplicates": true,
+  "ReplenishAmmo": false,
   "Icon": "icons/weapons/rust/rustpistol.png",
   "Description": "An item.",
   "Details": "weapons/rust_pistol/w_rust_pistol.prefab",

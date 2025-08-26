@@ -10,8 +10,8 @@ public partial class Remover : BaseTool
 		if ( Input.Pressed( "attack1" ) )
 		{
 
-			if (trace.GameObject.Root.Components.TryGet<PropHelper>(out PropHelper helper))
-				trace.GameObject.Root.BroadcastDestroy();
+			if (trace.GameObject.Components.TryGet<PropHelper>(out PropHelper helper))
+				trace.GameObject.BroadcastDestroy();
 
 			return true;
 		}

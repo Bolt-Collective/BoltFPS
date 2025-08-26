@@ -1,6 +1,8 @@
 {
   "DisplayName": "SMG",
-  "Catagory": "Rust Weapons",
+  "Catagory": "Rust",
+  "Duplicates": true,
+  "ReplenishAmmo": false,
   "Icon": "icons/weapons/rust/rustsmg.png",
   "Description": "An item.",
   "Details": "weapons/rust_smg/w_rust_smg.prefab",

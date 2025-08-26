@@ -1,0 +1,11 @@
+{
+  "DisplayName": "Stimpack",
+  "Catagory": "Healing",
+  "Duplicates": false,
+  "ReplenishAmmo": true,
+  "Icon": "icons/3d/stimpack.png",
+  "Description": "An item.",
+  "Details": "weapons/stimpack/w_stimpack.prefab",
+  "__references": [],
+  "__version": 0
+}

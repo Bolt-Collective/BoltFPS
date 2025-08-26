@@ -10,8 +10,12 @@ public sealed class PlayerUse : Component
 
 	protected override void OnUpdate()
 	{
+		var dis = 120f;
+		if ( Pawn.Controller.ThirdPerson )
+			dis += -Pawn.Controller.ThirdPersonCameraOffset.x;
+
 		var eyeTrace = Scene.Trace
-			.Ray( Pawn.AimRay, 60 )
+			.Ray( Pawn.AimRay, dis )
 			.WithoutTags( "movement" )
 			.IgnoreGameObjectHierarchy( GameObject )
 			.Run();
@@ -45,10 +49,12 @@ public sealed class PlayerUse : Component
 
 		lastGlow = glow;
 
+		var pressableEvent = new IPressable.Event( this );
+
+		pressable.Look( pressableEvent );
+
 		if ( Input.Pressed( "Use" ) )
 		{
-			var pressableEvent = new IPressable.Event( this );
-
 			if ( pressable is not null && pressable.CanPress( pressableEvent ) )
 			{
 				pressable.Press( pressableEvent );

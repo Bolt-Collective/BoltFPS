@@ -1,11 +1,18 @@
 ﻿namespace Seekers;
 
-[Library( "tool_grid_align", Title = "Grid Align", Description = "Alighn Object To Grid" )]
+[Library( "tool_grid_align", Title = "Align To Grid", Description = "Alighn Object To Grid" )]
 [Group( "construction" )]
 public partial class AlignToGrid : BaseTool
 {
 	[Property]
 	public float Grid { get; set; } = 8;
+
+	protected override void OnUpdate()
+	{
+		base.OnUpdate();
+		if ( IsProxy )
+			return;
+	}
 
 	public override bool Primary( SceneTraceResult trace )
 	{

@@ -26,9 +26,15 @@ public class ViewModel : Component
 
 	[Property] public Vector3 Offset { get; set; }
 
-	[Property] public Dictionary<string, string> AnimParamTranslate { get; set; }
+	[Property] public Dictionary<string, TranslatedAnim> AnimParamTranslate { get; set; }
 	[Property] public Dictionary<string, GameObject> AttachmentTranslate { get; set; }
 
+	public struct TranslatedAnim
+	{
+		[KeyProperty] public string Param { get; set; }
+		public bool Reset { get; set; }
+		[ShowIf("Reset", true)] public float ResetDelay { get; set; }
+	}
 	public Transform GetAttachment(string name)
 	{
 		if (AttachmentTranslate != null && AttachmentTranslate.ContainsKey(name))
@@ -39,8 +45,20 @@ public class ViewModel : Component
 	public string GetAnim( string name )
 	{
 		if ( AnimParamTranslate != null && AnimParamTranslate.ContainsKey( name ) )
-			return AnimParamTranslate[name];
+		{
+			var translated = AnimParamTranslate[name];
+			if ( translated.Reset )
+				Reset( translated.Param, translated.ResetDelay );
+
+			return translated.Param;
+		}
 		return name;
+	}
+
+	public async void Reset(string anim, float delay)
+	{
+		await Task.DelaySeconds( delay );
+		Renderer?.Set( anim, false );
 	}
 
 	private Vector3 swingOffset;

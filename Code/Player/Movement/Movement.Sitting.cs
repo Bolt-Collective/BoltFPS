@@ -11,6 +11,8 @@ public abstract partial class Movement : Component
 
 	public void SeatMovement()
 	{
+		IsGrounded = true;
+		Velocity = 0;
 		WorldPosition = CurrentSeat.WorldTransform.PointToWorld( CurrentSeat.SeatPosition + SeatOffset );
 		if (Input.Pressed("jump") || Input.Pressed("duck"))
 		{

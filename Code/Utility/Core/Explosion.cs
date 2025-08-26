@@ -17,7 +17,7 @@ public static class Explosion
 		var inflictorRoot = inflictor?.GameObject?.Root;
 
 		var trace = scene.Trace
-			.WithoutTags( "trigger", "ragdoll" );
+			.WithoutTags( "trigger", "ragdoll", "movement" );
 
 		if ( inflictorRoot.IsValid() )
 			trace = trace.IgnoreGameObjectHierarchy( inflictorRoot );
@@ -25,7 +25,7 @@ public static class Explosion
 		foreach ( var obj in objectsInArea )
 		{
 			// If the object isn't in line of sight, fuck it off
-			var tr = trace.Ray( point, obj.WorldPosition ).Run();
+			var tr = trace.Ray( point, obj.WorldPosition ).UseHitboxes().Run();
 
 			var distance = obj.WorldPosition.Distance( point );
 			var direction = (obj.WorldPosition - point).Normal;

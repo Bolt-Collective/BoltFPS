@@ -30,7 +30,7 @@ public partial class Movement : Component
 
 		AnimationHelper.WithWishVelocity( WishVelocity );
 		AnimationHelper.WithVelocity( Velocity );
-		AnimationHelper.DuckLevel = (1 - (Height / _startHeight)) * 10;
+		AnimationHelper.DuckLevel = (1 - (Height / _startHeight)) * 2;
 		var dir = ClampDirection( EyeAngles.Forward, BodyModelRenderer.WorldTransform.Forward, 80 );
 		AnimationHelper.WithLook( dir * 100, 1, 1, 1.0f );
 		AnimationHelper.IsGrounded = IsGrounded || IsTouchingLadder;

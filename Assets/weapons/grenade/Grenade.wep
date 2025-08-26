@@ -1,6 +1,6 @@
 {
   "DisplayName": "Grenade",
-  "Catagory": "Base Weapons",
+  "Catagory": "Throwables",
   "Duplicates": false,
   "ReplenishAmmo": true,
   "Icon": "icons/3d/hegrenade.png",

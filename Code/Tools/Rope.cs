@@ -36,8 +36,8 @@ public class Rope : BaseJointTool
 
 	public static VerletRope CreateRopeBetween( GameObject point1, GameObject point2, float slack = 0, bool rigid = false )
 	{
-		var propHelper1 = point1.Root.Components.Get<PropHelper>();
-		var propHelper2 = point2.Root.Components.Get<PropHelper>();
+		var propHelper1 = point1.Components.Get<PropHelper>(FindMode.EverythingInSelfAndAncestors);
+		var propHelper2 = point2.Components.Get<PropHelper>( FindMode.EverythingInSelfAndAncestors );
 
 		var len = point1.WorldPosition.Distance( point2.WorldPosition );
 		len = MathF.Max( 1.0f, len + slack );
