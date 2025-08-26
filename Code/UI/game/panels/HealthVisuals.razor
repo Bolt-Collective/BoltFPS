@@ -1,4 +1,4 @@
-@using Sandbox;
+﻿@using Sandbox;
 
 @inherits PanelComponent
 
@@ -13,6 +13,16 @@
 
 		<img src=@splatter.texture style="bottom: @(position.y-250)px; left: @(position.x-250)px; opacity: @alpha; transform: rotate(@(splatter.rotation)deg);"/>
 	}
+	@foreach (var splatter in DeSplatters)
+	{
+		var elapsed = Time.Now - splatter.time;
+		var t = (elapsed / splatter.speed).Clamp(0, 1);
+		var alpha = splatter.startAlpha * (1 - t);
+
+		var position = (splatter.position / 100) * new Vector2(1920, 1080);
+
+		<img src=@splatter.texture style="bottom: @(position.y-250)px; left: @(position.x-250)px; opacity: @alpha; transform: rotate(@(splatter.rotation)deg);" />
+	}
 </root>
 
 @code
@@ -22,6 +32,7 @@
 	[Property] private Curve SatuationCurve { get; set; }
 	[Property] private Curve OpacityCurve { get; set; }
 	[Property] private float FadeTime { get; set; } = 0.1f;
+	[Property] private RangedFloat FadeOutTime { get; set; } = new RangedFloat(0.2f, 0.5f);
 
 	private float Health;
 
@@ -36,6 +47,8 @@
 	}
 
 	private List<(string texture, Vector2 position, float rotation, float time)> Splatters { get; set; } = new();
+
+	private List<(string texture, Vector2 position, float rotation, float time, float startAlpha, float speed)> DeSplatters { get; set; } = new();
 	protected override void OnUpdate()
 	{
 		var player = Pawn.Local;
@@ -54,15 +67,31 @@
 		}
 
 		int splatterCount = MathX.FloorToInt( SplatterCurve.Evaluate(1- Health));
-		
+
 		if ( splatterCount > Splatters?.Count )
 		{
 			for ( int i = 0; i < splatterCount - Splatters?.Count; i++ )
 				AddSplatter();
 		}
-		else if ( splatterCount < Splatters?.Count)
+		else if (splatterCount < Splatters?.Count)
 		{
-			Splatters?.RemoveRange( 0, Splatters.Count - splatterCount );
+			var removed = Splatters?.GetRange(0, Splatters.Count - splatterCount);
+			Splatters?.RemoveRange(0, Splatters.Count - splatterCount);
+
+			foreach (var r in removed)
+			{
+				var baseAlpha = OpacityCurve.Evaluate(1 - Health);
+				var currentAlpha = baseAlpha + (1 - (Time.Now - r.time) / FadeTime).Clamp(0, 1) * (1 - baseAlpha);
+				DeSplatters?.Add((r.texture, r.position, r.rotation, Time.Now, currentAlpha, FadeOutTime.GetValue()));
+			}
+		}
+
+		foreach (var splatter in new List<(string texture, Vector2 position, float rotation, float time, float startAlpha, float speed)>(DeSplatters))
+		{
+			if ( Time.Now - splatter.time > FadeOutTime.Max * 1.5f)
+			{
+				DeSplatters.Remove(splatter);
+			}
 		}
 	}
 
