@@ -166,7 +166,7 @@ public partial class HealthComponent : Component, IRespawnable
 	}
 
 	[Rpc.Host]
-	public void AddHealh(float health)
+	public void AddHealth(float health)
 	{
 		Health = (Health + health).Clamp(-float.MaxValue, MaxHealth);
 	}
