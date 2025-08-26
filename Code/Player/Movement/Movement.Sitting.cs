@@ -6,7 +6,7 @@ using static Sandbox.ModelPhysics;
 
 public abstract partial class Movement : Component
 {
-	[Property, Sync] public SitEntity CurrentSeat { get; set; }
+	[Property, Sync(SyncFlags.FromHost)] public SitEntity CurrentSeat { get; set; }
 	[Property] public Vector3 SeatOffset { get; set; } = new Vector3( 0, 0, -15f );
 
 	public void SeatMovement()
@@ -14,16 +14,20 @@ public abstract partial class Movement : Component
 		IsGrounded = true;
 		Velocity = 0;
 		WorldPosition = CurrentSeat.WorldTransform.PointToWorld( CurrentSeat.SeatPosition + SeatOffset );
-		if (Input.Pressed("jump") || Input.Pressed("duck"))
+		if (Input.Pressed("jump") || Input.Pressed("duck") || CurrentSeat.Owner != this)
 		{
 			WorldPosition = CurrentSeat.WorldTransform.PointToWorld( CurrentSeat.SeatPosition + BodyModelRenderer.WorldTransform.Up * 5);
 			CurrentSeat = null;
 		}
 	}
 
-	[Rpc.Owner]
+	[Rpc.Host]
 	public void Sit(SitEntity sitEntity)
 	{
+		if ( CurrentSeat.Owner.IsValid() )
+			return;
+
 		CurrentSeat = sitEntity;
+		sitEntity.Claim( this );
 	}
 }

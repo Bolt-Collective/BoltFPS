@@ -107,12 +107,6 @@ public partial class Wheel : BaseTool
 
 		var rb = wheel.AddComponent<Rigidbody>();
 
-		//var thrusterEntity = thruster.AddComponent<ThrusterEntity>();
-		//thrusterEntity.Force = force;
-		//thrusterEntity.ForwardBind = new InputBind( forwards );
-		//thrusterEntity.BackwardBind = new InputBind( backwards );
-		//thrusterEntity.Owner = owner;
-
 		var wheelEntity = wheel.AddComponent<WheelEntity>();
 		wheelEntity.Torque = torque;
 		wheelEntity.ForwardBind = new InputBind( forwards );

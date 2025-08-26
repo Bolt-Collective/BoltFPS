@@ -14,8 +14,14 @@ public sealed class SitEntity : Component, Component.IPressable
 		return true;
 	}
 
-	[Sync]
-	public Pawn Sitter { get; set; }
+	[Rpc.Host]
+	public void Claim(Movement owner)
+	{
+		Owner = owner;
+	}
+
+	[Sync(SyncFlags.FromHost)]
+	public Movement Owner { get; set; }
 
 	[Property]
 	public Vector3 SeatPosition { get; set; }
