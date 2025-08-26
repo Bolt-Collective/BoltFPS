@@ -71,6 +71,8 @@ public partial class Movement : Component
 
 		float rotateDifference = BodyModelRenderer.WorldRotation.Distance( targetAngle );
 
+		BodyModelRenderer.WorldRotation = Angles.Zero.WithYaw( BodyModelRenderer.WorldRotation.Yaw() );
+
 		// We're over the limit - snap it 
 		if ( rotateDifference > RotationAngleLimit )
 		{
@@ -85,7 +87,7 @@ public partial class Movement : Component
 			_animRotationSpeed += yaw;
 			_animRotationSpeed = _animRotationSpeed.Clamp( -90, 90 );
 
-			BodyModelRenderer.WorldRotation = newRotation;
+			BodyModelRenderer.WorldRotation = Angles.Zero.WithYaw( newRotation.Yaw() );
 		}
 
 		if ( velocity.Length > 10 )
@@ -101,7 +103,7 @@ public partial class Movement : Component
 			_animRotationSpeed += yaw;
 			_animRotationSpeed = _animRotationSpeed.Clamp( -90, 90 );
 
-			BodyModelRenderer.WorldRotation = newRotation;
+			BodyModelRenderer.WorldRotation = Angles.Zero.WithYaw( newRotation.Yaw() );
 		}
 	}
 
