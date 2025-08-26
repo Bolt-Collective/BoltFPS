@@ -38,6 +38,8 @@ public partial class Pawn : ShrimplePawns.Pawn
 	public float Health => HealthComponent?.Health ?? 100;
 	public bool IsDead => Health <= 0;
 
+	public bool CanUse = true;
+
 	public bool IsMe => Network.Owner == Connection.Local;
 
 	private NormalMovement _controller;

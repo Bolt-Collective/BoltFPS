@@ -1,4 +1,5 @@
 ﻿using System;
+using static Sandbox.Component;
 
 namespace Seekers;
 
@@ -53,12 +54,23 @@ public sealed class PlayerUse : Component
 
 		pressable.Look( pressableEvent );
 
-		if ( Input.Pressed( "Use" ) )
+		if ( Input.Pressed( "Use" ))
 		{
-			if ( pressable is not null && pressable.CanPress( pressableEvent ) )
-			{
-				pressable.Press( pressableEvent );
-			}
+			TryUse( pressable, pressableEvent );
+		}
+	}
+
+	public async void TryUse( IPressable pressable, IPressable.Event pressableEvent )
+	{
+		await Task.Frame();
+		await Task.Frame();
+
+		if ( !Pawn.CanUse )
+			return;
+
+		if ( pressable is not null && pressable.CanPress( pressableEvent ) )
+		{
+			pressable.Press( pressableEvent );
 		}
 	}
 }

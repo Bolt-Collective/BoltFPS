@@ -148,6 +148,8 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		MoveTargetDistance( Input.MouseWheel.y * TargetDistanceSpeed );
 
+		Owner.CanUse = !Input.Down( "use" );
+
 		if ( Input.Down( "use" ) )
 			DoRotate( new Angles( 0.0f, Rotation.LookAt(Owner.AimRay.Forward).Angles().yaw, 0.0f ), Input.MouseDelta * RotateSpeed );
 

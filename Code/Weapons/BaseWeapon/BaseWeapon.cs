@@ -292,18 +292,15 @@ public partial class BaseWeapon : Component
 			Owner.Controller.EyeAngles += Recoil * Time.Delta / (RecoilTime);
 		}
 
-		Owner?.Controller?.Tags.Set( "viewer",
+		Owner.Controller.Tags.Set( "viewer",
 			Owner.Controller.ThirdPerson );
 
-		if ( Owner?.Controller.IsValid() ?? false )
-		{
-			Owner.Controller.IgnoreMove = false;
-			Owner.Controller.IgnoreCam = false;
-		}
+		Owner.Controller.IgnoreMove = false;
+		Owner.Controller.IgnoreCam = false;
 
+		Owner.Inventory.CanChange = true;
 
-		if ( Owner?.Inventory.IsValid() ?? false )
-			Owner.Inventory.CanChange = true;
+		Owner.CanUse = true;
 
 		OnControl();
 	}
