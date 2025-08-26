@@ -85,46 +85,6 @@ public partial class Client : ShrimplePawns.Client
 		}
 	}
 
-	/* Find Way To Move This to Seperate Script
-
-	float stillTime = 0;
-	public void DetectAFK()
-	{
-		if ( !TryGetPawn( out Pawn pawn ) )
-			return;
-
-		if ( pawn.Team != TeamManager.HuntersTeam )
-			return;
-
-		if ( GameManager.Instance?.GameState != RoundState.Active )
-			return;
-
-		var isStill = pawn.Controller?.Controller.WishVelocity.Length < 1;
-
-		var previousStillTime = stillTime;
-
-		if ( isStill )
-			stillTime += Time.Delta;
-		else
-			stillTime = 0;
-
-		if ( stillTime >= 40 && previousStillTime < 40)
-			AFKWarning();
-
-		if ( stillTime >= 50 && previousStillTime < 50 )
-		{
-			stillTime = 0;
-			pawn.HealthComponent?.TakeDamage( pawn, 100000 );
-		}
-	}
-
-	[Rpc.Owner]
-	public void AFKWarning()
-	{
-		ToastNotification.Current?.AddToast("You are AFK, Move or get eliminated in 10s.");
-	}
-	*/
-
 	[Rpc.Owner]
 	public void GiveAchievement( string achievement )
 	{
