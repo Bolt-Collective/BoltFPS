@@ -85,8 +85,6 @@ public partial class Thruster : BaseTool
 
 		thruster.Components.Create<PropHelper>();
 
-		thruster.GetComponent<ModelCollider>().Enabled = false;
-
 		thruster.Tags.Add( "thruster" );
 
 		var thrusterEntity = thruster.AddComponent<ThrusterEntity>();
@@ -96,6 +94,7 @@ public partial class Thruster : BaseTool
 		thrusterEntity.EntityOwner = owner;
 
 		thruster.SetParent( selectionPoint.GameObject );
+		NoCollide.ApplyNoCollide( thruster, selectionPoint.GameObject, Guid.NewGuid() );
 
 		thruster.NetworkSpawn();
 

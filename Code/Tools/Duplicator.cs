@@ -154,6 +154,8 @@ public partial class Duplicator : BaseTool
 			return UndoSystem.UndoObjects( "Undone Dupe", props.ToArray() );
 		}, prop: props[0] );
 
+		NoCollide.RestoreNoCollides( dupe.GetAllObjects( true ).ToList() );
+
 		dupe.DestroyImmediate();
 	}
 

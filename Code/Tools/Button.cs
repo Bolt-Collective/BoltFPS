@@ -92,6 +92,7 @@ public partial class Button : BaseTool
 		buttonEntity.EntityOwner = owner;
 
 		button.SetParent( selectionPoint.GameObject );
+		NoCollide.ApplyNoCollide( button, selectionPoint.GameObject, Guid.NewGuid() );
 
 		button.NetworkSpawn();
 
