@@ -134,6 +134,8 @@ public partial class Pawn : ShrimplePawns.Pawn
 		if ( tr.GameObject.Tags.Has( "grabbed" ) )
 			return;
 
+		if ( tr.GameObject.Components.TryGet<IPressable>( out var pressable ) )
+			return;
 
 		if ( Input.Down( "use" ) )
 		{

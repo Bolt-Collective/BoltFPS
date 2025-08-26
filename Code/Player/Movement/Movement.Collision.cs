@@ -69,6 +69,8 @@ public abstract partial class Movement : Component, ISceneCollisionEvents
 		if ( !Networking.IsHost )
 			return;
 
+		ShadowCollider.Enabled = !CurrentSeat.IsValid();
+
 		ShadowCollider.WorldPosition = WorldPosition;
 		ShadowCollider.WorldRotation = WorldRotation;
 

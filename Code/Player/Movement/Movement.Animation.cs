@@ -20,10 +20,19 @@ public partial class Movement : Component
 	{
 		if ( !AnimationHelper.IsValid() )
 			return;
+
+		if (CurrentSeat.IsValid())
+		{
+			AnimationHelper.Sitting = AnimationHelper.SittingStyle.Chair;
+		}
+		else
+			AnimationHelper.Sitting = AnimationHelper.SittingStyle.None;
+
 		AnimationHelper.WithWishVelocity( WishVelocity );
 		AnimationHelper.WithVelocity( Velocity );
 		AnimationHelper.DuckLevel = (1 - (Height / _startHeight)) * 10;
-		AnimationHelper.WithLook( EyeAngles.Forward * 100, 1, 1, 1.0f );
+		var dir = ClampDirection( EyeAngles.Forward, BodyModelRenderer.WorldTransform.Forward, 80 );
+		AnimationHelper.WithLook( dir * 100, 1, 1, 1.0f );
 		AnimationHelper.IsGrounded = IsGrounded || IsTouchingLadder;
 		AnimationHelper.IsClimbing = IsTouchingLadder;
 		//AnimationHelper.IsSwimming = IsSwimming;
@@ -42,6 +51,12 @@ public partial class Movement : Component
 	{
 		if ( !BodyModelRenderer.IsValid() )
 			return;
+
+		if (CurrentSeat.IsValid())
+		{
+			BodyModelRenderer.WorldRotation = CurrentSeat.WorldTransform.RotationToWorld( CurrentSeat.SeatRotation );
+			return;
+		}
 
 		if ( IsTouchingLadder && RotationFaceLadders )
 		{
@@ -132,5 +147,19 @@ public partial class Movement : Component
 
 			BodyVisible = true;
 		}
+	}
+
+	public static Vector3 ClampDirection( Vector3 direction, Vector3 target, float maxAngleDeg )
+	{
+		direction = direction.Normal;
+		target = target.Normal;
+
+		float angle = Vector3.GetAngle( direction, target );
+
+		if ( angle <= maxAngleDeg )
+			return direction;
+
+		float t = maxAngleDeg / angle;
+		return Vector3.Slerp( target, direction, t ).Normal;
 	}
 }

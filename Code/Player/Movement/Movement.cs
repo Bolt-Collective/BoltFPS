@@ -110,6 +110,12 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 		CheckLadder();
 
+		if ( CurrentSeat.IsValid() )
+		{
+			SeatMovement();
+			return;
+		}
+
 		if ( IsTouchingLadder && !OverrideVelocity )
 		{
 			LadderMove();
@@ -218,7 +224,7 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 	public virtual Vector3 CameraPosition()
 	{
-		return WorldPosition + Vector3.Up * (Height - 2);
+		return WorldPosition + BodyModelRenderer.WorldTransform.Up * (Height - 2);
 	}
 
 	public virtual Rotation CameraRotation()
