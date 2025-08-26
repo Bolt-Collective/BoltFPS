@@ -61,23 +61,7 @@
         "__type": "Seekers.ViewModel",
         "__guid": "fccc3908-17ff-41ca-9c46-1aee27bf34da",
         "__enabled": true,
-        "AnimParamTranslate": {
-          "b_attack": {
-            "Param": "fire",
-            "Reset": false,
-            "ResetDelay": 0
-          },
-          "b_reload": {
-            "Param": "reload",
-            "Reset": false,
-            "ResetDelay": 0
-          },
-          "b_deploy": {
-            "Param": "deploy",
-            "Reset": false,
-            "ResetDelay": 0
-          }
-        },
+        "AnimParamTranslate": {},
         "AttachmentTranslate": {},
         "BobCycleTime": 7,
         "BobDirection": "0,1,0.5",
