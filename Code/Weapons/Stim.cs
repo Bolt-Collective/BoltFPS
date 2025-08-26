@@ -28,7 +28,7 @@ partial class Stim : BaseWeapon, Component.ICollisionListener
 		BroadcastAttackPrimary();
 
 		if ( Owner?.HealthComponent.IsValid() ?? false )
-			Owner.HealthComponent.Health = (Owner.HealthComponent.Health + Heal).Clamp(-float.MaxValue, Owner.HealthComponent.MaxHealth);
+			Owner.HealthComponent.AddHealh( Heal );
 
 		Ammo--;
 	}

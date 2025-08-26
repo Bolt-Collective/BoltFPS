@@ -70,6 +70,6 @@ public sealed class HealthKitEntity : Component, Component.IPressable
 		if ( !pawn.IsValid() || !pawn.HealthComponent.IsValid() )
 			return;
 
-		pawn.HealthComponent.Health = (pawn.HealthComponent.Health + Health).Clamp( -float.MaxValue, pawn.HealthComponent.MaxHealth );
+		pawn.HealthComponent.AddHealh( Health );
 	}
 }

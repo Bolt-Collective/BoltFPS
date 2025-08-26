@@ -165,6 +165,12 @@ public partial class HealthComponent : Component, IRespawnable
 		return !component.GameObject.IsValid() ? null : component.GameObject.Root.GetComponentInChildren<Pawn>();
 	}
 
+	[Rpc.Host]
+	public void AddHealh(float health)
+	{
+		Health = (Health + health).Clamp(-float.MaxValue, MaxHealth);
+	}
+
 	[Rpc.Broadcast]
 	private void BroadcastDamage( float damage, Vector3 position, Vector3 force, Component attacker,
 		Component inflictor = default, HitboxTags hitbox = default, DamageFlags flags = default )
