@@ -84,7 +84,9 @@
 
 		if ( string.IsNullOrWhiteSpace( text ) ) return;
 
-		if (!Client.Local.Team.IsValid())
+		if ( !Client.Local.Team.IsValid() )
+			return;
+
 		AddMessage( Steam.SteamId.ToString(), text, Client.Local.Team.Color, Client.Local.Team.DisplayName, CurrentMessageType );
 	}
 
@@ -93,9 +95,9 @@
 	{
 		if ( string.IsNullOrWhiteSpace( message ) ) return;
 
-		var snd = Sound.Play("ui-chat");
+		var snd = Sound.Play( "ui-chat" );
 		snd.Volume = 0.2f;
-		
+
 		if ( messageType == MessageType.Team && teamName != Client.Local.Team.DisplayName )
 			return;
 
@@ -111,7 +113,6 @@
 		{
 			name = sender;
 		}
-
 
 
 		Entries.Add( new Entry( steamId, name, message, styles, teamColour, teamName, messageType, 0 ) );
