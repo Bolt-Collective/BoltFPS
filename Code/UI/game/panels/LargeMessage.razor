@@ -5,6 +5,15 @@
 @namespace BoltFPS
 
 <root>
+	@if ( !string.IsNullOrEmpty( MessageText ) && MessageShouldBeVisible )
+	{
+		<div class="minigame-display visible no-background" style="top: 20%;">
+			<div class="title" style=@( $"color: white;" )>
+				@MessageText
+			</div>
+		</div>
+	}
+
 	<div class="minigame-display @( ShouldBeVisible ? "visible" : "" )">
 		<div class="title" style=@( $"color: {Color.Hex};" )>@MainText</div>
 		<div class="description">@SecondaryText</div>
@@ -20,7 +29,21 @@
 		Current = this;
 	}
 
+	private RealTimeSince MessageTimeSince;
+	private float MessageTimeActive;
+
+	public void SetMessage( string mainText, float timeActive = 1.5f )
+	{
+		MessageText = mainText;
+		MessageTimeActive = timeActive;
+		MessageTimeSince = 0;
+	}
+
+	private bool MessageShouldBeVisible => MessageTimeSince < MessageTimeActive;
+
 	private bool ShouldBeVisible => TimeSince < TimeActive;
+
+	public string MessageText { get; set; }
 
 	private RealTimeSince TimeSince;
 	private float TimeActive;
@@ -28,28 +51,29 @@
 	private Color Color;
 	private string SecondaryText;
 
-	public void SendMessage( string mainText, Color color, string secondaryText = "", float timeActive = 1.5f )
+	public void SendMessage( string mainText, Color color, string secondaryText = "", float timeActive = 1.5f, string sound = null )
 	{
 		TimeActive = timeActive;
 		TimeSince = 0;
 		MainText = mainText;
 		Color = color;
 		SecondaryText = secondaryText;
+		Sound.Play( sound ?? "ui.button.click" );
 	}
 
 	[Rpc.Broadcast]
-	public void BroadcastMessage( Guid SendTo, string mainText, Color color, string secondaryText = "", float timeActive = 1.5f )
+	public void BroadcastMessage( Guid SendTo, string mainText, Color color, string secondaryText = "", float timeActive = 1.5f, string sound = null )
 	{
 		if ( Connection.Local.Id != SendTo )
 			return;
 
-		SendMessage( mainText, color, secondaryText, timeActive );
+		SendMessage( mainText, color, secondaryText, timeActive, sound );
 	}
 
 	[Rpc.Broadcast]
-	public void BroadcastMessage( string mainText, Color color, string secondaryText = "", float timeActive = 1.5f )
+	public void BroadcastMessage( string mainText, Color color, string secondaryText = "", float timeActive = 1.5f, string sound = null )
 	{
-		SendMessage( mainText, color, secondaryText, timeActive );
+		SendMessage( mainText, color, secondaryText, timeActive, sound );
 	}
 
 	[ConCmd]
@@ -59,6 +83,6 @@
 	}
 
 	protected override int BuildHash() => HashCode.Combine(
-		ShouldBeVisible
+		ShouldBeVisible, MessageShouldBeVisible
 	);
 }
