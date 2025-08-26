@@ -1,14 +1,23 @@
 {
   "RootObject": {
     "__guid": "f5ef555d-ec72-4d6e-a56e-026198971ca2",
+    "__version": 1,
     "Flags": 0,
     "Name": "spectator",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
     "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
     "Components": [
       {
         "__type": "Seekers.SpectatorPawn",
         "__guid": "3c402ba7-0873-417f-a5fc-7cd450b8bc21",
-        "Abilities": [],
+        "__enabled": true,
         "AngularDampingRatio": 1,
         "AngularFrequency": 10,
         "AttachDistance": 100,
@@ -19,6 +28,8 @@
           "go": "f5ef555d-ec72-4d6e-a56e-026198971ca2",
           "component_type": "CameraComponent"
         },
+        "DeadModel": null,
+        "DeathPrefab": null,
         "DropCooldown": 0.5,
         "GrabbedObject": null,
         "HealthComponent": null,
@@ -33,6 +44,7 @@
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
+        "ShootTargets": [],
         "Speed": 300,
         "SpotLight": null,
         "StaminaDecay": 0.1,
@@ -45,6 +57,7 @@
       {
         "__type": "Sandbox.CameraComponent",
         "__guid": "f76686df-86f4-4cd2-ab69-adf8774a6cd4",
+        "__enabled": true,
         "BackgroundColor": "0.33333,0.46275,0.52157,1",
         "ClearFlags": "All",
         "FieldOfView": 60,
@@ -69,6 +82,7 @@
       {
         "__type": "Sandbox.Voice",
         "__guid": "3fe83e91-3594-4633-9994-f919abe588e4",
+        "__enabled": true,
         "Distance": 15000,
         "Falloff": [
           {
@@ -113,8 +127,8 @@
         "PushToTalkInput": "voice",
         "Renderer": null,
         "VoiceMixer": {
-          "Name": "unknown",
-          "Id": "00000000-0000-0000-0000-000000000000"
+          "Name": "ui",
+          "Id": "9283daba-136b-4bd4-8c21-a355577befce"
         },
         "Volume": 1,
         "WorldspacePlayback": false
@@ -122,6 +136,7 @@
       {
         "__type": "Sandbox.Tonemapping",
         "__guid": "ebdaf85c-94f1-4186-8d07-672fa8b7e6f0",
+        "__enabled": true,
         "__version": 3,
         "AutoExposureEnabled": true,
         "ExposureCompensation": 0,
@@ -140,6 +155,7 @@
       {
         "__type": "Sandbox.AmbientOcclusion",
         "__guid": "094a50f9-4588-42e9-8d03-34233e3ea4f0",
+        "__enabled": true,
         "__version": 1,
         "DenoiseMode": "Temporal",
         "FalloffRange": 0.75,
@@ -156,16 +172,10 @@
       }
     ],
     "Children": [],
-    "__variables": [],
     "__properties": {
-      "FixedUpdateFrequency": 50,
-      "MaxFixedUpdates": 5,
-      "NetworkFrequency": 30,
       "NetworkInterpolation": true,
-      "PhysicsSubSteps": 1,
-      "ThreadedAnimation": true,
       "TimeScale": 1,
-      "UseFixedUpdate": true,
+      "WantsSystemScene": true,
       "Metadata": {},
       "NavMesh": {
         "Enabled": false,
@@ -179,13 +189,14 @@
         "ExcludedBodies": "",
         "IncludedBodies": ""
       }
-    }
+    },
+    "__variables": []
   },
+  "ResourceVersion": 2,
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "ResourceVersion": 1,
   "__references": [],
-  "__version": 1
+  "__version": 2
 }
