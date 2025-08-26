@@ -23,6 +23,15 @@ $bolt-gray: #4E4E4E;
   color: rgba(155, 155, 155, 0.7);
 }
 
+.popup-panel {
+  border: 2px solid #3D3D3D;
+  box-shadow: 0 4px 15px rgba(black, 0.25);
+  border-radius: 12px;
+  padding: 20px;
+  gap: 20px;
+}
+
+
 h1 {
   font-family: Work Sans;
   // font-size: 4rem;
