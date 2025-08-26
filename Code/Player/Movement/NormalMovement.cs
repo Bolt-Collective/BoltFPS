@@ -88,7 +88,7 @@ public partial class NormalMovement : Movement
 		}
 	}
 
-	[ConCmd( "noclip", ConVarFlags.Cheat )]
+	[ConCmd( "noclip", ConVarFlags.Admin )]
 	public static void ToggleNoclip()
 	{
 		var controller = Pawn.Local?.Controller;
