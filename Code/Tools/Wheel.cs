@@ -4,77 +4,24 @@ namespace Seekers;
 
 [Library( "tool_wheel", Title = "Wheel", Description = "Attach a Wheel To Object" )]
 [Group( "construction" )]
-public partial class Wheel : BaseTool
+public partial class Wheel : BaseEntitySpawner<WheelEntity>
 {
-	[Property]
-	public InputBind Forwards { get; set; } = new( "uparrow",true );
+	[Property] public InputBind Forwards { get; set; } = new( "uparrow", true );
+	[Property] public InputBind Backwards { get; set; } = new( "downarrow", true );
+	[Property, Range( -1000f, 1000f )] public float Torque { get; set; } = 60f;
 
-	[Property]
-	public InputBind Backwards { get; set; } = new( "downarrow",true );
+	protected override string PreviewModelPath => "models/citizen_props/wheel01.vmdl";
+	protected override Rotation PreviewRotationOffset => Rotation.From( new Angles( 0, 90, 0 ) );
+	protected override float PreviewNormalOffset => 8f;
 
-	[Property, Range( -1000f, 1000f )]
-	public float Torque { get; set; } = 60f;
-
-	PreviewModel PreviewModel;
-	protected override void OnStart()
+	protected override void ApplyChanges( GameObject target )
 	{
-		if ( IsProxy )
-			return;
-
-		PreviewModel = new PreviewModel
-		{
-			ModelPath = "models/citizen_props/wheel01.vmdl",
-			NormalOffset = 8f,
-			RotationOffset = Rotation.From( new Angles( 0, 90, 0 ) ),
-			FaceNormal = true
-		};
-	}
-	RealTimeSince timeSinceDisabled;
-
-
-	protected override void OnUpdate()
-	{
-		base.OnUpdate();
-
-		if ( IsProxy )
-			return;
-
-		if ( timeSinceDisabled < Time.Delta * 5f || !Parent.IsValid() )
-			return;
-
-		var trace = Parent.BasicTraceTool();
-
-		PreviewModel.Update( trace );
+		ChangeValues( target, Forwards.GetBroadcast(), Backwards.GetBroadcast(), Torque );
 	}
 
-	protected override void OnDestroy()
+	protected override void CreateEntity( SelectionPoint sp )
 	{
-		PreviewModel?.Destroy();
-		base.OnDestroy();
-	}
-
-	public override void Disabled()
-	{
-		timeSinceDisabled = 0;
-		PreviewModel?.Destroy();
-	}
-
-	public override bool Primary( SceneTraceResult trace )
-	{
-		if ( Input.Pressed( "attack1" ) )
-		{
-			if (trace.GameObject.Components.TryGet<WheelEntity>(out var wheel) && wheel.EntityOwner == Connection.Local.Id)
-			{
-				ChangeValues( trace.GameObject, Forwards.GetBroadcast(), Backwards.GetBroadcast(), Torque );
-				return true;
-			}
-
-			CreateWheel( new SelectionPoint( trace ), Forwards.GetBroadcast(), Backwards.GetBroadcast(), Torque, Network.OwnerId );
-
-			return true;
-		}
-
-		return false;
+		CreateWheel( sp, Forwards.GetBroadcast(), Backwards.GetBroadcast(), Torque, Network.OwnerId );
 	}
 
 	[Rpc.Broadcast]

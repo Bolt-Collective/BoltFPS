@@ -1,79 +1,54 @@
-﻿using Sandbox.UI;
+﻿using Sandbox;
+using Sandbox.UI;
 using System.Diagnostics;
 
 namespace Seekers;
 
 [Library( "tool_hoverball", Title = "Hoverball", Description = "Add Hoverball To Object" )]
 [Group( "construction" )]
-public partial class Hoverball : BaseTool
+public partial class Hoverball : BaseEntitySpawner<HoverballEntity>
 {
 	[Property]
-	public InputBind Up { get; set; } = new("uparrow", true);
+	public InputBind Up { get; set; } = new( "uparrow", true );
 
 	[Property]
-	public InputBind Down { get; set; } = new("downarrow", true);
+	public InputBind Down { get; set; } = new( "downarrow", true );
 
-	[Property, Range(0f, 1f)]
+	[Property, Range( 0f, 1f )]
 	public float Strength { get; set; } = 0.5f;
 
 	[Property, Range( 0f, 1000f )]
 	public float Speed { get; set; } = 250f;
 
-	PreviewModel PreviewModel;
-	protected override void OnStart()
-	{
-		if ( IsProxy )
-			return; 
+	protected override string PreviewModelPath => "models/hoverball/hoverball.vmdl";
+	protected override Rotation PreviewRotationOffset => Rotation.Identity;
+	protected override float PreviewNormalOffset => 9f;
 
-		PreviewModel = new PreviewModel
-		{
-			ModelPath = "models/hoverball/hoverball.vmdl",
-			RotationOffset = Rotation.From( new Angles( 0, 0, 0 ) ),
-			NormalOffset = 9,
-			FaceNormal = true
-		};
+	protected override void ApplyChanges( GameObject target )
+	{
+		ChangeValues( target, Up.GetBroadcast(), Down.GetBroadcast(), Strength, Speed );
 	}
-	RealTimeSince timeSinceDisabled;
 
-
-	protected override void OnUpdate()
+	protected override void CreateEntity( SelectionPoint sp )
 	{
-		base.OnUpdate();
+		CreateHoverball( sp, Up.GetBroadcast(), Down.GetBroadcast(), Strength, Speed, Network.OwnerId );
+	}
 
-		if ( IsProxy )
+	[Rpc.Broadcast]
+	public void ChangeValues( GameObject hoverball, BroadcastBind up, BroadcastBind down, float strength, float speed )
+	{
+		if ( hoverball.IsProxy )
 			return;
 
-		if ( timeSinceDisabled < Time.Delta * 5f || !Parent.IsValid() )
+		var hoverballEntity = hoverball.GetComponent<HoverballEntity>();
+
+		if ( !hoverballEntity.IsValid() )
 			return;
 
-		var trace = Parent.BasicTraceTool();
-
-		PreviewModel.Update( trace );
-	}
-
-	protected override void OnDestroy()
-	{
-		PreviewModel?.Destroy();
-		base.OnDestroy();
-	}
-
-	public override void Disabled()
-	{
-		timeSinceDisabled = 0;
-		PreviewModel?.Destroy();
-	}
-
-	public override bool Primary( SceneTraceResult trace )
-	{
-		if ( Input.Pressed( "attack1" ) )
-		{
-
-			CreateHoverball( new SelectionPoint( trace ), Up.GetBroadcast(), Down.GetBroadcast(), Strength, Speed, Network.Owner.Id );
-
-			return true;
-		}
-
-		return false;
+		hoverballEntity.Strength = strength;
+		hoverballEntity.Speed = speed;
+		hoverballEntity.UpBind = new InputBind( up );
+		hoverballEntity.DownBind = new InputBind( down );
 	}
 
 	[Rpc.Host]

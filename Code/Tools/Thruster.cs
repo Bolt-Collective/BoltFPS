@@ -5,71 +5,44 @@ namespace Seekers;
 
 [Library( "tool_thruster", Title = "Thruster", Description = "Add Thruster To Object" )]
 [Group( "construction" )]
-public partial class Thruster : BaseTool
+public partial class Thruster : BaseEntitySpawner<ThrusterEntity>
 {
 	[Property]
-	public InputBind Forwards { get; set; } = new("uparrow", true);
+	public InputBind Forwards { get; set; } = new( "uparrow", true );
 
 	[Property]
-	public InputBind Backwards { get; set; } = new("downarrow", true);
+	public InputBind Backwards { get; set; } = new( "downarrow", true );
 
-	[Property, Range(-10000f, 10000f)]
+	[Property, Range( -10000f, 10000f )]
 	public float Force { get; set; } = 600f;
 
-	PreviewModel PreviewModel;
-	protected override void OnStart()
+	protected override string PreviewModelPath => "models/thruster/thrusterprojector.vmdl";
+	protected override Rotation PreviewRotationOffset => Rotation.From( new Angles( 90, 0, 0 ) );
+	protected override float PreviewNormalOffset => 0f;
+
+	protected override void ApplyChanges( GameObject target )
 	{
-		if ( IsProxy )
+		ChangeValues( target, Forwards.GetBroadcast(), Backwards.GetBroadcast(), Force );
+	}
+
+	protected override void CreateEntity( SelectionPoint sp )
+	{
+		CreateThruster( sp, Forwards.GetBroadcast(), Backwards.GetBroadcast(), Force, Network.OwnerId );
+	}
+
+	[Rpc.Broadcast]
+	public void ChangeValues( GameObject thruster, BroadcastBind forwards, BroadcastBind backwards, float force )
+	{
+		if ( thruster.IsProxy )
 			return;
 
-		PreviewModel = new PreviewModel
-		{
-			ModelPath = "models/thruster/thrusterprojector.vmdl",
-			RotationOffset = Rotation.From( new Angles( 90, 0, 0 ) ),
-			FaceNormal = true
-		};
-	}
-	RealTimeSince timeSinceDisabled;
-
-
-	protected override void OnUpdate()
-	{
-		base.OnUpdate();
-
-		if ( IsProxy )
+		var thrusterEntity = thruster.GetComponent<ThrusterEntity>();
+		if ( !thrusterEntity.IsValid() )
 			return;
 
-		if ( timeSinceDisabled < Time.Delta * 5f || !Parent.IsValid() )
-			return;
-
-		var trace = Parent.BasicTraceTool();
-
-		PreviewModel.Update( trace );
-	}
-
-	protected override void OnDestroy()
-	{
-		PreviewModel?.Destroy();
-		base.OnDestroy();
-	}
-
-	public override void Disabled()
-	{
-		timeSinceDisabled = 0;
-		PreviewModel?.Destroy();
-	}
-
-	public override bool Primary( SceneTraceResult trace )
-	{
-		if ( Input.Pressed( "attack1" ) )
-		{
-
-			CreateThruster( new SelectionPoint( trace ), Forwards.GetBroadcast(), Backwards.GetBroadcast(), Force, Network.Owner.Id );
-
-			return true;
-		}
-
-		return false;
+		thrusterEntity.Force = force;
+		thrusterEntity.ForwardBind = new InputBind( forwards );
+		thrusterEntity.BackwardBind = new InputBind( backwards );
 	}
 
 	[Rpc.Host]
