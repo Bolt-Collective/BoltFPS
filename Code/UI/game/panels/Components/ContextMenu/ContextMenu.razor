@@ -1,0 +1,65 @@
+﻿@using System;
+@using Sandbox;
+@using Sandbox.UI;
+
+@namespace Seekers
+@inherits Panel
+
+<root>
+	@foreach ( var entry in Entries )
+	{
+		<div class="menu-item" @onclick=@(() => ExecuteAndClose( entry.Action ))>
+			<p>@entry.Text</p>
+		</div>
+	}
+</root>
+
+@code
+{
+	/// <summary>
+	/// A custom context menu entry with an action.
+	/// </summary>
+	/// <param name="text"></param>
+	/// <param name="action"></param>
+	public struct Entry( string text, Action action )
+	{
+		public string Text = text;
+		public Action Action = action;
+	}
+
+	public List<Entry> Entries { get; set; } = new();
+
+	public static ContextMenu Open( Panel parent, Vector2 position, List<Entry> entries )
+	{
+		var menu = parent.AddChild<ContextMenu>();
+		menu.Entries = entries;
+		menu.Style.Position = PositionMode.Absolute;
+		menu.Style.Left = Length.Pixels( position.x );
+		menu.Style.Top = Length.Pixels( position.y );
+		menu.Style.ZIndex = 100;
+
+		return menu;
+	}
+
+	private void ExecuteAndClose( Action action )
+	{
+		action?.Invoke();
+		Delete();
+	}
+
+	protected override void OnMouseDown( MousePanelEvent e )
+	{
+		base.OnMouseDown( e );
+		Delete();
+	}
+
+	public override void Tick()
+	{
+		base.Tick();
+
+		if ( FindRootPanel().ChildrenOfType<ContextMenu>().Count() > 1 )
+		{
+			Delete();
+		}
+	}
+}

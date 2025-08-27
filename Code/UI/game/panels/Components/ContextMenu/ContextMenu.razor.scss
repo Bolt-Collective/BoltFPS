@@ -1,0 +1,44 @@
+﻿ContextMenu {
+  position: absolute;
+  pointer-events: all;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 180px;
+  height: 100%;
+  display: flex;
+
+  z-index: 1000;
+
+  padding: 8px 0;
+  flex-direction: column;
+
+  border-radius: 7px;
+  border: 3px solid rgba(24, 24, 24, 0.75);
+  background-color: rgba(24, 24, 24, 0.98);
+  box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.13) inset;
+  backdrop-filter: blur(37.5px);
+
+  .menu-item {
+    padding: 8px 16px;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &.disabled {
+      color: rgba(155, 155, 155, 0.7);
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+}

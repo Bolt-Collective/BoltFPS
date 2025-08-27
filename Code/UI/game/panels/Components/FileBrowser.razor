@@ -5,19 +5,24 @@
 @namespace Seekers
 
 @inherits Panel
+@implements IContextMenuProvider
 
 <root class="file-browser">
-	<div class="file-tree">
+	<div class="file-tree" onmousedown="@( e => HandleNodeMouseDown( e, TargetFolder, true ) )">
 		@foreach ( var folder in GetFoldersFromDirectory( TargetFolder ) )
 		{
-			<div class="node folder" style="margin-left:@( GetDepth( folder ) * 16 )px">
+			<div class="node folder"
+			     style="margin-left:@( GetDepth( folder ) * 16 )px"
+			     onmousedown="@( e => HandleNodeMouseDown( e, folder, true ) )">
 				<img src="icons/menu/Folder.svg?w=20&h=20"/>
 				<p>@GetLastSegment( folder )</p>
 			</div>
 
 			@foreach ( var file in GetFilesFromDirectory( folder, recursive: false ) )
 			{
-				<div class="node file" style="margin-left:@( GetDepth( folder ) * 16 + 16 )px">
+				<div class="node file"
+				     style="margin-left:@( GetDepth( folder ) * 16 + 16 )px"
+				     onmousedown="@( e => HandleNodeMouseDown( e, Path.Combine( folder, Path.GetFileName( file ) ), false ) )">
 					<img src="icons/menu/Stack.svg?w=64&h=64"/>
 					<p>@Path.GetFileName( file )</p>
 				</div>
@@ -26,7 +31,9 @@
 
 		@foreach ( var file in GetFilesFromDirectory( string.Empty, recursive: false ) )
 		{
-			<div class="node file" style="margin-left:16px">
+			<div class="node file"
+			     style="margin-left:16px"
+			     onmousedown="@( e => HandleNodeMouseDown( e, file, false ) )">
 				<img src="icons/menu/Stack.svg?w=64&h=64"/>
 				<p>@Path.GetFileName( file )</p>
 			</div>
@@ -39,19 +46,24 @@
 	/// <summary>
 	/// What folder to display files from in Data
 	/// </summary>
-	public string TargetFolder { get; set; } = "folder";
+	public string TargetFolder { get; private set; }
+
+	Panel folderPanel;
+	Panel filePanel;
 
 
 	bool CreatingANode = false;
 
-	public FileBrowser()
+	public FileBrowser( string targetFolder )
 	{
-		if ( string.IsNullOrWhiteSpace( TargetFolder ) )
+		if ( string.IsNullOrWhiteSpace( targetFolder ) )
 			return;
 
-		if ( !FileSystem.Data.DirectoryExists( TargetFolder ) )
+		TargetFolder = targetFolder;
+
+		if ( !FileSystem.Data.DirectoryExists( targetFolder ) )
 		{
-			FileSystem.Data.CreateDirectory( TargetFolder );
+			FileSystem.Data.CreateDirectory( targetFolder );
 		}
 	}
 
@@ -79,6 +91,30 @@
 		return fileList;
 	}
 
+	void CreateFile( string name, string data = "" )
+	{
+		if ( string.IsNullOrWhiteSpace( name ) )
+			return;
+
+		var path = Path.Combine( TargetFolder, name );
+		if ( FileSystem.Data.FileExists( path ) )
+			return;
+
+		FileSystem.Data.WriteAllText( path, data );
+	}
+
+	void CreateFolder( string name )
+	{
+		if ( string.IsNullOrWhiteSpace( name ) )
+			return;
+
+		var path = Path.Combine( TargetFolder, name );
+		if ( FileSystem.Data.DirectoryExists( path ) )
+			return;
+
+		FileSystem.Data.CreateDirectory( path );
+	}
+
 	private static int GetDepth( string relativePath )
 	{
 		if ( string.IsNullOrWhiteSpace( relativePath ) )
@@ -99,6 +135,56 @@
 		var norm = relativePath.Replace( '\\', '/' ).TrimEnd( '/' );
 		var i = norm.LastIndexOf( '/' );
 		return i >= 0 ? norm[(i + 1)..] : norm;
+	}
+
+	private void HandleNodeMouseDown( PanelEvent e, string path, bool isFolder )
+	{
+		MousePanelEvent me = e as MousePanelEvent;
+		if ( me.MouseButton == MouseButtons.Right )
+		{
+			Log.Info( me.MouseButton );
+			me.StopPropagation();
+
+			var entries = GetContextMenuItems( path, isFolder );
+
+			var screenPos = Mouse.Position;
+
+			var menu = ContextMenu.Open( FindRootPanel(), screenPos, entries );
+
+			menu.Style.Left = Length.Pixels( screenPos.x );
+			menu.Style.Top = Length.Pixels( screenPos.y );
+		}
+	}
+
+	public List<ContextMenu.Entry> GetContextMenuItems( string path, bool isFolder )
+	{
+		var entries = new List<ContextMenu.Entry>();
+
+		if ( isFolder )
+		{
+			entries.Add( new("New File", () => CreateFile( Path.Combine( path, "new_file.txt" ) )) );
+			entries.Add( new("New Folder", () => CreateFolder( "coc" )) );
+			entries.Add( new("Delete", () =>
+			{
+				var fullPath = Path.Combine( TargetFolder, path );
+				Log.Info( fullPath );
+				if ( FileSystem.Data.DirectoryExists( fullPath ) )
+					FileSystem.Data.DeleteDirectory( fullPath, recursive: true );
+			}) );
+		}
+		else
+		{
+			entries.Add( new("Rename", () => Log.Info( $"Rename {path}" )) );
+			entries.Add( new("Delete", () =>
+			{
+				var fullPath = Path.Combine( TargetFolder, path );
+				Log.Info( fullPath );
+				if ( FileSystem.Data.FileExists( fullPath ) )
+					FileSystem.Data.DeleteFile( fullPath );
+			}) );
+		}
+
+		return entries;
 	}
 
 	protected override int BuildHash()
