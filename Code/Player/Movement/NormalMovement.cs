@@ -205,6 +205,8 @@ public partial class NormalMovement : Movement
 	{
 		SetHeight( MathX.SmoothDamp( Height, StandingHeight, ref heightVelocity, 0.1f, Time.Delta ) );
 
+		OnGroundVelocity = 0;
+
 		MaxSpeed = NoClipSpeed;
 
 		if ( Input.Down( "Run" ) && EnableSprinting )

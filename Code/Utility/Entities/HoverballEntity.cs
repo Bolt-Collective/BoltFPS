@@ -4,18 +4,24 @@ using Seekers;
 
 public sealed class HoverballEntity : OwnedEntity
 {
-	[Property] public float Strength { get; set; } = 1;
+	[Property, Sync] public float Strength { get; set; } = 1;
 
 	[Property, Sync] public float Speed { get; set; } = 10;
 
-	[Property]
+	[Property, Sync]
 	public InputBind UpBind { get; set; }
 
-	[Property]
+	[Property, Sync]
 	public InputBind DownBind { get; set; }
 
-	[Property]
-	public Rotation TargetRotation { get; set; }
+	[Property, Sync]
+	public GameObject ConnectedObject { get; set; }
+
+	[Property, Sync]
+	public Vector3 LocalPos { get; set; }
+
+	[Property, Sync]
+	public float HeightOffset { get; set; }
 
 
 	Rigidbody _rigidbody;
@@ -35,6 +41,11 @@ public sealed class HoverballEntity : OwnedEntity
 
 	protected override void OnStart()
 	{
+		if (ConnectedObject.IsValid())
+		{
+			targetHeight = ConnectedObject.WorldPosition.z;
+			return;
+		}
 		targetHeight = GameObject.WorldPosition.z;
 	}
 
@@ -56,6 +67,19 @@ public sealed class HoverballEntity : OwnedEntity
 	[Rpc.Host]
 	public void SetHeight(float value) => targetHeight = value;
 
+	protected override void OnUpdate()
+	{
+		base.OnUpdate();
+
+		if ( !ConnectedObject.IsValid() )
+			return;
+
+		if ( !Components.TryGet<ModelRenderer>( out var modelRenderer ) )
+			return;
+
+		modelRenderer.SceneObject.Position = ConnectedObject.WorldTransform.PointToWorld( LocalPos );
+	}
+
 	protected override void OnFixedUpdate()
 	{
 		if ( IsProxy )
@@ -67,9 +91,14 @@ public sealed class HoverballEntity : OwnedEntity
 		if ( !rigidbody.IsValid() )
 			return;
 
+		var height = targetHeight;
+
+		if ( ConnectedObject.IsValid() )
+			height += HeightOffset;
+
 		var prevVelocity = rigidbody.Velocity;
 
-		rigidbody.SmoothMove( WorldPosition.WithZ(targetHeight), 1f.LerpTo( 0.01f, Strength ), Time.Delta );
+		rigidbody.SmoothMove( WorldPosition.WithZ(height), 1f.LerpTo( 0.01f, Strength ), Time.Delta );
 
 		rigidbody.Velocity = prevVelocity.WithZ(rigidbody.Velocity.z);
 	}

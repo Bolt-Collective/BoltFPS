@@ -94,7 +94,9 @@ public partial class Hoverball : BaseTool
 		hoverballEntity.UpBind = new InputBind( up );
 		hoverballEntity.DownBind = new InputBind( down );
 		hoverballEntity.EntityOwner = owner;
-		hoverballEntity.TargetRotation = selectionPoint.GameObject.WorldRotation;
+		hoverballEntity.ConnectedObject = selectionPoint.GameObject;
+		hoverballEntity.LocalPos = selectionPoint.GameObject.WorldTransform.PointToLocal(hoverball.WorldPosition);
+		hoverballEntity.HeightOffset = hoverball.WorldPosition.z - selectionPoint.GameObject.WorldPosition.z;
 
 		Weld.WeldObjects( hoverball, selectionPoint.GameObject, hoverball.WorldTransform.PointToLocal( selectionPoint.WorldPosition ) );
 		NoCollide.ApplyNoCollide( hoverball, selectionPoint.GameObject, Guid.NewGuid() );

@@ -121,7 +121,7 @@ public abstract partial class Movement : Component
 			Velocity = 0;
 	}
 
-	void ClearGround()
+	public void ClearGround()
 	{
 		IsGrounded = false;
 		GroundObject = default;
