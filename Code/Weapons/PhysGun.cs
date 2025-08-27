@@ -71,7 +71,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		if ( !GrabbedObject.IsValid() )
 			return;
 
-		if ( !HeldBody.IsValid() )
+		if ( !HeldBody.IsValid() && !GrabbedObject.Tags.Has("frozen") )
 		{
 			if ( GrabbedObject.Components.TryGet<PropHelper>( out var ph ) && ph.CanFreeze )
 				ph.Prop.IsStatic = false;
@@ -387,6 +387,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		if ( gameObject.Components.TryGet<PropHelper>( out var ph ) && !ph.CanFreeze )
 			return;
+
 
 		var body = GetBody( gameObject );
 

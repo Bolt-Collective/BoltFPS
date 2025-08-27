@@ -17,17 +17,24 @@ public abstract partial class Movement : Component
 		if (Input.Pressed("jump") || Input.Pressed("duck") || CurrentSeat.Owner != this)
 		{
 			WorldPosition = CurrentSeat.WorldTransform.PointToWorld( CurrentSeat.SeatPosition + BodyModelRenderer.WorldTransform.Up * 5);
-			CurrentSeat = null;
+			Stand();
 		}
+	}
+
+	[Rpc.Host]
+	public void Stand()
+	{
+		if ( CurrentSeat.Owner == this )
+			CurrentSeat.Owner = null;
+		CurrentSeat = null;
 	}
 
 	[Rpc.Host]
 	public void Sit(SitEntity sitEntity)
 	{
-		Log.Info( CurrentSeat );
 
-		//if ( !sitEntity.Owner.IsValid() )
-		//		return;
+		if ( sitEntity.Owner.IsValid() )
+			return;
 
 		CurrentSeat = sitEntity;
 		sitEntity.Claim( this );

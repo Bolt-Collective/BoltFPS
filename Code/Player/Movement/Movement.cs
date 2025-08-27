@@ -202,11 +202,14 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 			var eyeAngles = EyeAngles;
 
-			eyeAngles.yaw -= lastSeatRotation.Yaw() - CurrentSeat.WorldRotation.Yaw();
+			var rotation = CurrentSeat.WorldTransform.RotationToWorld( CurrentSeat.SeatRotation );
+
+			eyeAngles.yaw -= lastSeatRotation.Yaw() - rotation.Yaw();
+			eyeAngles.pitch -= lastSeatRotation.Pitch() - rotation.Pitch();
 			EyeAngles = eyeAngles;
 
 			lastSeat = CurrentSeat;
-			lastSeatRotation = CurrentSeat.WorldRotation;
+			lastSeatRotation = rotation;
 		}
 
 		EyeAngles = EyeAngles.WithPitch( EyeAngles.pitch.Clamp( -89f, 89f ) );

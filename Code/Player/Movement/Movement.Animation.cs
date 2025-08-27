@@ -54,8 +54,13 @@ public partial class Movement : Component
 
 		if (CurrentSeat.IsValid())
 		{
+			BodyModelRenderer.WorldPosition = CurrentSeat.WorldTransform.PointToWorld( CurrentSeat.SeatPosition + SeatOffset);
 			BodyModelRenderer.WorldRotation = CurrentSeat.WorldTransform.RotationToWorld( CurrentSeat.SeatRotation );
 			return;
+		}
+		else
+		{
+			BodyModelRenderer.LocalPosition = 0;
 		}
 
 		if ( IsTouchingLadder && RotationFaceLadders )
