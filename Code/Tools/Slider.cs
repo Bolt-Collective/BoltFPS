@@ -3,7 +3,7 @@
 namespace Seekers;
 
 [Library( "tool_slider", Title = "Slider", Description = "Create a sliding joint between 2 objects." )]
-[Group( "constaints" )]
+[Group( "constraints" )]
 public class Slider : BaseJointTool
 {
 	[Property, Sync]

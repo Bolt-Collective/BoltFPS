@@ -1,9 +1,18 @@
 ﻿namespace Seekers;
 
-[Library( "tool_hinge", Title = "Hinge", Description = "Rotaional Joint" )]
+[Library( "tool_motor", Title = "Motor", Description = "Rotaional Joint" )]
 [Group( "constraints" )]
-public class Hinge : BaseJointTool
+public class Motor : BaseJointTool
 {
+	[Property]
+	public InputBind Forwards { get; set; } = new( "uparrow", true );
+
+	[Property]
+	public InputBind Backwards { get; set; } = new( "downarrow", true );
+
+	[Property, Range( -1000, 1000 ), Sync]
+	public float Speed { get; set; } = 250;
+
 	[Property, Range( -180, 180 ), Sync]
 	public float MinRotation { get; set; }
 
@@ -21,6 +30,23 @@ public class Hinge : BaseJointTool
 	public override void Disconnect( GameObject target )
 	{
 
+	}
+
+	[Sync]
+	public BroadcastBind ForwardSync { get; set; }
+
+	[Sync]
+	public BroadcastBind BackwardSync { get; set; }
+
+	protected override void OnFixedUpdate()
+	{
+		base.OnFixedUpdate();
+
+		if ( IsProxy )
+			return;
+
+		ForwardSync = Forwards.GetBroadcast();
+		BackwardSync = Backwards.GetBroadcast();
 	}
 
 	protected override void OnUpdate()
@@ -82,6 +108,8 @@ public class Hinge : BaseJointTool
 		var hingeJoint = point2.Components.Create<HingeJoint>();
 		hingeJoint.Body = point1;
 
+		hingeJoint.Motor = HingeJoint.MotorMode.TargetVelocity;
+
 		hingeJoint.MinAngle = MinRotation;
 		hingeJoint.MaxAngle = MaxRotation;
 
@@ -90,6 +118,16 @@ public class Hinge : BaseJointTool
 
 		propHelper1?.Joints.Add( hingeJoint );
 		propHelper2?.Joints.Add( hingeJoint );
+
+		var motorEntity = point1.Components.Create<MotorEntity>();
+		motorEntity.ForwardBind = new InputBind( ForwardSync );
+		motorEntity.BackwardBind = new InputBind( BackwardSync );
+		motorEntity.Speed = Speed;
+		motorEntity.HingeJoint = hingeJoint;
+		motorEntity.EntityOwner = Network.OwnerId;
+
+		point1.Network.AssignOwnership( Connection.Host );
+		point1.NetworkSpawn();
 
 		UndoSystem.Add( creator: Network.Owner.Id, callback: () =>
 		{

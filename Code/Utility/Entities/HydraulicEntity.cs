@@ -33,8 +33,11 @@ public sealed class HydraulicEntity : OwnedEntity
 		if ( IsProxy )
 			return;
 
+		var min = MinLength == 0 ? 0.01f : MinLength; 
+		var max = MaxLength == 0 ? 0.01f : MaxLength;
+
 		if ( TargetLength == 0 )
-			TargetLength = Vector3.DistanceBetween( Joint.WorldPosition, Joint.Body.WorldPosition );
+			TargetLength = Vector3.DistanceBetween( Joint.WorldPosition, Joint.Body.WorldPosition ).Clamp( min, max );
 	}
 
 	protected override void OnFixedUpdate()
@@ -49,7 +52,8 @@ public sealed class HydraulicEntity : OwnedEntity
 	{
 		TargetLength += value;
 		var min = MinLength == 0 ? 0.01f : MinLength;
-		TargetLength = TargetLength.Clamp( min, MaxLength );
+		var max = MaxLength == 0 ? 0.01f : MaxLength;
+		TargetLength = TargetLength.Clamp( min, max );
 	}
 
 	public override void OwnerUpdate()
