@@ -66,7 +66,11 @@ public abstract class BaseEntitySpawner<TEntity> : BaseTool where TEntity : Comp
 
 	protected bool EntityOwnedByLocal( Component comp )
 	{
-		var ownerProp = comp.GetType().GetProperty( "EntityOwner" );
-		return ownerProp != null && ownerProp.GetValue( comp )?.Equals( Connection.Local.Id ) == true;
+		var ownedEntity = comp as OwnedEntity;
+
+		if ( !ownedEntity.IsValid() )
+			return false;
+
+		return ownedEntity.EntityOwner == Connection.Local.Id;
 	}
 }

@@ -25,11 +25,6 @@ public partial class Duplicator : BaseTool
 	[Sync( SyncFlags.FromHost )]
 	public string SavedDupe { get; set; }
 
-	protected override void OnStart()
-	{
-		FileBrowser.TargetFolder = "dupes";
-	}
-
 	public override bool Primary( SceneTraceResult trace )
 	{
 		if ( !trace.Hit || !Input.Pressed( "attack1" ) )
