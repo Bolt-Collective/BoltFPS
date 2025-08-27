@@ -20,7 +20,7 @@ public sealed class SitEntity : Component, Component.IPressable
 		Owner = owner;
 	}
 
-	[Sync(SyncFlags.FromHost)]
+	[Sync(SyncFlags.FromHost), Property]
 	public Movement Owner { get; set; }
 
 	[Property]

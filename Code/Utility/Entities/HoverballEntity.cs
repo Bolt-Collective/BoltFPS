@@ -25,7 +25,7 @@ public sealed class HoverballEntity : OwnedEntity
 		{
 			if ( !_rigidbody.IsValid() )
 			{
-				_rigidbody = GameObject.Parent.Components.Get<Rigidbody>();
+				_rigidbody = Components.Get<Rigidbody>();
 			}
 			return _rigidbody;
 		}
@@ -68,20 +68,10 @@ public sealed class HoverballEntity : OwnedEntity
 			return;
 
 		var prevVelocity = rigidbody.Velocity;
-		var prevAngular = rigidbody.AngularVelocity;
 
-		var childWorldPos = GameObject.WorldPosition;
+		rigidbody.SmoothMove( WorldPosition.WithZ(targetHeight), 1f.LerpTo( 0.01f, Strength ), Time.Delta );
 
-		var zOffset = targetHeight - childWorldPos.z;
-
-		var desiredParentPos = rigidbody.WorldPosition + Vector3.Up * zOffset;
-
-		rigidbody.SmoothMove( desiredParentPos, 1f.LerpTo( 0.01f, Strength ), Time.Delta );
-		rigidbody.SmoothRotate( TargetRotation, 10f.LerpTo( 0.01f, Strength ), Time.Delta );
-
-		rigidbody.Velocity = prevVelocity.WithZ( rigidbody.Velocity.z );
-
-		rigidbody.AngularVelocity = rigidbody.AngularVelocity.WithZ( prevAngular.z );
+		rigidbody.Velocity = prevVelocity.WithZ(rigidbody.Velocity.z);
 	}
 
 

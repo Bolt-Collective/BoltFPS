@@ -84,7 +84,6 @@ public partial class Hoverball : BaseTool
 		hoverball.WorldRotation = Rotation.LookAt( selectionPoint.WorldNormal );
 
 		var modelProp = hoverball.Components.Create<Prop>();
-		modelProp.IsStatic = true;
 		modelProp.Model = Model.Load( "models/hoverball/hoverball.vmdl" );
 
 		modelProp.Components.Create<PropHelper>().CanFreeze = false;
@@ -97,7 +96,7 @@ public partial class Hoverball : BaseTool
 		hoverballEntity.EntityOwner = owner;
 		hoverballEntity.TargetRotation = selectionPoint.GameObject.WorldRotation;
 
-		hoverball.SetParent( selectionPoint.GameObject );
+		Weld.WeldObjects( hoverball, selectionPoint.GameObject, hoverball.WorldTransform.PointToLocal( selectionPoint.WorldPosition ) );
 		NoCollide.ApplyNoCollide( hoverball, selectionPoint.GameObject, Guid.NewGuid() );
 
 		hoverball.NetworkSpawn();

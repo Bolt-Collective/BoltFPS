@@ -185,6 +185,8 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 	public float AimSensitivityScale = 1;
 
+	SitEntity lastSeat;
+	public Rotation lastSeatRotation;
 	public virtual void UpdateCamera()
 	{
 		if ( !Camera.IsValid() )
@@ -192,6 +194,20 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 		if ( !IgnoreCam )
 			EyeAngles += Input.AnalogLook * AimSensitivityScale;
+
+		if (CurrentSeat.IsValid())
+		{
+			if (CurrentSeat != lastSeat)
+				lastSeatRotation = CurrentSeat.WorldRotation;
+
+			var eyeAngles = EyeAngles;
+
+			eyeAngles.yaw -= lastSeatRotation.Yaw() - CurrentSeat.WorldRotation.Yaw();
+			EyeAngles = eyeAngles;
+
+			lastSeat = CurrentSeat;
+			lastSeatRotation = CurrentSeat.WorldRotation;
+		}
 
 		EyeAngles = EyeAngles.WithPitch( EyeAngles.pitch.Clamp( -89f, 89f ) );
 
