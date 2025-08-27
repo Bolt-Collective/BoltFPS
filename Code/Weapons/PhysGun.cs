@@ -398,7 +398,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		if ( body.Components.TryGet<Prop>( out var prop ) )
 			prop.IsStatic = true;
 		else if ( body.IsValid() )
-			body.Enabled = false;
+			body.MotionEnabled = false;
 		else
 			return;
 
@@ -431,7 +431,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		if ( gameObject.Components.TryGet<Prop>( out var prop ) )
 			prop.IsStatic = false;
 		else if (body.IsValid())
-			body.Enabled = true;
+			body.MotionEnabled = true;
 		else 
 			return;
 

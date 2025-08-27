@@ -9,6 +9,9 @@ public partial class ColorTool : BaseTool
 	[Property]
 	public Color Color { get; set; } = Color.White;
 
+	[Property, Range( 0, 1 )]
+	public float Opacity { get; set; } = 1;
+
 	public override bool Primary( SceneTraceResult trace )
 	{
 		if ( Input.Pressed( "attack1" ) )
@@ -19,7 +22,7 @@ public partial class ColorTool : BaseTool
 			if ( !trace.GameObject.Root.Components.TryGet<PropHelper>( out var propHelper ) )
 				return false;
 
-			BroadcastColor( propHelper.GameObject, Color );
+			BroadcastColor( propHelper.GameObject, Color.WithAlpha(Opacity) );
 
 			return true;
 		}
