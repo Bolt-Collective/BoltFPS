@@ -24,7 +24,7 @@ public abstract partial class Movement : Component
 	[Rpc.Host]
 	public void Sit(SitEntity sitEntity)
 	{
-		if ( CurrentSeat.Owner.IsValid() )
+		if ( CurrentSeat?.Owner.IsValid() ?? false )
 			return;
 
 		CurrentSeat = sitEntity;

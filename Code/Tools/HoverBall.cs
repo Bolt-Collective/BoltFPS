@@ -87,7 +87,7 @@ public partial class Hoverball : BaseTool
 		modelProp.IsStatic = true;
 		modelProp.Model = Model.Load( "models/hoverball/hoverball.vmdl" );
 
-		modelProp.AddComponent<PropHelper>();
+		modelProp.Components.Create<PropHelper>().CanFreeze = false;
 
 		var hoverballEntity = hoverball.AddComponent<HoverballEntity>();
 		hoverballEntity.Strength = force;

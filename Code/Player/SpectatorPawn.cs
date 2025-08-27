@@ -122,13 +122,7 @@ public sealed class SpectatorPawn : Pawn
 
 	void PlayerSpectate()
 	{
-		if ( !SpectatedPawn.IsValid() )
-		{
-			State = SpectateState.Free;
-			return;
-		}
-
-		if ( Input.Pressed( "jump" ) )
+		if ( !SpectatedPawn.IsValid() || Input.Pressed( "jump" ) )
 		{
 			State = SpectateState.Free;
 			return;

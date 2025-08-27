@@ -10,6 +10,8 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	[Property, Sync] public Vector3 Velocity { get; set; } = 0f;
 	[Property, Sync] public bool Invincible { get; set; } = false;
 
+	[Property, Sync] public bool CanFreeze { get; set; } = true;
+
 	[Sync] public Prop Prop { get; set; }
 
 	private string _material;

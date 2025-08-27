@@ -83,7 +83,7 @@ public partial class Thruster : BaseTool
 		prop.IsStatic = true;
 		prop.Model = Model.Load( "models/thruster/thrusterprojector.vmdl" );
 
-		thruster.Components.Create<PropHelper>();
+		thruster.Components.Create<PropHelper>().CanFreeze = false;
 
 		thruster.Tags.Add( "thruster" );
 
