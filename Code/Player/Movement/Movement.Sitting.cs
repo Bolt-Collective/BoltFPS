@@ -25,14 +25,9 @@ public abstract partial class Movement : Component
 	public void Sit(SitEntity sitEntity)
 	{
 		Log.Info( CurrentSeat );
-		if ( CurrentSeat?.Owner.IsValid() == true )
-		{
-			if ( !sitEntity.Owner.IsValid() )
-				return;
 
-			if ( sitEntity.Owner.CurrentSeat == sitEntity )
-				return;
-		}
+		//if ( !sitEntity.Owner.IsValid() )
+		//		return;
 
 		CurrentSeat = sitEntity;
 		sitEntity.Claim( this );

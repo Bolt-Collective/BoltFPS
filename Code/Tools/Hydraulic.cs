@@ -2,10 +2,17 @@
 
 namespace Seekers;
 
-[Library( "tool_slider", Title = "Slider", Description = "Create a sliding joint between 2 objects." )]
+[Library( "tool_hydraulic", Title = "Hydraulic", Description = "Create a hydraulic" )]
 [Group( "constaints" )]
-public class Slider : BaseJointTool
+public class Hydraulic : BaseJointTool
 {
+
+	[Property]
+	public InputBind Extend { get; set; } = new( "uparrow", true );
+
+	[Property]
+	public InputBind Detract { get; set; } = new( "downarrow", true );
+
 	[Property, Sync]
 	public bool Collision { get; set; } = true;
 
@@ -14,6 +21,22 @@ public class Slider : BaseJointTool
 
 	[Property, Range( -500, 500 ), Sync]
 	public float MaxLength { get; set; }
+
+	[Property, Range( -500, 500 ), Sync]
+	public float Speed { get; set; } = 100;
+
+	[Sync]
+	public BroadcastBind ExtendSync { get; set; }
+
+	[Sync]
+	public BroadcastBind DetractSync { get; set; }
+	protected override void OnFixedUpdate()
+	{
+		base.OnFixedUpdate();
+
+		ExtendSync = Extend.GetBroadcast();
+		DetractSync = Detract.GetBroadcast();
+	}
 
 	[Rpc.Broadcast]
 	public override void Disconnect( GameObject target )
@@ -29,7 +52,6 @@ public class Slider : BaseJointTool
 
 		PropHelper propHelper1 = selection1.GameObject.Root.Components.Get<PropHelper>();
 		PropHelper propHelper2 = selection2.GameObject.Root.Components.Get<PropHelper>();
-
 
 		(GameObject point1, GameObject point2) = GetJointPoints( selection1, selection2 );
 
@@ -67,6 +89,18 @@ public class Slider : BaseJointTool
 		linePoint2.NetworkSpawn();
 		linePoint1.Network.AssignOwnership( Connection.Host );
 		linePoint1.NetworkSpawn();
+
+		var hydraulicEntity = point1.Components.Create<HydraulicEntity>();
+		hydraulicEntity.Speed = Speed;
+		hydraulicEntity.MaxLength = MaxLength;
+		hydraulicEntity.MinLength = MinLength;
+		hydraulicEntity.ExtendBind = new InputBind( ExtendSync );
+		hydraulicEntity.DetractBind = new InputBind( DetractSync );
+		hydraulicEntity.Joint = sliderJoint;
+		hydraulicEntity.EntityOwner = Network.OwnerId;
+
+		point1.Network.AssignOwnership( Connection.Host );
+		point1.NetworkSpawn();
 
 		UndoSystem.Add( creator: Network.Owner.Id, callback: () =>
 		{
