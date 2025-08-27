@@ -179,7 +179,7 @@ public abstract partial class Movement : Component
 
 		UpdateGroundVelocity();
 
-		WorldPosition += OnGroundVelocity.WithZ( 0 ) * Time.Delta;
+		WorldPosition += OnGroundVelocity * Time.Delta;
 
 		TryUnstuck( previousVelocity );
 
