@@ -146,6 +146,7 @@ public abstract partial class Movement : Component
 		if ( !IsGrounded )
 			return;
 
+
 		if ( GroundObject is null )
 		{
 			OnGroundVelocity = 0;
@@ -179,7 +180,7 @@ public abstract partial class Movement : Component
 
 		UpdateGroundVelocity();
 
-		WorldPosition += OnGroundVelocity * Time.Delta;
+		WorldPosition += OnGroundVelocity.WithZ( OnGroundVelocity.z.Clamp(0, float.MaxValue) ) * Time.Delta;
 
 		TryUnstuck( previousVelocity );
 
