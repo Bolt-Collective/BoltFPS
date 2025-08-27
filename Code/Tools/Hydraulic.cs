@@ -34,6 +34,9 @@ public class Hydraulic : BaseJointTool
 	{
 		base.OnFixedUpdate();
 
+		if ( IsProxy )
+			return;
+
 		ExtendSync = Extend.GetBroadcast();
 		DetractSync = Detract.GetBroadcast();
 	}

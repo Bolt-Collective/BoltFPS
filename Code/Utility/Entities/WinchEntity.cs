@@ -3,13 +3,16 @@ using Sandbox.Services;
 using Sandbox.UI;
 using Seekers;
 
-public sealed class HydraulicEntity : OwnedEntity
+public sealed class WinchEntity : OwnedEntity
 {
 	[Property, Sync]
 	public float Speed { get; set; }
 
 	[Property]
-	public SliderJoint Joint { get; set; }
+	public SpringJoint Joint { get; set; }
+
+	[Property]
+	public VerletRope Rope { get; set; }
 
 	[Property]
 	public InputBind ExtendBind { get; set; }
@@ -33,8 +36,8 @@ public sealed class HydraulicEntity : OwnedEntity
 		if ( IsProxy )
 			return;
 
-		var min = MinLength == 0 ? 0.01f : MinLength; 
-		var max = MaxLength == 0 ? 0.01f : MaxLength;
+		var min = MinLength == 0 ? 5f : MinLength; 
+		var max = MaxLength == 0 ? 5f : MaxLength;
 
 		if ( TargetLength == 0 )
 			TargetLength = Vector3.DistanceBetween( Joint.WorldPosition, Joint.Body.WorldPosition ).Clamp( min, max );
@@ -43,10 +46,14 @@ public sealed class HydraulicEntity : OwnedEntity
 	protected override void OnFixedUpdate()
 	{
 		base.OnFixedUpdate();
+
+		Rope.SegmentLength = TargetLength / Rope.SegmentCount;
+
 		if ( IsProxy )
 			return;
-		Joint.MinLength = TargetLength;
+
 		Joint.MaxLength = TargetLength;
+		Joint.RestLength = TargetLength;
 	}
 
 	[Rpc.Owner]

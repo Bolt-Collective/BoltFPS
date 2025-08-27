@@ -29,6 +29,7 @@ public partial class PhysGun
 		lastGrabbedObject = null;
 	}
 
+	[Rpc.Broadcast]
 	private void DisableHighlights( GameObject gameObject )
 	{
 		if ( gameObject.IsValid() )
@@ -51,6 +52,24 @@ public partial class PhysGun
 		}
 	}
 
+	[Rpc.Broadcast]
+	public void AddHighlights(GameObject gameObject)
+	{
+		var glow = gameObject.Root.GetOrAddComponent<HighlightOutline>();
+		glow.Width = 0.25f;
+		glow.Color = new Color( 4f, 50.0f, 70.0f, 1.0f );
+		glow.ObscuredColor = new Color( 4f, 50.0f, 70.0f, 0.0005f );
+
+		foreach ( var child in gameObject.Root.Children )
+		{
+			if ( !child.GetComponent<ModelRenderer>().IsValid() )
+				continue;
+
+			glow = child.GetOrAddComponent<HighlightOutline>();
+			glow.Color = new Color( 0.1f, 1.0f, 1.0f, 1.0f );
+		}
+	}
+
 	Vector3 lastBeamPos;
 
 	protected virtual void UpdateEffects()
@@ -61,10 +80,11 @@ public partial class PhysGun
 			return;
 		}
 
-		if ( grabbed && !GrabbedObject.IsValid() )
+		if ( Connection.Local == Connection.Host && Beaming && !GrabbedObject.IsValid() )
 		{
 			DisableHighlights( lastGrabbedObject );
 		}
+
 
 		var startPos = Owner.AimRay.Position;
 		var dir = Owner.AimRay.Forward;
@@ -98,23 +118,9 @@ public partial class PhysGun
 			endNoHit?.Destroy();
 			endNoHit = null;
 
-			if ( GrabbedObject.Root.GetComponent<ModelRenderer>().IsValid() )
+			if ( Connection.Local == Connection.Host && GrabbedObject.Root.GetComponent<ModelRenderer>().IsValid() )
 			{
-				lastGrabbedObject = GrabbedObject;
-
-				var glow = GrabbedObject.Root.GetOrAddComponent<HighlightOutline>();
-				glow.Width = 0.25f;
-				glow.Color = new Color( 4f, 50.0f, 70.0f, 1.0f );
-				glow.ObscuredColor = new Color( 4f, 50.0f, 70.0f, 0.0005f );
-
-				foreach ( var child in lastGrabbedObject.Root.Children )
-				{
-					if ( !child.GetComponent<ModelRenderer>().IsValid() )
-						continue;
-
-					glow = child.GetOrAddComponent<HighlightOutline>();
-					glow.Color = new Color( 0.1f, 1.0f, 1.0f, 1.0f );
-				}
+				AddHighlights( GrabbedObject );
 			}
 		}
 		else
@@ -132,6 +138,8 @@ public partial class PhysGun
 			endNoHit ??= Particles.MakeParticleSystem( noHitPrefab, new Transform( lastBeamPos ), 0 );
 			endNoHit.WorldPosition = lastBeamPos;
 		}
+
+		lastGrabbedObject = GrabbedObject;
 
 		var distance = line1.VectorPoints[0].Distance( line1.VectorPoints[2] );
 

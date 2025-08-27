@@ -71,6 +71,9 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		if ( !GrabbedObject.IsValid() )
 			return;
 
+		if ( GrabbedObject.IsProxy )
+			return;
+
 		if ( !HeldBody.IsValid() && !GrabbedObject.Tags.Has("frozen") )
 		{
 			if ( GrabbedObject.Components.TryGet<PropHelper>( out var ph ) && ph.CanFreeze )

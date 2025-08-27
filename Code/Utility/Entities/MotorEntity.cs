@@ -2,10 +2,10 @@
 
 public sealed class MotorEntity : OwnedEntity
 {
-	[Property, Sync]
+	[Property]
 	public InputBind ForwardBind { get; set; }
 
-	[Property, Sync]
+	[Property]
 	public InputBind BackwardBind { get; set; }
 
 	[Property]
