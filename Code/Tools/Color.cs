@@ -19,7 +19,7 @@ public partial class ColorTool : BaseTool
 			if ( !trace.Hit || !trace.GameObject.IsValid() )
 				return false;
 
-			if ( !trace.GameObject.Root.Components.TryGet<PropHelper>( out var propHelper ) )
+			if ( !trace.GameObject.Components.TryGet<PropHelper>( out var propHelper ) )
 				return false;
 
 			BroadcastColor( propHelper.GameObject, Color.WithAlpha(Opacity) );
@@ -37,7 +37,7 @@ public partial class ColorTool : BaseTool
 			if ( !trace.Hit || !trace.GameObject.IsValid() )
 				return false;
 
-			if ( !trace.GameObject.Root.Components.TryGet<PropHelper>( out var propHelper ) )
+			if ( !trace.GameObject.Components.TryGet<PropHelper>( out var propHelper ) )
 				return false;
 
 			BroadcastColor( propHelper.GameObject, Color.White );

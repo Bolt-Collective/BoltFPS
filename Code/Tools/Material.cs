@@ -16,7 +16,7 @@ public partial class MaterialTool : BaseTool
 			if ( !trace.Hit || !trace.GameObject.IsValid() )
 				return false;
 
-			if ( !trace.GameObject.Root.Components.TryGet<PropHelper>( out var propHelper ) )
+			if ( !trace.GameObject.Components.TryGet<PropHelper>( out var propHelper ) )
 				return false;
 			
 			BroadcastMaterial( propHelper.GameObject, Material );
@@ -35,7 +35,7 @@ public partial class MaterialTool : BaseTool
 			if ( !trace.Hit || !trace.GameObject.IsValid() )
 				return false;
 
-			if ( !trace.GameObject.Root.Components.TryGet<PropHelper>( out var propHelper ) )
+			if ( !trace.GameObject.Components.TryGet<PropHelper>( out var propHelper ) )
 				return false;
 
 			BroadcastMaterial( propHelper.GameObject, null );

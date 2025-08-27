@@ -65,7 +65,7 @@ public partial class ToolGun : BaseWeapon
 		if ( !trace.Hit )
 			return;
 
-		GameObject gameObject = trace.GameObject.Root;
+		GameObject gameObject = trace.GameObject;
 
 		if ( !gameObject.IsValid() )
 			return;
@@ -81,7 +81,7 @@ public partial class ToolGun : BaseWeapon
 			gameObject = trace.GameObject;
 			bounds = collider.LocalBounds;
 		}
-		else if ( trace.GameObject.Root.Components.TryGet( out ModelRenderer modelRenderer ) )
+		else if ( trace.GameObject.Components.TryGet( out ModelRenderer modelRenderer ) )
 		{
 			bounds = modelRenderer.LocalBounds;
 		}

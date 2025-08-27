@@ -13,7 +13,7 @@ public class Resizer : BaseTool
 		if ( !Input.Down( "attack1" ) )
 			return false;
 
-		if (!trace.GameObject.Root.Components.TryGet<PropHelper>(out var ph))
+		if (!trace.GameObject.Components.TryGet<PropHelper>(out var ph) && !trace.GameObject.Root.Components.TryGet<PropHelper>(out var ph2))
 			return false;
 
 		var target = trace.GameObject;
