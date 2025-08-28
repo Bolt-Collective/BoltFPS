@@ -60,7 +60,7 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 
 		ClosestEnemy = GetNearest(true)?.Knowable ?? null;
 		Agent.UpdateRotation = !ClosestEnemy.IsValid() && Agent.Velocity.Length > 10;
-		if ( !ClosestEnemy.IsValid() )
+		if ( !ClosestEnemy.IsValid() || !ClosestEnemy.GameObject.IsValid() )
 		{
 			None();
 			return;
