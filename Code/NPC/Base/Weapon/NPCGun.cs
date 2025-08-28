@@ -20,26 +20,28 @@ public abstract class NPCGun : NPCTool
 		if ( !Networking.IsHost )
 			return;
 
-		if (reloading && reloadTime > ReloadTime)
+		if ( reloading && reloadTime > ReloadTime )
 		{
 			FinishReload();
 		}
 	}
+
 	TimeUntil nextShot;
+
 	public virtual bool Shoot( Vector3 pos, float spread = 0.1f )
 	{
-		if ( nextShot > 0 || Ammo <= 0 || pos.Distance(WorldPosition) > Range)
+		if ( nextShot > 0 || Ammo <= 0 || pos.Distance( WorldPosition ) > Range )
 			return false;
 
-		pos += Vector3.Random * Spread * WorldPosition.Distance(pos) * 0.001f;
+		pos += Vector3.Random * Spread * WorldPosition.Distance( pos ) * 0.001f;
 
 		Ammo--;
 
-		nextShot = 1/Rate;
+		nextShot = 1 / Rate;
 
 		SoundExtensions.BroadcastSound( ShootSound, WorldPosition );
 
-		for (int i = 0; i < Shots; i++ )
+		for ( int i = 0; i < Shots; i++ )
 			ShootBullet( Muzzle.WorldPosition, (pos - Muzzle.WorldPosition).Normal, Damage, 1 );
 
 		return true;
@@ -47,6 +49,7 @@ public abstract class NPCGun : NPCTool
 
 	public bool reloading;
 	RealTimeSince reloadTime;
+
 	public virtual void Reload()
 	{
 		SoundExtensions.BroadcastSound( ReloadSound, WorldPosition );
@@ -62,6 +65,7 @@ public abstract class NPCGun : NPCTool
 
 	[Property] public float Spread { get; set; } = 1;
 	public float SpreadIncrease;
+
 	private GameObject Tracer
 	{
 		get
@@ -76,6 +80,7 @@ public abstract class NPCGun : NPCTool
 
 	float shotTime;
 	int shots = 0;
+
 	public virtual void ShootBullet( Vector3 pos, Vector3 dir, float damage, float bulletSize,
 		float spreadOverride = -1 )
 	{
@@ -133,11 +138,13 @@ public abstract class NPCGun : NPCTool
 
 			var calcForce = forward * 25000 * damage;
 
-			BaseWeapon.DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags, inflictor: this, ownerTeam: Owner.Team );
+			BaseWeapon.DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags, inflictor: this,
+				ownerTeam: Owner.Team );
 		}
 	}
 
 	private GameObject muzzle = GameObject.GetPrefab( "weapons/common/effects/muzzle.prefab" );
+
 	protected virtual void ShootEffects()
 	{
 		AttachParticleSystem( muzzle, "muzzle" );
@@ -161,13 +168,11 @@ public abstract class NPCGun : NPCTool
 		var effect =
 			Tracer?.Clone( new CloneConfig
 			{
-				Transform = new Transform().WithPosition( Muzzle.WorldPosition ),
-				StartEnabled = true
+				Transform = new Transform().WithPosition( Muzzle.WorldPosition ), StartEnabled = true
 			} );
-		if ( effect.IsValid() && effect.GetComponentInChildren<Tracer>() is { } tracer )
+		if ( effect.IsValid() && effect.GetComponentInChildren<BeamEffect>() is { } tracer )
 		{
-			tracer.EndPoint = endPosition;
+			tracer.TargetPosition = endPosition;
 		}
 	}
-
 }

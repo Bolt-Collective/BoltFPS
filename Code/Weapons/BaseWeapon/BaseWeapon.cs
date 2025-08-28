@@ -165,18 +165,16 @@ public partial class BaseWeapon : Component
 
 		var attachment = LocalWorldModel.GetAttachment( "muzzle" );
 
-		var origin = attachment.HasValue && Owner.Controller.ThirdPerson
-			? LocalWorldModel.GetAttachment( "muzzle" ).GetValueOrDefault().Position
-			: startPosition;
+		var origin = LocalWorldModel.GetAttachment( "muzzle" ).GetValueOrDefault();
 
 		var effect =
 			Tracer?.Clone( new CloneConfig
 			{
-				Transform = new Transform().WithPosition( origin ), StartEnabled = true
+				Transform = new Transform().WithPosition( origin.Position ), StartEnabled = true
 			} );
-		if ( effect.IsValid() && effect.GetComponentInChildren<Tracer>() is { } tracer )
+		if ( effect.IsValid() && effect.GetComponentInChildren<BeamEffect>() is { } tracer )
 		{
-			tracer.EndPoint = endPosition;
+			tracer.TargetPosition = endPosition;
 		}
 	}
 
