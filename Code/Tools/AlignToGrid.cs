@@ -1,6 +1,6 @@
 ﻿namespace Seekers;
 
-[Library( "tool_grid_align", Title = "Align To Grid", Description = "Alighn Object To Grid" )]
+[Library( "tool_grid_align", Title = "Align To Grid", Description = "Aligns an object's position to a grid" )]
 [Group( "construction" )]
 public partial class AlignToGrid : BaseTool
 {

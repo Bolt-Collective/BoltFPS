@@ -1,6 +1,6 @@
 namespace Seekers;
 
-[Library( "tool_material", Title = "Material", Description = "Change render color and alpha of entities" )]
+[Library( "tool_material", Title = "Material", Description = "Changes the material of an object" )]
 [Group( "render" )]
 public partial class MaterialTool : BaseTool
 {

@@ -1,6 +1,6 @@
 ﻿namespace Seekers;
 
-[Library( "tool_motor", Title = "Motor", Description = "Rotaional Joint" )]
+[Library( "tool_motor", Title = "Motor", Description = "Creates a rotational motor between two objects" )]
 [Group( "constraints" )]
 public class Motor : BaseJointTool
 {

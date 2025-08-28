@@ -4,7 +4,7 @@ using System.Text.Json.Nodes;
 
 namespace Seekers;
 
-[Library( "tool_duplicator", Title = "Duplicator", Description = "Duplicate Contraptions")]
+[Library( "tool_duplicator", Title = "Duplicator", Description = "Duplicates and saves contraptions" )]
 [Group( "construction" )]
 public partial class Duplicator : BaseTool
 {

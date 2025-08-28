@@ -1,6 +1,6 @@
 ﻿namespace Seekers;
 
-[Library( "tool_hinge", Title = "Hinge", Description = "Rotaional Joint" )]
+[Library( "tool_hinge", Title = "Hinge", Description = "Creates a rotational joint between two objects" )]
 [Group( "constraints" )]
 public class Hinge : BaseJointTool
 {

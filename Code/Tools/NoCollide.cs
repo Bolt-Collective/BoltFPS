@@ -5,7 +5,7 @@ using static Sandbox.VideoWriter;
 
 namespace Seekers;
 
-[Library( "no_collide", Title = "No Collide", Description = "Removes Collison for props tag with the tool" )]
+[Library( "no_collide", Title = "No Collide", Description = "Removes collision between two selected objects" )]
 [Group( "construction" )]
 public partial class NoCollide : BaseTool
 {

@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace Seekers;
 
-[Library( "tool_hoverball", Title = "Hoverball", Description = "Add Hoverball To Object" )]
+[Library( "tool_hoverball", Title = "Hoverball", Description = "Attaches a hoverball to an object" )]
 [Group( "construction" )]
 public partial class Hoverball : BaseEntitySpawner<HoverballEntity>
 {

@@ -1,6 +1,6 @@
 ﻿namespace Seekers;
 
-[Library( "tool_winch", Title = "Winch", Description = "Create a winch between 2 points" )]
+[Library( "tool_winch", Title = "Winch", Description = "Creates a winch between two objects" )]
 [Group( "constraints" )]
 public class Winch : BaseJointTool
 {

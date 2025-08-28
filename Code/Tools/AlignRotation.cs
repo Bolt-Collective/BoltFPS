@@ -1,6 +1,6 @@
 ﻿namespace Seekers;
 
-[Library( "tool_rotate_align", Title = "Align Rotation", Description = "Align Object To Rotation" )]
+[Library( "tool_rotate_align", Title = "Align Rotation", Description = "Aligns an object's rotation to a specified degree." )]
 [Group("construction")]
 public partial class AlignRotation : BaseTool
 {

@@ -1,6 +1,6 @@
 namespace Seekers;
 
-[Library( "tool_color", Title = "Color", Description = "Change render color and alpha of entities" )]
+[Library( "tool_color", Title = "Color", Description = "Changes the color of an object" )]
 [Group("render")]
 public partial class ColorTool : BaseTool
 {

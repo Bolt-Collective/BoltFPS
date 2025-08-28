@@ -2,7 +2,7 @@
 
 namespace Seekers;
 
-[Library( "tool_hydraulic", Title = "Hydraulic", Description = "Create a hydraulic" )]
+[Library( "tool_hydraulic", Title = "Hydraulic", Description = "Creates a hydraulic cylinder that can extend and retract" )]
 [Group( "constraints" )]
 public class Hydraulic : BaseJointTool
 {

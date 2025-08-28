@@ -2,7 +2,7 @@
 
 namespace Seekers;
 
-[Library( "tool_button", Title = "Button", Description = "Add Button To Object" )]
+[Library( "tool_button", Title = "Button", Description = "Creates a button that can be used to emulate input" )]
 [Group( "construction" )]
 public partial class Button : BaseTool
 {

@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace Seekers;
 
-[Library( "tool_thruster", Title = "Thruster", Description = "Add Thruster To Object" )]
+[Library( "tool_thruster", Title = "Thruster", Description = "Attaches a thruster to an object" )]
 [Group( "construction" )]
 public partial class Thruster : BaseEntitySpawner<ThrusterEntity>
 {

@@ -1,6 +1,6 @@
 namespace Seekers;
 
-[Library( "tool_remover", Description = "Remove entities" )]
+[Library( "tool_remover", Description = "Removes objects" )]
 [Group( "construction" )]
 public partial class Remover : BaseTool
 {

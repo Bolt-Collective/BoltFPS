@@ -2,7 +2,7 @@
 
 namespace Seekers;
 
-[Library( "tool_wheel", Title = "Wheel", Description = "Attach a Wheel To Object" )]
+[Library( "tool_wheel", Title = "Wheel", Description = "Attaches a wheel to an object" )]
 [Group( "construction" )]
 public partial class Wheel : BaseEntitySpawner<WheelEntity>
 {
