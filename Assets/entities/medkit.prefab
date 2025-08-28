@@ -18,6 +18,7 @@
         "__type": "Seekers.PropHelper",
         "__guid": "921a5e6b-d865-4cf8-9302-c3093faec181",
         "__enabled": true,
+        "CanFreeze": true,
         "Health": 1,
         "Invincible": false,
         "Joints": [],
@@ -41,7 +42,7 @@
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
-        "OpenTime": 1
+        "OpenTime": 0.4
       },
       {
         "__type": "Sandbox.Prop",
@@ -65,7 +66,7 @@
       },
       {
         "__type": "Sandbox.SkinnedModelRenderer",
-        "__guid": "083183e3-3274-4eb7-ada5-5f973bb7522f",
+        "__guid": "7cc1d3b2-f9c5-47b5-ba4c-698b97d276f6",
         "__enabled": true,
         "AnimationGraph": null,
         "BodyGroups": 18446744073709551615,
@@ -108,7 +109,7 @@
       },
       {
         "__type": "Sandbox.ModelCollider",
-        "__guid": "8db98e07-91d9-410e-afb4-d8e9f25bcd79",
+        "__guid": "0effe4c5-d59a-4d96-9df5-5e3722a72fb8",
         "__enabled": true,
         "Elasticity": null,
         "Friction": null,
@@ -131,7 +132,7 @@
       },
       {
         "__type": "Sandbox.Rigidbody",
-        "__guid": "1da179bc-3cef-4c98-9f9f-2beb583eec7e",
+        "__guid": "d6837910-236c-4eb1-bf83-02670e8772a1",
         "__enabled": true,
         "AngularDamping": 0,
         "Gravity": true,
@@ -348,7 +349,26 @@
         ],
         "Children": []
       }
-    ]
+    ],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    },
+    "__variables": []
   },
   "ResourceVersion": 2,
   "ShowInMenu": false,
