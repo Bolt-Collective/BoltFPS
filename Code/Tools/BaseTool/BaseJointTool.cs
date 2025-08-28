@@ -15,11 +15,14 @@ public abstract class BaseJointTool : BaseTool
 		{
 			var newSelectionPoint = new SelectionPoint( trace );
 			newSelectionPoint.Active = true;
-			if ( !selected.Active )
+			if ( !selected.Active || !selected.GameObject.IsValid() )
 			{
 				selected = newSelectionPoint;
 				return true;
 			}
+
+			if ( !selected.GameObject.IsValid() || !newSelectionPoint.GameObject.IsValid() )
+				return false;
 
 			if ( trace.GameObject == selected.GameObject && !CanConstraintToSelf )
 				return false;
