@@ -2,9 +2,11 @@ CurrentTool {
   position: absolute;
   top: 3%;
   left: 0;
+  width: 100%;
   color: white;
 
   .tool {
+    width: 350px;
     transition: all 0.2s ease-in-out;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.0) 100%);
 
