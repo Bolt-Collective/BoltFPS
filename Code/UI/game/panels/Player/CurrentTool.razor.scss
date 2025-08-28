@@ -1,0 +1,41 @@
+CurrentTool {
+  position: absolute;
+  top: 3%;
+  left: 0;
+  color: white;
+
+  .tool {
+    transition: all 0.2s ease-in-out;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.0) 100%);
+
+    padding: 10px 10px 10px 40px;
+
+    &:intro {
+      opacity: 1;
+      transform: translateX(-1000px);
+    }
+
+    &:outro {
+      opacity: 0;
+      background: none;
+      transform: translateX(-1000px);
+    }
+
+    .info {
+      flex-direction: column;
+
+      h1 {
+        font-size: 68px;
+        font-weight: 800;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+      }
+
+      p {
+        font-size: 18px;
+        font-weight: 700;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+
+}

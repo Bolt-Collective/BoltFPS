@@ -1,0 +1,31 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using Seekers
+
+@namespace Seekers
+@inherits PanelComponent
+
+<root>
+	@if ( Show && EquippedTool.IsValid() )
+	{
+		var toolDesc = Game.TypeLibrary.GetType( EquippedTool.GetType() );
+
+		<div class="tool">
+			<div class="info">
+				<h1>@toolDesc.Title</h1>
+				<p>@toolDesc.Description</p>
+			</div>
+		</div>
+	}
+</root>
+
+@code
+{
+	public static bool Show { get; set; } = false;
+	public static BaseTool EquippedTool { get; set; }
+
+	/// <summary>
+	/// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+	/// </summary>
+	protected override int BuildHash() => System.HashCode.Combine( EquippedTool?.GetHashCode() ?? 0, Show );
+}
