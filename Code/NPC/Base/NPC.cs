@@ -70,11 +70,11 @@ public abstract partial class NPC : Knowable
 
 	protected override void OnFixedUpdate()
 	{
-		Animate();
 		ToolVisuals();
 		previousTool = CurrentTool;
 		if ( !Networking.IsHost )
 			return;
+		Animate();
 		if ( !bolt_npcthinking )
 			return;
 		Think();

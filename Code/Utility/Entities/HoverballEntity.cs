@@ -8,10 +8,10 @@ public sealed class HoverballEntity : OwnedEntity
 
 	[Property, Sync] public float Speed { get; set; } = 10;
 
-	[Property, Sync]
+	[Property]
 	public InputBind UpBind { get; set; }
 
-	[Property, Sync]
+	[Property]
 	public InputBind DownBind { get; set; }
 
 	[Property, Sync]

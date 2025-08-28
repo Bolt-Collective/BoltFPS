@@ -111,9 +111,18 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 
 	public override void Animate()
 	{
-		AnimationHelper.HoldType = CurrentTool.IsValid() ? CurrentTool.HoldTypes : AnimationHelper.HoldTypes.None;
-		AnimationHelper.DuckLevel = Crouch ? 1f : 0;
-		AnimationHelper.WithVelocity( Agent.Velocity );
+		var holdType = CurrentTool.IsValid() ? CurrentTool.HoldTypes : AnimationHelper.HoldTypes.None;
+		var duckLevel = Crouch ? 1f : 0;
+		var velocity = Agent.Velocity;
+		SetAnimation(holdType, duckLevel, velocity);
+	}
+
+	[Rpc.Broadcast]
+	public void SetAnimation(AnimationHelper.HoldTypes holdType, float duckLevel, Vector3 velocity)
+	{
+		AnimationHelper.HoldType = holdType;
+		AnimationHelper.DuckLevel = duckLevel;
+		AnimationHelper.WithVelocity( velocity );
 	}
 
 	public void CalculateState()
