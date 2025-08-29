@@ -2,12 +2,12 @@ using Sandbox;
 
 namespace Seekers;
 
-public sealed class BasicNetworkHelper : Component, Component.INetworkListener
+public partial class BasicNetworkHelper : SingletonComponent<BasicNetworkHelper>, Component.INetworkListener
 {
 	[Property] public bool StartServer { get; set; } = true;
 	[Property] public GameObject PlayerPrefab { get; set; }
 
-	[Property] [Group( "Dev" )] private readonly List<long> PlayerWhitelist = new()
+	[Property] [Group( "Dev" )] public readonly List<long> PlayerWhitelist = new()
 	{
 		76561198043979097, // trende
 		76561198193615491, // trollface

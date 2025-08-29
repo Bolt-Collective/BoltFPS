@@ -1,4 +1,7 @@
-﻿@inherits Sandbox.UI.Panel
+﻿@using Sandbox.Services
+@using BoltFPS
+
+@inherits Sandbox.UI.Panel
 @namespace Seekers
 
 <root class="entry @( Entry.Styles )">
@@ -9,7 +12,7 @@
 
 	@if ( !Entry.Styles.Contains( "notification" ) )
 	{
-		if ( Entry.SteamId is 76561198043979097 or 76561198193615491 )
+		if ( GameManager.PlayerWhitelist.Contains( Entry.SteamId ) )
 		{
 			<div class="breaker rainbow">[@Entry.Name]:</div>
 		}
@@ -26,6 +29,7 @@
 
 @code
 {
+	BasicNetworkHelper GameManager => BasicNetworkHelper.Instance;
 	public ChatBox.Entry Entry { get; set; }
 
 	public override void Tick()
