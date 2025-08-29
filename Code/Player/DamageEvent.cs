@@ -163,8 +163,8 @@ public record DamageInfo(
 
 		if ( killMethods.Count <= 0 )
 			killMethods.Add( "icons/kill methods/dead.png" );
-		
-		KillFeed.Current?.AddKill( attacker, attackerColour.Hex, killMethods, victim, victimColour.Hex );
+
+		KillFeed.Current?.AddKill( attacker, attackerColour.Hex, killMethods, victim, victimColour.Hex, duration: 7 );
 	}
 }
 

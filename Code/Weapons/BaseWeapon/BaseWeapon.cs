@@ -240,7 +240,8 @@ public partial class BaseWeapon : Component
 	private void BroadcastEnabled()
 	{
 		Owner?.Renderer?.Set( "b_deploy", true );
-		Sound.Play( DeploySound, WorldPosition );
+		var snd = Sound.Play( DeploySound, WorldPosition );
+		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0 : 1;
 	}
 
 	protected override void OnDisabled()
