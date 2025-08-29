@@ -10,7 +10,6 @@ public partial class PhysGun
 	private LineRenderer line1 => beam.GetComponentsInChildren<LineRenderer>().FirstOrDefault( x => x.GameObject.Name == "Line1" );
 	private LineRenderer line2 => beam.GetComponentsInChildren<LineRenderer>().FirstOrDefault( x => x.GameObject.Name == "Line2" );
 
-	[Rpc.Broadcast]
 	protected virtual void KillEffects()
 	{
 		if ( beam.IsValid() )
@@ -29,7 +28,6 @@ public partial class PhysGun
 		lastGrabbedObject = null;
 	}
 
-	[Rpc.Broadcast]
 	private void DisableHighlights( GameObject gameObject )
 	{
 		if ( gameObject.IsValid() )
