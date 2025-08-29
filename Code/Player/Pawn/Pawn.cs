@@ -222,10 +222,16 @@ public partial class Pawn : ShrimplePawns.Pawn
 		PlayerInventory.GiveWeapon( "m700" );
 	}
 
-	[ConCmd( "seekers.changeteam" )]
+	[ConCmd( "changeteam" )]
 	public static void ChangeTeamCmd( string team )
 	{
 		Local.Owner.Team = ResourceLibrary.GetAll<Team>().FirstOrDefault( x => x.ResourceName == team );
 		Local.Owner.Respawn( Local.Owner.Connection );
+	}
+
+	[ConCmd( "hurtme" )]
+	public static void HurtMe( float damage )
+	{
+		Local?.TakeDamage( damage );
 	}
 }
