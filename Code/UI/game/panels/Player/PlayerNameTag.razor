@@ -6,8 +6,8 @@
 
 <root>
 	<div class="hud">
-		<h4 class="nametag">@_playerName</h4>
-		<h5>@_playerHealth%</h5>
+		<h5 class="nametag">@_playerName</h5>
+		<p>@_playerHealth%</p>
 	</div>
 </root>
 
@@ -24,28 +24,30 @@
 	protected override void OnPreRender()
 	{
 		base.OnPreRender();
-		
+
 		if ( !Pawn.IsValid() )
 			return;
-		
-		var tr = Scene.Trace.Ray(AimRay, 500f)
-			.IgnoreGameObjectHierarchy(Pawn?.GameObject)
+
+		var tr = Scene.Trace.Ray( AimRay, 500f )
+			.IgnoreGameObjectHierarchy( Pawn?.GameObject )
+			.WithoutTags( "movement" )
+			.HitTriggers()
 			.Run();
 
+		Log.Info( tr.Hit );
+		isShowing = false;
 
-		if ( !tr.Hit )
-			return;
-		
-
-		isShowing = tr.GameObject.Components.TryGet( out Pawn target, FindMode.EverythingInSelfAndParent );
-
-
-		if ( isShowing )
+		if ( tr.Hit && tr.GameObject != null )
 		{
-			_playerName = target?.Network?.Owner?.DisplayName;
-			_playerHealth = target.Health;
+			isShowing = tr.GameObject.Components.TryGet( out Pawn target, FindMode.EverythingInSelfAndParent ) && target.IsValid();
+
+			if ( isShowing )
+			{
+				_playerName = target?.Network?.Owner?.DisplayName;
+				_playerHealth = target.Health;
+			}
 		}
-		
+
 		SetClass( "show", isShowing );
 	}
 
