@@ -198,7 +198,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		float impactDmg = Mass / 10;
 		if ( impactDmg <= 0.0f ) impactDmg = 10;
-
+		
 		float speed = collision.Contact.Speed.Length;
 
 		if ( speed > minImpactSpeed )
@@ -215,15 +215,17 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 			// Whatever I hit takes more damage
 			if ( other.GameObject.IsValid() && other.GameObject != GameObject )
 			{
-				var damage = speed / minImpactSpeed * impactDmg * 1.2f;
+				var damage = speed / minImpactSpeed * impactDmg * 0.3f;
+
+				Log.Info( damage );
 
 				if ( other.GameObject.Components.TryGet<PropHelper>( out var propHelper ) )
 				{
 					propHelper.Damage( damage );
 				}
-				else if ( other.GameObject.Root.Components.TryGet<Pawn>( out var player ) )
+				else if ( other.GameObject.Root.Components.TryGet<HealthComponent>( out var player ) )
 				{
-					player.TakeDamage( damage );
+					player.TakeDamage(this, damage );
 				}
 			}
 		}

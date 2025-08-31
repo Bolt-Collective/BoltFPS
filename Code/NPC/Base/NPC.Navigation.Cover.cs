@@ -112,12 +112,12 @@ public abstract partial class NPC : Knowable
 				validCovers.Remove( cover );
 				continue;
 			}
-			var path = ActiveMesh.GetSimplePath( enemy.GameObject.WorldPosition, cover.Position );
 
-			if (path.Count > 0 && path.Last().Distance(cover.Position) > 10)
+			var path = ActiveMesh.CalculatePath( new() { Start = enemy.WorldPosition, Target = cover.Position} );
+
+			if (path.Status == NavMeshPathStatus.PathNotFound )
 			{
 				validCovers.Remove( cover );
-				
 				continue;
 			}
 
@@ -136,7 +136,7 @@ public abstract partial class NPC : Knowable
 	{
 		foreach ( var cover in new List<CoverGenerator.CoverPoint>( validCovers ) )
 		{
-			var path = ActiveMesh.GetSimplePath( WorldPosition, cover.Position );
+			var path = ActiveMesh.CalculatePath( new() { Start = WorldPosition, Target = cover.Position } );
 			var currentDistanceToPlayer = WorldPosition.Distance( enemy.GameObject.WorldPosition );
 
 			if ( currentDistanceToPlayer > MinEngageDistance * 1.2f && GetClosestDistanceOnPath( path, enemy.GameObject.WorldPosition ) < MinEngageDistance )
@@ -176,20 +176,17 @@ public abstract partial class NPC : Knowable
 			FinalizeCoverCheck();
 	}
 
-	public static float GetClosestDistanceOnPath( List<Vector3> path, Vector3 position )
+	public static float GetClosestDistanceOnPath( NavMeshPath path, Vector3 position )
 	{
-		if ( path == null || path.Count == 0 )
+		if ( path.Status == NavMeshPathStatus.PathNotFound )
 			return float.MaxValue;
-
-		if ( path.Count == 1 )
-			return float.MaxValue ;
 
 		float closestDist = float.MaxValue;
 
-		for ( int i = 0; i < path.Count - 1; i++ )
+		for ( int i = 0; i < path.Points.Count - 1; i++ )
 		{
-			Vector3 a = path[i];
-			Vector3 b = path[i + 1];
+			Vector3 a = path.Points[i].Position;
+			Vector3 b = path.Points[i + 1].Position;
 
 			Vector3 ab = b - a;
 			Vector3 ap = position - a;
@@ -209,16 +206,16 @@ public abstract partial class NPC : Knowable
 		return closestDist;
 	}
 
-	public static float GetPathLength( List<Vector3> path )
+	public static float GetPathLength( NavMeshPath path )
 	{
-		if (path.Count <= 0)
+		if (path.Status == NavMeshPathStatus.PathNotFound)
 			return float.MaxValue;
 
 		float length = 0f;
 
-		for ( int i = 1; i < path.Count; i++ )
+		for ( int i = 1; i < path.Points.Count(); i++ )
 		{
-			length += Vector3.DistanceBetween( path[i - 1], path[i] );
+			length += Vector3.DistanceBetween( path.Points[i - 1].Position, path.Points[i].Position );
 		}
 
 		return length;

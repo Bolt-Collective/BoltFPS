@@ -13,9 +13,6 @@ public class Hydraulic : BaseJointTool
 	[Property]
 	public InputBind Detract { get; set; } = new( "downarrow", true );
 
-	[Property, Sync]
-	public bool Collision { get; set; } = true;
-
 	[Property, Range( -500, 500 ), Sync]
 	public float MinLength { get; set; }
 
@@ -65,7 +62,7 @@ public class Hydraulic : BaseJointTool
 
 		var sliderJoint = point2.Components.Create<SliderJoint>();
 		sliderJoint.Body = point1;
-		sliderJoint.EnableCollision = Collision;
+		sliderJoint.EnableCollision = true;
 		sliderJoint.MinLength = MinLength;
 		sliderJoint.MaxLength = MaxLength;
 

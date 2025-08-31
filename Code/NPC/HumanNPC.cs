@@ -253,7 +253,7 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 
 		var distance = WorldPosition.Distance( targetPos );
 
-		var path = ActiveMesh.GetSimplePath( WorldPosition, targetPos );
+		var path = ActiveMesh.CalculatePath( new() { Start = WorldPosition, Target =  targetPos } ); ;
 		var length = GetPathLength( path );
 
 		if ( length > distance * 2 )

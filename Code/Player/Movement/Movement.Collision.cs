@@ -58,6 +58,8 @@ public abstract partial class Movement : Component, ISceneCollisionEvents
 
 		var shadowCollider = new GameObject( GameObject.Name.Split( "-" )[0] + "- COLLIDER" ).AddComponent<BoxCollider>();
 		shadowCollider.WorldPosition = WorldPosition;
+		var healthComponent = shadowCollider.Components.Create<HealthComponent>();
+		healthComponent.LinkedHealth = GetComponent<HealthComponent>();
 
 		shadowCollider.Tags.Add( "movement" );
 

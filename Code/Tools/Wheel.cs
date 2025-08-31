@@ -50,7 +50,8 @@ public partial class Wheel : BaseEntitySpawner<WheelEntity>
 		var modelProp = wheel.Components.Create<Prop>();
 		modelProp.Model = Model.Load( "models/citizen_props/wheel01.vmdl" );
 
-		modelProp.AddComponent<PropHelper>();
+		var propHelper = modelProp.AddComponent<PropHelper>();
+		propHelper.Invincible = true;
 
 		var rb = wheel.AddComponent<Rigidbody>();
 
