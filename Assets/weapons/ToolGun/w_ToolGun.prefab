@@ -51,7 +51,7 @@
         "ReloadSound": "sounds/weapons/reloads/uspreload.sound",
         "ReloadTime": 1.5,
         "SecondaryRate": 15,
-        "ShootSound": "sounds/toolgun/toolgun-fire.sound",
+        "ShootSound": "sounds/weapons/toolgun/toolgun_fire.sound",
         "ShowAmmo": false,
         "Spread": 0,
         "SpreadIncrease": 0,
@@ -106,8 +106,6 @@
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "__references": [
-    "mdlresrc.toolgunshoot#10038"
-  ],
+  "__references": [],
   "__version": 2
 }

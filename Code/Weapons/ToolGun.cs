@@ -162,7 +162,9 @@ public partial class ToolGun : BaseWeapon
 			SaveTool( CurrentTool );
 		ViewModel?.Set( "b_attack", true );
 		Owner.Controller?.BodyModelRenderer?.Set( "b_attack", true );
-		Sound.Play( ShootSound, WorldPosition );
+
+		var snd = Sound.Play( ShootSound, WorldPosition );
+		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0.0f : 1.0f;
 	}
 
 	public void UpdateTool()
