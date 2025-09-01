@@ -1,0 +1,11 @@
+{
+  "DisplayName": "Magnum",
+  "Catagory": "Guns",
+  "Duplicates": true,
+  "ReplenishAmmo": false,
+  "Icon": "icons/weapons/guns/python.png",
+  "Description": "",
+  "Details": null,
+  "__references": [],
+  "__version": 0
+}

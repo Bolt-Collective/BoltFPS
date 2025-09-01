@@ -14,6 +14,14 @@ public partial class BasicNetworkHelper : SingletonComponent<BasicNetworkHelper>
 		76561199407136830, // paths
 		76561198289339378 // graffiti
 	};
+	
+	public static List<long> Devs = new()
+	{
+		76561198043979097, // trende
+		76561198193615491, // trollface
+		76561199407136830, // paths
+		76561198289339378 // graffiti
+	};
 
 	[Property] public List<long> KickedPlayers = new();
 

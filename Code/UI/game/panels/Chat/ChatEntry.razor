@@ -12,7 +12,7 @@
 
 	@if ( !Entry.Styles.Contains( "notification" ) )
 	{
-		if ( GameManager.PlayerWhitelist.Contains( Entry.SteamId ) )
+		if ( BasicNetworkHelper.Devs.Contains( Entry.SteamId ) )
 		{
 			<div class="breaker rainbow">[@Entry.Name]:</div>
 		}

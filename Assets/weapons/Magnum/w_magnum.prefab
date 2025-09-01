@@ -1,0 +1,182 @@
+{
+  "RootObject": {
+    "__guid": "cb9f1332-4abc-4f9a-80b6-b9d7e5e45bb4",
+    "__version": 1,
+    "Flags": 0,
+    "Name": "w_magnum",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "Seekers.Pistol",
+        "__guid": "fb081b52-650e-4bbc-9d37-4acd4f9917ce",
+        "__enabled": true,
+        "Ammo": 6,
+        "BoneOffset": {
+          "Position": "2.7735,0,-4.794",
+          "Scale": "1,1,1",
+          "Rotation": "0,0,0,1"
+        },
+        "Chamber": false,
+        "CrosshairType": "Default",
+        "Damage": 75,
+        "DeploySound": "sounds/weapons/switch/switch_2.sound",
+        "Handedness": "Right",
+        "HoldType": "Pistol",
+        "Icon": "icons/weapons/guns/python.png",
+        "ItemResource": "weapons/magnum/magnum.wep",
+        "LeftIK": {
+          "Active": true,
+          "GameObject": null,
+          "IsLeft": false
+        },
+        "MaxAmmo": 6,
+        "MaxRecoil": 1,
+        "MinRecoil": 0.1,
+        "Name": "Magnum",
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "ParentBone": "hold_r",
+        "PrimaryRate": 1.35,
+        "RecoilPattern": {
+          "Points": [
+            "0,15"
+          ]
+        },
+        "ReloadShortSound": "sounds/weapons/reloads/uspreloadc.sound",
+        "ReloadSound": "sounds/weapons/reloads/uspreload.sound",
+        "ReloadTime": 3.3,
+        "SecondaryRate": 1,
+        "ShootSound": "sounds/guns/revolver/revolver_shoot.sound",
+        "ShowAmmo": true,
+        "Spread": 0.02,
+        "SpreadIncrease": 0,
+        "TracerEffect": null,
+        "ViewModelPrefab": {
+          "_type": "gameobject",
+          "prefab": "weapons/magnum/v_magnum.prefab"
+        }
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "dfeb94fe-27cc-497d-b5ed-ec3252b9aa8d",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Muzzle",
+        "Position": "9.046804,0,6.643744",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": []
+      },
+      {
+        "__guid": "d270a444-9925-4a7c-9405-708bfd34b81a",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Model",
+        "Position": "-0.003046989,-0.02934529,4.48695",
+        "Rotation": "-0.00000002607706,-0.000000339397,-0.0000002257278,0.9999977",
+        "Scale": "0.3794387,0.3794387,0.3794387",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.SkinnedModelRenderer",
+            "__guid": "4d910ff8-02e9-497e-8916-c8e27e0646fe",
+            "__enabled": true,
+            "AnimationGraph": null,
+            "BodyGroups": 18446744073709551615,
+            "BoneMergeTarget": null,
+            "CreateAttachments": false,
+            "CreateBoneObjects": false,
+            "LodOverride": null,
+            "MaterialGroup": null,
+            "MaterialOverride": null,
+            "Materials": null,
+            "Model": "weapons/rust_python/w_python.vmdl",
+            "Morphs": {},
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "Parameters": {
+              "bools": {},
+              "ints": {},
+              "floats": {},
+              "vectors": {},
+              "rotations": {}
+            },
+            "PlaybackRate": 1,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "RenderType": "On",
+            "Sequence": {
+              "Name": null,
+              "Looping": true,
+              "Blending": false
+            },
+            "Tint": "1,1,1,1",
+            "UseAnimGraph": true
+          }
+        ],
+        "Children": []
+      }
+    ],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [
+    "rust.wpython#76233"
+  ],
+  "__version": 2
+}
