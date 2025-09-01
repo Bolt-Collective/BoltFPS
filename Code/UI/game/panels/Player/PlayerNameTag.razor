@@ -14,7 +14,7 @@
 @code
 {
 	public Pawn Pawn => Pawn.Local;
-	private Ray AimRay => Pawn?.AimRay ?? default;
+	private Ray AimRay => Pawn?.AimRay ?? new Ray(  );
 
 	private string _playerName;
 	private float _playerHealth;

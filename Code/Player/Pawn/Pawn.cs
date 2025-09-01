@@ -56,13 +56,15 @@ public partial class Pawn : ShrimplePawns.Pawn
 			return _controller;
 		}
 	}
+	
+	public CameraComponent Camera => Scene?.Camera ?? Controller?.Camera;
 
 	public SkinnedModelRenderer Renderer => Controller.BodyModelRenderer;
 	public AnimationHelper AnimationHelper => Controller.AnimationHelper;
-
+	
 	public Ray AimRay =>
-		new Ray( Controller.Camera.WorldPosition,
-			Controller.Camera.WorldTransform.Forward );
+		new Ray( Camera.WorldPosition,
+			Camera.WorldTransform.Forward );
 
 	public ScreenShaker ScreenShaker => Controller.ScreenShaker;
 

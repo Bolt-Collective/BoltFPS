@@ -83,11 +83,10 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 		if ( IsProxy )
 			return;
-		//Owner.Controller.EnablePressing = !GrabbedObject.IsValid();
-		if ( !Controller.IsValid() )
+		if ( !Controller.IsValid() && !Camera.IsValid() )
 			return;
 
-		var eyePos = AimRay.Project( MathF.Abs( Controller.Camera.LocalPosition.x ) );
+		var eyePos = AimRay.Project( MathF.Abs( Camera.LocalPosition.x ) );
 		var eyeRot = Controller.EyeAngles;
 		var eyeDir = AimRay.Forward;
 
