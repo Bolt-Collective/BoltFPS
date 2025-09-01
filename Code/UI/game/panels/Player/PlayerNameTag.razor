@@ -30,7 +30,7 @@
 
 		var tr = Scene.Trace.Ray( AimRay, 500f )
 			.IgnoreGameObjectHierarchy( Pawn?.GameObject )
-			.WithoutTags( "movement" )
+			.WithoutTags( "movement", "prop", "playerprop" )
 			.HitTriggers()
 			.Run();
 
