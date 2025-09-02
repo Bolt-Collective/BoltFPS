@@ -9,6 +9,10 @@ public partial class ToolGun : BaseWeapon
 
 	public BaseTool CurrentTool { get; set; }
 
+	[Feature( "Effects" )] [Property] public GameObject SuccessImpactEffect { get; set; }
+
+	[Feature( "Effects" )] [Property] public GameObject SuccessBeamEffect { get; set; }
+
 	protected override void OnEnabled()
 	{
 		base.OnEnabled();
@@ -165,6 +169,24 @@ public partial class ToolGun : BaseWeapon
 
 		var snd = Sound.Play( ShootSound, WorldPosition );
 		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0.0f : 1.0f;
+
+		if ( SuccessImpactEffect is { } impactPrefab )
+		{
+			var impact = impactPrefab.Clone( new Transform( position ), null, false );
+			impact.Enabled = true;
+		}
+
+		if ( SuccessBeamEffect is { } beamEffect )
+		{
+			var go = beamEffect.Clone( new Transform( Attachment( "muzzle" ).Position ), null, false );
+
+			foreach ( var beam in go.GetComponentsInChildren<BeamEffect>( true ) )
+			{
+				beam.TargetPosition = position;
+			}
+
+			go.Enabled = true;
+		}
 	}
 
 	public void UpdateTool()

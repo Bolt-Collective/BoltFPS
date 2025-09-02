@@ -55,6 +55,14 @@
         "ShowAmmo": false,
         "Spread": 0,
         "SpreadIncrease": 0,
+        "SuccessBeamEffect": {
+          "_type": "gameobject",
+          "prefab": "weapons/toolgun/effects/beam-success.prefab"
+        },
+        "SuccessImpactEffect": {
+          "_type": "gameobject",
+          "prefab": "weapons/toolgun/effects/impact-ring.prefab"
+        },
         "TracerEffect": null,
         "ViewModelPrefab": {
           "_type": "gameobject",
