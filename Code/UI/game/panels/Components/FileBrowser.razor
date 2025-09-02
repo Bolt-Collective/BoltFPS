@@ -48,6 +48,16 @@
 				<button onclick="@OnCreateNodeCancel">Cancel</button>
 			</div>
 		}
+
+		@if ( ShowSaveDupePrompt )
+		{
+			<div class="create-node-prompt">
+				<label>Dupe Name (.json):</label>
+				<TextEntry Value:bind="@SaveDupeFileName"/>
+				<button onclick="@OnSaveDupeConfirm">Save</button>
+				<button onclick="@OnSaveDupeCancel">Cancel</button>
+			</div>
+		}
 	</div>
 </root>
 
@@ -66,6 +76,15 @@
 	string NewNodeName = "";
 	string CreationBasePath = "";
 
+	/// <summary>
+	/// Reference to the duplicator tool for dupe save/load.
+	/// </summary>
+	public Duplicator DuplicatorTool;
+
+	bool ShowSaveDupePrompt = false;
+	string SaveDupeFileName = "";
+	string SaveDupeFolderPath = "";
+
 	public FileBrowser( string targetFolder )
 	{
 		if ( string.IsNullOrWhiteSpace( targetFolder ) )
@@ -77,6 +96,8 @@
 		{
 			FileSystem.Data.CreateDirectory( targetFolder );
 		}
+
+		DuplicatorTool = ToolGun.CurrentTool as Duplicator;
 	}
 
 	public List<string> GetFoldersFromDirectory( string directory )
@@ -193,6 +214,18 @@
 				if ( FileSystem.Data.DirectoryExists( fullPath ) )
 					FileSystem.Data.DeleteDirectory( fullPath, recursive: true );
 			}) );
+
+			// Add Save Current Selection if dupe is available
+			if ( DuplicatorTool != null && !string.IsNullOrWhiteSpace( DuplicatorTool.GetCurrentDupeJson() ) )
+			{
+				entries.Add( new("Save Current Selection", () =>
+				{
+					ShowSaveDupePrompt = true;
+					SaveDupeFileName = "";
+					SaveDupeFolderPath = path;
+					StateHasChanged();
+				}) );
+			}
 		}
 		else
 		{
@@ -204,6 +237,19 @@
 				if ( FileSystem.Data.FileExists( fullPath ) )
 					FileSystem.Data.DeleteFile( fullPath );
 			}) );
+
+			if ( Path.GetExtension( path ).Equals( ".json", StringComparison.OrdinalIgnoreCase ) )
+			{
+				entries.Add( new("Load", () =>
+				{
+					var fullPath = Path.Combine( TargetFolder, path );
+					if ( FileSystem.Data.FileExists( fullPath ) )
+					{
+						var json = FileSystem.Data.ReadAllText( fullPath );
+						DuplicatorTool?.SetSavedDupeFromJson( json );
+					}
+				}) );
+			}
 		}
 
 		return entries;
@@ -248,6 +294,37 @@
 		CreatingANode = false;
 		NewNodeName = "";
 		CreationBasePath = "";
+		StateHasChanged();
+	}
+
+	void OnSaveDupeConfirm()
+	{
+		if ( DuplicatorTool == null || string.IsNullOrWhiteSpace( SaveDupeFileName ) )
+			return;
+
+		var dupeJson = DuplicatorTool.GetCurrentDupeJson();
+		if ( string.IsNullOrWhiteSpace( dupeJson ) )
+			return;
+
+		var fileName = SaveDupeFileName.EndsWith( ".json" ) ? SaveDupeFileName : SaveDupeFileName + ".json";
+		var folderPath = string.IsNullOrWhiteSpace( SaveDupeFolderPath )
+			? TargetFolder
+			: Path.Combine( TargetFolder, SaveDupeFolderPath );
+		var filePath = Path.Combine( folderPath, fileName );
+
+		FileSystem.Data.WriteAllText( filePath, dupeJson );
+
+		ShowSaveDupePrompt = false;
+		SaveDupeFileName = "";
+		SaveDupeFolderPath = "";
+		StateHasChanged();
+	}
+
+	void OnSaveDupeCancel()
+	{
+		ShowSaveDupePrompt = false;
+		SaveDupeFileName = "";
+		SaveDupeFolderPath = "";
 		StateHasChanged();
 	}
 

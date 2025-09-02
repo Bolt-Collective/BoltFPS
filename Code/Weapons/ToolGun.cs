@@ -7,7 +7,7 @@ public partial class ToolGun : BaseWeapon
 {
 	public static string UserToolCurrent { get; set; }
 
-	public BaseTool CurrentTool { get; set; }
+	public static BaseTool CurrentTool { get; set; }
 
 	[Feature( "Effects" )] [Property] public GameObject SuccessImpactEffect { get; set; }
 
