@@ -38,6 +38,16 @@
 				<p>@Path.GetFileName( file )</p>
 			</div>
 		}
+
+		@if ( CreatingANode )
+		{
+			<div class="create-node-prompt">
+				<label>@( CreatingFolder ? "New Folder Name:" : "New File Name:" )</label>
+				<TextEntry Value:bind="@NewNodeName"/>
+				<button onclick="@OnCreateNodeConfirm">Create</button>
+				<button onclick="@OnCreateNodeCancel">Cancel</button>
+			</div>
+		}
 	</div>
 </root>
 
@@ -52,6 +62,9 @@
 	Panel filePanel;
 
 	bool CreatingANode = false;
+	bool CreatingFolder = false;
+	string NewNodeName = "";
+	string CreationBasePath = "";
 
 	public FileBrowser( string targetFolder )
 	{
@@ -145,13 +158,9 @@
 			me.StopPropagation();
 
 			var entries = GetContextMenuItems( path, isFolder );
-
 			var screenPos = Mouse.Position;
 
-			var menu = ContextMenu.Open( FindRootPanel(), screenPos, entries );
-
-			menu.Style.Left = Length.Pixels( screenPos.x );
-			menu.Style.Top = Length.Pixels( screenPos.y );
+			ContextMenu.Open( FindRootPanel(), screenPos, entries );
 		}
 	}
 
@@ -161,8 +170,22 @@
 
 		if ( isFolder )
 		{
-			entries.Add( new("New File", () => CreateFile( Path.Combine( path, "new_file.txt" ) )) );
-			entries.Add( new("New Folder", () => CreateFolder( "coc" )) );
+			entries.Add( new("New File", () =>
+			{
+				CreatingANode = true;
+				CreatingFolder = false;
+				NewNodeName = "";
+				CreationBasePath = path;
+				StateHasChanged();
+			}) );
+			entries.Add( new("New Folder", () =>
+			{
+				CreatingANode = true;
+				CreatingFolder = true;
+				NewNodeName = "";
+				CreationBasePath = path;
+				StateHasChanged();
+			}) );
 			entries.Add( new("Delete", () =>
 			{
 				var fullPath = Path.Combine( TargetFolder, path );
@@ -186,8 +209,50 @@
 		return entries;
 	}
 
+	void OnCreateNodeConfirm()
+	{
+		if ( !string.IsNullOrWhiteSpace( NewNodeName ) )
+		{
+			string basePath;
+			if ( string.IsNullOrWhiteSpace( CreationBasePath ) )
+			{
+				basePath = TargetFolder;
+			}
+			else
+			{
+				basePath = Path.Combine( TargetFolder, CreationBasePath );
+			}
+
+			if ( CreatingFolder )
+			{
+				var folderPath = Path.Combine( basePath, NewNodeName );
+				if ( !FileSystem.Data.DirectoryExists( folderPath ) )
+					FileSystem.Data.CreateDirectory( folderPath );
+			}
+			else
+			{
+				var filePath = Path.Combine( basePath, NewNodeName );
+				if ( !FileSystem.Data.FileExists( filePath ) )
+					FileSystem.Data.WriteAllText( filePath, "" );
+			}
+
+			CreatingANode = false;
+			NewNodeName = "";
+			CreationBasePath = "";
+			StateHasChanged();
+		}
+	}
+
+	void OnCreateNodeCancel()
+	{
+		CreatingANode = false;
+		NewNodeName = "";
+		CreationBasePath = "";
+		StateHasChanged();
+	}
+
 	protected override int BuildHash()
 	{
-		return HashCode.Combine( GetFoldersFromDirectory( TargetFolder ) );
+		return HashCode.Combine( GetFoldersFromDirectory( TargetFolder ), CreatingANode );
 	}
 }

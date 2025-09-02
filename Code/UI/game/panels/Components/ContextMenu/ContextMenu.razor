@@ -3,7 +3,7 @@
 @using Sandbox.UI;
 
 @namespace Seekers
-@inherits Panel
+@inherits Popup
 
 <root>
 	@foreach ( var entry in Entries )
@@ -16,11 +16,6 @@
 
 @code
 {
-	/// <summary>
-	/// A custom context menu entry with an action.
-	/// </summary>
-	/// <param name="text"></param>
-	/// <param name="action"></param>
 	public struct Entry( string text, Action action )
 	{
 		public string Text = text;
@@ -33,11 +28,8 @@
 	{
 		var menu = parent.AddChild<ContextMenu>();
 		menu.Entries = entries;
-		menu.Style.Position = PositionMode.Absolute;
-		menu.Style.Left = Length.Pixels( position.x );
-		menu.Style.Top = Length.Pixels( position.y );
-		menu.Style.ZIndex = 100;
-
+		menu.SetPositioning( parent, Popup.PositionMode.UnderMouse, 0 );
+		menu.Style.ZIndex = 1000;
 		return menu;
 	}
 
@@ -50,7 +42,10 @@
 	protected override void OnMouseDown( MousePanelEvent e )
 	{
 		base.OnMouseDown( e );
-		Delete();
+		if ( !e.Target.HasClass( "menu-item" ) )
+		{
+			Delete();
+		}
 	}
 
 	public override void Tick()

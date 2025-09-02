@@ -173,6 +173,7 @@ public partial class ToolGun : BaseWeapon
 		if ( SuccessImpactEffect is { } impactPrefab )
 		{
 			var impact = impactPrefab.Clone( new Transform( position ), null, false );
+			impact.NetworkSpawn();
 			impact.Enabled = true;
 		}
 
@@ -185,6 +186,7 @@ public partial class ToolGun : BaseWeapon
 				beam.TargetPosition = position;
 			}
 
+			go.NetworkSpawn();
 			go.Enabled = true;
 		}
 	}

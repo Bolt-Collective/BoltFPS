@@ -1,17 +1,20 @@
 ﻿using Seekers;
 using static Seekers.BaseWeapon;
 
-[GameResource( "Item", "wep", "An item represented in a resource", Icon = "🔫" )]
+[AssetType( Name = "Item", Extension = "wep" )]
 public class ItemResource : GameResource
 {
 	[KeyProperty] public string DisplayName { get; set; }
 	[KeyProperty] public string Catagory { get; set; }
 	[KeyProperty] public bool Duplicates { get; set; } = true;
-	[KeyProperty, ShowIf("Duplicates",false)] public bool ReplenishAmmo { get; set; }
+
+	[KeyProperty, ShowIf( "Duplicates", false )]
+	public bool ReplenishAmmo { get; set; }
+
 	[ImageAssetPath] public string Icon { get; set; }
-	
+
 	[KeyProperty, TextArea] public string Description { get; set; } = "An item.";
-	
+
 	public string Details { get; set; }
 
 	public string GetDetails()
@@ -25,7 +28,7 @@ public class ItemResource : GameResource
 		if ( !pawn?.Inventory.IsValid() ?? true )
 			return;
 
-		foreach (var weapon in pawn.Inventory.Weapons)
+		foreach ( var weapon in pawn.Inventory.Weapons )
 		{
 			if ( Duplicates )
 				break;
@@ -40,12 +43,17 @@ public class ItemResource : GameResource
 
 			var prefab = GameObject.GetPrefab( GetDetails() );
 
-			if ( prefab.Components.TryGet<BaseWeapon>(out var baseWeapon) )
+			if ( prefab.Components.TryGet<BaseWeapon>( out var baseWeapon ) )
 				weapon.Ammo = baseWeapon.Ammo;
 
 			return;
 		}
 
 		Pawn.Local.Inventory.Pickup( GetDetails() );
+	}
+
+	protected override Bitmap CreateAssetTypeIcon( int width, int height )
+	{
+		return CreateSimpleAssetTypeIcon( "🔫", 128, 128, Color.Transparent, Color.White );
 	}
 }
