@@ -51,6 +51,8 @@ public partial class ToolGun : BaseWeapon
 		if ( IsProxy )
 			return;
 
+		Seekers.CurrentTool.Show = this.Active;
+
 		if ( Owner?.Inventory.IsValid() ?? false )
 			Owner.Inventory.CanChange = !Input.Down( "run" );
 
