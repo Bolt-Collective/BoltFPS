@@ -236,7 +236,7 @@ public partial class BaseWeapon : Component
 		go.NetworkSpawn();
 	}
 
-	[Rpc.Broadcast]
+	[Rpc.Broadcast( NetFlags.Unreliable )]
 	private void BroadcastEnabled()
 	{
 		Owner?.Renderer?.Set( "b_deploy", true );

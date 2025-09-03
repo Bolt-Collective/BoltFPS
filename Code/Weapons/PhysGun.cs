@@ -25,6 +25,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 	GameObject lastGrabbed = null;
 
 	PhysicsBody _heldBody;
+
 	PhysicsBody HeldBody
 	{
 		get
@@ -41,7 +42,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 	Rigidbody GetBody( GameObject gameObject )
 	{
-		Rigidbody rigidbody = gameObject.Components.Get<Rigidbody>(true);
+		Rigidbody rigidbody = gameObject.Components.Get<Rigidbody>( true );
 		return rigidbody;
 	}
 
@@ -61,7 +62,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 	{
 		base.OnUpdate();
 
-		if ( Owner.IsValid() && Owner.Controller.IsValid() && Owner.Inventory.IsValid())
+		if ( Owner.IsValid() && Owner.Controller.IsValid() && Owner.Inventory.IsValid() )
 		{
 			Owner.Controller.IgnoreCam = Input.Down( "use" ) && GrabbedObject.IsValid();
 
@@ -74,18 +75,22 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		if ( GrabbedObject.IsProxy )
 			return;
 
-		if ( !HeldBody.IsValid() && !GrabbedObject.Tags.Has("frozen") )
+		if ( !HeldBody.IsValid() && !GrabbedObject.Tags.Has( "frozen" ) )
 		{
-			if ( GrabbedObject.Components.TryGet<PropHelper>( out var ph ) && ph.CanFreeze && ph.Prop.IsValid())
+			if ( GrabbedObject.Components.TryGet<PropHelper>( out var ph ) && ph.CanFreeze && ph.Prop.IsValid() )
 				ph.Prop.IsStatic = false;
 
 			return;
 		}
 
+		if ( !HeldBody.IsValid() )
+			return;
+
 		if ( !HeldBody.MotionEnabled )
 			return;
 
 		var velocity = HeldBody.Velocity;
+
 		Vector3.SmoothDamp( HeldBody.Position, HoldPos, ref velocity, 0.075f, Time.Delta );
 		HeldBody.Velocity = velocity;
 
@@ -160,7 +165,8 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		Owner.CanUse = !Input.Down( "use" );
 
 		if ( Input.Down( "use" ) )
-			DoRotate( new Angles( 0.0f, Rotation.LookAt(Owner.AimRay.Forward).Angles().yaw, 0.0f ), Input.MouseDelta * RotateSpeed );
+			DoRotate( new Angles( 0.0f, Rotation.LookAt( Owner.AimRay.Forward ).Angles().yaw, 0.0f ),
+				Input.MouseDelta * RotateSpeed );
 
 		HoldPos = Owner.AimRay.Position - heldPos * GrabbedObject.WorldRotation + Owner.AimRay.Forward * holdDistance;
 		HoldRot = Owner.Controller.EyeAngles * heldRot;
@@ -188,10 +194,10 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		if ( !GrabbedObject.IsValid() )
 		{
 			var tr = Scene.Trace.Ray( Owner.AimRay, MaxTargetDistance )
-			.UseHitboxes()
-			.WithoutTags( "movement" )
-			.IgnoreGameObjectHierarchy( GameObject.Root )
-			.Run();
+				.UseHitboxes()
+				.WithoutTags( "movement" )
+				.IgnoreGameObjectHierarchy( GameObject.Root )
+				.Run();
 
 			if ( !tr.Hit || !tr.GameObject.IsValid() || tr.Component is MapCollider ) return;
 
@@ -215,7 +221,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 			if ( modelPhysics.IsValid() )
 			{
-				foreach(var ragBody in modelPhysics.Bodies)
+				foreach ( var ragBody in modelPhysics.Bodies )
 				{
 					if ( ragBody.Component.PhysicsBody.BodyType == PhysicsBodyType.Static )
 					{
@@ -333,13 +339,15 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		var tr = Scene.Trace.Ray( Owner.AimRay, MaxTargetDistance )
 			.UseHitboxes()
 			.WithAnyTags( "solid", "player", "debris", "nocollide" )
-			.WithoutTags("movement")
+			.WithoutTags( "movement" )
 			.IgnoreGameObjectHierarchy( GameObject.Root )
 			.Run();
 
 		bool valid =
 			tr.Hit &&
-			(tr.GameObject.Components.Get<Rigidbody>().IsValid() || tr.GameObject.Components.Get<ModelPhysics>().IsValid() || tr.GameObject.GetComponent<PropHelper>().IsValid()) &&
+			(tr.GameObject.Components.Get<Rigidbody>().IsValid() ||
+			 tr.GameObject.Components.Get<ModelPhysics>().IsValid() ||
+			 tr.GameObject.GetComponent<PropHelper>().IsValid()) &&
 			tr.GameObject.IsValid() &&
 			tr.Component is not MapCollider &&
 			tr.Body.IsValid() &&
@@ -397,7 +405,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		var renderer = gameObject.GetComponent<ModelRenderer>();
 
-		if (!gameObject.Tags.Contains("frozen"))
+		if ( !gameObject.Tags.Contains( "frozen" ) )
 			gameObject.Tags.Add( "frozen" );
 
 		if ( body.Components.TryGet<Prop>( out var prop ) )
@@ -435,9 +443,9 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		if ( gameObject.Components.TryGet<Prop>( out var prop ) )
 			prop.IsStatic = false;
-		else if (body.IsValid())
+		else if ( body.IsValid() )
 			body.MotionEnabled = true;
-		else 
+		else
 			return;
 
 		if ( renderer.IsValid() && renderer is not SkinnedModelRenderer )
@@ -446,7 +454,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		ResetJoints( gameObject );
 	}
 
-	public void ResetJoints(GameObject gameObject)
+	public void ResetJoints( GameObject gameObject )
 	{
 		foreach ( var jointPoint in gameObject.Components.GetAll<JointPoint>( FindMode.EverythingInChildren ) )
 		{

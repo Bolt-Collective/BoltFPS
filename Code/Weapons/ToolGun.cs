@@ -256,7 +256,6 @@ public partial class ToolGun : BaseWeapon
 			.WithoutTags( "debris", "player", "movement" )
 			.Size( radius );
 
-
 		foreach ( var ignore in ignors )
 		{
 			trace = trace.IgnoreGameObjectHierarchy( ignore );
@@ -269,6 +268,8 @@ public partial class ToolGun : BaseWeapon
 
 	public SceneTraceResult BasicTraceTool()
 	{
+		if ( !Owner.IsValid() || !Owner.GameObject.IsValid() )
+			return default;
 		return TraceTool( [Owner.GameObject], Owner.AimRay.Position,
 			Owner.AimRay.Position + Owner.AimRay.Forward * 5000 );
 	}

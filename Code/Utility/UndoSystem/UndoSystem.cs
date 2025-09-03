@@ -14,7 +14,7 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 
 	private static Dictionary<Guid, List<Undo>> Undos = new();
 
-	private static List<Undo> Get(Guid id)
+	private static List<Undo> Get( Guid id )
 	{
 		if ( !Undos.ContainsKey( id ) )
 			Undos.Add( id, new List<Undo>() );
@@ -42,7 +42,7 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 		return message;
 	}
 
-	private static Undo GetFirstAndRemove(Guid id)
+	private static Undo GetFirstAndRemove( Guid id )
 	{
 		if ( !Undos.ContainsKey( id ) )
 			Undos.Add( id, new List<Undo>() );
@@ -55,7 +55,7 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 		return undo;
 	}
 
-	private static void AddUndo( Guid id, Undo undo)
+	private static void AddUndo( Guid id, Undo undo )
 	{
 		if ( !Undos.ContainsKey( id ) )
 		{
@@ -67,10 +67,20 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 
 	public static bool Remove( Guid id, Undo undo )
 	{
-		if ( !Undos.ContainsKey( id) )
+		if ( !Undos.ContainsKey( id ) )
 			Undos.Add( id, new List<Undo>() );
 
 		return Undos[id].Remove( undo );
+	}
+
+	public static bool RemoveAll( Guid id )
+	{
+		if ( !Undos.ContainsKey( id ) )
+			Undos.Add( id, new List<Undo>() );
+
+		int count = Undos[id].Count;
+		Undos[id].Clear();
+		return count > 0;
 	}
 
 	[ConCmd( "undo" )]
@@ -84,7 +94,7 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 	}
 
 	[Rpc.Host]
-	public static void BroadcastUndo(Guid id)
+	public static void BroadcastUndo( Guid id )
 	{
 		Undo undo = GetFirstAndRemove( id );
 
@@ -98,6 +108,7 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 					PlayerUndo();
 					return;
 				}
+
 				if ( undoMessage != "" )
 				{
 					ToastNotification.Current.BroadcastToast( undoMessage, 3, id );
@@ -108,11 +119,11 @@ public sealed class UndoSystem : GameObjectSystem<UndoSystem>
 		}
 	}
 
-	public static void Add( Guid creator, Func<string> callback, GameObject prop= null)
+	public static void Add( Guid creator, Func<string> callback, GameObject prop = null )
 	{
 		if ( creator == default ) return;
 
-		var undo = new Undo( creator: creator, callback: callback, prop: prop);
+		var undo = new Undo( creator: creator, callback: callback, prop: prop );
 
 		AddUndo( creator, undo );
 	}

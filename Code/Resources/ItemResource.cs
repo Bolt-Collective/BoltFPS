@@ -54,6 +54,14 @@ public class ItemResource : GameResource
 
 	protected override Bitmap CreateAssetTypeIcon( int width, int height )
 	{
-		return CreateSimpleAssetTypeIcon( "🔫", 128, 128, Color.Transparent, Color.White );
+		if ( string.IsNullOrEmpty( Icon ) )
+		{
+			return CreateSimpleAssetTypeIcon( "🔫", 128, 128, Color.Transparent, Color.White );
+		}
+		else
+		{
+			var img = Bitmap.CreateFromBytes( FileSystem.Mounted.ReadAllBytes( Icon ).ToArray() );
+			return img;
+		}
 	}
 }

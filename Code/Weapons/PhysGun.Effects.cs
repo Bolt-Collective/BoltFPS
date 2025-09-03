@@ -7,8 +7,11 @@ public partial class PhysGun
 
 	GameObject lastGrabbedObject;
 
-	private LineRenderer line1 => beam.GetComponentsInChildren<LineRenderer>().FirstOrDefault( x => x.GameObject.Name == "Line1" );
-	private LineRenderer line2 => beam.GetComponentsInChildren<LineRenderer>().FirstOrDefault( x => x.GameObject.Name == "Line2" );
+	private LineRenderer line1 =>
+		beam.GetComponentsInChildren<LineRenderer>().FirstOrDefault( x => x.GameObject.Name == "Line1" );
+
+	private LineRenderer line2 =>
+		beam.GetComponentsInChildren<LineRenderer>().FirstOrDefault( x => x.GameObject.Name == "Line2" );
 
 	protected virtual void KillEffects()
 	{
@@ -28,6 +31,7 @@ public partial class PhysGun
 		lastGrabbedObject = null;
 	}
 
+	[Rpc.Broadcast( NetFlags.Unreliable )]
 	private void DisableHighlights( GameObject gameObject )
 	{
 		if ( gameObject.IsValid() )
@@ -50,8 +54,8 @@ public partial class PhysGun
 		}
 	}
 
-	[Rpc.Broadcast]
-	public void AddHighlights(GameObject gameObject)
+	[Rpc.Broadcast( NetFlags.Unreliable )]
+	public void AddHighlights( GameObject gameObject )
 	{
 		var glow = gameObject.Root.GetOrAddComponent<HighlightOutline>();
 		glow.Width = 0.25f;
