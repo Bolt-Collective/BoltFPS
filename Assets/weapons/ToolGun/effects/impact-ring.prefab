@@ -302,7 +302,7 @@
                 "TargetColor": "0,1,0,1",
                 "CacheToDisk": true
               },
-              "compiled": null
+              "compiled": "textures/generated/imagefile/760a6cd994d08dc9.vtex"
             },
             "TextureFilter": "Bilinear"
           },
@@ -646,7 +646,7 @@
                 "TargetColor": "0,1,0,1",
                 "CacheToDisk": true
               },
-              "compiled": null
+              "compiled": "textures/generated/imagefile/8f49dbdd3863c2bc.vtex"
             },
             "TextureFilter": "Bilinear"
           },
