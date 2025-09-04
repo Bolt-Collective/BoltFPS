@@ -3,7 +3,8 @@ namespace Seekers;
 public static class Explosion
 {
 	[Rpc.Host]
-	public static void AtPoint( Vector3 point, float radius, float baseDamage, Component attacker = null, bool external = true, Component inflictor = null, Curve falloff = default )
+	public static void AtPoint( Vector3 point, float radius, float baseDamage, Component attacker = null,
+		bool external = true, Component inflictor = null, Curve falloff = default )
 	{
 		if ( falloff.Frames.Count() == 0 )
 		{
@@ -25,11 +26,13 @@ public static class Explosion
 		foreach ( var obj in objectsInArea )
 		{
 			// If the object isn't in line of sight, fuck it off
-			var tr = trace.Ray( point, obj.WorldPosition ).UseHitboxes().Run();
+			var tr = trace.Ray( point, obj.WorldPosition )
+				.WithoutTags( new TagSet() { "solid", "player", "npc", "glass" }.Append( "solid" ).ToArray() )
+				.Run();
 
 			var distance = obj.WorldPosition.Distance( point );
 			var direction = (obj.WorldPosition - point).Normal;
-			
+
 			var damage = baseDamage * falloff.Evaluate( distance / radius );
 
 			var force = direction * damage * 2500f;
@@ -45,10 +48,13 @@ public static class Explosion
 				}
 			}
 
+			BaseWeapon.DoDamage( obj.Root, damage, force, obj.WorldPosition );
+
 			if ( obj.Root.GetComponentInChildren<HealthComponent>() is not { } hc )
 				continue;
 
-			hc.TakeDamage( attacker, damage, inflictor, point, force, flags: DamageFlags.Explosion, external: external );
+			hc.TakeDamage( attacker, damage, inflictor, point, force, flags: DamageFlags.Explosion,
+				external: external );
 		}
 	}
 }

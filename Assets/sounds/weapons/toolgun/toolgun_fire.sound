@@ -1,6 +1,6 @@
 {
   "UI": false,
-  "Volume": "1",
+  "Volume": "0.75",
   "Pitch": "1",
   "Decibels": 70,
   "SelectionMode": "Backward",
@@ -13,7 +13,7 @@
   "Transmission": true,
   "OcclusionRadius": 64,
   "DistanceAttenuation": true,
-  "Distance": 20358,
+  "Distance": 13572,
   "Falloff": [
     {
       "x": 0,

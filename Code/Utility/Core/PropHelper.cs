@@ -134,8 +134,10 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		if ( Prop.Model.TryGetData<ModelExplosionBehavior>( out var data ) )
 		{
+			Log.Info( "did we explode" );
 			// Rest in peace data.Effect
-			Explosion( "particles/medium_explosion.prefab", data.Sound, WorldPosition, data.Radius, data.Damage,
+			Explosion( "weapons/common/effects/medium_explosion.prefab", data.Sound, WorldPosition, data.Radius,
+				data.Damage,
 				data.Force );
 		}
 
@@ -248,37 +250,9 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		Particles.CreateParticleSystem( particleGameObject, new Transform( position, Rotation.Identity ), 10 );
 
-		// Damage, etc
-		var overlaps = Game.ActiveScene.FindInPhysics( new Sphere( position, radius ) );
-
-		foreach ( var obj in overlaps )
-		{
-			if ( !obj.Tags.Intersect( new TagSet() { "solid", "player", "npc", "glass" } ).Any() &&
-			     obj.Tags.Intersect( new TagSet() { "playercontroller" } ).Any() )
-			{
-				continue;
-			}
-
-			// If the object isn't in line of sight, fuck it off
-			var tr = Game.ActiveScene.Trace.Ray( position, obj.WorldPosition )
-				.WithoutTags( new TagSet() { "solid", "player", "npc", "glass" }.Append( "solid" ).ToArray() )
-				.Run();
-
-			if ( tr.Hit && tr.GameObject.IsValid() )
-			{
-				if ( !obj.Root.IsDescendant( tr.GameObject ) )
-					continue;
-			}
-
-			var distance = tr.Hit ? tr.Distance : obj.WorldPosition.Distance( position );
-			var distanceMul = 1.0f - Math.Clamp( distance / radius, 0.0f, 1.0f );
-
-			var dmg = damage * distanceMul;
-
-			var force = (obj.WorldPosition - position).Normal * distanceMul * forceScale * 10000f;
-
-			BaseWeapon.DoDamage( obj.Root, damage, force, obj.WorldPosition );
-		}
+		if ( Networking.IsHost )
+			Seekers.Explosion.AtPoint( position, radius, damage, this, true, this,
+				new Curve( new Curve.Frame( 1.0f, 1.0f ), new Curve.Frame( 0.0f, 0.0f ) ) );
 	}
 
 	[Rpc.Broadcast( NetFlags.Unreliable )]
@@ -286,7 +260,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	{
 		if ( string.IsNullOrEmpty( path ) )
 		{
-			Sound.Play( "rust_pumpshotgun.shootdouble", position );
+			Sound.Play( "he_grenade_explode", position );
 			return;
 		}
 
@@ -295,7 +269,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 			var soundEvent = ResourceLibrary.Get<SoundEvent>( path );
 			if ( !soundEvent.IsValid() )
 			{
-				Sound.Play( "rust_pumpshotgun.shootdouble", position );
+				Sound.Play( "he_grenade_explode", position );
 				return;
 			}
 
