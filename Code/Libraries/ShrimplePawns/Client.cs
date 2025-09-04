@@ -5,11 +5,9 @@ namespace ShrimplePawns;
 /// </summary>
 public abstract class Client : Component
 {
-	[Sync( SyncFlags.FromHost )]
-	public System.Guid ConnectionId { get; private set; }
+	[Sync( SyncFlags.FromHost )] public System.Guid ConnectionId { get; private set; }
 
-	[Sync( SyncFlags.FromHost )]
-	protected Pawn Pawn { get; set; }
+	[Sync( SyncFlags.FromHost )] protected Pawn Pawn { get; set; }
 
 	public Connection Connection => Connection.Find( ConnectionId );
 
@@ -86,12 +84,13 @@ public abstract class Client : Component
 		var path = pawnAttribute?.PrefabPath;
 		if ( string.IsNullOrEmpty( path ) )
 		{
-			Log.Warning( $"{typeof( T )} had no PawnAttribute prefab assigned to it." );
+			Log.Warning( $"{typeof(T)} had no PawnAttribute prefab assigned to it." );
 			return null;
 		}
 
 		var obj = SceneUtility.GetPrefabScene( ResourceLibrary.Get<PrefabFile>( path ) ).Clone();
-		return InternalAssign<T>( obj ); ;
+		return InternalAssign<T>( obj );
+		;
 	}
 
 	/// <summary>
@@ -111,6 +110,12 @@ public abstract class Client : Component
 
 	private Pawn InternalAssign( GameObject obj )
 	{
+		if ( !obj.IsValid() )
+		{
+			Log.Warning( "Cannot assign or destroy a PrefabCacheScene. Pass a cloned GameObject instance instead." );
+			return null;
+		}
+
 		if ( !Connection.Local?.IsHost ?? false )
 		{
 			obj.Destroy();
