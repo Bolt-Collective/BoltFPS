@@ -44,8 +44,8 @@
 			<div class="create-node-prompt">
 				<label>@( CreatingFolder ? "New Folder Name:" : "New File Name:" )</label>
 				<TextEntry Value:bind="@NewNodeName"/>
-				<button onclick="@OnCreateNodeConfirm">Create</button>
-				<button onclick="@OnCreateNodeCancel">Cancel</button>
+				<button class="property-button" onclick="@OnCreateNodeConfirm">Create</button>
+				<button class="property-button" onclick="@OnCreateNodeCancel">Cancel</button>
 			</div>
 		}
 
@@ -54,8 +54,8 @@
 			<div class="create-node-prompt">
 				<label>Dupe Name (.json):</label>
 				<TextEntry Value:bind="@SaveDupeFileName"/>
-				<button onclick="@OnSaveDupeConfirm">Save</button>
-				<button onclick="@OnSaveDupeCancel">Cancel</button>
+				<button class="property-button" onclick="@OnSaveDupeConfirm">Save</button>
+				<button class="property-button" onclick="@OnSaveDupeCancel">Cancel</button>
 			</div>
 		}
 	</div>
