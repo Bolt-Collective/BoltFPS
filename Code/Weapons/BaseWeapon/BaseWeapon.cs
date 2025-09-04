@@ -239,6 +239,9 @@ public partial class BaseWeapon : Component
 	[Rpc.Broadcast( NetFlags.Unreliable )]
 	private void BroadcastEnabled()
 	{
+		if ( !Owner.IsValid() && !Owner.Renderer.IsValid() )
+			return;
+
 		Owner?.Renderer?.Set( "b_deploy", true );
 		var snd = Sound.Play( DeploySound, WorldPosition );
 		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0 : 1;

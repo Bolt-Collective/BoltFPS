@@ -1,4 +1,5 @@
 using Sandbox.ModelEditor.Nodes;
+
 namespace Seekers;
 
 /// <summary>
@@ -15,7 +16,9 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	[Sync] public Prop Prop { get; set; }
 
 	private string _material;
-	[Sync, Property] public string Material
+
+	[Sync, Property]
+	public string Material
 	{
 		get
 		{
@@ -31,6 +34,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 			SetMaterial( Material );
 		}
 	}
+
 	[Sync] public ModelPhysics ModelPhysics { get; set; }
 	[Sync] public Rigidbody Rigidbody { get; set; }
 
@@ -38,7 +42,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	//public List<SpringJoint> Ropes { get; set; } = [];
 	//public List<(GameObject to, Vector3 toPoint, Vector3 frompoint)> RopePoints { get; set; } = [];
 
-	public async void SetMaterial(string material)
+	public async void SetMaterial( string material )
 	{
 		if ( material == null || material == "" )
 			return;
@@ -47,32 +51,32 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		Log.Info( "ppooo" );
 
-		if ( material.Count( x => x == '.' ) == 1 && !material.EndsWith( ".vmat", StringComparison.OrdinalIgnoreCase ) && !material.EndsWith( ".vmat_c", StringComparison.OrdinalIgnoreCase ) )
+		if ( material.Count( x => x == '.' ) == 1 &&
+		     !material.EndsWith( ".vmat", StringComparison.OrdinalIgnoreCase ) &&
+		     !material.EndsWith( ".vmat_c", StringComparison.OrdinalIgnoreCase ) )
 		{
 			var package = await Package.Fetch( material, false );
 
 			await package.MountAsync();
 
 			if ( package != null && package.TypeName == "material" && package.Revision != null )
-				setMaterial = await Sandbox.Material.LoadAsync( package.GetMeta( "PrimaryAsset", "" ));
+				setMaterial = await Sandbox.Material.LoadAsync( package.GetMeta( "PrimaryAsset", "" ) );
 		}
 		else
 		{
-			
 			setMaterial = await Sandbox.Material.LoadAsync( material );
 		}
 
 		if ( !setMaterial.IsValid() )
 			return;
 
-		foreach(var modelRenderer in Components.GetAll<ModelRenderer>(FindMode.EnabledInSelfAndDescendants))
+		foreach ( var modelRenderer in Components.GetAll<ModelRenderer>( FindMode.EnabledInSelfAndDescendants ) )
 		{
 			modelRenderer.MaterialOverride = setMaterial;
 		}
 	}
 
-	[Property]
-	public List<Joint> Joints { get; set; } = [];
+	[Property] public List<Joint> Joints { get; set; } = [];
 
 	private Vector3 lastPosition = Vector3.Zero;
 
@@ -106,6 +110,9 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 	public void OnBreak()
 	{
+		if ( !Prop.IsValid() )
+			return;
+
 		var gibs = Prop.CreateGibs();
 
 		if ( gibs.Count > 0 )
@@ -128,7 +135,8 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		if ( Prop.Model.TryGetData<ModelExplosionBehavior>( out var data ) )
 		{
 			// Rest in peace data.Effect
-			Explosion( "particles/medium_explosion.prefab", data.Sound, WorldPosition, data.Radius, data.Damage, data.Force );
+			Explosion( "particles/medium_explosion.prefab", data.Sound, WorldPosition, data.Radius, data.Damage,
+				data.Force );
 		}
 
 		Prop.Model = null; // Prevents prop from spawning more gibs.
@@ -163,22 +171,20 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 			return propData;
 		}
 
-		ModelPropData defaultData = new()
-		{
-			Health = -1,
-		};
+		ModelPropData defaultData = new() { Health = -1, };
 
 		return defaultData;
 	}
 
 	public float Mass => GetMass();
+
 	private float GetMass()
 	{
 		if ( Rigidbody.IsValid() )
 			return Rigidbody.Mass;
 
 		float mass = 0;
-		foreach(var body in ModelPhysics.Bodies)
+		foreach ( var body in ModelPhysics.Bodies )
 		{
 			mass += body.Component.Mass;
 		}
@@ -198,7 +204,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		float impactDmg = Mass / 10;
 		if ( impactDmg <= 0.0f ) impactDmg = 10;
-		
+
 		float speed = collision.Contact.Speed.Length;
 
 		if ( speed > minImpactSpeed )
@@ -225,13 +231,14 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 				}
 				else if ( other.GameObject.Root.Components.TryGet<HealthComponent>( out var player ) )
 				{
-					player.TakeDamage(this, damage );
+					player.TakeDamage( this, damage );
 				}
 			}
 		}
 	}
 
-	public async void Explosion( string particle, string sound, Vector3 position, float radius, float damage, float forceScale )
+	public async void Explosion( string particle, string sound, Vector3 position, float radius, float damage,
+		float forceScale )
 	{
 		await GameTask.Delay( Game.Random.Next( 50, 250 ) );
 
@@ -246,7 +253,8 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		foreach ( var obj in overlaps )
 		{
-			if ( !obj.Tags.Intersect( new TagSet() { "solid", "player", "npc", "glass" } ).Any() && obj.Tags.Intersect( new TagSet() { "playercontroller" } ).Any() )
+			if ( !obj.Tags.Intersect( new TagSet() { "solid", "player", "npc", "glass" } ).Any() &&
+			     obj.Tags.Intersect( new TagSet() { "playercontroller" } ).Any() )
 			{
 				continue;
 			}
