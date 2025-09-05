@@ -163,7 +163,7 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 		if ( IsGrounded )
 			return;
 
-		Velocity += Vector3.Down * Gravity / 2 * Time.Delta;
+		Velocity += Scene.PhysicsWorld.Gravity.Normal * Gravity / 2 * Time.Delta;
 	}
 
 	public Vector3 forwardDirection => Scene.Camera?.WorldTransform.Forward.WithZ( 0 ).Normal ?? default;

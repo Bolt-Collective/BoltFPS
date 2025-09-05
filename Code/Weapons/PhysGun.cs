@@ -408,8 +408,8 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		if ( !gameObject.Tags.Contains( "frozen" ) )
 			gameObject.Tags.Add( "frozen" );
 
-		if ( body.Components.TryGet<Prop>( out var prop ) )
-			prop.IsStatic = true;
+		if ( ph.IsValid() )
+			ph.Prop.IsStatic = false;
 		else if ( body.IsValid() )
 			body.MotionEnabled = false;
 		else
@@ -441,8 +441,8 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		var renderer = gameObject.GetComponent<ModelRenderer>();
 
-		if ( gameObject.Components.TryGet<Prop>( out var prop ) )
-			prop.IsStatic = false;
+		if ( ph.IsValid() )
+			ph.Prop.IsStatic = false;
 		else if ( body.IsValid() )
 			body.MotionEnabled = true;
 		else

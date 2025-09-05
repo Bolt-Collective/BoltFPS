@@ -2232,7 +2232,7 @@
                 "__enabled": true,
                 "BackgroundColor": "0.33333,0.46275,0.52157,1",
                 "ClearFlags": "All",
-                "FieldOfView": 90,
+                "FieldOfView": 179,
                 "FovAxis": "Horizontal",
                 "IsMainCamera": true,
                 "OnComponentDestroy": null,
@@ -2361,6 +2361,19 @@
                 "Strength": 0.285,
                 "Threshold": 1,
                 "Tint": "1,1,1,1"
+              },
+              {
+                "__type": "Sandbox.WorldInput",
+                "__guid": "4c335608-a61c-4acc-9a63-1435c31446fb",
+                "__enabled": true,
+                "LeftMouseAction": "Attack1",
+                "OnComponentDestroy": null,
+                "OnComponentDisabled": null,
+                "OnComponentEnabled": null,
+                "OnComponentFixedUpdate": null,
+                "OnComponentStart": null,
+                "OnComponentUpdate": null,
+                "RightMouseAction": "Attack2"
               }
             ],
             "Children": []
