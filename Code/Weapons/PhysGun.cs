@@ -409,7 +409,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 			gameObject.Tags.Add( "frozen" );
 
 		if ( ph.IsValid() )
-			ph.Prop.IsStatic = false;
+			ph.Prop.IsStatic = true;
 		else if ( body.IsValid() )
 			body.MotionEnabled = false;
 		else
