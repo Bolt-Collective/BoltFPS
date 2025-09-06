@@ -44,10 +44,10 @@
     "BluntImpact": null
   },
   "SoundCollection": {
-    "FootLeft": "sounds/impacts/melee/impact-melee-glass.sound",
-    "FootRight": "sounds/impacts/melee/impact-melee-glass.sound",
-    "FootLaunch": null,
-    "FootLand": null,
+    "FootLeft": "surfaces/sounds/glass/glass_sheet_footsteps.sound",
+    "FootRight": "surfaces/sounds/glass/glass_sheet_footsteps.sound",
+    "FootLaunch": "surfaces/sounds/glass/glass_sheet_footsteps.sound",
+    "FootLand": "surfaces/sounds/glass/glass_sheet_footsteps.sound",
     "Bullet": "sounds/impacts/bullets/impact-bullet-glass.sound",
     "ImpactHard": "sounds/impacts/bullets/impact-bullet-glass.sound",
     "ImpactSoft": "sounds/impacts/melee/impact-melee-glass.sound",

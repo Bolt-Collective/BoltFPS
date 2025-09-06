@@ -47,10 +47,10 @@
     "BluntImpact": null
   },
   "SoundCollection": {
-    "FootLeft": "surfaces/sounds/metallic/metal_bullet_impact.sound",
-    "FootRight": "surfaces/sounds/metallic/metal_bullet_impact.sound",
-    "FootLaunch": null,
-    "FootLand": null,
+    "FootLeft": "surfaces/sounds/metallic/metal_footsteps.sound",
+    "FootRight": "surfaces/sounds/metallic/metal_footsteps.sound",
+    "FootLaunch": "surfaces/sounds/metallic/metal_footsteps.sound",
+    "FootLand": "surfaces/sounds/metallic/metal_footsteps.sound",
     "Bullet": "surfaces/sounds/metallic/metal_bullet_impact.sound",
     "ImpactHard": "surfaces/sounds/metallic/metal_bullet_impact.sound",
     "ImpactSoft": "surfaces/sounds/metallic/metal_bullet_impact.sound",

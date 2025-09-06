@@ -266,7 +266,7 @@ public class Footsteps : Component
 		if ( Player.Controller.Velocity.Length < 1.0f )
 			return;
 
-		float velocityFactor = Player.Controller.WishVelocity.Length.Remap( 0, 400, 0, 1 );
+		float velocityFactor = Player.Controller.WishVelocity.Length.Remap( 0, 400, 0, 2 );
 		HandleFootsteps( Player.WorldPosition, Player.Controller.GroundSurface, Player.Controller.GroundObject,
 			velocityFactor, Player.IsValid() && Player.IsMe );
 	}

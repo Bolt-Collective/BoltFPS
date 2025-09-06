@@ -5,9 +5,10 @@
   "Decibels": 70,
   "SelectionMode": "Random",
   "Sounds": [
-    "surfaces/sounds/wood/wood_footstep_1.vsnd",
-    "surfaces/sounds/wood/wood_footstep_2.vsnd",
-    "surfaces/sounds/wood/wood_footstep_3.vsnd"
+    "surfaces/sounds/glass/glass_sheet_step1.vsnd",
+    "surfaces/sounds/glass/glass_sheet_step2.vsnd",
+    "surfaces/sounds/glass/glass_sheet_step3.vsnd",
+    "surfaces/sounds/glass/glass_sheet_step4.vsnd"
   ],
   "Occlusion": true,
   "AirAbsorption": true,

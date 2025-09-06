@@ -50,10 +50,10 @@
     }
   },
   "SoundCollection": {
-    "FootLeft": "sounds/impacts/melee/impact-melee-grass.sound",
-    "FootRight": "sounds/impacts/melee/impact-melee-grass.sound",
-    "FootLaunch": "sounds/impacts/melee/impact-melee-grass.sound",
-    "FootLand": "sounds/impacts/melee/impact-melee-grass.sound",
+    "FootLeft": "surfaces/sounds/grass/grass_footsteps.sound",
+    "FootRight": "surfaces/sounds/grass/grass_footsteps.sound",
+    "FootLaunch": "surfaces/sounds/grass/grass_footsteps.sound",
+    "FootLand": "surfaces/sounds/grass/grass_footsteps.sound",
     "Bullet": "sounds/impacts/melee/impact-melee-grass.sound",
     "ImpactHard": "sounds/impacts/melee/impact-melee-grass.sound",
     "ImpactSoft": "sounds/impacts/melee/impact-melee-grass.sound",
