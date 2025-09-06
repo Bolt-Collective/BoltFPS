@@ -5,9 +5,13 @@ using System.Diagnostics.Contracts;
 using ShrimplePawns;
 using static Sandbox.PhysicsContact;
 using Pawn = Seekers.Pawn;
+using Seekers;
 
 public partial class NormalMovement : Movement
 {
+	[Property, RequireComponent]
+	public Pawn Pawn { get; set; }
+
 	[Property] public float StandingHeight { get; set; } = 64f;
 
 	[Property] public float CrouchHeight { get; set; } = 38f;
@@ -46,6 +50,18 @@ public partial class NormalMovement : Movement
 	[Property, Group( "Movement Variables" ), ShowIf( "CanNoClip", true )]
 	[ConVar( "noclip_walkspeed", ConVarFlags.Saved, Help = "Default alt (walk) speed, for slower movements" )]
 	public static float NoClipWalkSpeed { get; set; } = 100;
+
+	[Property, Group( "Camera" )]
+	public float FovMod { get; set; } = 0.5f;
+
+	[Property, Group( "Camera" )]
+	public float FovMaxMult { get; set; } = 0.15f;
+
+	[Property, Group( "Camera" )]
+	public float FovSmooth { get; set; } = 0.2f;
+
+	[Property, Group( "Camera" )]
+	public float FovMaxAngle { get; set; } = 75f;
 
 
 	[Property, Sync] public MoveModes MoveMode { get; set; }
@@ -86,6 +102,23 @@ public partial class NormalMovement : Movement
 				NoClip();
 				break;
 		}
+
+
+		var angleMult = MathX.LerpInverse( MathF.Abs(Vector3.GetAngle( Pawn.AimRay.Forward.Normal, Velocity.WithZ(0).Normal )), FovMaxAngle, 0);
+
+		var fovSpeed = ( (Velocity.WithZ(0).Length - RunSpeed) * FovMod * 0.01f * angleMult).Clamp(0, FovMaxMult);
+		if ( !Pawn.IsValid() )
+			return;
+
+		var vel = 0f;
+		Pawn.FOVModifier = MathX.SmoothDamp(Pawn.FOVModifier, 1 + fovSpeed, ref vel, FovSmooth, Time.Delta);
+	}
+
+	[Rpc.Owner]
+	public override void LaunchUpwards( float amount )
+	{
+		base.LaunchUpwards( amount );
+		ScreenShaker.Add( new ScreenShake.Random(30000, 1.5f) );
 	}
 
 	[ConCmd( "noclip", ConVarFlags.Admin )]

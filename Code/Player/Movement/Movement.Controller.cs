@@ -101,9 +101,10 @@ public abstract partial class Movement : Component
 	/// Disconnect from ground and punch our velocity. This is useful if you want the player to jump or something.
 	/// </summary>
 	[Rpc.Owner]
-	public void Punch( Vector3 amount, bool clearGround = true )
+	public virtual void Punch( Vector3 amount, bool clearGround = true )
 	{
-		ClearGround();
+		if (clearGround)
+			ClearGround();
 		Velocity += amount;
 	}
 
@@ -130,7 +131,7 @@ public abstract partial class Movement : Component
 
 	[Property, Sync] public Vector3 Velocity { get; set; } = new Vector3();
 
-	public void LaunchUpwards( float amount )
+	public virtual void LaunchUpwards( float amount )
 	{
 		ClearGround();
 		Velocity += Vector3.Up * amount;

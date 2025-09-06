@@ -25,18 +25,25 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 
 	protected override void OnUpdate()
 	{
+		if ( ActiveWeapon == null )
+			Owner?.Controller?.BodyModelRenderer?.Set( "holdtype", 0 );
 		if ( IsProxy )
 			return;
 
-		if ( Input.Pressed( "slot1" ) ) SetActiveSlot( 0 );
-		if ( Input.Pressed( "slot2" ) ) SetActiveSlot( 1 );
-		if ( Input.Pressed( "slot3" ) ) SetActiveSlot( 2 );
-		if ( Input.Pressed( "slot4" ) ) SetActiveSlot( 3 );
-		if ( Input.Pressed( "slot5" ) ) SetActiveSlot( 4 );
-		if ( Input.Pressed( "slot6" ) ) SetActiveSlot( 5 );
-		if ( Input.Pressed( "slot7" ) ) SetActiveSlot( 6 );
-		if ( Input.Pressed( "slot8" ) ) SetActiveSlot( 7 );
-		if ( Input.Pressed( "slot9" ) ) SetActiveSlot( 8 );
+		for ( int i = 0; i < 9; i++ )
+		{
+			if ( !Input.Pressed( $"slot{i + 1}" ) )
+				continue;
+
+			if ( currentSlot == i )
+			{
+				SetActiveSlot( -1 );
+				continue;
+			}
+
+			SetActiveSlot( i );
+			break;
+		}
 
 		if ( Input.MouseWheel != 0 ) SwitchActiveSlot( (int)-Input.MouseWheel.y );
 	}
@@ -119,14 +126,16 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 		currentSlot = i;
 
 		var weapon = GetSlot( i );
-		if ( ActiveWeapon == weapon )
-			return;
-
-		if ( weapon == null )
+		if ( ActiveWeapon != null && ActiveWeapon == weapon )
 			return;
 
 		if ( ActiveWeapon.IsValid() )
 			ActiveWeapon.GameObject.Enabled = false;
+
+		ActiveWeapon = null;
+
+		if ( weapon == null )
+			return;
 
 		ActiveWeapon = weapon;
 

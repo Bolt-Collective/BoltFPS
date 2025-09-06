@@ -192,8 +192,10 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 		if ( !Camera.IsValid() )
 			return;
 
+		ScreenShaker.Apply( Camera );
+
 		if ( !IgnoreCam )
-			EyeAngles += Input.AnalogLook * AimSensitivityScale;
+			EyeAngles += Input.AnalogLook * AimSensitivityScale * (Input.UsingController ? 0.2f : 1);
 
 		if (CurrentSeat.IsValid())
 		{

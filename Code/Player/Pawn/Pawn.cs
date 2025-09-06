@@ -32,6 +32,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 	[Sync] public Client Owner { get; set; }
 	public float Zoom { get; set; } = 1f;
+	public float FOVModifier { get; set; } = 1f;
 	public float Stamina { get; set; } = 1;
 
 	public float MaxHealth => HealthComponent?.MaxHealth ?? 100;
@@ -164,6 +165,14 @@ public partial class Pawn : ShrimplePawns.Pawn
 		{
 			Controller.Spectating = false;
 		}
+
+		if ( Controller.IsValid() )
+		{
+			Controller.Camera.FovAxis = CameraComponent.Axis.Vertical;
+			Controller.Camera.FieldOfView =
+				Screen.CreateVerticalFieldOfView( (Preferences.FieldOfView / Zoom) * FOVModifier, 9.0f / 16.0f );
+			Controller.AimSensitivityScale = 1 / Zoom;
+		}
 	}
 
 	protected override void OnFixedUpdate()
@@ -199,14 +208,6 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 		if ( Controller.IsValid() )
 			Controller.EnableSprinting = Stamina > 0;
-
-		if ( Controller.IsValid() )
-		{
-			Controller.Camera.FovAxis = CameraComponent.Axis.Vertical;
-			Controller.Camera.FieldOfView =
-				Screen.CreateVerticalFieldOfView( Preferences.FieldOfView / Zoom, 9.0f / 16.0f );
-			Controller.AimSensitivityScale = 1 / Zoom;
-		}
 
 		if ( Input.Pressed( "View" ) && Controller.CanSetThirdPerson )
 		{

@@ -87,6 +87,9 @@ public class ViewModel : Component
 		if ( !Renderer.IsValid() )
 			return;
 
+		if ( !pawn.Inventory.ActiveWeapon.IsValid() )
+			return;
+
 		var inPos = pawn.Controller.Camera.WorldPosition;
 		var inRot = pawn.Controller.Camera.WorldRotation;
 
