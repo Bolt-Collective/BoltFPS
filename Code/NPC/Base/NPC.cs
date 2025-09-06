@@ -11,7 +11,7 @@ public abstract partial class NPC : Knowable
 	[Property, RequireComponent] public NavMeshAgent Agent { get; set; }
 	[Property, RequireComponent] public HealthComponent HealthComponent { get; set; }
 
-	[Property, Sync] public Tool CurrentTool { get; set; }
+	[Property, Sync] public NPCToolResource CurrentTool { get; set; }
 
 	[Property] public Team Team { get; set; }
 
@@ -96,7 +96,7 @@ public abstract partial class NPC : Knowable
 
 	}
 
-	private Tool previousTool;
+	private NPCToolResource previousTool;
 	public GameObject ToolObject;
 	public void ToolVisuals()
 	{
@@ -126,9 +126,11 @@ public abstract partial class NPC : Knowable
 		public virtual void Use(GameObject Target) { }
 	}
 
-	[GameResource( "NPCTool", "npctool", "A reference to the tool type", Icon = "🔧" )]
-	public class Tool : GameResource
+	[AssetType( Name = "NPCTool", Extension = "npctool" )]
+	public class NPCToolResource : GameResource
 	{
+		public string Name { get; set; }
+		public string Category { get; set; }
 		public ToolMode ToolMode { get; set; }
 		public Specifiers Specification { get; set; } = Specifiers.Weapon;
 

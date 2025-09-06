@@ -1,0 +1,51 @@
+﻿@using Sandbox.UI
+
+@namespace Seekers
+
+@inherits Panel
+
+<root class="dropdown-button">
+	<button class="property-button" onclick="@OpenMenu" Text=@(Items[CurrentItem]) />
+</root>
+
+@code {
+
+	[Parameter] public List<string> Items { get; set; } = new();
+
+	[Parameter] public int CurrentItem;
+
+	[Parameter] public Action<int> OnValueChanged { get; set; }
+
+	private void OpenMenu()
+	{
+		if ( Items == null || Items.Count == 0 )
+			return;
+
+		var entries = new List<ContextMenu.Entry>();
+		for ( int i = 0; i < Items.Count; i++ )
+		{
+			var captured = i;
+			entries.Add(new(Items[captured], () => SelectItem(captured)));
+		}
+
+		ContextMenu.Open( FindRootPanel(), Mouse.Position, entries );
+	}
+
+	private void SelectItem(int value)
+	{
+		OnValueChanged?.Invoke(value);
+		CurrentItem = value;
+		StateHasChanged();
+	}
+
+	public DropdownButton( string[] items  )
+	{
+		Items = new List<string>(items);
+	}
+
+	public DropdownButton( List<string> items, int currentItem )
+	{
+		Items = new List<string>( items );
+		CurrentItem = currentItem;
+	}
+}

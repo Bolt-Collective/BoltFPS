@@ -1,4 +1,6 @@
 {
+  "Name": "Spaghelli M4",
+  "Category": "Base",
   "ToolMode": null,
   "Specification": "Weapon",
   "MaxEngageDistance": 350,

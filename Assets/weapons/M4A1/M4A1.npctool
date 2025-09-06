@@ -1,4 +1,6 @@
 {
+  "Name": "M4A1",
+  "Category": "Base",
   "ToolMode": null,
   "Specification": "Weapon",
   "MaxEngageDistance": 700,
