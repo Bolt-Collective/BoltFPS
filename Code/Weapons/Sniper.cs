@@ -1,3 +1,4 @@
+using Sandbox.Movement;
 using Sandbox.Rendering;
 using Sandbox.Utility;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -64,7 +65,8 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 		if ( !Scoped && Input.Pressed( "attack2" ) && Owner.IsValid() && !Owner.GrabbedObject.IsValid() )
 			Scope();
 		if ( Scoped && !scopingIn && (Input.Released( "attack2" ) || Owner.Controller.IsSprinting ||
-		                              !Owner.Controller.IsGrounded || IsReloading) )
+		                              (!Owner.Controller.IsGrounded &&
+		                               Owner.Controller.MoveMode != NormalMovement.MoveModes.NoClip) || IsReloading) )
 			UnScope();
 	}
 
@@ -82,7 +84,7 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 		float blur = 1.0f / (velocity + 1.0f);
 		blur = MathX.Clamp( blur, 0.1f, 1.0f );
 
-		if ( !Owner.Controller.IsGrounded )
+		if ( !Owner.Controller.IsGrounded && Owner.Controller.MoveMode != NormalMovement.MoveModes.NoClip )
 			blur = 0.1f;
 
 		SpreadIncrease = (Scoped ? 1 - blur : 1) * SpreadMult;
