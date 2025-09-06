@@ -38,27 +38,26 @@
 				<p>@Path.GetFileName( file )</p>
 			</div>
 		}
-
-		@if ( CreatingANode )
-		{
-			<div class="create-node-prompt">
-				<label>@( CreatingFolder ? "New Folder Name:" : "New File Name:" )</label>
-				<TextEntry Value:bind="@NewNodeName"/>
-				<button class="property-button" onclick="@OnCreateNodeConfirm">Create</button>
-				<button class="property-button" onclick="@OnCreateNodeCancel">Cancel</button>
-			</div>
-		}
-
-		@if ( ShowSaveDupePrompt )
-		{
-			<div class="create-node-prompt">
-				<label>Dupe Name (.json):</label>
-				<TextEntry Value:bind="@SaveDupeFileName"/>
-				<button class="property-button" onclick="@OnSaveDupeConfirm">Save</button>
-				<button class="property-button" onclick="@OnSaveDupeCancel">Cancel</button>
-			</div>
-		}
 	</div>
+	@if ( CreatingANode )
+	{
+		<div class="create-node-prompt">
+			<p>@( CreatingFolder ? "Folder Name:" : "File Name:" )</p>
+			<TextEntry Value:bind="@NewNodeName"/>
+			<div class="property-button" onclick="@OnCreateNodeConfirm">Create</div>
+			<div class="property-button" onclick="@OnCreateNodeCancel">Cancel</div>
+		</div>
+	}
+
+	@if ( ShowSaveDupePrompt )
+	{
+		<div class="create-node-prompt">
+			<p>Dupe Name (.json):</p>
+			<TextEntry Value:bind="@SaveDupeFileName"/>
+			<div class="property-button" onclick="@OnSaveDupeConfirm">Save</div>
+			<div class="property-button" onclick="@OnSaveDupeCancel">Cancel</div>
+		</div>
+	}
 </root>
 
 @code
