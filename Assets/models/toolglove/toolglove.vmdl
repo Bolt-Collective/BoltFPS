@@ -1,0 +1,153 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:modeldoc29:version{3cec427c-1b0e-4d48-a90a-0436f33a6041} -->
+{
+	rootNode = 
+	{
+		_class = "RootNode"
+		children = 
+		[
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps = 
+						[
+							{
+								from = "viewmodelarms_light.vmat"
+								to = "models/first_person/arms_materials/first_person_arms_light.vmat"
+							},
+							{
+								from = "cube.vmat"
+								to = "materials/default/white.vmat"
+							},
+							{
+								from = "cpu.vmat"
+								to = "materials/trimsheets/metal/iron_trim_metal_blend.vmat"
+							},
+							{
+								from = "display.vmat"
+								to = "materials/shared/plastics/01/plastic_01.vmat"
+							},
+							{
+								from = "glove.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
+							},
+							{
+								from = "indexcable.vmat"
+								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+							},
+							{
+								from = "middlecable.vmat"
+								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+							},
+							{
+								from = "tape.vmat"
+								to = "materials/shared/plastics/02/plastic_02.vmat"
+							},
+							{
+								from = "thumbcable.vmat"
+								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+							},
+							{
+								from = "tip.vmat"
+								to = "materials/trimsheets/metal/iron_trim_metal_blend.vmat"
+							},
+							{
+								from = "wcablel1.vmat"
+								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+							},
+							{
+								from = "wcablel2.vmat"
+								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+							},
+							{
+								from = "wcabler1.vmat"
+								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+							},
+							{
+								from = "wcabler2.vmat"
+								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+							},
+							{
+								from = "board.vmat"
+								to = "materials/trimsheets/metal/iron_trim_metal_blend.vmat"
+							},
+							{
+								from = "displayconnector.vmat"
+								to = "materials/trimsheets/metal/iron_trim_metal_blend.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = "materials/default.vmat"
+					},
+				]
+			},
+			{
+				_class = "RenderMeshList"
+				children = 
+				[
+					{
+						_class = "RenderMeshFile"
+						filename = "models/toolglove/toolglove.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"1first_person_arms_mesh",
+								"glove_001",
+								"glove_002",
+								"Circuit_Board_Plate",
+								"Cpu",
+								"display",
+								"display_connector",
+								"glove",
+								"Cube",
+								"index_tip",
+								"indexcable",
+								"knuckletape",
+								"middle_tip",
+								"middlecable",
+								"thumb_cable_tape",
+								"thumbcable",
+								"wrist_tape",
+								"wristcable_l1",
+								"wristcable_l2",
+								"wristcable_r1",
+								"wristcable_r2",
+							]
+						}
+					},
+				]
+			},
+			{
+				_class = "ModelModifierList"
+				children = 
+				[
+					{
+						_class = "ModelModifier_ScaleAndMirror"
+						note = "Converting from centimeters to inches."
+						scale = 0.003937
+						mirror_x = false
+						mirror_y = false
+						mirror_z = false
+						flip_bone_forward = false
+						swap_left_and_right_bones = false
+					},
+				]
+			},
+		]
+		model_archetype = ""
+		primary_associated_entity = ""
+		anim_graph_name = ""
+		base_model_name = ""
+	}
+}
