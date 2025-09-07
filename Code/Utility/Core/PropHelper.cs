@@ -136,9 +136,9 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		{
 			Log.Info( "did we explode" );
 			// Rest in peace data.Effect
-			Explosion( "weapons/common/effects/medium_explosion.prefab", data.Sound, WorldPosition, data.Radius,
+			Explosion( data.Sound, WorldPosition, data.Radius,
 				data.Damage,
-				data.Force );
+				data.Force, "weapons/common/effects/medium_explosion.prefab" );
 		}
 
 		Prop.Model = null; // Prevents prop from spawning more gibs.
@@ -239,8 +239,9 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		}
 	}
 
-	public async void Explosion( string particle, string sound, Vector3 position, float radius, float damage,
-		float forceScale )
+	public async void Explosion( string sound,
+		Vector3 position, float radius, float damage,
+		float forceScale, string particle = "weapons/common/effects/medium_explosion.prefab" )
 	{
 		await GameTask.Delay( Game.Random.Next( 50, 250 ) );
 
