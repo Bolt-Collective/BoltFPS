@@ -6,7 +6,28 @@ MapLoading {
   left: 0;
   right: 0;
   bottom: 0;
+  transform: translateY(-1500px);  
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
   z-index: 1000;
+  opacity: 1;
+  
+  transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  &:intro {
+    transform: translateY(1500px);
+    opacity: 1;
+  }
+  
+  &:outro {
+    transform: translateY(1500px);
+    opacity: 1;
+  }
+  
+  &.active {
+    transform: translateY(0px);
+  }
 }
