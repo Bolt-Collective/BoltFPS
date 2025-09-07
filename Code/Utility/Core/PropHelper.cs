@@ -247,9 +247,11 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		BroadcastExplosion( sound, position );
 
-		var particleGameObject = GameObject.GetPrefab( particle );
-
-		Particles.CreateParticleSystem( particleGameObject, new Transform( position, Rotation.Identity ), 10 );
+		if ( particle != null && particle != "" )
+		{
+			var particleGameObject = GameObject.GetPrefab( particle );
+			Particles.CreateParticleSystem( particleGameObject, new Transform( position, Rotation.Identity ), 10 );
+		}
 
 		if ( Networking.IsHost )
 			Seekers.Explosion.AtPoint( position, radius, damage, this, true, this,
