@@ -211,6 +211,9 @@ public partial class BaseWeapon : Component
 
 	protected override void OnEnabled()
 	{
+		if ( MergeModel && GameObject.Components.TryGet<SkinnedModelRenderer>( out var skinnedModel, FindMode.EnabledInSelfAndChildren ) )
+			SkinMergeModel( skinnedModel );
+
 		LeftIK.Active = true;
 
 		TimeSinceDeployed = 0;
@@ -234,6 +237,32 @@ public partial class BaseWeapon : Component
 		} );
 
 		go.NetworkSpawn();
+	}
+
+	public void SkinMergeModel(SkinnedModelRenderer skinnedModel)
+	{
+		if ( !(Owner?.Controller?.BodyModelRenderer.IsValid() ?? false) ) 
+			return;
+
+		if ( GameObject.Root.Components.TryGet<PlayerDresser>( out var dresser, FindMode.EnabledInSelfAndChildren ) )
+		{
+			dresser.DisableClothingGroups( RemoveGroups, RemoveClothingCategories );
+		}
+
+		var clothingData = Network.Owner.GetUserData( "avatar" );
+		var container = new ClothingContainer();
+		container.Deserialize( clothingData );
+
+		var femaleModel = Model.Load( "models/citizen_human/citizen_human_female.vmdl" );
+
+		if ( FemaleReplacement != null && Owner.Controller.BodyModelRenderer.Model == femaleModel )
+		{
+			skinnedModel.Model = FemaleReplacement;
+		}
+
+		skinnedModel.MaterialGroup = Owner.Controller.BodyModelRenderer.MaterialGroup;
+
+		skinnedModel.BoneMergeTarget = Owner.Controller.BodyModelRenderer;
 	}
 
 	[Rpc.Broadcast( NetFlags.Unreliable )]

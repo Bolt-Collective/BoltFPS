@@ -28,6 +28,7 @@
         "CrosshairType": "Default",
         "Damage": 22.5,
         "DeploySound": "sounds/weapons/switch/switch_3.sound",
+        "FemaleReplacement": "models/glove/femaleglove.vmdl",
         "Handedness": "Right",
         "HoldType": "Pistol",
         "Icon": "icons/weapons/tools/toolgun.png",
@@ -38,6 +39,7 @@
           "IsLeft": false
         },
         "MaxAmmo": 0,
+        "MergeModel": true,
         "Name": "USP",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
@@ -50,6 +52,18 @@
         "ReloadShortSound": "sounds/weapons/reloads/uspreloadc.sound",
         "ReloadSound": "sounds/weapons/reloads/uspreload.sound",
         "ReloadTime": 1.5,
+        "RemoveClothingCategories": [
+          "Ring",
+          "WristWatch",
+          "WristBand",
+          "WristJewel",
+          "Wristwear",
+          "Gloves",
+          "WristSpecial"
+        ],
+        "RemoveGroups": [
+          "Hands"
+        ],
         "SecondaryRate": 15,
         "ShootSound": "sounds/weapons/toolgun/toolgun_fire.sound",
         "ShowAmmo": false,
@@ -68,6 +82,50 @@
           "_type": "gameobject",
           "prefab": "weapons/toolgun/v_toolgun.prefab"
         }
+      },
+      {
+        "__type": "Sandbox.SkinnedModelRenderer",
+        "__guid": "8722e3b5-948b-4358-86e5-39c8bd2ea5d9",
+        "__enabled": true,
+        "AnimationGraph": null,
+        "BodyGroups": 18446744073709551615,
+        "BoneMergeTarget": null,
+        "CreateAttachments": false,
+        "CreateBoneObjects": false,
+        "LodOverride": null,
+        "MaterialGroup": null,
+        "MaterialOverride": null,
+        "Materials": null,
+        "Model": "models/glove/maleglove.vmdl",
+        "Morphs": {},
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Parameters": {
+          "bools": {},
+          "ints": {},
+          "floats": {},
+          "vectors": {},
+          "rotations": {}
+        },
+        "PlaybackRate": 1,
+        "RenderOptions": {
+          "GameLayer": true,
+          "OverlayLayer": false,
+          "BloomLayer": false,
+          "AfterUILayer": false
+        },
+        "RenderType": "On",
+        "Sequence": {
+          "Name": null,
+          "Looping": true,
+          "Blending": false
+        },
+        "Tint": "1,1,1,1",
+        "UseAnimGraph": true
       }
     ],
     "Children": [

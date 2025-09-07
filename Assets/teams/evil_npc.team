@@ -1,0 +1,14 @@
+{
+  "DisplayName": "Evil",
+  "RespawnTime": 3,
+  "Color": "1,0,0,1",
+  "Image": null,
+  "Objective": "Kill all",
+  "PawnPrefab": null,
+  "FriendlyFire": true,
+  "UseEnemies": false,
+  "Friends": [],
+  "Enemies": [],
+  "__references": [],
+  "__version": 0
+}

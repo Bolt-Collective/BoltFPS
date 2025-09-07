@@ -1,5 +1,6 @@
 ﻿using Sandbox.Citizen;
 using Sandbox.VR;
+using System.IO;
 
 namespace Seekers;
 public abstract partial class NPC : Knowable
@@ -54,22 +55,28 @@ public abstract partial class NPC : Knowable
 
 	protected override void OnStart()
 	{
-		EnableAgent();
+		Agent.Enabled = true;
 		if ( HealthComponent.IsValid() )
 			HealthComponent.OnKilled += OnKilled;
-	}
-
-	private async void EnableAgent()
-	{
-		await Task.DelaySeconds( 1 );
-		Agent.Enabled = true;
 	}
 
 	[ConVar]
 	public static bool ai_disable { get; set; } = false;
 
+	RealTimeSince failedMoving { get; set; }
+
 	protected override void OnFixedUpdate()
 	{
+		if ( Agent.Velocity.Length > 5 && Agent.TargetPosition.HasValue && Agent.TargetPosition.Value.Distance( WorldPosition ) > 5 )
+			failedMoving = 0;
+
+		if (failedMoving > 2)
+		{
+			Agent.Enabled = false;
+			Agent.Enabled = true;
+			failedMoving = 0;
+		}
+
 		ToolVisuals();
 		previousTool = CurrentTool;
 		if ( !Networking.IsHost )

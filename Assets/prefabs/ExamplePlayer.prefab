@@ -121,6 +121,10 @@
         "CrouchHeight": 38,
         "CrouchSpeed": 65,
         "CurrentSeat": null,
+        "FovMaxAngle": 75,
+        "FovMaxMult": 0.15,
+        "FovMod": 0.5,
+        "FovSmooth": 0.2,
         "Friction": 6,
         "Gravity": 600,
         "GroundAngle": 45,
@@ -147,6 +151,12 @@
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
+        "Pawn": {
+          "_type": "component",
+          "component_id": "842167e3-0d6f-4c61-adf2-efe477218df5",
+          "go": "78780de7-28a1-48bf-a6fb-2acce0df258f",
+          "component_type": "Pawn"
+        },
         "Radius": 12,
         "RotationAngleLimit": 45,
         "RotationFaceLadders": true,
@@ -169,24 +179,6 @@
         "ThirdPersonCameraOffset": "-64,-32,8",
         "Velocity": "0,0,0",
         "WalkSpeed": 120
-      },
-      {
-        "__type": "Seekers.PlayerDresser",
-        "__guid": "5e857509-5d31-4c63-9265-8fe36e92766c",
-        "__enabled": true,
-        "ModelRenderer": {
-          "_type": "component",
-          "component_id": "3ad165b5-b9f9-45ed-acb5-ae74774c1dea",
-          "go": "f7f85e51-922d-4e81-8240-3db0df8c0074",
-          "component_type": "SkinnedModelRenderer"
-        },
-        "OnComponentDestroy": null,
-        "OnComponentDisabled": null,
-        "OnComponentEnabled": null,
-        "OnComponentFixedUpdate": null,
-        "OnComponentStart": null,
-        "OnComponentUpdate": null,
-        "ReplacementModel": null
       },
       {
         "__type": "Seekers.PlayerInventory",
@@ -348,6 +340,30 @@
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null
+      },
+      {
+        "__type": "Sandbox.Dresser",
+        "__guid": "a1f72408-7606-42bd-9462-4bf46f7f2dca",
+        "__enabled": true,
+        "ApplyHeightScale": true,
+        "BodyTarget": {
+          "_type": "component",
+          "component_id": "3ad165b5-b9f9-45ed-acb5-ae74774c1dea",
+          "go": "f7f85e51-922d-4e81-8240-3db0df8c0074",
+          "component_type": "SkinnedModelRenderer"
+        },
+        "Clothing": [],
+        "ManualAge": 0.5,
+        "ManualHeight": 0.5,
+        "ManualTint": 0.5,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Source": "LocalUser",
+        "WorkshopItems": []
       }
     ],
     "Children": [
