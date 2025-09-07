@@ -7,8 +7,8 @@
 @inherits Panel
 @implements IContextMenuProvider
 
-<root class="file-browser">
-	<div class="file-tree" onmousedown="@( e => HandleNodeMouseDown( e, TargetFolder, true ) )">
+<root class="file-browser" onmousedown="@( e => HandleNodeMouseDown( e, TargetFolder, true ) )">
+	<div class="file-tree">
 		@foreach ( var folder in GetFoldersFromDirectory( TargetFolder ) )
 		{
 			<div class="node folder"
@@ -94,6 +94,7 @@
 		if ( !FileSystem.Data.DirectoryExists( targetFolder ) )
 		{
 			FileSystem.Data.CreateDirectory( targetFolder );
+			StateHasChanged();
 		}
 
 		DuplicatorTool = ToolGun.CurrentTool as Duplicator;

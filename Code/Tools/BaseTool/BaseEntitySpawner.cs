@@ -9,6 +9,12 @@ public abstract class BaseEntitySpawner<TEntity> : BaseTool where TEntity : Comp
 	protected virtual Rotation PreviewRotationOffset => Rotation.Identity;
 	protected virtual float PreviewNormalOffset => 0f;
 
+	public override IEnumerable<ToolHint> GetHints()
+	{
+		yield return new ToolHint( "attack1", "Place" );
+		yield return new ToolHint( "attack2", "Apply changes on existing entity" );
+	}
+
 	protected override void OnStart()
 	{
 		if ( IsProxy ) return;
@@ -49,16 +55,23 @@ public abstract class BaseEntitySpawner<TEntity> : BaseTool where TEntity : Comp
 
 	protected abstract void CreateEntity( SelectionPoint selectionPoint );
 
-	public override bool Primary( SceneTraceResult trace )
+	public override bool Secondary( SceneTraceResult trace )
 	{
-		if ( !Input.Pressed( "attack1" ) )
+		if ( !Input.Pressed( "attack2" ) )
 			return false;
 
 		if ( trace.GameObject.Components.TryGet<TEntity>( out var entity ) && EntityOwnedByLocal( entity ) )
 		{
 			ApplyChanges( trace.GameObject );
-			return true;
 		}
+
+		return true;
+	}
+
+	public override bool Primary( SceneTraceResult trace )
+	{
+		if ( !Input.Pressed( "attack1" ) )
+			return false;
 
 		CreateEntity( new SelectionPoint( trace ) );
 		return true;

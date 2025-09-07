@@ -20,6 +20,13 @@ public partial class Duplicator : BaseTool
 
 	[Sync( SyncFlags.FromHost )] public string SavedDupe { get; set; }
 
+	public override IEnumerable<ToolHint> GetHints()
+	{
+		yield return new ToolHint( "attack1", "Load Dupe" );
+		yield return new ToolHint( "attack2", "Save Dupe in Area" );
+		yield return new ToolHint( "Run", "Area Preview" );
+	}
+
 	public override bool Primary( SceneTraceResult trace )
 	{
 		if ( !trace.Hit || !Input.Pressed( "attack1" ) )

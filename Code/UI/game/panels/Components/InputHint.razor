@@ -6,28 +6,26 @@
 @inherits Panel
 
 <style>
-    InputHint
-    {
-        justify-content: center;
-        align-items: center;
-        
-	    gap: 8px;
+	InputHint {
+		justify-content: center;
+		align-items: center;
 
-        img
-        {
-            background-size: contain;
-            background-repeat: no-repeat;
-            max-height: 64px;
-            max-width: 64px;
-	        text-shadow: 2px 2px 2px 2px black;
-        }
-	    
-	    h5 {
-		    font-weight: 600;
-		    text-shadow: 2px 2px 2px black;
+		gap: 8px;
+
+		img {
+			background-size: contain;
+			background-repeat: no-repeat;
+			max-height: 64px;
+			max-width: 64px;
+			text-shadow: 2px 2px 2px 2px black;
 		}
-	    
-    }
+
+		h5 {
+			font-weight: 600;
+			text-shadow: 2px 2px 2px black;
+		}
+
+	}
 </style>
 
 <root>
@@ -46,9 +44,12 @@
 {
 	// @ref
 	public Texture Glyph { get; set; }
-	public string Action { get; set; } = "Use";
-	public string CustomText { get; set; } = "";
-	public InputGlyphSize Size { get; set; } = InputGlyphSize.Medium;
+
+	[Parameter] public string Action { get; set; } = "Use";
+
+	[Parameter] public string CustomText { get; set; } = "";
+
+	[Parameter] public InputGlyphSize Size { get; set; } = InputGlyphSize.Medium;
 
 	/// <summary>
 	/// Checks the current button and updates the glyph.

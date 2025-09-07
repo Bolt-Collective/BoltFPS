@@ -1,12 +1,11 @@
 {
   "UI": false,
   "Volume": "1",
-  "Pitch": "1",
+  "Pitch": "0.85 1",
   "Decibels": 70,
   "SelectionMode": "Random",
   "Sounds": [
-    "surfaces/sounds/metallic/metal_footstep_2.vsnd",
-    "surfaces/sounds/metallic/metal_footstep_3.vsnd"
+    "surfaces/sounds/metallic/metal_footstep_2.vsnd"
   ],
   "Occlusion": true,
   "AirAbsorption": true,

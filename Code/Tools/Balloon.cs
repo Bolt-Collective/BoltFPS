@@ -7,6 +7,11 @@ public class BalloonTool : BaseTool
 	PreviewModel PreviewModel;
 	RealTimeSince timeSinceDisabled;
 
+	public override IEnumerable<ToolHint> GetHints()
+	{
+		yield return new ToolHint( "attack1", "Place Balloon" );
+	}
+
 	protected override void OnStart()
 	{
 		if ( IsProxy )
@@ -95,10 +100,7 @@ public class BalloonTool : BaseTool
 
 	GameObject SpawnBalloon( SceneTraceResult trace )
 	{
-		var go = new GameObject()
-		{
-			Tags = { "solid", "balloon" }
-		};
+		var go = new GameObject() { Tags = { "solid", "balloon" } };
 
 		PositionBalloon( go, trace );
 
@@ -125,7 +127,7 @@ public class BalloonTool : BaseTool
 			}
 		}
 
-		go.Network.AssignOwnership(Connection.Host);
+		go.Network.AssignOwnership( Connection.Host );
 		go.NetworkSpawn();
 		go.Network.SetOrphanedMode( NetworkOrphaned.Host );
 

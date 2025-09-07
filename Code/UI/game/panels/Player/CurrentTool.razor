@@ -16,6 +16,18 @@
 				<p>@toolDesc.Description</p>
 			</div>
 		</div>
+		<div class="hints">
+			@if ( EquippedTool.IsValid() )
+			{
+				@foreach ( var hint in EquippedTool?.GetHints()! )
+				{
+					<div class="hint">
+						<InputHint Size="@InputGlyphSize.Small" Action="@hint.Input"
+						           CustomText="@hint.Description"></InputHint>
+					</div>
+				}
+			}
+		</div>
 	}
 </root>
 

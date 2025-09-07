@@ -6,6 +6,12 @@ public abstract class BaseJointTool : BaseTool
 
 	public virtual bool CanConstraintToSelf => false;
 
+	public override IEnumerable<ToolHint> GetHints()
+	{
+		yield return new ToolHint( "attack1", "Select/Join" );
+		yield return new ToolHint( "reload", "Disconnect" );
+	}
+
 	public override bool Primary( SceneTraceResult trace )
 	{
 		if ( !trace.Hit )
@@ -54,15 +60,13 @@ public abstract class BaseJointTool : BaseTool
 
 
 	[Rpc.Broadcast]
-	public virtual void Disconnect(GameObject target)
+	public virtual void Disconnect( GameObject target )
 	{
-
 	}
 
 	[Rpc.Broadcast]
 	public virtual void Join( SelectionPoint selection1, SelectionPoint selection2 )
 	{
-		
 	}
 
 	public static (GameObject, GameObject) GetJointPoints( SelectionPoint selection1, SelectionPoint selection2 )

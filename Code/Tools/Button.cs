@@ -6,16 +6,19 @@ namespace Seekers;
 [Group( "construction" )]
 public partial class Button : BaseTool
 {
-	[Property]
-	public InputBind Bind { get; set; } = new("uparrow", true);
+	[Property] public InputBind Bind { get; set; } = new("uparrow", true);
 
-	[Property]
-	public bool Toggle { get; set; } = true;
+	[Property] public bool Toggle { get; set; } = true;
 
-	[Property, Range(-10000f, 10000f)]
-	public float Force { get; set; } = 600f;
+	[Property, Range( -10000f, 10000f )] public float Force { get; set; } = 600f;
+
+	public override IEnumerable<ToolHint> GetHints()
+	{
+		yield return new ToolHint( "attack1", "Place" );
+	}
 
 	PreviewModel PreviewModel;
+
 	protected override void OnStart()
 	{
 		if ( IsProxy )
@@ -28,6 +31,7 @@ public partial class Button : BaseTool
 			FaceNormal = true
 		};
 	}
+
 	RealTimeSince timeSinceDisabled;
 
 
@@ -62,7 +66,6 @@ public partial class Button : BaseTool
 	{
 		if ( Input.Pressed( "attack1" ) )
 		{
-
 			CreateThruster( new SelectionPoint( trace ), Bind.GetBroadcast(), Toggle, Network.Owner.Id );
 
 			return true;
@@ -72,7 +75,7 @@ public partial class Button : BaseTool
 	}
 
 	[Rpc.Host]
-	public static void CreateThruster(SelectionPoint selectionPoint, BroadcastBind bind, bool toggle, Guid owner)
+	public static void CreateThruster( SelectionPoint selectionPoint, BroadcastBind bind, bool toggle, Guid owner )
 	{
 		var button = new GameObject();
 		button.WorldPosition = selectionPoint.WorldPosition;

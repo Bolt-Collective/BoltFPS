@@ -6,13 +6,20 @@ namespace Seekers;
 [Group( "construction" )]
 public partial class Wheel : BaseEntitySpawner<WheelEntity>
 {
-	[Property] public InputBind Forwards { get; set; } = new( "uparrow", true );
-	[Property] public InputBind Backwards { get; set; } = new( "downarrow", true );
+	[Property] public InputBind Forwards { get; set; } = new("uparrow", true);
+	[Property] public InputBind Backwards { get; set; } = new("downarrow", true);
 	[Property, Range( -1000f, 1000f )] public float Torque { get; set; } = 60f;
 
 	protected override string PreviewModelPath => "models/citizen_props/wheel01.vmdl";
 	protected override Rotation PreviewRotationOffset => Rotation.From( new Angles( 0, 90, 0 ) );
 	protected override float PreviewNormalOffset => 8f;
+
+	public override IEnumerable<ToolHint> GetHints()
+	{
+		foreach ( var h in base.GetHints() ) yield return h;
+		yield return ToolHint.ForBind( "Forwards", Forwards );
+		yield return ToolHint.ForBind( "Backwards", Backwards );
+	}
 
 	protected override void ApplyChanges( GameObject target )
 	{
@@ -25,7 +32,7 @@ public partial class Wheel : BaseEntitySpawner<WheelEntity>
 	}
 
 	[Rpc.Broadcast]
-	public void ChangeValues(GameObject wheel, BroadcastBind forwards, BroadcastBind backwards, float torque )
+	public void ChangeValues( GameObject wheel, BroadcastBind forwards, BroadcastBind backwards, float torque )
 	{
 		if ( wheel.IsProxy )
 			return;
@@ -41,7 +48,8 @@ public partial class Wheel : BaseEntitySpawner<WheelEntity>
 	}
 
 	[Rpc.Host]
-	public static void CreateWheel( SelectionPoint selectionPoint, BroadcastBind forwards, BroadcastBind backwards, float torque, Guid owner )
+	public static void CreateWheel( SelectionPoint selectionPoint, BroadcastBind forwards, BroadcastBind backwards,
+		float torque, Guid owner )
 	{
 		var wheel = new GameObject();
 		wheel.WorldPosition = selectionPoint.WorldPosition + selectionPoint.WorldNormal * 8;
@@ -63,7 +71,9 @@ public partial class Wheel : BaseEntitySpawner<WheelEntity>
 
 		wheel.NetworkSpawn();
 
-		Hinge.HingeObjects( wheel, selectionPoint.GameObject, wheel.WorldTransform.PointToLocal( selectionPoint.WorldPosition ), selectionPoint.LocalPosition, selectionPoint.WorldNormal, new Angles(90,0,0) );
+		Hinge.HingeObjects( wheel, selectionPoint.GameObject,
+			wheel.WorldTransform.PointToLocal( selectionPoint.WorldPosition ), selectionPoint.LocalPosition,
+			selectionPoint.WorldNormal, new Angles( 90, 0, 0 ) );
 
 		UndoSystem.Add( creator: owner, callback: () =>
 		{
