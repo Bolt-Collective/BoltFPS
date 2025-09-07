@@ -4,11 +4,24 @@
 [Group( "constraints" )]
 public class Weld : BaseJointTool
 {
-
 	[Rpc.Broadcast]
 	public override void Disconnect( GameObject target )
 	{
+		if ( target.IsProxy )
+			return;
 
+		if ( !target.Components.TryGet( out PropHelper propHelper ) )
+			return;
+
+		foreach ( var joint in propHelper.Joints )
+		{
+			if ( joint.IsValid() )
+			{
+				joint.Destroy();
+			}
+		}
+
+		propHelper.Joints.Clear();
 	}
 
 	public override bool Secondary( SceneTraceResult trace )
@@ -16,10 +29,16 @@ public class Weld : BaseJointTool
 		if ( !trace.Hit )
 			return false;
 
-		if (!selected.Active)
+		if ( !selected.GameObject.IsValid() )
 			return false;
 
-		if (!Input.Pressed("attack2"))
+		if ( trace.GameObject.Components.TryGet( out MapCollider _ ) )
+			return false;
+
+		if ( !selected.Active )
+			return false;
+
+		if ( !Input.Pressed( "attack2" ) )
 			return false;
 
 		var selectionDirection = selected.GameObject.WorldTransform.PointToWorld( selected.LocalNormal );
@@ -27,9 +46,12 @@ public class Weld : BaseJointTool
 
 		selected.GameObject.WorldPosition += trace.EndPosition - selectionPoint;
 
-		selected.GameObject.WorldTransform = selected.GameObject.WorldTransform.RotateAround( trace.HitPosition, Rotation.FromToRotation( selectionDirection, -trace.Normal ) );
+		selected.GameObject.WorldTransform = selected.GameObject.WorldTransform.RotateAround( trace.HitPosition,
+			Rotation.FromToRotation( selectionDirection, -trace.Normal ) );
 
 		selected.Active = false;
+
+		Log.Info( selected.GameObject );
 
 		return true;
 	}
@@ -61,13 +83,13 @@ public class Weld : BaseJointTool
 		}, prop: point1 );
 	}
 
-	public static FixedJoint WeldObjects(GameObject body1, GameObject body2, Vector3 pos1, Vector3 pos2 = default)
+	public static FixedJoint WeldObjects( GameObject body1, GameObject body2, Vector3 pos1, Vector3 pos2 = default )
 	{
-		if (pos2 == default)
+		if ( pos2 == default )
 			pos2 = body2.WorldTransform.PointToLocal( body1.WorldTransform.PointToWorld( pos1 ) );
 
-		var selection1 = new SelectionPoint(body1, pos1, Vector3.Zero);
-		var selection2 = new SelectionPoint(body2, pos2, Vector3.Zero);
+		var selection1 = new SelectionPoint( body1, pos1, Vector3.Zero );
+		var selection2 = new SelectionPoint( body2, pos2, Vector3.Zero );
 
 		PropHelper propHelper1 = selection1.GameObject.Root.Components.Get<PropHelper>();
 		PropHelper propHelper2 = selection2.GameObject.Root.Components.Get<PropHelper>();
