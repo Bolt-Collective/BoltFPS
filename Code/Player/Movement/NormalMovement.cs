@@ -114,13 +114,6 @@ public partial class NormalMovement : Movement
 		Pawn.FOVModifier = MathX.SmoothDamp(Pawn.FOVModifier, 1 + fovSpeed, ref vel, FovSmooth, Time.Delta);
 	}
 
-	[Rpc.Owner]
-	public override void LaunchUpwards( float amount )
-	{
-		base.LaunchUpwards( amount );
-		ScreenShaker.Add( new ScreenShake.Random(30000, 1.5f) );
-	}
-
 	[ConCmd( "noclip", ConVarFlags.Admin )]
 	public static void ToggleNoclip()
 	{

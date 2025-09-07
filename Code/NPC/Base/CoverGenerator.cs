@@ -9,6 +9,10 @@ namespace Seekers;
 
 public class CoverGenerator : GameObjectSystem
 {
+
+	[ConVar]
+	public static bool ai_generatecover { get; set; } = true;
+
 	public class CoverPoint
 	{
 		public Vector3 Position;
@@ -217,6 +221,8 @@ public class CoverGenerator : GameObjectSystem
 	float searched = 0;
 
 	RealTimeSince generateTime;
+
+	bool lastAiGenerateCover;
 	public void StartGeneration()
 	{
 		if ( !Game.IsPlaying )
@@ -232,6 +238,17 @@ public class CoverGenerator : GameObjectSystem
 
 		if ( !doGenerateCover )
 			return;
+
+		if (!ai_generatecover)
+		{
+			coversGenerated = true;
+			return;
+		}
+		if ( ai_generatecover && !lastAiGenerateCover )
+			coversGenerated = false;
+
+
+		lastAiGenerateCover = ai_generatecover;
 
 		if (!started)
 		{

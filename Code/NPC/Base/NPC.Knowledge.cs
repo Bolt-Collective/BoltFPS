@@ -38,7 +38,7 @@ public enum KnowledgeKind
 public abstract class Knowable : Component, IKnowable
 {
 	[ConVar]
-	public static bool bolt_ignoreplayers { get; set; } = false;
+	public static bool ai_ignoreplayers { get; set; } = false;
 
 	public string KnowableID { get; set; } = Guid.NewGuid().ToString();
 	public virtual KnowledgeKind Kind => KnowledgeKind.NPC;
@@ -66,7 +66,7 @@ public abstract class Knowable : Component, IKnowable
 
 		foreach ( var rec in Memory.Values )
 		{
-			if ( bolt_ignoreplayers && rec.Kind == KnowledgeKind.Player )
+			if ( ai_ignoreplayers && rec.Kind == KnowledgeKind.Player )
 				continue;
 
 			if ( onlyEnemies && !TeamRef.IsEnemy( rec.Team ) )

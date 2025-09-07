@@ -66,7 +66,7 @@ public abstract partial class NPC : Knowable
 	}
 
 	[ConVar]
-	public static bool bolt_npcthinking { get; set; } = true;
+	public static bool ai_disable { get; set; } = false;
 
 	protected override void OnFixedUpdate()
 	{
@@ -75,7 +75,7 @@ public abstract partial class NPC : Knowable
 		if ( !Networking.IsHost )
 			return;
 		Animate();
-		if ( !bolt_npcthinking )
+		if ( ai_disable )
 			return;
 		Think();
 	}
