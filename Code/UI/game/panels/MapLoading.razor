@@ -6,11 +6,15 @@
 @if (Show)
 {
 	<root style="background-color: #000; pointer-events: all;">
-		<h2>Loading Map</h2>
-		@for(int i = 0; i < DotCount; i++)
-		{
-			<h2>.</h2>
-		}
+		<div style="flex-direction: row">
+			<h1>Loading Map</h1>
+			@for(int i = 0; i < DotCount; i++)
+			{
+				<h1>.</h1>
+			}
+		</div>
+	
+		<p>Hang tight!</p>
 	</root>
 }
 else
@@ -22,7 +26,13 @@ else
 {
 	private bool Show => MapLoader.Instance?.ClientIsLoadingMap ?? false;
 
-	private int DotCount => 1 + MathX.FloorToInt(Time.Now * 3) % 3;
+	
+	private int DotCount => 0 + MathX.FloorToInt(Time.Now * 4) % 4;
+
+	protected override void OnUpdate()
+	{
+		SetClass( "active", Show );
+	}
 
 	protected override int BuildHash()
 	{

@@ -5,7 +5,9 @@
 @inherits Panel
 
 <root class="dropdown-button">
-	<button class="property-button" onclick="@OpenMenu" Text=@(Items[CurrentItem]) />
+	<button class="property-button" onclick="@OpenMenu" Text="@Items[CurrentItem]">
+		<img src="icons/menu/arrowright.svg?w=64&h=64" style="transform: rotate(90deg);"/>
+	</button>
 </root>
 
 @code {
@@ -25,22 +27,22 @@
 		for ( int i = 0; i < Items.Count; i++ )
 		{
 			var captured = i;
-			entries.Add(new(Items[captured], () => SelectItem(captured)));
+			entries.Add( new(Items[captured], () => SelectItem( captured )) );
 		}
 
 		ContextMenu.Open( FindRootPanel(), Mouse.Position, entries );
 	}
 
-	private void SelectItem(int value)
+	private void SelectItem( int value )
 	{
-		OnValueChanged?.Invoke(value);
+		OnValueChanged?.Invoke( value );
 		CurrentItem = value;
 		StateHasChanged();
 	}
 
-	public DropdownButton( string[] items  )
+	public DropdownButton( string[] items )
 	{
-		Items = new List<string>(items);
+		Items = new List<string>( items );
 	}
 
 	public DropdownButton( List<string> items, int currentItem )
@@ -48,4 +50,5 @@
 		Items = new List<string>( items );
 		CurrentItem = currentItem;
 	}
+
 }

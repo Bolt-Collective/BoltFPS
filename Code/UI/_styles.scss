@@ -23,14 +23,6 @@ $bolt-gray: #4E4E4E;
   color: rgba(155, 155, 155, 0.7);
 }
 
-.popup-panel {
-  border: 2px solid #3D3D3D;
-  box-shadow: 0 4px 15px rgba(black, 0.25);
-  border-radius: 12px;
-  padding: 20px;
-  gap: 20px;
-}
-
 
 h1 {
   font-family: Work Sans;
@@ -89,4 +81,12 @@ p {
   font-weight: normal;
   color: white;
   backdrop-filter: blur(12px);
+}
+
+.popup-panel {
+  border-radius: 7px;
+  border: 3px solid rgba(24, 24, 24, 0.75);
+  background-color: rgba(24, 24, 24, 0.98);
+  box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.13) inset;
+  backdrop-filter: blur(37.5px);
 }

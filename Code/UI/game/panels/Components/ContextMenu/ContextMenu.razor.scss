@@ -10,14 +10,10 @@
   padding: 8px 0;
   flex-direction: column;
 
-  border-radius: 7px;
-  border: 3px solid rgba(24, 24, 24, 0.75);
-  background-color: rgba(24, 24, 24, 0.98);
-  box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.13) inset;
-  backdrop-filter: blur(37.5px);
-
   .menu-item {
+    background-color: #202020;
     padding: 8px 16px;
+    min-height: 48px;
     cursor: pointer;
     color: white;
     display: flex;
@@ -35,6 +31,14 @@
       &:hover {
         background-color: transparent;
       }
+    }
+  }
+
+  .menu-item:nth-child(odd) {
+    background-color: #303030;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
     }
   }
 }
