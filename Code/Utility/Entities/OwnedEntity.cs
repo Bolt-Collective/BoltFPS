@@ -2,8 +2,12 @@
 
 public abstract class OwnedEntity : Component
 {
-	[Property, Sync]
-	public Guid EntityOwner { get; set; }
+	[Property, Sync] public Guid EntityOwner { get; set; }
+
+	protected override void OnStart()
+	{
+		Tags.Add( "removable" );
+	}
 
 	protected override void OnUpdate()
 	{
@@ -15,6 +19,5 @@ public abstract class OwnedEntity : Component
 
 	public virtual void OwnerUpdate()
 	{
-
 	}
 }
