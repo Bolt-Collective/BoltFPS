@@ -645,11 +645,7 @@ public partial class BaseWeapon : Component
 
 			if ( !tr.GameObject.IsValid() ) continue;
 
-
 			var hitboxTags = tr.GetHitboxTags();
-
-			if ( hitboxTags.Contains( HitboxTags.Head ) )
-				damage *= 2;
 
 			var calcForce = forward * 25000 * damage;
 

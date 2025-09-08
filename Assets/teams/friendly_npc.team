@@ -9,7 +9,8 @@
   "UseEnemies": true,
   "Friends": [],
   "Enemies": [
-    "teams/enemy_npc.team"
+    "teams/enemy_npc.team",
+    "teams/evil_npc.team"
   ],
   "__references": [],
   "__version": 0

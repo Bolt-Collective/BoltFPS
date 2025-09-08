@@ -9,46 +9,68 @@ namespace Seekers;
 public class ZombieNPC : NPC
 {
 
+	[Group( "References" )]
 	[Property] public SkinnedModelRenderer Body { get; set; }
+
+	[Group( "Movement" )]
+	[Property] public float WalkSpeed { get; set; } = 23.3f;
+	[Group( "Movement" )]
+	[Property] public float RunSpeed { get; set; } = 70f;
+	[Group( "Movement" )]
+	[Property] public RangedFloat WonderTime { get; set; } = new RangedFloat( 10, 30 );
+
+	[Group( "Stamina" )]
+	[Property] public RangedFloat StaminaDecayTime { get; set; } = new RangedFloat( 4, 7 );
+	[Group( "Stamina" )]
+	[Property] public RangedFloat StaminaRegenTime { get; set; } = new RangedFloat( 4, 7 );
+
+	[Group( "Combat" )]
+	[Property] public float AttackDistance { get; set; } = 30f;
+	[Group( "Combat" )]
+	[Property] public float MaxAttackAngle { get; set; } = 75f;
+	[Group( "Combat" )]
+	[Property] public float AttackAttemptDistance { get; set; } = 60f;
+	[Group( "Combat" )]
+	[Property] public float AttackHeight { get; set; } = 60f;
+	[Group( "Combat" )]
+	[Property] public float StopDistance { get; set; } = 30f;
+	[Group( "Combat" )]
+	[Property] public int AttackCount { get; set; } = 4;
+	[Group( "Combat" )]
+	[Property] public float Damage { get; set; } = 25;
+
+	[Group( "Targeting" )]
+	[Property] public float TargetAccuracy { get; set; } = 0.12f;
+	[Group( "Targeting" )]
+	[Property] public float AccuracyScale { get; set; } = 1;
+
+	[Group( "Death" )]
+	[Property] public GameObject DeathPrefab { get; set; }
+	[Group( "Death" )]
+	[Property] public Model DeadModel { get; set; }
 
 	public Knowable ClosestEnemy { get; set; }
 
-	[Property] public RangedFloat WonderTime { get; set; } = new RangedFloat( 10, 30 );
-
-	[Property] public float SpeedMult { get; set; } = 1;
-
-	// do not change if using native zombie model
-	[Property] public float BaseWalkSpeed { get; set; } = 23.3f;
-	[Property] public float BaseRunSpeed { get; set; } = 70f;
-
-	[Property] public RangedFloat StaminaDecayTime { get; set; } = new RangedFloat(4,7);
-
-	[Property] public RangedFloat StaminaRegenTime { get; set; } = new RangedFloat( 4, 7 );
-
-	[Property] public float AttackDistance { get; set; } = 30f;
-
-	[Property] public float AttackAttemptDistance { get; set; } = 60f;
-
-	[Property] public float AttackHeight { get; set; } = 60f;
-
-	[Property] public float StopDistance { get; set; } = 30f;
-
-	[Property] public float TargetAccuracy { get; set; } = 0.12f;
-	[Property] public float AccuracyScale { get; set; } = 1;
-
-	float stamina = 1;
-	bool regen;
-
+	float stamina = 0;
+	bool regen = true;
 	bool cannotAttack = false;
-
 	float accRandom;
-
 	float type;
+	float regenTime;
+	float decayTime;
+	bool hit;
+
+	TimeUntil attackDuration;
+	RealTimeSince attackTime;
+	RealTimeSince sinceCantAttack;
+
 	protected override void OnStart()
 	{
 		type = Game.Random.Next( 0, 101 ) / 100f;
 		Body.OnGenericEvent += Event;
 		accRandom = Game.Random.Next( 0, 1000 );
+		regenTime = StaminaRegenTime.GetValue();
+		decayTime = StaminaDecayTime.GetValue();
 		base.OnStart();
 	}
 
@@ -60,12 +82,11 @@ public class ZombieNPC : NPC
 		if ( genericEvent.Type == "FinishedAttack" )
 			cannotAttack = false;
 	}
-
-	TimeUntil attackDuration;
 	
 	public void SetAttack(float duration)
 	{
 		attackDuration = duration;
+		hit = false;
 	}
 
 	public override void Think()
@@ -77,20 +98,25 @@ public class ZombieNPC : NPC
 
 		if (regen)
 		{
-			stamina += (1 / StaminaRegenTime.GetValue()) * Time.Delta;
+			stamina += (1 / regenTime) * Time.Delta;
 			if ( stamina > 1 )
+			{
 				regen = false;
+			}
 		}
 		else
 		{
-			stamina -= (1 / StaminaDecayTime.GetValue()) * Time.Delta;
+			stamina -= (1 / decayTime) * Time.Delta;
 			if ( stamina < 0 )
+			{
 				regen = true;
+			}
 		}
 
-		var speed = regen ? 23.3f : 70;
+		var speed = regen ? WalkSpeed : RunSpeed;
 
-		Agent.MaxSpeed = speed * SpeedMult;
+		Agent.MaxSpeed = speed;
+		Agent.Acceleration = speed * 5;
 		ClosestEnemy = GetNearest( true )?.Knowable ?? null;
 		if ( !ClosestEnemy.IsValid() || !ClosestEnemy.GameObject.IsValid() )
 		{
@@ -111,7 +137,6 @@ public class ZombieNPC : NPC
 		base.OnFixedUpdate();
 	}
 
-	bool hit;
 	public void AttackBox()
 	{
 		if ( hit )
@@ -135,6 +160,11 @@ public class ZombieNPC : NPC
 			if ( !ray.Hit )
 				return;
 
+			var dir = (ray.HitPosition - WorldPosition).Normal.WithZ(0);
+
+			if ( MathF.Abs(Vector3.GetAngle( WorldTransform.Forward.WithZ( 0 ).Normal, dir )) > MaxAttackAngle )
+				return;
+
 			if ( !Team.IsEnemy( ray.GameObject ) )
 				continue;
 
@@ -142,7 +172,7 @@ public class ZombieNPC : NPC
 				continue;
 
 			hit = true;
-			BaseWeapon.DoDamage( ray.GameObject, 10, WorldTransform.Forward * 100000, ray.EndPosition, ownerTeam: Team );
+			BaseWeapon.DoDamage( ray.GameObject, Damage, WorldTransform.Forward * 100000, ray.EndPosition, ownerTeam: Team );
 			break;
 		}
 	}
@@ -168,15 +198,21 @@ public class ZombieNPC : NPC
 		TryAttack( dis );
 	}
 
-	RealTimeSince attackTime;
 	public void TryAttack(float dis)
 	{
 		if ( dis > AttackAttemptDistance )
 			return;
 
 		if ( cannotAttack )
+		{
+			sinceCantAttack = 0;
+			return;
+		}
+
+		if ( sinceCantAttack < 0.4f )
 			return;
 
+		regen = false;
 		attackTime = 0;
 		cannotAttack = true;
 
@@ -185,19 +221,20 @@ public class ZombieNPC : NPC
 
 	public void Attack()
 	{
-		AttackAnimation();
+		AttackAnimation(Game.Random.Next(AttackCount));
 	}
 
 	[Rpc.Broadcast]
-	public void AttackAnimation()
-	{
+	public void AttackAnimation(int attack)
+	{	
+		Body.Set( "attackchoice", attack );
 		Body.Set( "attack", true );
 	}
 
 	public override void Animate()
 	{
 		var move = Agent.Velocity.Length;
-		var runScale = MathX.LerpInverse( move, 0, 70 );
+		var runScale = MathX.LerpInverse( move, 0, RunSpeed );
 		SetAnimation( type, move, runScale );
 	}
 
@@ -209,9 +246,6 @@ public class ZombieNPC : NPC
 		Body.Set( "runscale", runScale );
 	}
 
-	[Property] public GameObject DeathPrefab { get; set; }
-	[Property] public Model DeadModel { get; set; }
-
 	public override void OnKilled( DamageInfo damageInfo )
 	{
 		if ( DeathPrefab.IsValid() )
@@ -222,7 +256,7 @@ public class ZombieNPC : NPC
 		}
 
 		Body.GameObject.SetParent( Game.ActiveScene );
-		Body.AddComponent<TimedDestroyComponent>().Time = 5;
+		Body.AddComponent<TimedDestroyComponent>().Time = 15;
 		Body.UseAnimGraph = false;
 		Body.RenderType = ModelRenderer.ShadowRenderType.On;
 		if ( DeadModel.IsValid() )
@@ -245,5 +279,10 @@ public class ZombieNPC : NPC
 		var pos = Vector3.Forward * AttackDistance * 0.5f + Vector3.Up * AttackHeight / 2;
 		var size = new Vector3( AttackDistance, AttackDistance, AttackHeight );
 		Gizmo.Draw.LineBBox(BBox.FromPositionAndSize(pos, size));
+		Gizmo.Draw.IgnoreDepth = true;
+		Gizmo.Draw.LineThickness = 2;
+		Gizmo.Draw.Line( Vector3.Zero, Vector3.Zero + (Vector3.Forward * new Angles( 0, MaxAttackAngle, 0 )) * 250 );
+		Gizmo.Draw.Line( Vector3.Zero, Vector3.Zero + (Vector3.Forward * new Angles( 0, -MaxAttackAngle, 0 )) * 250 );
+		Gizmo.Draw.Line( Vector3.Zero, Vector3.Forward * AttackAttemptDistance );
 	}
 }

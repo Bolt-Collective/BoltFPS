@@ -156,4 +156,9 @@ public abstract partial class NPC : Knowable
 			Tool
 		}
 	}
+
+	public static float GetRandomValue (RangedFloat rangedFloat)
+	{
+		return Game.Random.Next( (int)MathF.Round( rangedFloat.Min * 100 ), (int)MathF.Round( rangedFloat.Max * 100 ) ) / 100f;
+	}
 }

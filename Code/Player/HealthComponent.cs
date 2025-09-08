@@ -7,7 +7,7 @@ namespace Seekers;
 /// </summary>
 public partial class HealthComponent : Component, IRespawnable
 {
-
+	[Property] public Dictionary<HitboxTags, float> HitboxMultipliers { get; set; }
 	[Property] public HealthComponent LinkedHealth { get; set; }
 
 	[Button]
@@ -88,6 +88,11 @@ public partial class HealthComponent : Component, IRespawnable
 		}
 		if ( !Networking.IsHost )
 			return;
+
+		if (hitbox != default && HitboxMultipliers.ContainsKey( hitbox ) )
+		{
+			damage *= HitboxMultipliers[ hitbox ];
+		}
 
 		var damageInfo = new DamageInfo( attacker, damage, inflictor, position, force, hitbox, flags, armorDamage,
 			external );
