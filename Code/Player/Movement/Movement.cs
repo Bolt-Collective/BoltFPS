@@ -70,7 +70,11 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 		Camera.Enabled = false;
 		Camera.FieldOfView = Preferences.FieldOfView;
 
+		IPlayerEvent.PostToGameObject( GameObject, x => x.OnCameraSetup( camera: Camera ) );
+
 		_startHeight = Height;
+
+		IPlayerEvent.PostToGameObject( GameObject, x => x.OnCameraPostSetup( camera: Camera ) );
 	}
 
 	public bool OverrideVelocity;
@@ -169,15 +173,7 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 	public Vector3 forwardDirection => Scene.Camera?.WorldTransform.Forward.WithZ( 0 ).Normal ?? default;
 	public Vector3 rightDirection => Scene.Camera?.WorldTransform.Right.WithZ( 0 ).Normal ?? default;
 
-	public float CameraBobFrequency = 8f;
-	public float CameraBobAmplitude = 2f;
-	public bool IsBobbing;
-
-
 	[Sync] public Angles EyeAngles { get; set; }
-
-	public Vector3 CameraPosOffset;
-	public Angles CameraRotOffset;
 
 	public bool IgnoreMove { get; set; }
 
@@ -187,6 +183,7 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 	SitEntity lastSeat;
 	public Rotation lastSeatRotation;
+
 	public virtual void UpdateCamera()
 	{
 		if ( !Camera.IsValid() )
@@ -194,27 +191,7 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 		ScreenShaker.Apply( Camera );
 
-		if ( !IgnoreCam )
-			EyeAngles += Input.AnalogLook * AimSensitivityScale * (Input.UsingController ? 0.2f : 1);
-
-		if (CurrentSeat.IsValid())
-		{
-			if (CurrentSeat != lastSeat)
-				lastSeatRotation = CurrentSeat.WorldRotation;
-
-			var eyeAngles = EyeAngles;
-
-			var rotation = CurrentSeat.WorldTransform.RotationToWorld( CurrentSeat.SeatRotation );
-
-			eyeAngles.yaw -= lastSeatRotation.Yaw() - rotation.Yaw();
-			eyeAngles.pitch -= lastSeatRotation.Pitch() - rotation.Pitch();
-			EyeAngles = eyeAngles;
-
-			lastSeat = CurrentSeat;
-			lastSeatRotation = rotation;
-		}
-
-		EyeAngles = EyeAngles.WithPitch( EyeAngles.pitch.Clamp( -89f, 89f ) );
+		UpdateEyeAngles();
 
 		var targetTransform = new Transform( CameraPosition(), CameraRotation() );
 
@@ -232,6 +209,36 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 		}
 		else
 			Camera.LocalPosition = 0;
+	}
+
+	private void UpdateEyeAngles()
+	{
+		var eyeAngles = EyeAngles;
+
+		if ( !IgnoreCam )
+			eyeAngles += Input.AnalogLook * AimSensitivityScale * (Input.UsingController ? 0.2f : 1);
+
+		if ( CurrentSeat.IsValid() )
+		{
+			if ( CurrentSeat != lastSeat )
+				lastSeatRotation = CurrentSeat.WorldRotation;
+
+
+			var rotation = CurrentSeat.WorldTransform.RotationToWorld( CurrentSeat.SeatRotation );
+
+			eyeAngles.yaw -= lastSeatRotation.Yaw() - rotation.Yaw();
+			eyeAngles.pitch -= lastSeatRotation.Pitch() - rotation.Pitch();
+
+			lastSeat = CurrentSeat;
+			lastSeatRotation = rotation;
+		}
+
+		eyeAngles = eyeAngles.WithPitch( eyeAngles.pitch.Clamp( -89f, 89f ) );
+
+		IPlayerEvent.PostToGameObject( GameObject, x => x.OnCameraMove( ref eyeAngles ) );
+
+
+		EyeAngles = eyeAngles;
 	}
 
 	public void LookAt( Vector3 worldTarget )

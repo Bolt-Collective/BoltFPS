@@ -4,7 +4,7 @@ using ShrimplePawns;
 namespace Seekers;
 
 [Pawn( "prefabs/player.prefab" )]
-public partial class Pawn : ShrimplePawns.Pawn
+public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 {
 	public override Team TeamRef => Owner.Team;
 	public override KnowledgeKind Kind => KnowledgeKind.Player;
@@ -57,12 +57,12 @@ public partial class Pawn : ShrimplePawns.Pawn
 			return _controller;
 		}
 	}
-	
+
 	public CameraComponent Camera => Scene?.Camera ?? Controller?.Camera;
 
 	public SkinnedModelRenderer Renderer => Controller.BodyModelRenderer;
 	public AnimationHelper AnimationHelper => Controller.AnimationHelper;
-	
+
 	public Ray AimRay =>
 		new Ray( Camera.WorldPosition,
 			Camera.WorldTransform.Forward );
@@ -145,6 +145,21 @@ public partial class Pawn : ShrimplePawns.Pawn
 
 	RealTimeSince _staminaUsedTime;
 
+	/// <summary>
+	/// True if the player wants the HUD not to draw right now
+	/// </summary>
+	public bool WantsHideHud
+	{
+		get
+		{
+			var weapon = GetComponent<PlayerInventory>()?.ActiveWeapon;
+			if ( weapon.IsValid() && weapon.WantsHideHud )
+				return true;
+
+			return false;
+		}
+	}
+
 	protected override void OnUpdate()
 	{
 		if ( !Owner.IsValid() )
@@ -166,12 +181,19 @@ public partial class Pawn : ShrimplePawns.Pawn
 			Controller.Spectating = false;
 		}
 
-		if ( Controller.IsValid() )
+		var ui = GetComponentInChildren<ScreenPanel>();
+
+		if ( !ui.IsValid() )
+			return;
+
+
+		if ( WantsHideHud )
 		{
-			Controller.Camera.FovAxis = CameraComponent.Axis.Vertical;
-			Controller.Camera.FieldOfView =
-				Screen.CreateVerticalFieldOfView( (Preferences.FieldOfView / Zoom) * FOVModifier, 9.0f / 16.0f );
-			Controller.AimSensitivityScale = 1 / Zoom;
+			ui.Enabled = false;
+		}
+		else
+		{
+			ui.Enabled = true;
 		}
 	}
 
@@ -213,6 +235,22 @@ public partial class Pawn : ShrimplePawns.Pawn
 		{
 			Controller.ThirdPerson = !Controller.ThirdPerson;
 		}
+	}
+
+	public void OnCameraMove( ref Angles angles )
+	{
+		var ang = angles;
+		Inventory?.ActiveWeapon.OnCameraMove( this, ref ang );
+	}
+
+	public void OnCameraSetup( CameraComponent camera )
+	{
+		camera.FovAxis = CameraComponent.Axis.Vertical;
+		camera.FieldOfView =
+			Screen.CreateVerticalFieldOfView( (Preferences.FieldOfView / Zoom) * FOVModifier, 9.0f / 16.0f );
+		Controller.AimSensitivityScale = 1 / Zoom;
+
+		Inventory?.ActiveWeapon.OnCameraSetup( this, camera );
 	}
 
 	[Rpc.Broadcast, ConCmd( "giveall" )]

@@ -71,7 +71,6 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 			SetActiveSlot( Weapons.Count - 1 );
 
 		IPlayerEvent.PostToGameObject( Owner.GameObject, e => e.OnWeaponAdded( weapon ) );
-		ILocalPlayerEvent.Post( e => e.OnWeaponAdded( weapon ) );
 	}
 
 	public void RemoveWeapon( BaseWeapon weapon )
@@ -100,7 +99,6 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 		SetActiveSlot( Weapons.Count - 1 );
 
 		IPlayerEvent.PostToGameObject( Owner.GameObject, e => e.OnWeaponAdded( weapon ) );
-		ILocalPlayerEvent.Post( e => e.OnWeaponAdded( weapon ) );
 	}
 
 	[ConCmd( "give" )]

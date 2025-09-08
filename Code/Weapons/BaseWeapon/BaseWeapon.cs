@@ -1,93 +1,89 @@
-using System.Diagnostics;
-using Sandbox;
 using Sandbox.Citizen;
 using Sandbox.Events;
-using Sandbox.UI;
 using Sandbox.Utility;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Seekers;
 
 /// <summary>
-/// A common base we can use for weapons so we don't have to implement the logic over and over
-/// again. Feel free to not use this and to implement it however you want to.
+///     A common base we can use for weapons so we don't have to implement the logic over and over
+///     again. Feel free to not use this and to implement it however you want to.
 /// </summary>
-/// 
 public record BulletHitEvent( Vector3 position ) : IGameEvent;
 
 [Icon( "sports_martial_arts" )]
 public partial class BaseWeapon : Component
 {
-	[Feature( "General" ), Property] public string Name { get; set; }
-	[Feature( "General" ), Property] public ItemResource ItemResource { get; set; }
+	public bool ForceDisableViewmodel;
 
-	[Feature( "General" ), Property, ImageAssetPath]
+	/// <summary>
+	///     Shoot a single bullet
+	/// </summary>
+	private List<Surface> hitSurfaces = new();
+
+	//don't know how spaces keep ending up in this string, but it breaks it so whatever is happening needs to stop
+	private readonly GameObject muzzle = GameObject.GetPrefab( "weapons/common/effects/muzzle.prefab" );
+	private int shots;
+
+	private float shotTime;
+	[Feature( "General" )] [Property] public string Name { get; set; }
+	[Feature( "General" )] [Property] public ItemResource ItemResource { get; set; }
+
+	[Feature( "General" )]
+	[Property]
+	[ImageAssetPath]
 	public string Icon { get; set; }
 
-	[Feature( "Animation" ), Property] public WeaponIK LeftIK { get; set; }
+	[Feature( "Animation" )] [Property] public WeaponIK LeftIK { get; set; }
 
-	[Feature( "Animation" ), Property]
+	[Feature( "Animation" )]
+	[Property]
 	public CitizenAnimationHelper.HoldTypes HoldType { get; set; }
 		= CitizenAnimationHelper.HoldTypes.HoldItem;
 
-	[Feature( "Animation" ), Property]
+	[Feature( "Animation" )]
+	[Property]
 	public CitizenAnimationHelper.Hand Handedness { get; set; }
 		= CitizenAnimationHelper.Hand.Right;
 
-	[Feature( "Animation" ), Property] public string ParentBone { get; set; } = "hold_r";
-	[Feature( "Animation" ), Property] public Transform BoneOffset { get; set; } = new Transform( 0 );
+	[Feature( "Animation" )] [Property] public string ParentBone { get; set; } = "hold_r";
+	[Feature( "Animation" )] [Property] public Transform BoneOffset { get; set; } = new(0);
 
-	[Feature( "Models" ), Property] public GameObject ViewModelPrefab { get; set; }
-	[Feature( "Models" ), Property] public GameObject TracerEffect { get; set; }
+	[Feature( "Models" )] [Property] public GameObject ViewModelPrefab { get; set; }
+	[Feature( "Models" )] [Property] public GameObject TracerEffect { get; set; }
 
-	[Feature( "Sounds" ), Property]
+	[Feature( "Sounds" )]
+	[Property]
 	public SoundEvent DeploySound { get; set; } =
 		ResourceLibrary.Get<SoundEvent>( "sounds/weapons/switch/switch_3.sound" );
 
-	[Feature( "Sounds" ), Property] public SoundEvent ReloadSound { get; set; }
-	[Feature( "Sounds" ), Property] public SoundEvent ReloadShortSound { get; set; }
-	[Feature( "Sounds" ), Property] public SoundEvent ShootSound { get; set; }
+	[Feature( "Sounds" )] [Property] public SoundEvent ReloadSound { get; set; }
+	[Feature( "Sounds" )] [Property] public SoundEvent ReloadShortSound { get; set; }
+	[Feature( "Sounds" )] [Property] public SoundEvent ShootSound { get; set; }
 
-	[Feature( "Firing" ), Property] public float PrimaryRate { get; set; } = 5.0f;
-	[Feature( "Firing" ), Property] public float SecondaryRate { get; set; } = 15.0f;
-	[Feature( "Firing" ), Property] public virtual float Damage { get; set; }
-	[Feature( "Firing" ), Property] public virtual float Spread { get; set; }
-	[Feature( "Firing" ), Property] public virtual float SpreadIncrease { get; set; }
+	[Feature( "Firing" )] [Property] public float PrimaryRate { get; set; } = 5.0f;
+	[Feature( "Firing" )] [Property] public float SecondaryRate { get; set; } = 15.0f;
+	[Feature( "Firing" )] [Property] public virtual float Damage { get; set; }
+	[Feature( "Firing" )] [Property] public virtual float Spread { get; set; }
+	[Feature( "Firing" )] [Property] public virtual float SpreadIncrease { get; set; }
 
-	[Feature( "Ammo" ), Property] public int Ammo { get; set; }
-	[Feature( "Ammo" ), Property] public int MaxAmmo { get; set; }
-	[Feature( "Ammo" ), Property] public bool Chamber { get; set; } = true;
-	[Feature( "Ammo" ), Property] public bool ShowAmmo { get; set; } = true;
-	[Feature( "Ammo" ), Property] public float ReloadTime { get; set; } = 3.0f;
+	[Feature( "Ammo" )] [Property] public int Ammo { get; set; }
+	[Feature( "Ammo" )] [Property] public int MaxAmmo { get; set; }
+	[Feature( "Ammo" )] [Property] public bool Chamber { get; set; } = true;
+	[Feature( "Ammo" )] [Property] public bool ShowAmmo { get; set; } = true;
+	[Feature( "Ammo" )] [Property] public float ReloadTime { get; set; } = 3.0f;
 
-	[Feature( "UI" ), Property] public CrosshairType CrosshairType { get; set; }
-
-	public class WeaponIK
-	{
-		public Action<GameObject, bool, bool> SetActive;
-		bool _active = true;
-
-		public bool Active
-		{
-			get { return _active; }
-			set
-			{
-				_active = value;
-				SetActive?.Invoke( GameObject, value, IsLeft );
-			}
-		}
-
-		[KeyProperty] public GameObject GameObject { get; set; }
-		public bool IsLeft { get; set; }
-	}
+	[Feature( "UI" )] [Property] public CrosshairType CrosshairType { get; set; }
 
 	private GameObject Tracer
 	{
 		get
 		{
-			if ( TracerEffect.IsValid() ) return TracerEffect;
+			if ( TracerEffect.IsValid() )
+			{
+				return TracerEffect;
+			}
 
-			return GameObject.GetPrefab( $"/weapons/common/effects/tracer.prefab" );
+			return GameObject.GetPrefab( "/weapons/common/effects/tracer.prefab" );
 		}
 	}
 
@@ -111,6 +107,8 @@ public partial class BaseWeapon : Component
 
 	public Pawn Owner => GameObject?.Root?.Components.Get<Pawn>( FindMode.EverythingInSelfAndDescendants );
 
+	public virtual bool WantsHideHud => false;
+
 	public PlayerInventory Inventory =>
 		GameObject?.Root?.Components.Get<PlayerInventory>( FindMode.EverythingInSelfAndDescendants );
 
@@ -119,7 +117,11 @@ public partial class BaseWeapon : Component
 	public virtual float RecoilTime => 0.05f.Clamp( 0, BulletTime );
 	public float BulletTime => 1 / PrimaryRate;
 
-	public bool ForceDisableViewmodel;
+	[ConVar( ConVarFlags.Saved )] public static bool bolt_tracers { get; set; } = true;
+
+	public virtual string StatDamage => Damage.ToString();
+	public virtual float StatFirerate => PrimaryRate;
+	public virtual float StatDPS => MathF.Round( Damage * MaxAmmo / (MaxAmmo / PrimaryRate + ReloadTime) );
 
 	public Transform Attachment( string name )
 	{
@@ -149,19 +151,26 @@ public partial class BaseWeapon : Component
 
 	public static bool IsNearby( Vector3 position )
 	{
-		if ( !Game.ActiveScene.Camera.IsValid() ) return false;
+		if ( !Game.ActiveScene.Camera.IsValid() )
+		{
+			return false;
+		}
+
 		return position.DistanceSquared( Game.ActiveScene.Camera.WorldPosition ) < 4194304f;
 	}
-
-	[ConVar( ConVarFlags.Saved )] public static bool bolt_tracers { get; set; } = true;
 
 	[Rpc.Broadcast]
 	protected void DoTracer( Vector3 startPosition, Vector3 endPosition, float distance, bool muzzle )
 	{
 		if ( !bolt_tracers )
+		{
 			return;
+		}
 
-		if ( !IsNearby( startPosition ) && !IsNearby( endPosition ) ) return;
+		if ( !IsNearby( startPosition ) && !IsNearby( endPosition ) )
+		{
+			return;
+		}
 
 		var attachment = LocalWorldModel.GetAttachment( "muzzle" );
 
@@ -178,26 +187,31 @@ public partial class BaseWeapon : Component
 		}
 	}
 
-	public void CalculateRandomRecoil( (float min, float max) pitchRecoil, (float min, float max) yawRecoil )
+	protected void CalculateRandomRecoil( (float min, float max) pitchRecoil, (float min, float max) yawRecoil )
 	{
 		Recoil = new Angles( -MathF.Abs( RandomRecoilValue( pitchRecoil.min, pitchRecoil.max ) ),
 			RandomRecoilValue( yawRecoil.min, yawRecoil.max ), 0 );
 		LastShot = 0;
 	}
 
-	public void AddRecoil( Vector2 recoil )
+	protected void AddRecoil( Vector2 recoil )
 	{
 		Recoil = new Angles( -recoil.y, -recoil.x, 0 );
 		LastShot = 0;
 	}
 
-	float RandomRecoilValue( float min, float max ) => Game.Random.Next( (int)(min * 10), (int)(max * 10) ) * 0.1f *
-	                                                   (Game.Random.Next( 0, 2 ) == 1 ? -1 : 1);
+	private float RandomRecoilValue( float min, float max )
+	{
+		return Game.Random.Next( (int)(min * 10), (int)(max * 10) ) * 0.1f *
+		       (Game.Random.Next( 0, 2 ) == 1 ? -1 : 1);
+	}
 
 	public void SetIk( GameObject target, bool active, bool left )
 	{
 		if ( !Owner?.Controller?.AnimationHelper.IsValid() ?? true )
+		{
 			return;
+		}
 
 		if ( left )
 		{
@@ -211,8 +225,12 @@ public partial class BaseWeapon : Component
 
 	protected override void OnEnabled()
 	{
-		if ( MergeModel && GameObject.Components.TryGet<SkinnedModelRenderer>( out var skinnedModel, FindMode.EnabledInSelfAndChildren ) )
+		if ( MergeModel &&
+		     GameObject.Components.TryGet<SkinnedModelRenderer>( out var skinnedModel,
+			     FindMode.EnabledInSelfAndChildren ) )
+		{
 			SkinMergeModel( skinnedModel );
+		}
 
 		LeftIK.Active = true;
 
@@ -220,16 +238,21 @@ public partial class BaseWeapon : Component
 
 		BroadcastEnabled();
 
-		if ( IsProxy ) return;
+		if ( IsProxy )
+		{
+			return;
+		}
 
 		IsReloading = false;
 
 		if ( !Owner.IsValid() )
+		{
 			return;
+		}
 
 		Owner.Zoom = 1;
 
-		var go = ViewModelPrefab?.Clone( new CloneConfig()
+		var go = ViewModelPrefab?.Clone( new CloneConfig
 		{
 			StartEnabled = false,
 			Parent = Owner.Controller.Camera.GameObject,
@@ -239,10 +262,12 @@ public partial class BaseWeapon : Component
 		go.NetworkSpawn();
 	}
 
-	public void SkinMergeModel(SkinnedModelRenderer skinnedModel)
+	private void SkinMergeModel( SkinnedModelRenderer skinnedModel )
 	{
-		if ( !(Owner?.Controller?.BodyModelRenderer.IsValid() ?? false) ) 
+		if ( !(Owner?.Controller?.BodyModelRenderer.IsValid() ?? false) )
+		{
 			return;
+		}
 
 		if ( GameObject.Root.Components.TryGet<PlayerDresser>( out var dresser, FindMode.EnabledInSelfAndChildren ) )
 		{
@@ -269,18 +294,24 @@ public partial class BaseWeapon : Component
 	private void BroadcastEnabled()
 	{
 		if ( !Owner.IsValid() && !Owner.Renderer.IsValid() )
+		{
 			return;
+		}
 
 		Owner?.Renderer?.Set( "b_deploy", true );
-		var snd = Sound.Play( DeploySound, WorldPosition );
-		snd.SpacialBlend = Owner.IsValid() && Owner.IsMe ? 0 : 1;
+
+		SoundExtensions.BroadcastSound( DeploySound, WorldPosition,
+			spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
 	}
 
 	protected override void OnDisabled()
 	{
 		Owner?.Renderer?.Set( "holdtype", 0 );
 
-		if ( IsProxy ) return;
+		if ( IsProxy )
+		{
+			return;
+		}
 
 		ViewModel?.GameObject?.BroadcastDestroy();
 	}
@@ -290,13 +321,19 @@ public partial class BaseWeapon : Component
 		GameObject.NetworkInterpolation = false;
 
 		if ( !Owner.IsValid() )
+		{
 			return;
+		}
 
 		if ( !Owner.Controller.IsValid() )
+		{
 			return;
+		}
 
 		if ( !Owner.Inventory.IsValid() )
+		{
 			return;
+		}
 
 		Owner?.Renderer?.Set( "holdtype", (int)HoldType );
 		Owner?.Renderer?.Set( "holdtype_handedness", (int)Handedness );
@@ -305,7 +342,9 @@ public partial class BaseWeapon : Component
 		{
 			ViewModel.GameObject.Enabled = !(Owner?.Controller?.BodyVisible ?? true);
 			if ( ForceDisableViewmodel )
+			{
 				ViewModel.GameObject.Enabled = false;
+			}
 		}
 
 		if ( WorldModel.IsValid() )
@@ -316,11 +355,13 @@ public partial class BaseWeapon : Component
 		}
 
 		if ( IsProxy )
+		{
 			return;
+		}
 
 		if ( LastShot < RecoilTime && Owner.IsValid() )
 		{
-			Owner.Controller.EyeAngles += Recoil * Time.Delta / (RecoilTime);
+			Owner.Controller.EyeAngles += Recoil * Time.Delta / RecoilTime;
 		}
 
 		Owner.Controller.Tags.Set( "viewer",
@@ -339,10 +380,14 @@ public partial class BaseWeapon : Component
 	public virtual void OnControl()
 	{
 		if ( TimeSinceDeployed < 0.6f )
+		{
 			return;
+		}
 
 		if ( IsProxy )
+		{
 			return;
+		}
 
 		if ( !IsReloading && CanReload() )
 		{
@@ -353,9 +398,11 @@ public partial class BaseWeapon : Component
 		// Reload could have changed our owner
 		//
 		if ( !Owner.IsValid() )
+		{
 			return;
+		}
 
-		bool canPrimaryAttack = CanPrimaryAttack();
+		var canPrimaryAttack = CanPrimaryAttack();
 		if ( canPrimaryAttack && Ammo > 0 )
 		{
 			TimeSincePrimaryAttack = 0;
@@ -370,7 +417,9 @@ public partial class BaseWeapon : Component
 		// AttackPrimary could have changed our owner
 		//
 		if ( !Owner.IsValid() )
+		{
 			return;
+		}
 
 		if ( CanSecondaryAttack() )
 		{
@@ -391,7 +440,7 @@ public partial class BaseWeapon : Component
 
 	public virtual void OnReloadFinish()
 	{
-		var add = Chamber ? (MaxAmmo - 1) : MaxAmmo;
+		var add = Chamber ? MaxAmmo - 1 : MaxAmmo;
 		Ammo = Math.Clamp( Ammo + add, 0, MaxAmmo );
 		IsReloading = false;
 	}
@@ -401,9 +450,6 @@ public partial class BaseWeapon : Component
 		ViewModel?.Set( "b_reload", true );
 		SoundExtensions.FollowSound( Ammo > 0 ? ReloadShortSound : ReloadSound, GameObject );
 	}
-
-	//don't know how spaces keep ending up in this string, but it breaks it so whatever is happening needs to stop
-	private GameObject muzzle = GameObject.GetPrefab( "weapons/common/effects/muzzle.prefab" );
 
 	protected virtual void ShootEffects()
 	{
@@ -416,9 +462,11 @@ public partial class BaseWeapon : Component
 	public void AttachParticleSystem( GameObject prefab, string attachment, float time = 1, GameObject parent = null )
 	{
 		if ( !prefab.IsValid() || !LocalWorldModel.IsValid() )
+		{
 			return;
+		}
 
-		Transform transform = LocalWorldModel?.GetAttachment( attachment ) ?? WorldTransform;
+		var transform = LocalWorldModel?.GetAttachment( attachment ) ?? WorldTransform;
 
 		Particles.MakeParticleSystem( prefab, transform, time, LocalWorldModel?.GameObject );
 	}
@@ -427,7 +475,7 @@ public partial class BaseWeapon : Component
 	public void AttachEjectedBullet( GameObject prefab, string attachment, Vector3 force, float time = 1,
 		GameObject parent = null )
 	{
-		Transform transform = LocalWorldModel?.GetAttachment( attachment ) ?? WorldTransform;
+		var transform = LocalWorldModel?.GetAttachment( attachment ) ?? WorldTransform;
 
 		var go = Particles.MakeParticleSystem( prefab, transform, time, parent );
 
@@ -439,7 +487,10 @@ public partial class BaseWeapon : Component
 
 	public virtual bool CanReload()
 	{
-		if ( Owner != null && Input.Down( "reload" ) ) return true;
+		if ( Owner != null && Input.Down( "reload" ) )
+		{
+			return true;
+		}
 
 		return false;
 	}
@@ -447,7 +498,9 @@ public partial class BaseWeapon : Component
 	public virtual void Reload()
 	{
 		if ( IsReloading )
+		{
 			return;
+		}
 
 		TimeSinceReload = 0;
 		IsReloading = true;
@@ -467,18 +520,24 @@ public partial class BaseWeapon : Component
 
 	public virtual bool CanPrimaryAttack()
 	{
-		if ( Owner == null || !Input.Down( "attack1" ) || IsReloading ) return false;
+		if ( Owner == null || !Input.Down( "attack1" ) || IsReloading )
+		{
+			return false;
+		}
 
 		var rate = PrimaryRate;
-		if ( rate <= 0 ) return true;
+		if ( rate <= 0 )
+		{
+			return true;
+		}
 
-		return TimeSincePrimaryAttack > (1 / rate);
+		return TimeSincePrimaryAttack > 1 / rate;
 	}
 
 	public virtual void AttackPrimary()
 	{
 		SoundExtensions.BroadcastSound( ShootSound, WorldPosition,
-			volume: ShootSound.Volume.FixedValue, spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
+			ShootSound.Volume.FixedValue, spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
 	}
 
 	public virtual void AttackDry()
@@ -492,12 +551,18 @@ public partial class BaseWeapon : Component
 
 	public virtual bool CanSecondaryAttack()
 	{
-		if ( Owner == null || !Input.Down( "attack2" ) || IsReloading ) return false;
+		if ( Owner == null || !Input.Down( "attack2" ) || IsReloading )
+		{
+			return false;
+		}
 
 		var rate = SecondaryRate;
-		if ( rate <= 0 ) return true;
+		if ( rate <= 0 )
+		{
+			return true;
+		}
 
-		return TimeSinceSecondaryAttack > (1 / rate);
+		return TimeSinceSecondaryAttack > 1 / rate;
 	}
 
 	public virtual void AttackSecondary()
@@ -505,8 +570,8 @@ public partial class BaseWeapon : Component
 	}
 
 	/// <summary>
-	/// Does a trace from start to end, does bullet impact effects. Coded as an IEnumerable so you can return multiple
-	/// hits, like if you're going through layers or ricocheting or something.
+	///     Does a trace from start to end, does bullet impact effects. Coded as an IEnumerable so you can return multiple
+	///     hits, like if you're going through layers or ricocheting or something.
 	/// </summary>
 	public static IEnumerable<SceneTraceResult> TraceBullet( GameObject ignore, Vector3 start, Vector3 end,
 		float radius = 2.0f )
@@ -536,13 +601,19 @@ public partial class BaseWeapon : Component
 		var ttr = triggerHitboxTrace.Run();
 
 		if ( ttr.Hit && !tr.Hit )
+		{
 			yield return ttr;
+		}
 
 		else if ( ttr.Hit && ttr.Distance < tr.Distance )
+		{
 			yield return ttr;
+		}
 
 		else if ( tr.Hit )
+		{
 			yield return tr;
+		}
 
 		//
 		// Another trace, bullet going through thin material, penetrating water surface?
@@ -576,21 +647,13 @@ public partial class BaseWeapon : Component
 		}
 	}
 
-	/// <summary>
-	/// Shoot a single bullet
-	/// </summary>
-	List<Surface> hitSurfaces = new();
-
-	float shotTime;
-	int shots = 0;
-
 	public virtual void ShootBullet( Vector3 pos, Vector3 dir, float force, float damage, float bulletSize,
 		float spreadOverride = -1 )
 	{
 		if ( shotTime != Time.Now )
 		{
 			shots = 0;
-			hitSurfaces = new();
+			hitSurfaces = new List<Surface>();
 		}
 
 		shotTime = Time.Now;
@@ -599,7 +662,9 @@ public partial class BaseWeapon : Component
 
 		var spread = Spread + SpreadIncrease;
 		if ( spreadOverride > -1 )
+		{
 			spread = spreadOverride;
+		}
 
 		var forward = dir;
 		forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
@@ -616,8 +681,11 @@ public partial class BaseWeapon : Component
 			if ( Owner?.Controller?.ThirdPerson ?? false )
 			{
 				var headCheck = TraceBullet( GameObject.Root, Owner.Controller.Head.WorldPosition, tr.HitPosition );
-				if ( headCheck.Count() > 0 )
-					tr = headCheck.Last();
+				var sceneTraceResults = headCheck.ToList();
+				if ( sceneTraceResults.Any() )
+				{
+					tr = sceneTraceResults.Last();
+				}
 			}
 
 			var tagMaterial = "";
@@ -634,22 +702,23 @@ public partial class BaseWeapon : Component
 				}
 			}
 
-			Surface surface = tagMaterial == ""
+			var surface = tagMaterial == ""
 				? tr.Surface
-				: (Surface.FindByName( tagMaterial ) ?? tr.Surface);
+				: Surface.FindByName( tagMaterial ) ?? tr.Surface;
 
 			surface.DoBulletImpact( tr, !hitSurfaces.Contains( surface ) || shots < 3 );
 			DoTracer( tr.StartPosition, tr.EndPosition, tr.Distance, true );
 
 			hitSurfaces.Add( surface );
 
-			if ( !tr.GameObject.IsValid() ) continue;
+			if ( !tr.GameObject.IsValid() )
+			{
+				continue;
+			}
 
 			var hitboxTags = tr.GetHitboxTags();
 
 			var calcForce = forward * 25000 * damage;
-
-			OnShootGameobject( tr.GameObject, damage );
 
 			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags, Owner, this );
 		}
@@ -671,10 +740,14 @@ public partial class BaseWeapon : Component
 		}
 
 		if ( !ownerTeam.IsValid() && owner.IsValid() )
+		{
 			ownerTeam = owner.Team;
+		}
 
 		if ( !ownerTeam.IsValid() )
+		{
 			return;
+		}
 
 
 		if ( gameObject.Root.Components.TryGet<HealthComponent>( out var player,
@@ -684,12 +757,16 @@ public partial class BaseWeapon : Component
 			{
 				var team = player.GameObject.Root.GetComponent<Pawn>()?.Team ?? null;
 				if ( team == ownerTeam || ownerTeam.Friends.Contains( team ) )
+				{
 					return;
+				}
 			}
 
 			player.TakeDamage( owner, damage, inflictor, hitPosition, calcForce, hitboxTags );
 			if ( owner.IsValid() )
+			{
 				Crosshair.Instance.Trigger( player, damage, hitboxTags );
+			}
 		}
 	}
 
@@ -698,17 +775,6 @@ public partial class BaseWeapon : Component
 	{
 		gameObject?.GetComponent<Rigidbody>()?.BroadcastApplyForce( force );
 	}
-
-
-	[Rpc.Broadcast]
-	public void OnShootGameobject( GameObject gameObject, float damage )
-	{
-		if ( !Networking.IsHost )
-			return;
-
-		Inventory?.OnShootGameObject?.Invoke( gameObject, damage );
-	}
-
 
 	public void ThrowGrenade( GameObject projectile, float force, float distance = 20 )
 	{
@@ -722,7 +788,9 @@ public partial class BaseWeapon : Component
 		float distance, Vector3 playerVelocity )
 	{
 		if ( !Networking.IsHost )
+		{
 			return;
+		}
 
 		var trace = Scene.Trace.Ray( pos, pos + dir.Normal * distance )
 			.UseHitboxes()
@@ -745,7 +813,7 @@ public partial class BaseWeapon : Component
 
 
 	/// <summary>
-	/// Shoot a single bullet from owners view point
+	///     Shoot a single bullet from owners view point
 	/// </summary>
 	public virtual void ShootBullet( float force, float damage, float bulletSize )
 	{
@@ -754,44 +822,80 @@ public partial class BaseWeapon : Component
 	}
 
 	/// <summary>
-	/// Shoot a multiple bullets from owners view point
+	///     Shoot a multiple bullets from owners view point
 	/// </summary>
 	public virtual void ShootBullets( int numBullets, float force, float damage, float bulletSize )
 	{
 		var ray = Owner.AimRay;
 
-		for ( int i = 0; i < numBullets; i++ )
+		for ( var i = 0; i < numBullets; i++ )
 		{
 			ShootBullet( ray.Position, ray.Forward, force / numBullets, damage, bulletSize,
 				Spread * Easing.QuadraticOut( i / (float)numBullets ) );
 		}
 	}
 
-	public virtual string StatDamage => Damage.ToString();
-	public virtual float StatFirerate => PrimaryRate;
-	public virtual float StatDPS => MathF.Round( (Damage * MaxAmmo) / ((MaxAmmo / PrimaryRate) + ReloadTime) );
+	/// <summary>
+	/// Called when setting up the camera - use this to apply effects on the camera based on this carriable
+	/// </summary>
+	/// <param name="pawn"></param>
+	/// <param name="camera"></param>
+	public virtual void OnCameraSetup( Pawn pawn, Sandbox.CameraComponent camera )
+	{
+	}
+
+	/// <summary>
+	/// Can directly influence the player's eye angles here
+	/// </summary>
+	/// <param name="pawn"></param>
+	/// <param name="angles"></param>
+	public virtual void OnCameraMove( Pawn pawn, ref Angles angles )
+	{
+	}
+
+
+	public class WeaponIK
+	{
+		private bool _active = true;
+		public Action<GameObject, bool, bool> SetActive;
+
+		public bool Active
+		{
+			get => _active;
+			set
+			{
+				_active = value;
+				SetActive?.Invoke( GameObject, value, IsLeft );
+			}
+		}
+
+		[KeyProperty] public GameObject GameObject { get; set; }
+		public bool IsLeft { get; set; }
+	}
 
 	public class RecoilPattern
 	{
+		[Hide] private int currentPoint;
+
+		public Vector2 Modify = 1;
 		[KeyProperty] public List<Vector2> Points { get; set; } = new();
-		[Hide] int currentPoint = 0;
 
 		public Vector2 GetPoint( RealTimeSince lastRecoil, float bulletTime )
 		{
 			currentPoint = (currentPoint + 1).Clamp( 0, Points.Count - 1 );
 
 			if ( lastRecoil > bulletTime * 1.5f )
+			{
 				currentPoint = 0;
+			}
 
 			return Points[currentPoint];
 		}
 
-		public Vector2 Modify = 1;
-
 		[Button]
-		void MassModify()
+		private void MassModify()
 		{
-			for ( int i = 0; i < Points.Count; i++ )
+			for ( var i = 0; i < Points.Count; i++ )
 			{
 				Points[i] *= Modify;
 			}
