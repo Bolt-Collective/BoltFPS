@@ -39,7 +39,9 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 	public float Health => HealthComponent?.Health ?? 100;
 	public bool IsDead => Health <= 0;
 
-	public bool CanUse = true;
+	[Property]
+	public bool CanUse { get; set; } = true;
+
 
 	public bool IsMe => Network.Owner == Connection.Local;
 
@@ -163,6 +165,9 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 	protected override void OnUpdate()
 	{
 		if ( !Owner.IsValid() )
+			return;
+		
+		if ( !CanUse )
 			return;
 
 		Pickup();
