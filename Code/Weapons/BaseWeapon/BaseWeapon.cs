@@ -225,6 +225,9 @@ public partial class BaseWeapon : Component
 
 	protected override void OnEnabled()
 	{
+
+		ResetBodyGroups();
+
 		if ( MergeModel &&
 		     GameObject.Components.TryGet<SkinnedModelRenderer>( out var skinnedModel,
 			     FindMode.EnabledInSelfAndChildren ) )
@@ -262,16 +265,21 @@ public partial class BaseWeapon : Component
 		go.NetworkSpawn();
 	}
 
+	[Rpc.Broadcast]
+	private void ResetBodyGroups(bool useRemoves = true)
+	{
+		if ( GameObject.Root.Components.TryGet<PlayerDresser>( out var dresser, FindMode.EnabledInSelfAndChildren ) )
+		{
+			dresser.DisableClothingGroups( useRemoves ? RemoveGroups : null, useRemoves ? RemoveClothingCategories : null );
+		}
+	}
+
+
 	private void SkinMergeModel( SkinnedModelRenderer skinnedModel )
 	{
 		if ( !(Owner?.Controller?.BodyModelRenderer.IsValid() ?? false) )
 		{
 			return;
-		}
-
-		if ( GameObject.Root.Components.TryGet<PlayerDresser>( out var dresser, FindMode.EnabledInSelfAndChildren ) )
-		{
-			dresser.DisableClothingGroups( RemoveGroups, RemoveClothingCategories );
 		}
 
 		var clothingData = Network.Owner.GetUserData( "avatar" );
@@ -306,6 +314,8 @@ public partial class BaseWeapon : Component
 
 	protected override void OnDisabled()
 	{
+		ResetBodyGroups(false);
+
 		Owner?.Renderer?.Set( "holdtype", 0 );
 
 		if ( IsProxy )

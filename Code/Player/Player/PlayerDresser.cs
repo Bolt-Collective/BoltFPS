@@ -50,6 +50,7 @@ public class PlayerDresser : Component, Component.INetworkSpawn
 
 		foreach ( var group in bodyGroups )
 		{
+			Log.Info( group );
 			switch(group)
 			{
 				case Clothing.BodyGroups.Head:
