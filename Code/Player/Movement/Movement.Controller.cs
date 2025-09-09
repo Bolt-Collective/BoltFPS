@@ -141,14 +141,14 @@ public abstract partial class Movement : Component
 	float previousHeight;
 	bool wasGrounded;
 
-
 	void UpdateGroundVelocity()
 	{
+		ApplyGroundFriction(GroundVelFriction);
+
 		if ( !IsGrounded )
 			return;
 
-
-		if ( GroundObject is null )
+		if (GroundObject is null )
 		{
 			OnGroundVelocity = 0;
 			return;
@@ -164,6 +164,7 @@ public abstract partial class Movement : Component
 			OnGroundVelocity = rigidbody.GetVelocityAtPoint( WorldPosition );
 		}
 	}
+
 
 	public bool CanMove = true;
 

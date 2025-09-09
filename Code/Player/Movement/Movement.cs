@@ -27,6 +27,10 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 
 	[Group( "Movement Variables" )]
 	[Property]
+	public float GroundVelFriction { get; set; } = 0.6f;
+
+	[Group( "Movement Variables" )]
+	[Property]
 	public float JumpPower { get; set; } = 268.3281572999747f;
 
 	[Group( "Movement Variables" )]
@@ -312,5 +316,29 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 			newspeed /= speed;
 
 		Velocity *= newspeed;
+	}
+
+	public virtual void ApplyGroundFriction( float friction )
+	{
+		if ( IsGrounded )
+			return;
+
+		var speed = OnGroundVelocity.Length;
+
+		float newspeed = 0f;
+
+		float drop = speed * friction * Time.Delta;
+
+
+		newspeed = speed - drop;
+		if ( newspeed < 0 )
+		{
+			newspeed = 0;
+		}
+
+		if ( speed > 0 )
+			newspeed /= speed;
+
+		OnGroundVelocity *= newspeed;
 	}
 }
