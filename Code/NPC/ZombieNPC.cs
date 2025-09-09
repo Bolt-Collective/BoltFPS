@@ -45,8 +45,6 @@ public class ZombieNPC : NPC
 	[Property] public float AccuracyScale { get; set; } = 1;
 
 	[Group( "Death" )]
-	[Property] public GameObject DeathPrefab { get; set; }
-	[Group( "Death" )]
 	[Property] public Model DeadModel { get; set; }
 
 	public Knowable ClosestEnemy { get; set; }
@@ -248,28 +246,7 @@ public class ZombieNPC : NPC
 
 	public override void OnKilled( DamageInfo damageInfo )
 	{
-		if ( DeathPrefab.IsValid() )
-		{
-			DeathPrefab.Clone( new Transform( WorldPosition, WorldRotation ) );
-			GameObject.Destroy();
-			return;
-		}
-
-		Body.GameObject.SetParent( Game.ActiveScene );
-		Body.AddComponent<TimedDestroyComponent>().Time = 15;
-		Body.UseAnimGraph = false;
-		Body.RenderType = ModelRenderer.ShadowRenderType.On;
-		if ( DeadModel.IsValid() )
-			Body.Model = DeadModel;
-		Body.Tags.Add( "ragdoll" );
-
-		var modelPhysics = Body.AddComponent<ModelPhysics>();
-		modelPhysics.Model = Body.Model;
-		modelPhysics.Renderer = Body;
-		foreach ( var body in modelPhysics.Bodies )
-		{
-			body.Component.Velocity += Agent.Velocity + damageInfo.Force / 15000;
-		}
+		CreateRagdoll( Body, damageInfo, DeadModel );
 
 		GameObject.Destroy();
 	}

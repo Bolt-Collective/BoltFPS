@@ -581,7 +581,7 @@ public partial class BaseWeapon : Component
 		var trace = Game.ActiveScene.Trace.Ray( start, end )
 			.UseHitboxes()
 			.WithAnyTags( "solid", "player", "npc", "glass" )
-			.WithoutTags( "playercontroller", "debris", "movement" )
+			.WithoutTags( "playercontroller", "debris", "movement", "ignorebullets" )
 			.IgnoreGameObjectHierarchy( ignore )
 			.Size( radius );
 

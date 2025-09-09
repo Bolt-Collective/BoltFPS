@@ -157,6 +157,32 @@ public abstract partial class NPC : Knowable
 		}
 	}
 
+	public void CreateRagdoll(SkinnedModelRenderer body, DamageInfo damageInfo, Model replacement = null)
+	{
+		body.GameObject.SetParent( Game.ActiveScene );
+		body.AddComponent<TimedDestroyComponent>().Time = 15;
+		body.UseAnimGraph = false;
+		body.RenderType = ModelRenderer.ShadowRenderType.On;
+		if ( replacement.IsValid() )
+			body.Model = replacement;
+		body.Tags.Add( "ragdoll" );
+
+		ModelPhysics modelPhysics = null;
+
+		if ( body.Components.TryGet<ModelPhysics>( out var mp ) )
+			modelPhysics = mp;
+		else
+			body.AddComponent<ModelPhysics>();
+
+		modelPhysics.Model = body.Model;
+		modelPhysics.Renderer = body;
+		modelPhysics.MotionEnabled = true;
+		foreach ( var bod in modelPhysics.Bodies )
+		{
+			bod.Component.Velocity += Agent.Velocity + damageInfo.Force / 15000;
+		}
+	}
+
 	public static float GetRandomValue (RangedFloat rangedFloat)
 	{
 		return Game.Random.Next( (int)MathF.Round( rangedFloat.Min * 100 ), (int)MathF.Round( rangedFloat.Max * 100 ) ) / 100f;
