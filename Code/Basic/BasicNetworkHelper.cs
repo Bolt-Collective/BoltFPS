@@ -5,7 +5,7 @@ namespace Seekers;
 public partial class BasicNetworkHelper : SingletonComponent<BasicNetworkHelper>, Component.INetworkListener
 {
 	[Property] public bool StartServer { get; set; } = true;
-	[Property] public GameObject PlayerPrefab { get; set; }
+	[Property] public PrefabFile PlayerPrefab { get; set; }
 
 	[Property] [Group( "Dev" )] public readonly List<long> PlayerWhitelist = new()
 	{
@@ -14,7 +14,7 @@ public partial class BasicNetworkHelper : SingletonComponent<BasicNetworkHelper>
 		76561199407136830, // paths
 		76561198289339378 // graffiti
 	};
-	
+
 	public static List<long> Devs = new()
 	{
 		76561198043979097, // trende
@@ -65,9 +65,11 @@ public partial class BasicNetworkHelper : SingletonComponent<BasicNetworkHelper>
 
 		channel.CanRefreshObjects = true;
 
+
 		if ( PlayerPrefab.IsValid() )
 		{
-			client.Respawn( channel, PlayerPrefab, StartingWeapons );
+			var cachedPrefab = SceneUtility.GetPrefabScene( PlayerPrefab ).Clone();
+			client.Respawn( channel, cachedPrefab, StartingWeapons );
 		}
 		else
 		{
