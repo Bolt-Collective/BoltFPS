@@ -110,12 +110,6 @@ public abstract class Client : Component
 
 	private Pawn InternalAssign( GameObject obj )
 	{
-		if ( !obj.IsValid() )
-		{
-			Log.Warning( "Cannot assign or destroy a PrefabCacheScene. Pass a cloned GameObject instance instead." );
-			return null;
-		}
-
 		if ( !Connection.Local?.IsHost ?? false )
 		{
 			obj.Destroy();
