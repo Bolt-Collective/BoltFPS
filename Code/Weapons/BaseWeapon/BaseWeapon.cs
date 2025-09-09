@@ -625,7 +625,7 @@ public partial class BaseWeapon : Component
 		var trace = Scene.Trace.Ray( start, end )
 			.UseHitboxes()
 			.WithAnyTags( "solid", "player", "npc", "glass" )
-			.WithoutTags( "playercontroller", "debris", "movement" )
+			.WithoutTags( "playercontroller", "debris", "movement", "ignorebullets" )
 			.IgnoreGameObjectHierarchy( GameObject.Root );
 
 		var tr = trace.Run();
@@ -725,8 +725,12 @@ public partial class BaseWeapon : Component
 	}
 
 	public static void DoDamage( GameObject gameObject, float damage, Vector3 calcForce, Vector3 hitPosition,
-		HitboxTags hitboxTags = default, Pawn owner = null, Component inflictor = null, Team ownerTeam = null )
+		HitboxTags hitboxTags = default, Pawn owner = null, Component inflictor = null, Team ownerTeam = null, Component attacker = null )
 	{
+
+		if ( attacker == null )
+			attacker = owner;
+
 		Game.ActiveScene.Dispatch( new BulletHitEvent( hitPosition ) );
 
 		if ( gameObject.Components.TryGet<PropHelper>( out var prop ) )
@@ -762,7 +766,7 @@ public partial class BaseWeapon : Component
 				}
 			}
 
-			player.TakeDamage( owner, damage, inflictor, hitPosition, calcForce, hitboxTags );
+			player.TakeDamage( attacker, damage, inflictor, hitPosition, calcForce, hitboxTags );
 			if ( owner.IsValid() )
 			{
 				Crosshair.Instance.Trigger( player, damage, hitboxTags );

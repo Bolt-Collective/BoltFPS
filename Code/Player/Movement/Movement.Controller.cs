@@ -182,11 +182,11 @@ public abstract partial class Movement : Component
 
 		UpdateGroundVelocity();
 
+		CategorizePosition();
+
 		WorldPosition += OnGroundVelocity.WithZ( OnGroundVelocity.z.Clamp(0, float.MaxValue) ) * Time.Delta;
 
 		TryUnstuck( previousVelocity );
-
-		CategorizePosition();
 
 		previousHeight = Height;
 	}

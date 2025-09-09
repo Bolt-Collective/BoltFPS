@@ -217,9 +217,9 @@ public partial class HealthComponent : Component, IRespawnable
 
 		Scene.Dispatch( new KillEvent( damageInfo ) );
 
-		OnKilled?.Invoke( damageInfo );
-
 		damageInfo.DisplayFeed();
+
+		OnKilled?.Invoke( damageInfo );
 	}
 
 	public void AddKill()

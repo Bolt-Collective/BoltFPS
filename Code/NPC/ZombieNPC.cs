@@ -170,7 +170,7 @@ public class ZombieNPC : NPC
 				continue;
 
 			hit = true;
-			BaseWeapon.DoDamage( ray.GameObject, Damage, WorldTransform.Forward * 100000, ray.EndPosition, ownerTeam: Team );
+			BaseWeapon.DoDamage( ray.GameObject, Damage, WorldTransform.Forward * 100000, ray.EndPosition, ownerTeam: Team, attacker: this );
 			break;
 		}
 	}

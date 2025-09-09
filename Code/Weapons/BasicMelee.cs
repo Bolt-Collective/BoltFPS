@@ -52,12 +52,9 @@ partial class BasicMelee : BaseWeapon
 
 			var damage = Damage;
 
-			if ( hitboxTags.Contains( HitboxTags.Head ) )
-				damage *= 2;
-
 			var calcForce = forward * 250000 * damage;
 
-			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags );
+			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags, Owner, this );
 		}
 
 		return hit;

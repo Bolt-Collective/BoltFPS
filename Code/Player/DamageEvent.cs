@@ -129,9 +129,10 @@ public record DamageInfo(
 		if ( !Victim.IsValid() )
 			return;
 
-		var attacker = Attacker?.Network?.Owner?.DisplayName;
+		var attacker = GetName(Attacker);
 		var attackerColour = Color.White;
-		var victim = Victim?.Network?.Owner?.DisplayName;
+		var victim = GetName(Victim);
+		Log.Info( victim );
 		var victimColour = Color.White;
 		var killMethods = new List<string>();
 
@@ -165,6 +166,16 @@ public record DamageInfo(
 			killMethods.Add( "icons/kill methods/dead.png" );
 
 		KillFeed.Current?.AddKill( attacker, attackerColour.Hex, killMethods, victim, victimColour.Hex, duration: 7 );
+	}
+
+	public static string GetName( Component component )
+	{
+		var name = component?.Network?.Owner?.DisplayName;
+		
+		if (component.GameObject.Root.Components.TryGet<NPC>(out var npc))
+			name = npc.Name;
+
+		return name;
 	}
 }
 

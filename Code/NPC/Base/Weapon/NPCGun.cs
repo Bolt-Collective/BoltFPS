@@ -139,7 +139,7 @@ public abstract class NPCGun : NPCTool
 			var calcForce = forward * 25000 * damage;
 
 			BaseWeapon.DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags, inflictor: this,
-				ownerTeam: Owner.Team );
+				ownerTeam: Owner.Team, attacker: Owner );
 		}
 	}
 
