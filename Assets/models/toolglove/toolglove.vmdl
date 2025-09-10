@@ -23,11 +23,11 @@
 							},
 							{
 								from = "cpu.vmat"
-								to = "materials/trimsheets/metal/iron_trim_metal_blend.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
 							},
 							{
 								from = "display.vmat"
-								to = "materials/shared/plastics/01/plastic_01.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
 							},
 							{
 								from = "glove.vmat"
@@ -35,47 +35,47 @@
 							},
 							{
 								from = "indexcable.vmat"
-								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
 							},
 							{
 								from = "middlecable.vmat"
-								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
 							},
 							{
 								from = "tape.vmat"
-								to = "materials/shared/plastics/02/plastic_02.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
 							},
 							{
 								from = "thumbcable.vmat"
-								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
 							},
 							{
 								from = "tip.vmat"
-								to = "materials/trimsheets/metal/iron_trim_metal_blend.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
 							},
 							{
 								from = "wcablel1.vmat"
-								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
 							},
 							{
 								from = "wcablel2.vmat"
-								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
 							},
 							{
 								from = "wcabler1.vmat"
-								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
 							},
 							{
 								from = "wcabler2.vmat"
-								to = "materials/textures/plastic/plastic008_2k-jpg/plastic008_2k.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
 							},
 							{
 								from = "board.vmat"
-								to = "materials/trimsheets/metal/iron_trim_metal_blend.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
 							},
 							{
 								from = "displayconnector.vmat"
-								to = "materials/trimsheets/metal/iron_trim_metal_blend.vmat"
+								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
 							},
 						]
 						use_global_default = false
