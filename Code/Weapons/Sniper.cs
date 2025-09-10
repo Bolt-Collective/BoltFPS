@@ -76,7 +76,10 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 		if ( IsProxy || !GameObject.Enabled || !Enabled )
 			return;
+	}
 
+	public override void OnCameraMove( Pawn pawn, ref Angles angles )
+	{
 		if ( !(Owner?.Controller.IsValid() ?? false) )
 			return;
 
@@ -91,13 +94,12 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 		BlurLerp = blur;
 
-		var angles = Owner.Controller.EyeAngles;
 		var delta = angles - LastAngles;
+
 
 		AnglesLerp = AnglesLerp.LerpTo( delta, Time.Delta * 10.0f );
 		LastAngles = angles;
 
-		// Rebuild the command list every frame while scoped
 		if ( Scoped && ScopeOverlay is not null )
 		{
 			if ( scopeCommandList != null )

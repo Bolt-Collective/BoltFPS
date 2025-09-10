@@ -70,11 +70,7 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 		Camera.Enabled = false;
 		Camera.FieldOfView = Preferences.FieldOfView;
 
-		IPlayerEvent.PostToGameObject( GameObject, x => x.OnCameraSetup( camera: Camera ) );
-
 		_startHeight = Height;
-
-		IPlayerEvent.PostToGameObject( GameObject, x => x.OnCameraPostSetup( camera: Camera ) );
 	}
 
 	public bool OverrideVelocity;
@@ -189,6 +185,8 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 		if ( !Camera.IsValid() )
 			return;
 
+		IPlayerEvent.PostToGameObject( GameObject, x => x.OnCameraSetup( camera: Camera ) );
+
 		ScreenShaker.Apply( Camera );
 
 		UpdateEyeAngles();
@@ -209,6 +207,8 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 		}
 		else
 			Camera.LocalPosition = 0;
+
+		IPlayerEvent.PostToGameObject( GameObject, x => x.OnCameraPostSetup( camera: Camera ) );
 	}
 
 	private void UpdateEyeAngles()

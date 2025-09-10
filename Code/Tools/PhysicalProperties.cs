@@ -24,17 +24,26 @@ public class PhysicalProperties : BaseTool
 		if ( !trace.GameObject.Components.TryGet( out PropHelper propHelper ) )
 			return false;
 
+		BroadcastAttack( propHelper );
+
+		return true;
+	}
+
+	[Rpc.Broadcast]
+	private void BroadcastAttack( PropHelper propHelper )
+	{
+		if ( !propHelper.IsValid() )
+			return;
+
 		if ( !propHelper.Rigidbody.IsValid() )
-			return false;
+			return;
 
 		if ( !propHelper.GetComponent<Collider>().IsValid() )
-			return false;
+			return;
 
 		Log.Info( GetCurrentSurface() );
 		propHelper.GetComponent<Collider>().Surface = GetCurrentSurface();
 		propHelper.Rigidbody.Gravity = EnableGravity;
-
-		return true;
 	}
 
 	Surface GetCurrentSurface()

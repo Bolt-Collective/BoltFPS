@@ -267,6 +267,12 @@ public partial class BaseWeapon : Component
 	[Rpc.Broadcast]
 	private void ResetBodyGroups( bool useRemoves = true )
 	{
+		if ( !Owner.IsValid() )
+			return;
+
+		if ( !GameObject.IsValid() )
+			return;
+
 		if ( GameObject.Root.Components.TryGet<PlayerDresser>( out var dresser, FindMode.EnabledInSelfAndChildren ) )
 		{
 			dresser.DisableClothingGroups( useRemoves ? RemoveGroups : null,

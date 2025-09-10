@@ -31,7 +31,7 @@ public partial class PhysGun
 		lastGrabbedObject = null;
 	}
 
-	[Rpc.Broadcast( NetFlags.Unreliable )]
+	[Rpc.Broadcast( NetFlags.Reliable )]
 	private void DisableHighlights( GameObject gameObject )
 	{
 		if ( gameObject.IsValid() )
@@ -54,9 +54,12 @@ public partial class PhysGun
 		}
 	}
 
-	[Rpc.Broadcast( NetFlags.Unreliable )]
+	[Rpc.Broadcast( NetFlags.Reliable )]
 	public void AddHighlights( GameObject gameObject )
 	{
+		if ( !gameObject.IsValid() )
+			return;
+
 		var glow = gameObject.Root.GetOrAddComponent<HighlightOutline>();
 		glow.Width = 0.25f;
 		glow.Color = new Color( 4f, 50.0f, 70.0f, 1.0f );
