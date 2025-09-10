@@ -1,39 +1,32 @@
 @import "UI\_styles.scss";
 
-@keyframes rainbowcycle
-{
-  0%
-  {
+@keyframes rainbowcycle {
+  0% {
     color: hsl(0, 100%, 75%);
     text-shadow: 5px 2px 2px hsl(0, 100%, 75%);
   }
 
-  20%
-  {
+  20% {
     color: hsl(45, 100%, 75%);
     text-shadow: 2px 2px 2px hsl(45, 100%, 75%);
   }
 
-  40%
-  {
+  40% {
     color: hsl(125, 100%, 75%);
     text-shadow: 2px 2px 2px hsl(125, 100%, 75%);
   }
 
-  60%
-  {
+  60% {
     color: hsl(180, 100%, 75%);
     text-shadow: 2px 2px 2px hsl(180, 100%, 75%);
   }
 
-  80%
-  {
+  80% {
     color: hsl(275, 100%, 75%);
     text-shadow: 2px 2px 2px hsl(275, 100%, 75%);
   }
 
-  100%
-  {
+  100% {
     color: hsl(0, 100%, 75%);
     text-shadow: 2px 2px 2px hsl(0, 100%, 75%);
   }
@@ -65,8 +58,7 @@ Chatbox {
       .message-content {
         font-size: 15px;
         background-color: rgba(black, 0.25);
-        border-radius: 4px;
-        padding: 6px;
+        padding: 7px;
       }
 
       &.fade {
@@ -92,9 +84,8 @@ Chatbox {
 
     textentry {
       color: white;
-      font-size: 22px;
+      font-size: 19px;
       font-weight: 600;
-      border-radius: 10px;
 
       // flex-shrink: 0;
       // flex-grow: 1;
@@ -103,8 +94,8 @@ Chatbox {
       padding: 12px;
 
       &:focus {
-        background: linear-gradient(rgba(#CF702A, 0.6), rgba(#CF702A 0.9));
-
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
       }
     }
 
@@ -136,7 +127,9 @@ Chatbox {
 
     p {
       opacity: 1;
-      width: 12%;
+      width: 20%;
+      cursor: pointer;
+      background-color: #1b202c;
     }
 
     .chat_canvas {
@@ -175,7 +168,6 @@ Chatbox {
 
 ChatEntry {
   color: white;
-  gap: 4px;
   align-items: center;
   flex-shrink: 0;
   opacity: 1;
@@ -200,9 +192,10 @@ ChatEntry {
     height: 32px;
     justify-content: center;
     align-items: center;
-    
-    &.rainbow
-    {
+    background-color: rgba(black, 0.25);
+
+
+    &.rainbow {
       animation-name: rainbowcycle;
       animation-duration: 4s;
       animation-iteration-count: infinite;
