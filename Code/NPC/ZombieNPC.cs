@@ -89,7 +89,6 @@ public class ZombieNPC : NPC
 
 	public override void Think()
 	{
-
 		// if finishedattack event is not caught then reset cannotAttack
 		if ( attackTime > 4 )
 			cannotAttack = false;

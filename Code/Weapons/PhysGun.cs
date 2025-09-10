@@ -83,6 +83,17 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 			return;
 		}
 
+		if (GrabbedObject.Root.Components.TryGet<NavMeshAgent>(out var agent))
+		{
+			var vel = agent.Velocity;
+
+			Vector3.SmoothDamp( agent.WorldPosition, HoldPos, ref vel, 0.075f, Time.Delta );
+
+			agent.Velocity = vel;
+
+			return;
+		}
+
 		if ( !HeldBody.IsValid() )
 			return;
 
@@ -368,6 +379,12 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 	{
 		if ( HeldBody.IsValid() )
 			HeldBody.Locking = new PhysicsLock();
+
+		if ( GrabbedObject.Root.Components.TryGet<NavMeshAgent>( out var agent ) )
+		{
+			agent.Velocity = 0;
+		}
+
 		GrabbedObject = null;
 		lastGrabbed = null;
 	}
@@ -397,7 +414,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		if ( !gameObject.IsValid() )
 			return;
 
-		if ( gameObject.Components.TryGet<PropHelper>( out var ph ) && !ph.CanFreeze )
+		if ( gameObject.Root.Components.TryGet<PropHelper>( out var ph ) && !ph.CanFreeze )
 			return;
 
 
@@ -432,7 +449,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		if ( !gameObject.IsValid() )
 			return;
 
-		if ( gameObject.Components.TryGet<PropHelper>( out var ph ) && !ph.CanFreeze )
+		if ( gameObject.Root.Components.TryGet<PropHelper>( out var ph ) && !ph.CanFreeze )
 			return;
 
 		var body = GetBody( gameObject );
