@@ -26,7 +26,8 @@ public class DropdownAttribute : Attribute
 	{
 		None,
 		File,
-		NPCWeapon
+		NPCWeapon,
+		NPC
 	}
 
 	public DropdownAttribute() { }
@@ -46,6 +47,8 @@ public class DropdownAttribute : Attribute
 				return FileName( value );
 			case NameTypes.NPCWeapon:
 				return NPCWeaponName( value );
+			case NameTypes.NPC:
+				return NPCName( value );
 
 		}
 
@@ -69,6 +72,20 @@ public class DropdownAttribute : Attribute
 			category = item.Category;
 
 		return $"{item.Name} ({category})";
+	}
+
+	public static string NPCName( string path )
+	{
+
+		if ( !GameObject.GetPrefab( path ).Components.TryGet<NPC>( out var npc ) )
+			return Path.GetFileNameWithoutExtension( path );
+
+		string category = "Other";
+
+		if (npc.Catagory != null && npc.Catagory != "")
+			category = npc.Catagory;
+
+		return $"{npc.Name} ({category})";
 	}
 
 
