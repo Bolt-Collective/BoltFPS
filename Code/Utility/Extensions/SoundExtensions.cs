@@ -11,18 +11,11 @@ public static partial class SoundExtensions
 		if ( string.IsNullOrEmpty( soundName ) )
 			return;
 
-		try
-		{
-			var snd = Sound.Play( soundName, position );
+		var snd = Sound.Play( soundName, position );
 
-			snd.Volume = volume;
-			snd.Pitch = pitch;
-			snd.SpacialBlend = spacialBlend;
-		}
-		catch
-		{
-			Log.Warning( $"Failed to play sound {soundName} at {position}" );
-		}
+		snd.Volume = volume;
+		snd.Pitch = pitch;
+		snd.SpacialBlend = spacialBlend;
 	}
 
 	public static void BroadcastSound( SoundEvent sound, Vector3 position, float volume = 1.0f, float pitch = 1.0f,
