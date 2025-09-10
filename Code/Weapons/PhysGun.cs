@@ -83,7 +83,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 			return;
 		}
 
-		if (GrabbedObject.Root.Components.TryGet<NavMeshAgent>(out var agent))
+		if ( GrabbedObject.Root.Components.TryGet<NavMeshAgent>( out var agent ) )
 		{
 			var vel = agent.Velocity;
 
@@ -379,6 +379,9 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 	{
 		if ( HeldBody.IsValid() )
 			HeldBody.Locking = new PhysicsLock();
+
+		if ( !GrabbedObject.IsValid() )
+			return;
 
 		if ( GrabbedObject.Root.Components.TryGet<NavMeshAgent>( out var agent ) )
 		{
