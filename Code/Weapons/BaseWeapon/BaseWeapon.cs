@@ -225,7 +225,6 @@ public partial class BaseWeapon : Component
 
 	protected override void OnEnabled()
 	{
-
 		ResetBodyGroups();
 
 		if ( MergeModel &&
@@ -266,11 +265,12 @@ public partial class BaseWeapon : Component
 	}
 
 	[Rpc.Broadcast]
-	private void ResetBodyGroups(bool useRemoves = true)
+	private void ResetBodyGroups( bool useRemoves = true )
 	{
 		if ( GameObject.Root.Components.TryGet<PlayerDresser>( out var dresser, FindMode.EnabledInSelfAndChildren ) )
 		{
-			dresser.DisableClothingGroups( useRemoves ? RemoveGroups : null, useRemoves ? RemoveClothingCategories : null );
+			dresser.DisableClothingGroups( useRemoves ? RemoveGroups : null,
+				useRemoves ? RemoveClothingCategories : null );
 		}
 	}
 
@@ -301,12 +301,16 @@ public partial class BaseWeapon : Component
 	[Rpc.Broadcast( NetFlags.Unreliable )]
 	private void BroadcastEnabled()
 	{
-		if ( !Owner.IsValid() && !Owner.Renderer.IsValid() )
-		{
+		var owner = Owner;
+		if ( !owner.IsValid() )
 			return;
-		}
 
-		Owner?.Renderer?.Set( "b_deploy", true );
+		var renderer = owner?.Renderer;
+
+		if ( !renderer.IsValid() )
+			return;
+
+		renderer?.Set( "b_deploy", true );
 
 		SoundExtensions.BroadcastSound( DeploySound, WorldPosition,
 			spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
@@ -314,7 +318,7 @@ public partial class BaseWeapon : Component
 
 	protected override void OnDisabled()
 	{
-		ResetBodyGroups(false);
+		ResetBodyGroups( false );
 
 		Owner?.Renderer?.Set( "holdtype", 0 );
 
@@ -735,9 +739,9 @@ public partial class BaseWeapon : Component
 	}
 
 	public static void DoDamage( GameObject gameObject, float damage, Vector3 calcForce, Vector3 hitPosition,
-		HitboxTags hitboxTags = default, Pawn owner = null, Component inflictor = null, Team ownerTeam = null, Component attacker = null )
+		HitboxTags hitboxTags = default, Pawn owner = null, Component inflictor = null, Team ownerTeam = null,
+		Component attacker = null )
 	{
-
 		if ( attacker == null )
 			attacker = owner;
 

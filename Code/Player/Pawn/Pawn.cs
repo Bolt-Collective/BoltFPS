@@ -39,8 +39,7 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 	public float Health => HealthComponent?.Health ?? 100;
 	public bool IsDead => Health <= 0;
 
-	[Property]
-	public bool CanUse { get; set; } = true;
+	[Property] public bool CanUse { get; set; } = true;
 
 
 	public bool IsMe => Network.Owner == Connection.Local;
@@ -166,7 +165,7 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 	{
 		if ( !Owner.IsValid() )
 			return;
-		
+
 		if ( !CanUse )
 			return;
 
@@ -233,8 +232,10 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 			Stamina = (Stamina + StaminaRegen * Time.Delta).Clamp( 0, 1 );
 		}
 
-		if ( Controller.IsValid() )
-			Controller.EnableSprinting = Stamina > 0;
+		if ( !Controller.IsValid() )
+			return;
+
+		Controller.EnableSprinting = Stamina > 0;
 
 		if ( Input.Pressed( "View" ) && Controller.CanSetThirdPerson )
 		{
