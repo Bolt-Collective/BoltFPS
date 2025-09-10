@@ -32,7 +32,7 @@ partial class MachineGun : BaseWeapon
 		//
 		// Shoot the bullets
 		//
-		ShootBullet( 1.5f, Damage, 3.0f );
+		ShootBullet( 1.5f, Damage, 0.25f );
 	}
 
 	[Rpc.Broadcast]

@@ -44,7 +44,7 @@ partial class Shotgun : BaseWeapon
 		//
 		// Shoot the bullets
 		//
-		ShootBullets( Bullets, 10.0f, Damage, 3.0f );
+		ShootBullets( Bullets, 10.0f, Damage, 0.25f );
 	}
 
 	[Rpc.Broadcast]

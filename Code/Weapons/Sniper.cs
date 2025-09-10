@@ -51,7 +51,7 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 		Ammo--;
 
 		ShootEffects();
-		ShootBullet( 1.5f, Damage, 3.0f );
+		ShootBullet( 1.5f, Damage, 0.25f );
 	}
 
 	protected override void OnFixedUpdate()

@@ -27,7 +27,7 @@ partial class Pistol : BaseWeapon, Component.ICollisionListener
 		Ammo--;
 
 		ShootEffects();
-		ShootBullet( 1.5f, Damage, 3.0f );
+		ShootBullet( 1.5f, Damage, 0.25f );
 		AttachEjectedBullet( GameObject.GetPrefab( "weapons/common/effects/eject_9mm.prefab" ), "eject",
 			new Vector3( Game.Random.Next( -100, 100 ), 100, 100 ) );
 	}
