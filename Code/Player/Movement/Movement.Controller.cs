@@ -139,12 +139,9 @@ public abstract partial class Movement : Component
 	}
 
 	float previousHeight;
-	bool wasGrounded;
 
 	void UpdateGroundVelocity()
 	{
-		ApplyGroundFriction(GroundVelFriction);
-
 		if ( !IsGrounded )
 			return;
 
@@ -167,10 +164,10 @@ public abstract partial class Movement : Component
 
 
 	public bool CanMove = true;
+	bool wasGrounded;
 
 	private void Move()
 	{
-		wasGrounded = IsGrounded;
 
 		var previousVelocity = Velocity;
 
@@ -184,11 +181,18 @@ public abstract partial class Movement : Component
 
 		CategorizePosition();
 
-		WorldPosition += OnGroundVelocity.WithZ( OnGroundVelocity.z.Clamp(0, float.MaxValue) ) * Time.Delta;
+		if ( IsGrounded )
+			WorldPosition += OnGroundVelocity.WithZ( OnGroundVelocity.z.Clamp( 0, float.MaxValue ) ) * Time.Delta;
+		else if ( wasGrounded )
+		{
+			Velocity += OnGroundVelocity.WithZ( OnGroundVelocity.z.Clamp( 0, float.MaxValue ) );
+		}
 
 		TryUnstuck( previousVelocity );
 
 		previousHeight = Height;
+
+		wasGrounded = IsGrounded;
 	}
 
 	public virtual (Vector3 pos, Vector3 velocity) MovePos()
