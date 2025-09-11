@@ -52,7 +52,15 @@ public static partial class SurfaceExtensions
 				
 				if (tr.GameObject.IsValid())
 				{
-					impact.SetParent( tr.GameObject, true );
+					Log.Info( "huh" );
+					var parent = tr.GameObject;
+
+					if ( tr.GameObject.Root.Components.TryGet<SkinnedModelRenderer>(out var renderer, FindMode.EnabledInSelfAndChildren))
+					{
+						parent = renderer.GetBoneObject( tr.Bone );
+					}
+
+					impact.SetParent( parent, true );
 				}
 				else
 				{
