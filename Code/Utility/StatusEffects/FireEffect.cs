@@ -200,8 +200,13 @@ public class FireTrigger : StatusTrigger
 				surface = ph.Surface as SurfaceImpacts;
 			}
 
-			if ( surface.IsValid() )
+			if ( ph.Explosive )
+				requiredDuration = RequiredDuration;
+			else if ( surface.IsValid() )
 			{
+				if (surface.Flammability == 0)
+					return false;
+
 				requiredDuration /= surface.Flammability;
 			}
 		}

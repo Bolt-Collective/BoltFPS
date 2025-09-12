@@ -1,6 +1,6 @@
 {
-  "Flammability": 10,
-  "BaseSurface": null,
+  "Flammability": 0,
+  "BaseSurface": "surfaces/cardboard.surface",
   "AudioSurface": "Generic",
   "Description": null,
   "Friction": 0.99,

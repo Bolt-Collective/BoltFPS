@@ -1,5 +1,5 @@
 {
-  "Flammability": 2,
+  "Flammability": 1,
   "BaseSurface": "surfaces/cardboard.surface",
   "AudioSurface": "Generic",
   "Description": null,

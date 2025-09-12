@@ -45,7 +45,6 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 	[Property]
 	public Surface Surface => GetSurface();
-
 	private Surface GetSurface()
 	{
 		Dictionary<Surface, int> surfaces = new();
@@ -64,6 +63,8 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		? surfaces.Aggregate( ( l, r ) => l.Value > r.Value ? l : r ).Key
 		: (Surface)null;
 	}
+
+	public bool Explosive;
 
 	public async void SetMaterial( string material )
 	{
@@ -112,6 +113,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		ModelPhysics ??= GetComponent<ModelPhysics>();
 		Rigidbody ??= GetComponent<Rigidbody>();
 
+		Explosive = Prop.Model.TryGetData<ModelExplosionBehavior>( out var data );
 		Health = Prop?.Health ?? 0f;
 		Velocity = 0f;
 
