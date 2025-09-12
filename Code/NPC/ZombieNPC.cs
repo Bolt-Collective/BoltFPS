@@ -47,6 +47,12 @@ public class ZombieNPC : NPC
 	[Group( "Death" )]
 	[Property] public Model DeadModel { get; set; }
 
+	[Group( "Sounds" )]
+	[Property] public SoundEvent IdleSound { get; set; }
+
+	[Group( "Stamina" )]
+	[Property] public RangedFloat IdleSoundTime { get; set; } = new RangedFloat( 5, 7 );
+
 	public Knowable ClosestEnemy { get; set; }
 
 	float stamina = 0;
@@ -59,6 +65,7 @@ public class ZombieNPC : NPC
 	bool hit;
 
 	TimeUntil attackDuration;
+	TimeUntil nextIdleSound;
 	RealTimeSince attackTime;
 	RealTimeSince sinceCantAttack;
 
@@ -112,6 +119,8 @@ public class ZombieNPC : NPC
 
 		var speed = regen ? WalkSpeed : RunSpeed;
 
+		IdleSoundPlayer();
+
 		Agent.MaxSpeed = speed;
 		Agent.Acceleration = speed * 5;
 		ClosestEnemy = GetNearest( true )?.Knowable ?? null;
@@ -122,6 +131,16 @@ public class ZombieNPC : NPC
 		}
 
 		Attacking();
+	}
+
+	public void IdleSoundPlayer()
+	{
+		if ( nextIdleSound > 0 )
+			return;
+
+		SoundExtensions.FollowSound( IdleSound, GameObject );
+
+		nextIdleSound = IdleSoundTime.GetValue();
 	}
 
 	protected override void OnFixedUpdate()
