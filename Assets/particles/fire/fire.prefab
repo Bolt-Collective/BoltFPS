@@ -285,7 +285,7 @@
         "Burst": 0,
         "Delay": 0,
         "DestroyOnEnd": false,
-        "Duration": 2,
+        "Duration": 5,
         "Loop": false,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,

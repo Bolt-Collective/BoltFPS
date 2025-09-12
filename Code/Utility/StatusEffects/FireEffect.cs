@@ -111,7 +111,7 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 		if ( !target.IsValid() )
 			return;
 
-		var particle = Particles.CreateParticleSystem( FireParticle, new Transform( pos ), 2, target );
+		var particle = Particles.CreateParticleSystem( FireParticle, new Transform( pos ), 5, target );
 		particle.WorldScale = Vector3.One * scale;
 
 		if ( particle.Components.TryGet<FireTrigger>( out var trigger ) )
@@ -128,10 +128,37 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 
 		var scale = MathF.Pow( modelRenderer.LocalBounds.Size.Length, 1f / 3f ) * 0.2f;
 
-		var point = modelRenderer.LocalBounds.RandomPointOnEdge;
+		var point = RandomPointOnFace( modelRenderer.LocalBounds );
 
 		AddFireParticle( modelRenderer.WorldTransform.PointToWorld( point ), modelRenderer.GameObject, scale, nextDuration, Damage );
 	}
+
+	public static Vector3 RandomPointOnFace( BBox bbox )
+	{
+		var size = bbox.Size;
+		var min = bbox.Mins;
+		var max = bbox.Maxs;
+
+		int face = Game.Random.Int( 0, 5 );
+
+		switch ( face )
+		{
+			case 0: return new Vector3( min.x, Game.Random.Float( min.y, max.y ), Game.Random.Float( min.z, max.z ) );
+
+			case 1: return new Vector3( max.x, Game.Random.Float( min.y, max.y ), Game.Random.Float( min.z, max.z ) );
+
+			case 2: return new Vector3( Game.Random.Float( min.x, max.x ), min.y, Game.Random.Float( min.z, max.z ) );
+
+			case 3: return new Vector3( Game.Random.Float( min.x, max.x ), max.y, Game.Random.Float( min.z, max.z ) );
+
+			case 4: return new Vector3( Game.Random.Float( min.x, max.x ), Game.Random.Float( min.y, max.y ), min.z );
+
+			case 5: return new Vector3( Game.Random.Float( min.x, max.x ), Game.Random.Float( min.y, max.y ), max.z );
+
+			default: return bbox.RandomPointOnEdge;
+		}
+	}
+
 }
 
 public class FireTrigger : StatusTrigger
