@@ -42,6 +42,29 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	//public List<SpringJoint> Ropes { get; set; } = [];
 	//public List<(GameObject to, Vector3 toPoint, Vector3 frompoint)> RopePoints { get; set; } = [];
 
+
+	[Property]
+	public Surface Surface => GetSurface();
+
+	private Surface GetSurface()
+	{
+		Dictionary<Surface, int> surfaces = new();
+		foreach ( var surface in Prop.Model.Physics.Surfaces )
+		{
+			if (surfaces.ContainsKey( surface ) )
+			{
+				surfaces[ surface ]++;
+				continue;
+			}
+
+			surfaces.Add( surface, 1 );
+		}
+
+		return surfaces.Count > 0
+		? surfaces.Aggregate( ( l, r ) => l.Value > r.Value ? l : r ).Key
+		: (Surface)null;
+	}
+
 	public async void SetMaterial( string material )
 	{
 		if ( material == null || material == "" )
@@ -159,6 +182,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 	protected override void OnFixedUpdate()
 	{
+
 		if ( Prop.IsValid() )
 		{
 			Velocity = (Prop.WorldPosition - lastPosition) / Time.Delta;

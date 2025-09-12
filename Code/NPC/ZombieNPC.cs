@@ -187,6 +187,11 @@ public class ZombieNPC : NPC
 			if ( ray.GameObject.IsProxy )
 				continue;
 
+			if (Components.TryGet<FireEffect>(out var fireEffect))
+			{
+				FireEffect.ApplyFireTo(ray.GameObject, this, fireEffect.Duration, fireEffect.Damage );
+			}
+
 			hit = true;
 			BaseWeapon.DoDamage( ray.GameObject, Damage, WorldTransform.Forward * 100000, ray.EndPosition, ownerTeam: Team, attacker: this );
 			break;

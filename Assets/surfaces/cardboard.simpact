@@ -1,6 +1,6 @@
 {
   "Flammability": 2,
-  "BaseSurface": "surfaces/wood.surface",
+  "BaseSurface": "surfaces/cardboard.surface",
   "AudioSurface": "Generic",
   "Description": null,
   "Friction": 0.8,
@@ -51,13 +51,13 @@
     }
   },
   "SoundCollection": {
-    "FootLeft": "surfaces/sounds/wood/wood_footsteps.sound",
-    "FootRight": "surfaces/sounds/wood/wood_footsteps.sound",
-    "FootLaunch": "surfaces/sounds/wood/wood_footsteps.sound",
-    "FootLand": "surfaces/sounds/wood/wood_footsteps.sound",
-    "Bullet": "surfaces/sounds/wood/wood_impact_sound.sound",
-    "ImpactHard": "surfaces/sounds/wood/wood_impact_heavy.sound",
-    "ImpactSoft": "surfaces/sounds/wood/wood_impact_sound.sound",
+    "FootLeft": null,
+    "FootRight": null,
+    "FootLaunch": null,
+    "FootLand": null,
+    "Bullet": null,
+    "ImpactHard": null,
+    "ImpactSoft": null,
     "ScrapeRough": null,
     "ScrapeSmooth": null,
     "Break": null

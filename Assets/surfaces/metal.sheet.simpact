@@ -1,4 +1,5 @@
 {
+  "Flammability": 0.5,
   "BaseSurface": "surfaces/metal.surface",
   "AudioSurface": "Generic",
   "Description": null,

@@ -1,4 +1,5 @@
 {
+  "Flammability": 2,
   "BaseSurface": "surfaces/grass.surface",
   "AudioSurface": "Generic",
   "Description": "Grass",

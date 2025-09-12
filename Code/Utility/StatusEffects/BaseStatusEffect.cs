@@ -1,4 +1,6 @@
-﻿namespace Seekers;
+﻿using System.Security.Cryptography;
+
+namespace Seekers;
 
 public abstract class StatusEffect : Component
 {
@@ -89,6 +91,7 @@ public abstract class StatusTrigger : Component, Component.ITriggerListener
 {
 
 	[Property] public float RequiredDuration { get; set; }
+	[Property] public bool SelfInflicting { get; set; }
 
 	private Dictionary<GameObject, RealTimeSince> Targets = new();
 
@@ -104,16 +107,27 @@ public abstract class StatusTrigger : Component, Component.ITriggerListener
 
 		foreach ( var target in Targets )
 		{
-			if ( target.Value < RequiredDuration )
+			if ( !AddRequirement(target) )
 				continue;
 
 			Apply( target.Key );
 		}
 	}
 
+	public virtual bool AddRequirement(KeyValuePair<GameObject, RealTimeSince> target)
+	{
+		if ( target.Value < RequiredDuration )
+			return false;
+
+		return true;
+	}
+
 	void ITriggerListener.OnTriggerEnter( GameObject other )
 	{
 		if ( other.Tags.Contains( "map" ) )
+			return;
+
+		if ( other.Root == GameObject.Root && !SelfInflicting )
 			return;
 
 		if ( Targets.ContainsKey( other ) )

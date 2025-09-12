@@ -1,4 +1,5 @@
 {
+  "Flammability": 1,
   "BaseSurface": "surfaces/dirt.surface",
   "AudioSurface": "Generic",
   "Description": null,

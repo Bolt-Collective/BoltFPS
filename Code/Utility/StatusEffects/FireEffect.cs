@@ -6,42 +6,6 @@ namespace Seekers;
 
 public class FireEffect : StatusEffect, Component.ICollisionListener
 {
-	public Dictionary<GameObject, SpreadData> SpreadTargets { get; set; } = new();
-
-	public struct SpreadData
-	{
-		public RealTimeSince TimeSinceSpreadable;
-		public RealTimeSince TimeSinceCollided;
-		public SpreadData (float timeSinceSpreadable = 0, float timeSinceCollided = 0)
-		{
-			TimeSinceSpreadable = timeSinceSpreadable;
-			TimeSinceCollided = timeSinceCollided;
-		}
-	}
-
-	//when collision update starts working, spread will work with still shit
-	void ICollisionListener.OnCollisionUpdate( Collision collision )
-	{
-		AddSpread( collision );
-	}
-
-	void ICollisionListener.OnCollisionStart( Collision collision )
-	{
-		AddSpread( collision );
-	}
-
-	public void AddSpread( Collision collision )
-	{
-		if ( SpreadTargets.ContainsKey( collision.Other.GameObject.Root ) )
-		{
-			var spreadData = SpreadTargets[collision.Other.GameObject.Root];
-			SpreadTargets[collision.Other.GameObject.Root] = new SpreadData( spreadData.TimeSinceSpreadable, 0 );
-		}
-		else
-		{
-			SpreadTargets.Add( collision.Other.GameObject.Root, new SpreadData() );
-		}
-	}
 
 	[Property]
 	public float Damage { get; set; }
@@ -49,8 +13,6 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 	Vector3 lastPos;
 	public override void Apply()
 	{
-		Spread();
-
 		var vel = (WorldPosition - lastPos) / Time.Delta;
 		lastPos = WorldPosition;
 
@@ -60,7 +22,7 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 
 		var fireRes = 0f;
 
-		foreach(var tag in GameObject.Root.Tags)
+		foreach ( var tag in GameObject.Root.Tags )
 		{
 			if ( !tag.StartsWith( "fireres-" ) )
 				continue;
@@ -78,31 +40,13 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 		}
 
 		if ( HealthComponent.IsValid() )
-			HealthComponent.TakeDamage( Inflictor, Damage * Time.Delta * (1-fireRes) );
+			HealthComponent.TakeDamage( Inflictor, Damage * Time.Delta * (1 - fireRes) );
 		else if ( PropHelper.IsValid() )
 			PropHelper.Damage( Damage * Time.Delta );
 	}
 
-	public void Spread()
-	{
-
-		foreach ( var spreadable in new Dictionary<GameObject, SpreadData>( SpreadTargets ) )
-		{
-			Log.Info( spreadable );
-			if ( spreadable.Value.TimeSinceCollided > 1 )
-			{
-				SpreadTargets.Remove( spreadable.Key );
-				continue;
-			}
-
-			if ( spreadable.Value.TimeSinceSpreadable > 1 )
-			{
-				ApplyFireTo( spreadable.Key, this, InitialDuration, Damage );
-			}
-		}
-	}
-
-	public static void ApplyFireTo(GameObject target, Component inflictor, float duration, float damage)
+	[Rpc.Host]
+	public static void ApplyFireTo( GameObject target, Component inflictor, float duration, float damage )
 	{
 		var effect = ApplyTo<FireEffect>( target, inflictor, duration ) as FireEffect;
 
@@ -118,9 +62,11 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 
 	static GameObject FireParticle => GameObject.GetPrefab( "particles/fire/fire.prefab" );
 
+	float nextDuration => InitialDuration * 0.5f;
+
 	public void Visuals()
 	{
-		if ( !SkinnedModelRenderer.IsValid() && GameObject.Root.Components.TryGet<SkinnedModelRenderer>(out var skinnedMeshRenderer, FindMode.EnabledInSelfAndChildren) )
+		if ( !SkinnedModelRenderer.IsValid() && GameObject.Root.Components.TryGet<SkinnedModelRenderer>( out var skinnedMeshRenderer, FindMode.EnabledInSelfAndChildren ) )
 		{
 			SkinnedModelRenderer = skinnedMeshRenderer;
 		}
@@ -136,12 +82,12 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 		nextFire = 1.5f;
 
 		if ( SkinnedModelRenderer.IsValid() )
-			SkinnedVisuals(SkinnedModelRenderer);
+			SkinnedVisuals( SkinnedModelRenderer );
 		else if ( ModelRenderer.IsValid() )
-			ModelVisuals(ModelRenderer);
+			ModelVisuals( ModelRenderer );
 	}
 
-	public void SkinnedVisuals(SkinnedModelRenderer skinnedModelRenderer)
+	public void SkinnedVisuals( SkinnedModelRenderer skinnedModelRenderer )
 	{
 		if ( !skinnedModelRenderer.IsValid() )
 			return;
@@ -149,27 +95,33 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 		var scale = MathF.Pow( skinnedModelRenderer.LocalBounds.Size.Length, 1f / 3f ) * 0.2f;
 
 		var pelvis = skinnedModelRenderer.GetBoneObject( "pelvis" );
-		if (pelvis.IsValid())
+		if ( pelvis.IsValid() )
 		{
-			AddFireParticle( pelvis.WorldPosition, pelvis, scale * 2 );
+			AddFireParticle( pelvis.WorldPosition, pelvis, scale * 2, nextDuration, Damage );
 		}
 
-		var target = skinnedModelRenderer.GetBoneObject( Game.Random.Next(skinnedModelRenderer.GetBoneVelocities().Count()) );
+		var target = skinnedModelRenderer.GetBoneObject( Game.Random.Next( skinnedModelRenderer.GetBoneVelocities().Count() ) );
 
-		AddFireParticle( target.WorldPosition, target, scale );
+		AddFireParticle( target.WorldPosition, target, scale, nextDuration, Damage );
 	}
 
 	[Rpc.Broadcast]
-	public static void AddFireParticle(Vector3 pos, GameObject target, float scale)
+	public static void AddFireParticle( Vector3 pos, GameObject target, float scale, float duration, float damage )
 	{
 		if ( !target.IsValid() )
 			return;
 
 		var particle = Particles.CreateParticleSystem( FireParticle, new Transform( pos ), 2, target );
 		particle.WorldScale = Vector3.One * scale;
+
+		if ( particle.Components.TryGet<FireTrigger>( out var trigger ) )
+		{
+			trigger.Duration = duration;
+			trigger.Damage = damage;
+		}
 	}
 
-	public void ModelVisuals(ModelRenderer modelRenderer)
+	public void ModelVisuals( ModelRenderer modelRenderer )
 	{
 		if ( !modelRenderer.IsValid() )
 			return;
@@ -178,7 +130,7 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 
 		var point = modelRenderer.LocalBounds.RandomPointOnEdge;
 
-		AddFireParticle( modelRenderer.WorldTransform.PointToWorld( point ), modelRenderer.GameObject, scale );
+		AddFireParticle( modelRenderer.WorldTransform.PointToWorld( point ), modelRenderer.GameObject, scale, nextDuration, Damage );
 	}
 }
 
@@ -191,5 +143,45 @@ public class FireTrigger : StatusTrigger
 	public override void Apply( GameObject target )
 	{
 		FireEffect.ApplyFireTo( target, this, Duration, Damage );
+	}
+
+	public override bool AddRequirement( KeyValuePair<GameObject, RealTimeSince> target )
+	{
+		var requiredDuration = RequiredDuration;
+		if ( target.Key.Components.TryGet<PropHelper>( out var ph ) )
+		{
+			var tagMaterial = "";
+
+			foreach ( var tag in target.Key.Tags )
+			{
+				if ( tag.StartsWith( "m-" ) || tag.StartsWith( "m_" ) )
+				{
+					tagMaterial = tag.Remove( 0, 2 );
+					break;
+				}
+			}
+
+			SurfaceImpacts surface = null;
+			try
+			{
+				surface = tagMaterial == ""
+					? ph.Surface.ReplaceSurface() as SurfaceImpacts
+					: (Surface.FindByName( tagMaterial ) ?? ph.Surface.ReplaceSurface()) as SurfaceImpacts;
+			}
+			catch
+			{
+				surface = ph.Surface as SurfaceImpacts;
+			}
+
+			if ( surface.IsValid() )
+			{
+				requiredDuration /= surface.Flammability;
+			}
+		}
+
+		if ( target.Value < requiredDuration )
+			return false;
+
+		return true;
 	}
 }

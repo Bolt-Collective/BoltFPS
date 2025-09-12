@@ -1,4 +1,5 @@
 {
+  "Flammability": 1,
   "BaseSurface": "surfaces/flesh.surface",
   "AudioSurface": "Generic",
   "Description": null,
