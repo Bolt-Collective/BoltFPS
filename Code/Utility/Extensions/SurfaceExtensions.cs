@@ -52,7 +52,6 @@ public static partial class SurfaceExtensions
 				
 				if (tr.GameObject.IsValid())
 				{
-					Log.Info( "huh" );
 					var parent = tr.GameObject;
 
 					if ( tr.GameObject.Root.Components.TryGet<SkinnedModelRenderer>(out var renderer, FindMode.EnabledInSelfAndChildren))

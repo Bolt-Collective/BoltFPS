@@ -132,7 +132,6 @@ public record DamageInfo(
 		var attacker = GetName(Attacker);
 		var attackerColour = Color.White;
 		var victim = GetName(Victim);
-		Log.Info( victim );
 		var victimColour = Color.White;
 		var killMethods = new List<string>();
 

@@ -123,9 +123,12 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 			Controller.BodyModelRenderer.Model = DeadModel;
 		Controller.BodyModelRenderer.Tags.Add( "ragdoll" );
 
-		var modelPhysics = Controller.BodyModelRenderer.AddComponent<ModelPhysics>();
+		var modelPhysics = Controller.BodyModelRenderer.GetComponent<ModelPhysics>();
+		if ( !modelPhysics.IsValid() )
+			modelPhysics = Controller.BodyModelRenderer.AddComponent<ModelPhysics>();
 		modelPhysics.Model = Controller.BodyModelRenderer.Model;
 		modelPhysics.Renderer = Controller.BodyModelRenderer;
+		modelPhysics.MotionEnabled = true;
 		foreach ( var body in modelPhysics.Bodies )
 		{
 			body.Component.Velocity += Controller.Velocity + damageInfo.Force / 15000;
