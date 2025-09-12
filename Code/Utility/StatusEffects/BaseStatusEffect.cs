@@ -113,6 +113,9 @@ public abstract class StatusTrigger : Component, Component.ITriggerListener
 
 	void ITriggerListener.OnTriggerEnter( GameObject other )
 	{
+		if ( other.Tags.Contains( "map" ) )
+			return;
+
 		if ( Targets.ContainsKey( other ) )
 			return;
 
