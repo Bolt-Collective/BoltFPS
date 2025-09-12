@@ -116,7 +116,7 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 
 	TimeUntil nextFire;
 
-	static GameObject FireParticle = GameObject.GetPrefab( "particles/fire/fire1s.prefab" );
+	static GameObject FireParticle => GameObject.GetPrefab( "particles/fire/fire.prefab" );
 
 	public void Visuals()
 	{
