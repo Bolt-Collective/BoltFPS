@@ -1,3 +1,4 @@
+using Sandbox;
 using Seekers;
 
 public class VerletRope : Component

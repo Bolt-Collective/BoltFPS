@@ -5,7 +5,7 @@ namespace Seekers;
 public abstract class StatusEffect : Component
 {
 	[Property]
-	public TimeUntil Duration { get; set; }
+	public float Duration { get; set; }
 
 	[Property]
 	public float InitialDuration { get; set; }
@@ -40,6 +40,7 @@ public abstract class StatusEffect : Component
 
 	protected override void OnFixedUpdate()
 	{
+		Duration -= Time.Delta;
 		if (Duration < 0)
 		{
 			Destroy();
@@ -56,14 +57,20 @@ public abstract class StatusEffect : Component
 
 	public static StatusEffect ApplyTo<T>( GameObject target, Component inflictor, float duration )
 	{
+		if ( target.Tags.Contains( "map" ) )
+			return null;
+
+		if ( target.Tags.Contains( "movement" ) )
+			return null;
 
 		if ( target.Root.Components.TryGet<T>(out var effect) )
 		{
 			var statusEffect = effect as StatusEffect;
 			if (statusEffect.IsValid())
 			{
-				statusEffect.InitialDuration = duration;
-				statusEffect.Duration = duration;
+				var dur = MathF.Max(duration, statusEffect.Duration);
+				statusEffect.InitialDuration = dur;
+				statusEffect.Duration = dur;
 				statusEffect.Inflictor = inflictor;
 			}
 			return statusEffect;
@@ -82,8 +89,6 @@ public abstract class StatusEffect : Component
 			}
 			return statusEffect;
 		}
-
-		return null;
 	}
 }
 
@@ -125,6 +130,9 @@ public abstract class StatusTrigger : Component, Component.ITriggerListener
 	void ITriggerListener.OnTriggerEnter( GameObject other )
 	{
 		if ( other.Tags.Contains( "map" ) )
+			return;
+
+		if ( other.Tags.Contains( "movement" ) )
 			return;
 
 		if ( other.Root == GameObject.Root && !SelfInflicting )

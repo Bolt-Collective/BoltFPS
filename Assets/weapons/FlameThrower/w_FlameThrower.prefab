@@ -1,0 +1,478 @@
+{
+  "RootObject": {
+    "__guid": "eccd8528-3b35-4c82-81c8-81e7d8ca28c4",
+    "__version": 1,
+    "Flags": 0,
+    "Name": "w_flamethrower",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "item,weapon",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "Seekers.FlameThrower",
+        "__guid": "abb9f231-0776-4973-95c6-0a95fcf36de3",
+        "__enabled": true,
+        "Ammo": 100,
+        "BoneOffset": {
+          "Position": "2.7735,0,-4.794",
+          "Scale": "1,1,1",
+          "Rotation": "0,0,0,1"
+        },
+        "Chamber": false,
+        "CrosshairType": "Default",
+        "Damage": 20,
+        "DeploySound": "sounds/weapons/switch/switch_2.sound",
+        "DisableInFP": [
+          {
+            "_type": "gameobject",
+            "go": "e6fca768-8d4d-441e-8092-1680a0407a2c"
+          }
+        ],
+        "FemaleReplacement": null,
+        "GasSoundPoint": {
+          "_type": "component",
+          "component_id": "00aba384-dc2b-424d-b109-6c7d0c9470c9",
+          "go": "eccd8528-3b35-4c82-81c8-81e7d8ca28c4",
+          "component_type": "SoundPointComponent"
+        },
+        "Handedness": "Right",
+        "HoldType": "Pistol",
+        "Icon": "icons/weapons/guns/flamethrower.png",
+        "ItemResource": null,
+        "LeftIK": {
+          "Active": true,
+          "GameObject": null,
+          "IsLeft": false
+        },
+        "MaxAmmo": 100,
+        "MergeModel": true,
+        "MuzzleOverride": {
+          "_type": "gameobject",
+          "go": "9dc98730-2197-429a-93fc-17b9616d6cad"
+        },
+        "Name": "FlameThrower",
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "ParentBone": "hold_r",
+        "PrimaryRate": 15,
+        "Projectile": {
+          "_type": "gameobject",
+          "prefab": "weapons/flamethrower/flame.prefab"
+        },
+        "ProjectileSpeed": 200,
+        "RegenDelay": 3,
+        "RegenRate": 15,
+        "ReloadShortSound": "sounds/weapons/reloads/uspreloadc.sound",
+        "ReloadSound": "sounds/weapons/reloads/uspreload.sound",
+        "ReloadTime": 1.5,
+        "RemoveClothingCategories": [],
+        "RemoveGroups": [],
+        "SecondaryRate": 1,
+        "ShootSound": "sounds/guns/m1911/pistol_shoot.sound",
+        "ShowAmmo": true,
+        "Spread": 0,
+        "SpreadIncrease": 0,
+        "TracerEffect": null,
+        "ViewModelPrefab": {
+          "_type": "gameobject",
+          "prefab": "weapons/flamethrower/v_flamethrower.prefab"
+        }
+      },
+      {
+        "__type": "Sandbox.SoundPointComponent",
+        "__guid": "00aba384-dc2b-424d-b109-6c7d0c9470c9",
+        "__enabled": true,
+        "Distance": 512,
+        "DistanceAttenuation": false,
+        "DistanceAttenuationOverride": false,
+        "Falloff": [
+          {
+            "x": 0,
+            "y": 1,
+            "in": 3.1415927,
+            "out": -3.1415927,
+            "mode": "Mirrored"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          }
+        ],
+        "Force2d": false,
+        "MaxRepeatTime": 1,
+        "MinRepeatTime": 1,
+        "Occlusion": false,
+        "OcclusionOverride": false,
+        "OcclusionRadius": 32,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Pitch": 1,
+        "PlayOnStart": true,
+        "ReflectionOverride": false,
+        "Reflections": false,
+        "Repeat": false,
+        "SoundEvent": "sounds/weapons/flamethrower/gas.sound",
+        "SoundOverride": true,
+        "StopOnNew": false,
+        "TargetMixer": {
+          "Name": "unknown",
+          "Id": "00000000-0000-0000-0000-000000000000"
+        },
+        "Volume": 0
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "d4b7e828-2111-4c53-8741-927c46b49981",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Model (1)",
+        "Position": "-1.899042,-1.218808,3.62004",
+        "Rotation": "0.00000022155,-0.0000002584287,0.7071068,0.7071068",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.SkinnedModelRenderer",
+            "__guid": "5417f674-5218-43bc-917f-0d89bcea0b6c",
+            "__enabled": true,
+            "AnimationGraph": null,
+            "BodyGroups": 18446744073709551615,
+            "BoneMergeTarget": null,
+            "CreateAttachments": false,
+            "CreateBoneObjects": true,
+            "LodOverride": null,
+            "MaterialGroup": null,
+            "MaterialOverride": null,
+            "Materials": null,
+            "Model": "models/flamethrower/flamethrower.vmdl",
+            "Morphs": {},
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "Parameters": {
+              "bools": {},
+              "ints": {},
+              "floats": {},
+              "vectors": {},
+              "rotations": {}
+            },
+            "PlaybackRate": 1,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "RenderType": "On",
+            "Sequence": {
+              "Name": null,
+              "Looping": true,
+              "Blending": false
+            },
+            "Tint": "1,1,1,1",
+            "UseAnimGraph": true
+          }
+        ],
+        "Children": [
+          {
+            "__guid": "3244eea6-6525-4a4c-bf25-2fb1e6ab928b",
+            "__version": 1,
+            "Flags": 4,
+            "Name": "spine_2",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": [
+              {
+                "__guid": "c436fa51-0549-4975-9480-c5f1000d8041",
+                "__version": 1,
+                "Flags": 0,
+                "Name": "Object",
+                "Position": "9.289724,-6.025455,-4.049754",
+                "Rotation": "-0.00001217425,-0.01506803,-0.01876278,0.9997104",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              },
+              {
+                "__guid": "1f7588f4-d9ba-4908-b790-6a731085afb0",
+                "__version": 1,
+                "Flags": 0,
+                "Name": "Object (1)",
+                "Position": "11.06886,-4.657038,-5.455389",
+                "Rotation": "0.001232117,-0.01987412,-0.02232195,0.9995522",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              },
+              {
+                "__guid": "b5096ebb-cd09-4319-b1fe-b0bd5db55bea",
+                "__version": 1,
+                "Flags": 0,
+                "Name": "Object (2)",
+                "Position": "11.52744,-1.704795,-10.96461",
+                "Rotation": "-0.000108704,-0.01327755,-0.01189996,0.999841",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              },
+              {
+                "__guid": "f4223805-7b8c-490c-9bb4-857ceea95b96",
+                "__version": 1,
+                "Flags": 4,
+                "Name": "hold_R",
+                "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": [
+                  {
+                    "__guid": "e6fca768-8d4d-441e-8092-1680a0407a2c",
+                    "__version": 1,
+                    "Flags": 0,
+                    "Name": "Object",
+                    "Position": "-5.891001,-0.2304504,2.066",
+                    "Rotation": "0,0,1,-0.00000004371139",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [
+                      {
+                        "__type": "Sandbox.LineRenderer",
+                        "__guid": "8df04784-9be1-46ab-b912-65fc0ba1bfca",
+                        "__enabled": true,
+                        "Additive": false,
+                        "AutoCalculateNormals": true,
+                        "CastShadows": true,
+                        "Color": {
+                          "blend": "Linear",
+                          "color": [
+                            {
+                              "t": 0.5,
+                              "c": "0,1,1,1"
+                            }
+                          ],
+                          "alpha": []
+                        },
+                        "CylinderSegments": 12,
+                        "DepthFeather": 0,
+                        "EndCap": "None",
+                        "Face": "Cylinder",
+                        "FogStrength": 1,
+                        "Lighting": false,
+                        "OnComponentDestroy": null,
+                        "OnComponentDisabled": null,
+                        "OnComponentEnabled": null,
+                        "OnComponentFixedUpdate": null,
+                        "OnComponentStart": null,
+                        "OnComponentUpdate": null,
+                        "Opaque": true,
+                        "Points": [
+                          {
+                            "_type": "gameobject",
+                            "go": "221e9c52-c595-4f59-8094-910a2f4b6cf5"
+                          },
+                          {
+                            "_type": "gameobject",
+                            "go": "e6fca768-8d4d-441e-8092-1680a0407a2c"
+                          },
+                          {
+                            "_type": "gameobject",
+                            "go": "b5096ebb-cd09-4319-b1fe-b0bd5db55bea"
+                          },
+                          {
+                            "_type": "gameobject",
+                            "go": "1f7588f4-d9ba-4908-b790-6a731085afb0"
+                          },
+                          {
+                            "_type": "gameobject",
+                            "go": "c436fa51-0549-4975-9480-c5f1000d8041"
+                          }
+                        ],
+                        "RenderOptions": {
+                          "GameLayer": true,
+                          "OverlayLayer": false,
+                          "BloomLayer": false,
+                          "AfterUILayer": false
+                        },
+                        "SplineBias": 0,
+                        "SplineContinuity": 0,
+                        "SplineInterpolation": 5,
+                        "SplineTension": 0,
+                        "StartCap": "None",
+                        "Texturing": {
+                          "Texture": null,
+                          "Material": "models/flamethrower/material/flamethrowercable.vmat",
+                          "WorldSpace": true,
+                          "UnitsPerTexture": 10,
+                          "Scale": 1,
+                          "Offset": 0,
+                          "Scroll": 0,
+                          "Clamp": false
+                        },
+                        "UseVectorPoints": false,
+                        "VectorPoints": [],
+                        "Width": {
+                          "rangey": "0,0.06999999",
+                          "frames": [
+                            {
+                              "x": 0.5,
+                              "y": 5,
+                              "in": 0,
+                              "out": 0,
+                              "mode": "Mirrored"
+                            }
+                          ]
+                        },
+                        "Wireframe": false
+                      }
+                    ],
+                    "Children": []
+                  },
+                  {
+                    "__guid": "221e9c52-c595-4f59-8094-910a2f4b6cf5",
+                    "__version": 1,
+                    "Flags": 0,
+                    "Name": "Object (1)",
+                    "Position": "0.7089987,0.1695496,2.066",
+                    "Rotation": "0.00000005960464,0.00000002980232,1,-0.00000002980232",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": []
+                  },
+                  {
+                    "__guid": "9dc98730-2197-429a-93fc-17b9616d6cad",
+                    "__version": 1,
+                    "Flags": 0,
+                    "Name": "Muzzle",
+                    "Position": "11.1,0,2.100001",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "__guid": "2347a932-6a14-4813-a82d-fdacf08c43f5",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "pipe",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": []
+      }
+    ],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [],
+  "__version": 2
+}

@@ -319,7 +319,7 @@
         "__type": "Seekers.FireTrigger",
         "__guid": "47a2c220-8e3d-4a2d-b1c4-3381cf207863",
         "__enabled": true,
-        "Damage": 5,
+        "Damage": 20,
         "Duration": 5,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,

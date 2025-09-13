@@ -9,7 +9,7 @@
 	{
 		var baseAlpha = OpacityCurve.Evaluate(1- Health );
 		var alpha = baseAlpha + (1 - (Time.Now - splatter.time) / FadeTime).Clamp(0,1) * (1-baseAlpha);
-		var position = (splatter.position / 100) * new Vector2(1920,1080);
+		var position = (splatter.position / 100) * new Vector2(1080 * Screen.Aspect, 1080);
 
 		<img src=@splatter.texture style="bottom: @(position.y-250)px; left: @(position.x-250)px; opacity: @alpha; transform: rotate(@(splatter.rotation)deg);"/>
 	}
@@ -19,7 +19,7 @@
 		var t = (elapsed / splatter.speed).Clamp(0, 1);
 		var alpha = splatter.startAlpha * (1 - t);
 
-		var position = (splatter.position / 100) * new Vector2(1920, 1080);
+		var position = (splatter.position / 100) * new Vector2(1080 * Screen.Aspect, 1080);
 
 		<img src=@splatter.texture style="bottom: @(position.y-250)px; left: @(position.x-250)px; opacity: @alpha; transform: rotate(@(splatter.rotation)deg);" />
 	}

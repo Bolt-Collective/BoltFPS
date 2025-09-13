@@ -166,6 +166,7 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 
 	protected override void OnUpdate()
 	{
+		HealthComponent.IsGodMode = isGod;
 		if ( !Owner.IsValid() )
 			return;
 
@@ -204,6 +205,12 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 		}
 	}
 
+	[ConVar]
+	public static bool god { get; set; } = false;
+
+	[Sync]
+	public bool isGod { get; set; }
+
 	protected override void OnFixedUpdate()
 	{
 		if ( SpotLight.IsValid() )
@@ -211,6 +218,8 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 
 		if ( IsProxy )
 			return;
+
+		isGod = god;
 
 		if ( !Owner.IsValid() )
 			Owner = Client.Local;

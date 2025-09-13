@@ -1,0 +1,11 @@
+{
+  "DisplayName": "FlameThrower",
+  "Catagory": "Guns",
+  "Duplicates": true,
+  "ReplenishAmmo": false,
+  "Icon": "icons/3d/assets.png",
+  "Description": "",
+  "Details": null,
+  "__references": [],
+  "__version": 0
+}

@@ -66,6 +66,12 @@ public partial class BaseWeapon : Component
 	[Feature( "Firing" )] [Property] public virtual float Spread { get; set; }
 	[Feature( "Firing" )] [Property] public virtual float SpreadIncrease { get; set; }
 
+	[Property, ShowIf( "UseProjectile", true ), Group( "Projectile" ), Feature( "Firing" )]
+	public GameObject Projectile { get; set; }
+
+	[Property, ShowIf( "UseProjectile", true ), Group( "Projectile" ), Feature( "Firing" )]
+	public float ProjectileSpeed { get; set; }
+
 	[Feature( "Ammo" )] [Property] public int Ammo { get; set; }
 	[Feature( "Ammo" )] [Property] public int MaxAmmo { get; set; }
 	[Feature( "Ammo" )] [Property] public bool Chamber { get; set; } = true;
@@ -73,6 +79,9 @@ public partial class BaseWeapon : Component
 	[Feature( "Ammo" )] [Property] public float ReloadTime { get; set; } = 3.0f;
 
 	[Feature( "UI" )] [Property] public CrosshairType CrosshairType { get; set; }
+
+	[Feature( "Weapon Visuals" )][Property] public GameObject MuzzleOverride { get; set; }
+
 
 	private GameObject Tracer
 	{
@@ -117,6 +126,8 @@ public partial class BaseWeapon : Component
 	public virtual float RecoilTime => 0.05f.Clamp( 0, BulletTime );
 	public float BulletTime => 1 / PrimaryRate;
 
+	public virtual bool UseProjectile => false;
+
 	[ConVar( ConVarFlags.Saved )] public static bool bolt_tracers { get; set; } = true;
 
 	public virtual string StatDamage => Damage.ToString();
@@ -129,6 +140,9 @@ public partial class BaseWeapon : Component
 		{
 			return ViewModel.GetAttachment( name );
 		}
+
+		if ( name == "muzzle" && MuzzleOverride.IsValid() )
+			return MuzzleOverride.WorldTransform;
 
 		return LocalWorldModel?.GetAttachment( name ) ?? WorldTransform;
 	}
@@ -373,6 +387,15 @@ public partial class BaseWeapon : Component
 				? ModelRenderer.ShadowRenderType.ShadowsOnly
 				: ModelRenderer.ShadowRenderType.On;
 		}
+
+		if (DisableInFP != null)
+		{
+			foreach ( var model in DisableInFP )
+			{
+				model.Enabled = Owner?.Controller?.BodyVisible ?? false;
+			}
+		}
+		
 
 		if ( IsProxy )
 		{
@@ -690,10 +713,32 @@ public partial class BaseWeapon : Component
 		forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 		forward = forward.Normal;
 
-		//
-		// ShootBullet is coded in a way where we can have bullets pass through shit
-		// or bounce off shit, in which case it'll return multiple results
-		//
+		if ( UseProjectile )
+		{
+			var projectile = Projectile.Clone().GetComponent<BaseProjectile>();
+
+			var attachment = Attachment( "muzzle" );
+
+			projectile.WorldPosition = attachment.Position;
+
+			projectile.WorldRotation = Rotation.LookAt( forward );
+
+			projectile.Speed = Owner.Controller.Velocity + forward * ProjectileSpeed;
+
+			projectile.Damage = damage;
+
+			projectile.Origin = GameObject;
+
+			projectile.OriginLocalPos = WorldTransform.PointToLocal( attachment.Position );
+
+			projectile.GameObject.NetworkSpawn();
+			return;
+		}
+
+			//
+			// ShootBullet is coded in a way where we can have bullets pass through shit
+			// or bounce off shit, in which case it'll return multiple results
+			//
 		foreach ( var trace in TraceBullet( GameObject.Root, pos, pos + forward * 5000, bulletSize ) )
 		{
 			var tr = trace;

@@ -11,14 +11,22 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 	public float Damage { get; set; }
 
 	Vector3 lastPos;
+	float lastDur;
 	public override void Apply()
 	{
-		var vel = (WorldPosition - lastPos) / Time.Delta;
+		var vel = (WorldPosition - lastPos);
 		lastPos = WorldPosition;
 
-		Duration -= vel.Length * Time.Delta * 0.05f;
+		//to ensure that it doesn't look like your on fire when you're not
+		if ( Duration > 3 )
+			Duration -= vel.Length * 0.1f;
+		else if ( lastDur > 3 )
+			Duration = 3;
+			
+		lastDur = Duration;
 
-		Visuals();
+		if (Duration > 3 && InitialDuration > 3)
+			Visuals();
 
 		var fireRes = 0f;
 
