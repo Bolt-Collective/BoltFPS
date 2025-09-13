@@ -4,18 +4,22 @@ using System;
 
 public static partial class SoundExtensions
 {
-	[Rpc.Broadcast( NetFlags.Unreliable )]
+	[Rpc.Broadcast]
 	public static void BroadcastSound( string soundName, Vector3 position, float volume = 1.0f, float pitch = 1.0f,
 		float spacialBlend = 1.0f )
 	{
-		if ( string.IsNullOrEmpty( soundName ) )
-			return;
+		try
+		{
+			var snd = Sound.Play( soundName, position );
 
-		var snd = Sound.Play( soundName, position );
-
-		snd.Volume = volume;
-		snd.Pitch = pitch;
-		snd.SpacialBlend = spacialBlend;
+			snd.Volume = volume;
+			snd.Pitch = pitch;
+			snd.SpacialBlend = spacialBlend;
+		}
+		catch
+		{
+			Log.Warning( $"{soundName} is not a valid sound, {position}" );
+		}
 	}
 
 	public static void BroadcastSound( SoundEvent sound, Vector3 position, float volume = 1.0f, float pitch = 1.0f,
@@ -63,17 +67,19 @@ public static partial class SoundExtensions
 	{
 		IEnumerable<SoundEvent> Sounds = null;
 
-		//error is INSIDE getall, Sorry FUCK
-		//again, FUCK. WHY
 		try
 		{
 			Sounds = ResourceLibrary.GetAll<SoundEvent>( folder );
 		}
-		catch { }
+		catch
+		{
+			Log.Warning( $"Couldn't get sounds from folder {folder}" );
+		}
 
 		if ( Sounds == null )
 			return null;
-		return Sounds.ElementAt( Game.Random.Next( 0, Sounds.Count() ) );
+		var soundEvents = Sounds.ToList();
+		return soundEvents.ElementAt( Game.Random.Next( 0, soundEvents.Count() ) );
 	}
 }
 
