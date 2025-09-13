@@ -64,9 +64,19 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 	public SkinnedModelRenderer Renderer => Controller.BodyModelRenderer;
 	public AnimationHelper AnimationHelper => Controller.AnimationHelper;
 
-	public Ray AimRay =>
-		new Ray( Camera.WorldPosition,
-			Camera.WorldTransform.Forward );
+	public Ray AimRay
+	{
+		get
+		{
+			var cam = Camera;
+
+			if ( !cam.IsValid() )
+				return new Ray();
+
+			return new Ray( cam.WorldPosition,
+				cam.WorldTransform.Forward );
+		}
+	}
 
 	public ScreenShaker ScreenShaker => Controller.ScreenShaker;
 
@@ -205,11 +215,9 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 		}
 	}
 
-	[ConVar]
-	public static bool god { get; set; } = false;
+	[ConVar] public static bool god { get; set; } = false;
 
-	[Sync]
-	public bool isGod { get; set; }
+	[Sync] public bool isGod { get; set; }
 
 	protected override void OnFixedUpdate()
 	{

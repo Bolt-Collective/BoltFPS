@@ -80,7 +80,9 @@ public partial class BaseWeapon : Component
 
 	[Feature( "UI" )] [Property] public CrosshairType CrosshairType { get; set; }
 
-	[Feature( "Weapon Visuals" )][Property] public GameObject MuzzleOverride { get; set; }
+	[Feature( "Weapon Visuals" )]
+	[Property]
+	public GameObject MuzzleOverride { get; set; }
 
 
 	private GameObject Tracer
@@ -374,10 +376,17 @@ public partial class BaseWeapon : Component
 
 		if ( ViewModel.IsValid() )
 		{
-			ViewModel.GameObject.Enabled = !(Owner?.Controller?.BodyVisible ?? true);
-			if ( ForceDisableViewmodel )
+			try
 			{
-				ViewModel.GameObject.Enabled = false;
+				ViewModel.GameObject.Enabled = !(Owner?.Controller?.BodyVisible ?? true);
+				if ( ForceDisableViewmodel )
+				{
+					ViewModel.GameObject.Enabled = false;
+				}
+			}
+			catch ( Exception e )
+			{
+				Log.Warning( $"Viewmodel is invalid: {e.Message}" );
 			}
 		}
 
@@ -388,14 +397,14 @@ public partial class BaseWeapon : Component
 				: ModelRenderer.ShadowRenderType.On;
 		}
 
-		if (DisableInFP != null)
+		if ( DisableInFP != null )
 		{
 			foreach ( var model in DisableInFP )
 			{
 				model.Enabled = Owner?.Controller?.BodyVisible ?? false;
 			}
 		}
-		
+
 
 		if ( IsProxy )
 		{
@@ -735,10 +744,10 @@ public partial class BaseWeapon : Component
 			return;
 		}
 
-			//
-			// ShootBullet is coded in a way where we can have bullets pass through shit
-			// or bounce off shit, in which case it'll return multiple results
-			//
+		//
+		// ShootBullet is coded in a way where we can have bullets pass through shit
+		// or bounce off shit, in which case it'll return multiple results
+		//
 		foreach ( var trace in TraceBullet( GameObject.Root, pos, pos + forward * 5000, bulletSize ) )
 		{
 			var tr = trace;

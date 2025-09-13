@@ -125,7 +125,7 @@ public partial class NewCollisionSoundSystem : GameObjectSystem<NewCollisionSoun
 		Pending.Clear();
 	}
 
-	[Rpc.Broadcast( NetFlags.Unreliable )]
+	[Rpc.Broadcast]
 	static void BroadcastSound( Surface surf, Vector3 position, float speed )
 	{
 		surf.PlayPhysicsCollisionSound( position, speed );

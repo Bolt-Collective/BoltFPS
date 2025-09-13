@@ -87,6 +87,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 			return;
 
 		var eyePos = AimRay.Project( MathF.Abs( Camera.LocalPosition.x ) );
+
 		var eyeRot = Controller.EyeAngles;
 		var eyeDir = AimRay.Forward;
 

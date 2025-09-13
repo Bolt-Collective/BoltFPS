@@ -5,23 +5,25 @@
 @namespace Seekers
 
 <root>
-	@foreach (var splatter in Splatters)
+	@foreach ( var splatter in Splatters )
 	{
-		var baseAlpha = OpacityCurve.Evaluate(1- Health );
-		var alpha = baseAlpha + (1 - (Time.Now - splatter.time) / FadeTime).Clamp(0,1) * (1-baseAlpha);
-		var position = (splatter.position / 100) * new Vector2(1080 * Screen.Aspect, 1080);
+		var baseAlpha = OpacityCurve.Evaluate( 1 - Health );
+		var alpha = baseAlpha + (1 - (Time.Now - splatter.time) / FadeTime).Clamp( 0, 1 ) * (1 - baseAlpha);
+		var position = (splatter.position / 100) * new Vector2( 1080 * Screen.Aspect, 1080 );
 
-		<img src=@splatter.texture style="bottom: @(position.y-250)px; left: @(position.x-250)px; opacity: @alpha; transform: rotate(@(splatter.rotation)deg);"/>
+		<img src=@splatter.texture
+		     style="bottom: @( position.y - 250 )px; left: @( position.x - 250 )px; opacity: @alpha; transform: rotate(@( splatter.rotation )deg);"/>
 	}
-	@foreach (var splatter in DeSplatters)
+	@foreach ( var splatter in DeSplatters )
 	{
 		var elapsed = Time.Now - splatter.time;
-		var t = (elapsed / splatter.speed).Clamp(0, 1);
+		var t = (elapsed / splatter.speed).Clamp( 0, 1 );
 		var alpha = splatter.startAlpha * (1 - t);
 
-		var position = (splatter.position / 100) * new Vector2(1080 * Screen.Aspect, 1080);
+		var position = (splatter.position / 100) * new Vector2( 1080 * Screen.Aspect, 1080 );
 
-		<img src=@splatter.texture style="bottom: @(position.y-250)px; left: @(position.x-250)px; opacity: @alpha; transform: rotate(@(splatter.rotation)deg);" />
+		<img src=@splatter.texture
+		     style="bottom: @( position.y - 250 )px; left: @( position.x - 250 )px; opacity: @alpha; transform: rotate(@( splatter.rotation )deg);"/>
 	}
 </root>
 
@@ -32,16 +34,18 @@
 	[Property] private Curve SatuationCurve { get; set; }
 	[Property] private Curve OpacityCurve { get; set; }
 	[Property] private float FadeTime { get; set; } = 0.1f;
-	[Property] private RangedFloat FadeOutTime { get; set; } = new RangedFloat(0.2f, 0.5f);
+	[Property] private RangedFloat FadeOutTime { get; set; } = new RangedFloat( 0.2f, 0.5f );
 
 	private float Health;
 
 	ColorAdjustments _colorAdjustments;
-	ColorAdjustments ColorAdjustments 
+
+	ColorAdjustments ColorAdjustments
 	{
-		get{
-			if (!_colorAdjustments.IsValid())
-				_colorAdjustments = Pawn.Local.Controller.Camera.GetComponent<ColorAdjustments>();
+		get
+		{
+			if ( !_colorAdjustments.IsValid() )
+				_colorAdjustments = Pawn.Local?.Controller?.Camera?.GetComponent<ColorAdjustments>();
 			return _colorAdjustments;
 		}
 	}
@@ -49,6 +53,7 @@
 	private List<(string texture, Vector2 position, float rotation, float time)> Splatters { get; set; } = new();
 
 	private List<(string texture, Vector2 position, float rotation, float time, float startAlpha, float speed)> DeSplatters { get; set; } = new();
+
 	protected override void OnUpdate()
 	{
 		var player = Pawn.Local;
@@ -59,38 +64,41 @@
 		if ( !player.Controller.IsValid() )
 			return;
 
+		if ( !player.HealthComponent.IsValid() )
+			return;
+
 		Health = player.HealthComponent.Health / player.HealthComponent.MaxHealth;
 
-		if(ColorAdjustments.IsValid())
+		if ( ColorAdjustments.IsValid() )
 		{
-			ColorAdjustments.Saturation = SatuationCurve.Evaluate( 1-Health );
+			ColorAdjustments.Saturation = SatuationCurve.Evaluate( 1 - Health );
 		}
 
-		int splatterCount = MathX.FloorToInt( SplatterCurve.Evaluate(1- Health));
+		int splatterCount = MathX.FloorToInt( SplatterCurve.Evaluate( 1 - Health ) );
 
 		if ( splatterCount > Splatters?.Count )
 		{
 			for ( int i = 0; i < splatterCount - Splatters?.Count; i++ )
 				AddSplatter();
 		}
-		else if (splatterCount < Splatters?.Count)
+		else if ( splatterCount < Splatters?.Count )
 		{
-			var removed = Splatters?.GetRange(0, Splatters.Count - splatterCount);
-			Splatters?.RemoveRange(0, Splatters.Count - splatterCount);
+			var removed = Splatters?.GetRange( 0, Splatters.Count - splatterCount );
+			Splatters?.RemoveRange( 0, Splatters.Count - splatterCount );
 
-			foreach (var r in removed)
+			foreach ( var r in removed )
 			{
-				var baseAlpha = OpacityCurve.Evaluate(1 - Health);
-				var currentAlpha = baseAlpha + (1 - (Time.Now - r.time) / FadeTime).Clamp(0, 1) * (1 - baseAlpha);
-				DeSplatters?.Add((r.texture, r.position, r.rotation, Time.Now, currentAlpha, FadeOutTime.GetValue()));
+				var baseAlpha = OpacityCurve.Evaluate( 1 - Health );
+				var currentAlpha = baseAlpha + (1 - (Time.Now - r.time) / FadeTime).Clamp( 0, 1 ) * (1 - baseAlpha);
+				DeSplatters?.Add( (r.texture, r.position, r.rotation, Time.Now, currentAlpha, FadeOutTime.GetValue()) );
 			}
 		}
 
-		foreach (var splatter in new List<(string texture, Vector2 position, float rotation, float time, float startAlpha, float speed)>(DeSplatters))
+		foreach ( var splatter in new List<(string texture, Vector2 position, float rotation, float time, float startAlpha, float speed)>( DeSplatters ) )
 		{
-			if ( Time.Now - splatter.time > FadeOutTime.Max * 1.5f)
+			if ( Time.Now - splatter.time > FadeOutTime.Max * 1.5f )
 			{
-				DeSplatters.Remove(splatter);
+				DeSplatters.Remove( splatter );
 			}
 		}
 	}
@@ -98,8 +106,8 @@
 	[Button]
 	void AddSplatter()
 	{
-		var texture = BloodTextures[Game.Random.Next(0,BloodTextures.Count)];
-		Splatters?.Add( (texture, GetRandomScreenEdgePoint(), Game.Random.Next(0,360), Time.Now) );
+		var texture = BloodTextures[Game.Random.Next( 0, BloodTextures.Count )];
+		Splatters?.Add( (texture, GetRandomScreenEdgePoint(), Game.Random.Next( 0, 360 ), Time.Now) );
 	}
 
 	Vector2 GetRandomScreenEdgePoint()
@@ -126,6 +134,6 @@
 
 	protected override int BuildHash()
 	{
-		return HashCode.Combine(Time.Now);
+		return HashCode.Combine( Time.Now );
 	}
 }
