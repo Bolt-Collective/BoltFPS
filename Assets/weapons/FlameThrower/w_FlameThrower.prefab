@@ -44,7 +44,7 @@
         "Handedness": "Right",
         "HoldType": "Pistol",
         "Icon": "icons/weapons/guns/flamethrower.png",
-        "ItemResource": null,
+        "ItemResource": "weapons/flamethrower/flamethrower.wep",
         "LeftIK": {
           "Active": true,
           "GameObject": null,
@@ -56,7 +56,7 @@
           "_type": "gameobject",
           "go": "9dc98730-2197-429a-93fc-17b9616d6cad"
         },
-        "Name": "FlameThrower",
+        "Name": "Flame Thrower",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,

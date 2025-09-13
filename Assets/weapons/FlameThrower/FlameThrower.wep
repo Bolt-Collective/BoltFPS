@@ -1,11 +1,11 @@
 {
-  "DisplayName": "FlameThrower",
+  "DisplayName": "Flame Thrower",
   "Catagory": "Guns",
   "Duplicates": true,
   "ReplenishAmmo": false,
   "Icon": "icons/3d/assets.png",
   "Description": "",
-  "Details": null,
+  "Details": "weapons/flamethrower/w_flamethrower.prefab",
   "__references": [],
   "__version": 0
 }
