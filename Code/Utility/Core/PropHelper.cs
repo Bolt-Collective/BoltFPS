@@ -17,7 +17,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 	private string _material;
 
-	[Sync, Property]
+	[Property]
 	public string Material
 	{
 		get
@@ -26,9 +26,6 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		}
 		set
 		{
-			if ( value == _material )
-				return;
-
 			_material = value;
 
 			SetMaterial( Material );
@@ -66,6 +63,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 	public bool Explosive;
 
+	[Rpc.Broadcast]
 	public async void SetMaterial( string material )
 	{
 		if ( material == null || material == "" )
