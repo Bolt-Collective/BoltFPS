@@ -64,6 +64,7 @@ public partial class BasicNetworkHelper : SingletonComponent<BasicNetworkHelper>
 		client.Team = TeamManager.Instance.DefaultTeam;
 
 		channel.CanRefreshObjects = true;
+		channel.CanSpawnObjects = true;
 
 
 		if ( PlayerPrefab.IsValid() )

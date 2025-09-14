@@ -11,7 +11,8 @@ public static partial class GameObjectExtensions
 	{
 		foreach ( var damageable in go.Root.GetComponents<HealthComponent>() )
 		{
-			damageable.TakeDamage( damageInfo.Attacker, damageInfo.Damage, damageInfo.Inflictor, damageInfo.Position, damageInfo.Force, damageInfo.Hitbox, damageInfo.Flags, damageInfo.ArmorDamage, damageInfo.External );
+			damageable.TakeDamage( damageInfo.Attacker, damageInfo.Damage, damageInfo.Inflictor, damageInfo.Position,
+				damageInfo.Force, damageInfo.Hitbox, damageInfo.Flags, damageInfo.ArmorDamage, damageInfo.External );
 		}
 	}
 

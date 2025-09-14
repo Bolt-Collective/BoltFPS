@@ -320,9 +320,12 @@ public partial class BaseWeapon : Component
 		skinnedModel.BoneMergeTarget = Owner.Controller.BodyModelRenderer;
 	}
 
-	[Rpc.Broadcast( NetFlags.Unreliable )]
+	[Rpc.Broadcast]
 	private void BroadcastEnabled()
 	{
+		if ( IsProxy )
+			return;
+
 		var owner = Owner;
 		if ( !owner.IsValid() )
 			return;
@@ -738,7 +741,7 @@ public partial class BaseWeapon : Component
 
 			Vector3 originPos = WorldPosition;
 
-			if (MuzzleOverride.IsValid() )
+			if ( MuzzleOverride.IsValid() )
 				originPos = MuzzleOverride.WorldPosition;
 			else
 				originPos = LocalWorldModel?.GetAttachment( "muzzle" )?.Position ?? WorldPosition;

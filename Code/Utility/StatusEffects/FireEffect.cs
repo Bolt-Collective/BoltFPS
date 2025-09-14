@@ -6,12 +6,11 @@ namespace Seekers;
 
 public class FireEffect : StatusEffect, Component.ICollisionListener
 {
-
-	[Property]
-	public float Damage { get; set; }
+	[Property] public float Damage { get; set; }
 
 	Vector3 lastPos;
 	float lastDur;
+
 	public override void Apply()
 	{
 		var vel = (WorldPosition - lastPos);
@@ -22,10 +21,10 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 			Duration -= vel.Length * 0.1f;
 		else if ( lastDur > 3 )
 			Duration = 3;
-			
+
 		lastDur = Duration;
 
-		if (Duration > 3 && InitialDuration > 3)
+		if ( Duration > 3 && InitialDuration > 3 )
 			Visuals();
 
 		var fireRes = 0f;
@@ -74,12 +73,16 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 
 	public void Visuals()
 	{
-		if ( !SkinnedModelRenderer.IsValid() && GameObject.Root.Components.TryGet<SkinnedModelRenderer>( out var skinnedMeshRenderer, FindMode.EnabledInSelfAndChildren ) )
+		if ( !SkinnedModelRenderer.IsValid() &&
+		     GameObject.Root.Components.TryGet<SkinnedModelRenderer>( out var skinnedMeshRenderer,
+			     FindMode.EnabledInSelfAndChildren ) )
 		{
 			SkinnedModelRenderer = skinnedMeshRenderer;
 		}
 
-		if ( !ModelRenderer.IsValid() && GameObject.Root.Components.TryGet<ModelRenderer>( out var modelRenderer, FindMode.EnabledInSelfAndChildren ) )
+		if ( !ModelRenderer.IsValid() &&
+		     GameObject.Root.Components.TryGet<ModelRenderer>( out var modelRenderer,
+			     FindMode.EnabledInSelfAndChildren ) )
 		{
 			ModelRenderer = modelRenderer;
 		}
@@ -97,20 +100,26 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 
 	public void SkinnedVisuals( SkinnedModelRenderer skinnedModelRenderer )
 	{
-		if ( !skinnedModelRenderer.IsValid() )
-			return;
-
-		var scale = MathF.Pow( skinnedModelRenderer.LocalBounds.Size.Length, 1f / 3f ) * 0.2f;
-
-		var pelvis = skinnedModelRenderer.GetBoneObject( "pelvis" );
-		if ( pelvis.IsValid() )
+		try
 		{
-			AddFireParticle( pelvis.WorldPosition, pelvis, scale * 2, nextDuration, Damage );
+			var scale = MathF.Pow( skinnedModelRenderer.LocalBounds.Size.Length, 1f / 3f ) * 0.2f;
+
+			var pelvis = skinnedModelRenderer.GetBoneObject( "pelvis" );
+			if ( pelvis.IsValid() )
+			{
+				AddFireParticle( pelvis.WorldPosition, pelvis, scale * 2, nextDuration, Damage );
+			}
+
+			var target =
+				skinnedModelRenderer.GetBoneObject(
+					Game.Random.Next( skinnedModelRenderer.GetBoneVelocities().Count() ) );
+
+			AddFireParticle( target.WorldPosition, target, scale, nextDuration, Damage );
 		}
-
-		var target = skinnedModelRenderer.GetBoneObject( Game.Random.Next( skinnedModelRenderer.GetBoneVelocities().Count() ) );
-
-		AddFireParticle( target.WorldPosition, target, scale, nextDuration, Damage );
+		catch
+		{
+			// ignore
+		}
 	}
 
 	[Rpc.Broadcast]
@@ -138,7 +147,8 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 
 		var point = RandomPointOnFace( modelRenderer.LocalBounds );
 
-		AddFireParticle( modelRenderer.WorldTransform.PointToWorld( point ), modelRenderer.GameObject, scale, nextDuration, Damage );
+		AddFireParticle( modelRenderer.WorldTransform.PointToWorld( point ), modelRenderer.GameObject, scale,
+			nextDuration, Damage );
 	}
 
 	public static Vector3 RandomPointOnFace( BBox bbox )
@@ -166,7 +176,6 @@ public class FireEffect : StatusEffect, Component.ICollisionListener
 			default: return bbox.RandomPointOnEdge;
 		}
 	}
-
 }
 
 public class FireTrigger : StatusTrigger
@@ -212,7 +221,7 @@ public class FireTrigger : StatusTrigger
 				requiredDuration = RequiredDuration;
 			else if ( surface.IsValid() )
 			{
-				if (surface.Flammability == 0)
+				if ( surface.Flammability == 0 )
 					return false;
 
 				requiredDuration /= surface.Flammability;
