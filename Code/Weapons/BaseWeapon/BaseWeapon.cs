@@ -736,9 +736,16 @@ public partial class BaseWeapon : Component
 
 			projectile.Damage = damage;
 
+			Vector3 originPos = WorldPosition;
+
+			if (MuzzleOverride.IsValid() )
+				originPos = MuzzleOverride.WorldPosition;
+			else
+				originPos = LocalWorldModel?.GetAttachment( "muzzle" )?.Position ?? WorldPosition;
+
 			projectile.Origin = GameObject;
 
-			projectile.OriginLocalPos = WorldTransform.PointToLocal( attachment.Position );
+			projectile.OriginLocalPos = WorldTransform.PointToLocal( originPos );
 
 			projectile.GameObject.NetworkSpawn();
 			return;

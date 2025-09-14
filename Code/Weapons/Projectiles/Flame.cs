@@ -6,6 +6,7 @@ public class FlameProjectile : BaseProjectile
 	[Property] public float Radius { get; set; } = 10f;
 	[Property] public float FireDuration { get; set; } = 10f;
 	[Property] public Curve Size { get; set; }
+	[Property] public GameObject Flame { get; set; }
 	[Property, RequireComponent] public SoundPointComponent sound { get; set; }
 
 	static GameObject FireParticle => GameObject.GetPrefab( "particles/fire/fire.prefab" );
@@ -20,6 +21,39 @@ public class FlameProjectile : BaseProjectile
 	{
 		base.OnFixedUpdate();
 		sound.Volume = Size.Evaluate( (Duration - TimeUntilDestroy.Relative) / Duration );
+	}
+
+	bool pastMuzzle;
+	protected override void OnUpdate()
+	{
+		base.OnUpdate();
+		if ( !IsProxy )
+			return;
+
+		if (!Flame.IsValid())
+			Flame = GameObject.Children.FirstOrDefault();
+
+		if ( !Flame.IsValid() )
+			return;
+
+		if ( !Origin.IsValid() )
+			return;
+
+		if (pastMuzzle)
+		{
+			Vector3 vel = 0;
+			Flame.LocalPosition = Vector3.SmoothDamp( Flame.LocalPosition, Vector3.Zero, ref vel, 0.1f, Time.Delta );
+			return;
+		}
+
+		var muzzle = Origin.WorldTransform.PointToWorld( OriginLocalPos );
+
+		Flame.WorldPosition = muzzle;
+
+		var toThis = (WorldPosition - muzzle).Normal;
+		
+		pastMuzzle = Vector3.Dot( WorldTransform.Forward, toThis ) > 0;
+
 	}
 
 	TimeUntil nextSpread;

@@ -4,7 +4,10 @@ namespace Seekers;
 
 public abstract class BaseProjectile : Component
 {
+	[Property]
 	public GameObject Origin { get; set; }
+
+	[Property]
 	public Vector3 OriginLocalPos { get; set; }
 
 	[Property] public float Duration { get; set; } = 5;

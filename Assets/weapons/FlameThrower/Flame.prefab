@@ -21,12 +21,18 @@
         "Damage": 10,
         "Duration": 5,
         "FireDuration": 10,
+        "Flame": {
+          "_type": "gameobject",
+          "go": "391b6f24-7e9e-48b3-a9a4-c051b8933ee7"
+        },
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
+        "Origin": null,
+        "OriginLocalPos": "0,0,0",
         "Radius": 10,
         "Size": {
           "rangey": "-0.0000001192093,1",
