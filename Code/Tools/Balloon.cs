@@ -127,7 +127,6 @@ public class BalloonTool : BaseTool
 			}
 		}
 
-		go.Network.AssignOwnership( Connection.Host );
 		go.NetworkSpawn();
 		go.Network.SetOrphanedMode( NetworkOrphaned.Host );
 

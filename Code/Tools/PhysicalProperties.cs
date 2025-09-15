@@ -9,7 +9,7 @@ public class PhysicalProperties : BaseTool
 	public List<string> Surfaces => GetSurfaces();
 
 
-	[Property] public bool EnableGravity { get; set; } = true;
+	[Property, Sync] public bool EnableGravity { get; set; } = true;
 
 	public override bool UseGrid => false;
 
@@ -21,17 +21,17 @@ public class PhysicalProperties : BaseTool
 		if ( !trace.Hit )
 			return false;
 
-		if ( !trace.GameObject.Components.TryGet( out PropHelper propHelper ) )
-			return false;
-
-		BroadcastAttack( propHelper );
+		BroadcastAttack( trace.GameObject, GetCurrentSurface() );
 
 		return true;
 	}
 
 	[Rpc.Broadcast]
-	private void BroadcastAttack( PropHelper propHelper )
+	private void BroadcastAttack( GameObject gameObject, Surface surface )
 	{
+		if ( !gameObject.Root.Components.TryGet( out PropHelper propHelper ) )
+			return;
+
 		if ( !propHelper.IsValid() )
 			return;
 
@@ -42,7 +42,7 @@ public class PhysicalProperties : BaseTool
 			return;
 
 		Log.Info( GetCurrentSurface() );
-		propHelper.GetComponent<Collider>().Surface = GetCurrentSurface();
+		propHelper.GetComponent<Collider>().Surface = surface;
 		propHelper.Rigidbody.Gravity = EnableGravity;
 	}
 

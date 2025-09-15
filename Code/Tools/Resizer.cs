@@ -19,10 +19,6 @@ public class Resizer : BaseTool
 		if ( !Input.Down( "attack1" ) )
 			return false;
 
-		if ( !trace.GameObject.Components.TryGet<PropHelper>( out var ph ) &&
-		     !trace.GameObject.Root.Components.TryGet<PropHelper>( out var ph2 ) )
-			return false;
-
 		var target = trace.GameObject;
 
 		Resize( target, target.WorldScale, Rate );
@@ -33,9 +29,6 @@ public class Resizer : BaseTool
 	public override bool Secondary( SceneTraceResult trace )
 	{
 		if ( !Input.Down( "attack2" ) )
-			return false;
-
-		if ( !trace.GameObject.Root.Components.TryGet<PropHelper>( out var ph ) )
 			return false;
 
 		var target = trace.GameObject;
@@ -49,6 +42,9 @@ public class Resizer : BaseTool
 	private void Resize( GameObject go, Vector3 currentScale, float size )
 	{
 		if ( !go.IsValid() ) return;
+
+		if ( !go.Root.Components.TryGet( out PropHelper _ ) )
+			return;
 
 		var newScale = currentScale + size;
 		if ( newScale.Length < 0.1f ) return;

@@ -6,8 +6,7 @@ public partial class MaterialTool : BaseTool
 {
 	public override bool UseGrid => false;
 
-	[Property, MaterialPath]
-	public string Material { get; set; } 
+	[Property, MaterialPath] public string Material { get; set; }
 
 	public override bool Primary( SceneTraceResult trace )
 	{
@@ -16,10 +15,7 @@ public partial class MaterialTool : BaseTool
 			if ( !trace.Hit || !trace.GameObject.IsValid() )
 				return false;
 
-			if ( !trace.GameObject.Components.TryGet<PropHelper>( out var propHelper ) )
-				return false;
-			
-			BroadcastMaterial( propHelper.GameObject, Material );
+			BroadcastMaterial( trace.GameObject, Material );
 
 			return true;
 		}
@@ -29,16 +25,12 @@ public partial class MaterialTool : BaseTool
 
 	public override bool Reload( SceneTraceResult trace )
 	{
-
 		if ( Input.Pressed( "reload" ) )
 		{
 			if ( !trace.Hit || !trace.GameObject.IsValid() )
 				return false;
 
-			if ( !trace.GameObject.Components.TryGet<PropHelper>( out var propHelper ) )
-				return false;
-
-			BroadcastMaterial( propHelper.GameObject, null );
+			BroadcastMaterial( trace.GameObject, null );
 
 			return true;
 		}
@@ -53,5 +45,7 @@ public partial class MaterialTool : BaseTool
 
 		if ( prop.Components.TryGet<PropHelper>( out var propHelper ) )
 			propHelper.Material = material;
+
+		propHelper?.Network?.Refresh();
 	}
 }

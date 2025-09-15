@@ -1,16 +1,14 @@
 namespace Seekers;
 
 [Library( "tool_color", Title = "Color", Description = "Changes the color of an object" )]
-[Group("render")]
+[Group( "render" )]
 public partial class ColorTool : BaseTool
 {
 	public override bool UseGrid => false;
 
-	[Property]
-	public Color Color { get; set; } = Color.White;
+	[Property] public Color Color { get; set; } = Color.White;
 
-	[Property, Range( 0, 1 )]
-	public float Opacity { get; set; } = 1;
+	[Property, Range( 0, 1 )] public float Opacity { get; set; } = 1;
 
 	public override bool Primary( SceneTraceResult trace )
 	{
@@ -19,10 +17,7 @@ public partial class ColorTool : BaseTool
 			if ( !trace.Hit || !trace.GameObject.IsValid() )
 				return false;
 
-			if ( !trace.GameObject.Components.TryGet<PropHelper>( out var propHelper ) )
-				return false;
-
-			BroadcastColor( propHelper.GameObject, Color.WithAlpha(Opacity) );
+			BroadcastColor( trace.GameObject, Color.WithAlpha( Opacity ) );
 
 			return true;
 		}
@@ -37,10 +32,7 @@ public partial class ColorTool : BaseTool
 			if ( !trace.Hit || !trace.GameObject.IsValid() )
 				return false;
 
-			if ( !trace.GameObject.Components.TryGet<PropHelper>( out var propHelper ) )
-				return false;
-
-			BroadcastColor( propHelper.GameObject, Color.White );
+			BroadcastColor( trace.GameObject, Color.White );
 
 			return true;
 		}
@@ -52,7 +44,7 @@ public partial class ColorTool : BaseTool
 	private void BroadcastColor( GameObject prop, Color color )
 	{
 		// TODO: Fix this for other clients
-		if ( prop.Components.TryGet<PropHelper>( out var propHelper ) && propHelper.Prop.IsValid())
+		if ( prop.Components.TryGet<PropHelper>( out var propHelper ) && propHelper.Prop.IsValid() )
 			propHelper.Prop.Tint = color;
 
 		if ( prop.Components.TryGet<ModelRenderer>( out var modelRenderer ) )
