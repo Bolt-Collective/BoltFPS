@@ -30,7 +30,7 @@ public class DynamiteEntity : OwnedEntity
 
 			explosionCount++;
 
-			if ( explosionCount > 5)
+			if ( explosionCount > 5 )
 				particle = null;
 
 			if ( nextParticle < 0 )
@@ -39,6 +39,9 @@ public class DynamiteEntity : OwnedEntity
 				explosionCount = 0;
 			}
 
+			if ( !Prop.IsValid() )
+				return;
+
 			if ( RemoveOnExplode )
 			{
 				Prop.Explosion( "he_grenade_explode", WorldPosition, Radius, Damage, 1, particle );
@@ -46,7 +49,7 @@ public class DynamiteEntity : OwnedEntity
 			}
 			else
 			{
-				Prop.Explosion( "he_grenade_explode", WorldPosition, Radius, Damage, 1	, particle );
+				Prop.Explosion( "he_grenade_explode", WorldPosition, Radius, Damage, 1, particle );
 			}
 		}
 	}

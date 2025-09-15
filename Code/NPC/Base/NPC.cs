@@ -3,6 +3,7 @@ using Sandbox.VR;
 using System.IO;
 
 namespace Seekers;
+
 public abstract partial class NPC : Knowable
 {
 	[Property] public string Name { get; set; }
@@ -28,14 +29,14 @@ public abstract partial class NPC : Knowable
 
 		public StateManager()
 		{
-			weights = Enum.GetValues( typeof( T ) )
+			weights = Enum.GetValues( typeof(T) )
 				.Cast<T>()
 				.ToDictionary( v => v, v => 0f );
 		}
 
 		public float Get( T value ) => weights[value];
 		public void Set( T value, float weight ) => weights[value] = weight;
-		public void Change( T value, float weight ) => weights[value] = (weights[value] + weight).Clamp(0,1);
+		public void Change( T value, float weight ) => weights[value] = (weights[value] + weight).Clamp( 0, 1 );
 
 		public T GetBest()
 		{
@@ -43,12 +44,12 @@ public abstract partial class NPC : Knowable
 		}
 	}
 
-	public virtual bool UseTool(GameObject Target)
+	public virtual bool UseTool( GameObject Target )
 	{
 		if ( !CurrentTool.IsValid() )
 			return false;
 
-		CurrentTool.ToolMode.Use(Target);
+		CurrentTool.ToolMode.Use( Target );
 
 		return true;
 	}
@@ -60,17 +61,17 @@ public abstract partial class NPC : Knowable
 			HealthComponent.OnKilled += OnKilled;
 	}
 
-	[ConVar]
-	public static bool ai_disable { get; set; } = false;
+	[ConVar] public static bool ai_disable { get; set; } = false;
 
 	RealTimeSince failedMoving { get; set; }
 
 	protected override void OnFixedUpdate()
 	{
-		if ( Agent.Velocity.Length > 5 && Agent.TargetPosition.HasValue && Agent.TargetPosition.Value.Distance( WorldPosition ) > 5 )
+		if ( Agent.Velocity.Length > 5 && Agent.TargetPosition.HasValue &&
+		     Agent.TargetPosition.Value.Distance( WorldPosition ) > 5 )
 			failedMoving = 0;
 
-		if (failedMoving > 2)
+		if ( failedMoving > 2 )
 		{
 			Agent.Enabled = false;
 			Agent.Enabled = true;
@@ -89,25 +90,25 @@ public abstract partial class NPC : Knowable
 
 	public virtual void Think()
 	{
-
 	}
 
 	public virtual void OnKilled( DamageInfo damageInfo )
 	{
-		
 	}
 
 
 	public virtual void Animate()
 	{
-
 	}
 
 	private NPCToolResource previousTool;
 	public GameObject ToolObject;
+
 	public void ToolVisuals()
 	{
-		
+		if ( !Hold.IsValid() )
+			return;
+
 		if ( !CurrentTool.IsValid() || previousTool != CurrentTool )
 		{
 			foreach ( var child in Hold.Children )
@@ -120,9 +121,11 @@ public abstract partial class NPC : Knowable
 			return;
 
 		var toolModel = CurrentTool.Model.Clone();
+
 		var toolComponent = toolModel.GetComponent<NPCTool>();
 		if ( toolComponent.IsValid() )
 			toolComponent.Owner = this;
+
 		ToolObject = toolModel;
 		toolModel.SetParent( Hold );
 		toolModel.LocalTransform = new();
@@ -130,7 +133,7 @@ public abstract partial class NPC : Knowable
 
 	public abstract class ToolMode
 	{
-		public virtual void Use(GameObject Target) { }
+		public virtual void Use( GameObject Target ) { }
 	}
 
 	[AssetType( Name = "NPCTool", Extension = "npctool" )]
@@ -157,7 +160,7 @@ public abstract partial class NPC : Knowable
 		}
 	}
 
-	public void CreateRagdoll(SkinnedModelRenderer body, DamageInfo damageInfo, Model replacement = null)
+	public void CreateRagdoll( SkinnedModelRenderer body, DamageInfo damageInfo, Model replacement = null )
 	{
 		body.GameObject.SetParent( Game.ActiveScene );
 		body.AddComponent<TimedDestroyComponent>().Time = 15;
@@ -183,8 +186,9 @@ public abstract partial class NPC : Knowable
 		}
 	}
 
-	public static float GetRandomValue (RangedFloat rangedFloat)
+	public static float GetRandomValue( RangedFloat rangedFloat )
 	{
-		return Game.Random.Next( (int)MathF.Round( rangedFloat.Min * 100 ), (int)MathF.Round( rangedFloat.Max * 100 ) ) / 100f;
+		return Game.Random.Next( (int)MathF.Round( rangedFloat.Min * 100 ),
+			(int)MathF.Round( rangedFloat.Max * 100 ) ) / 100f;
 	}
 }

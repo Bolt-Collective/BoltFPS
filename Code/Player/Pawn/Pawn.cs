@@ -6,7 +6,17 @@ namespace Seekers;
 [Pawn( "prefabs/player.prefab" )]
 public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 {
-	public override Team TeamRef => Owner.Team;
+	public override Team TeamRef
+	{
+		get
+		{
+			if ( Owner.IsValid() && Owner.Team.IsValid() )
+				return Owner.Team;
+
+			return TeamManager.SpectatorsTeam;
+		}
+	}
+
 	public override KnowledgeKind Kind => KnowledgeKind.Player;
 
 	private static Pawn _local;
