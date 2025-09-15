@@ -135,20 +135,27 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 			return;
 		}
 
-		Controller.BodyModelRenderer.GameObject.SetParent( Game.ActiveScene );
-		Controller.BodyModelRenderer.AddComponent<TimedDestroyComponent>().Time = 5;
-		Controller.BodyModelRenderer.UseAnimGraph = false;
-		Controller.BodyModelRenderer.RenderType = ModelRenderer.ShadowRenderType.On;
-		if ( DeadModel.IsValid() )
-			Controller.BodyModelRenderer.Model = DeadModel;
-		Controller.BodyModelRenderer.Tags.Add( "ragdoll" );
+		var bodyModel = Controller.BodyModelRenderer;
+		bodyModel.GameObject.SetParent( Game.ActiveScene );
+		bodyModel.AddComponent<TimedDestroyComponent>().Time = 5;
+		bodyModel.UseAnimGraph = false;
 
-		var modelPhysics = Controller.BodyModelRenderer.GetComponent<ModelPhysics>();
-		if ( !modelPhysics.IsValid() )
-			modelPhysics = Controller.BodyModelRenderer.AddComponent<ModelPhysics>();
-		modelPhysics.Model = Controller.BodyModelRenderer.Model;
-		modelPhysics.Renderer = Controller.BodyModelRenderer;
+		foreach ( var skinnedModelRenderer in bodyModel.Components.GetAll<SkinnedModelRenderer>() )
+		{
+			skinnedModelRenderer.RenderType = ModelRenderer.ShadowRenderType.On;
+		}
+
+		if ( DeadModel.IsValid() )
+			bodyModel.Model = DeadModel;
+
+
+		bodyModel.Tags.Add( "ragdoll" );
+
+		var modelPhysics = bodyModel.GetOrAddComponent<ModelPhysics>();
+		modelPhysics.Model = bodyModel.Model;
+		modelPhysics.Renderer = bodyModel;
 		modelPhysics.MotionEnabled = true;
+
 		foreach ( var body in modelPhysics.Bodies )
 		{
 			body.Component.Velocity += Controller.Velocity + damageInfo.Force / 15000;
