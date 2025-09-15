@@ -350,7 +350,7 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 		var tr = Scene.Trace.Ray( Owner.AimRay, MaxTargetDistance )
 			.UseHitboxes()
 			.WithAnyTags( "solid", "player", "debris", "nocollide" )
-			.WithoutTags( "movement" )
+			.WithoutTags( "movement", "ignorebullets" )
 			.IgnoreGameObjectHierarchy( GameObject.Root )
 			.Run();
 
