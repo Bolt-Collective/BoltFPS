@@ -167,6 +167,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		Prop.Model = null; // Prevents prop from spawning more gibs.
 	}
 
+	[Rpc.Host]
 	public async void AddDamage( float damage )
 	{
 		await Task.DelaySeconds( 1f / ProjectSettings.Physics.FixedUpdateFrequency + 0.05f );
