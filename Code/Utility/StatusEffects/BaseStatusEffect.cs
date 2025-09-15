@@ -57,6 +57,9 @@ public abstract class StatusEffect : Component
 
 	public static StatusEffect ApplyTo<T>( GameObject target, Component inflictor, float duration )
 	{
+		if ( !target.IsValid() )
+			return null;
+
 		if ( target.Tags.Contains( "map" ) )
 			return null;
 
