@@ -461,7 +461,8 @@ public partial class PhysGun : BaseWeapon, Component.INetworkListener
 
 		var renderer = gameObject.GetComponent<ModelRenderer>();
 
-		if ( ph.IsValid() )
+
+		if ( ph.IsValid() && ph.Prop.IsValid() )
 			ph.Prop.IsStatic = false;
 		else if ( body.IsValid() )
 			body.MotionEnabled = true;

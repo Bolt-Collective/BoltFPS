@@ -3,7 +3,7 @@
   "Volume": "0.75",
   "Pitch": "1",
   "Decibels": 70,
-  "SelectionMode": "Backward",
+  "SelectionMode": "Forward",
   "Sounds": [
     "sounds/weapons/toolgun/airboat_gun_lastshot1.vsnd",
     "sounds/weapons/toolgun/airboat_gun_lastshot2.vsnd"

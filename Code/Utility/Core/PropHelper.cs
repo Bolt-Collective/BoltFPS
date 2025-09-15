@@ -13,7 +13,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 	[Property, Sync] public bool CanFreeze { get; set; } = true;
 
-	[Sync] public Prop Prop { get; set; }
+	public Prop Prop { get; set; }
 
 	private string _material;
 
@@ -32,33 +32,36 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		}
 	}
 
-	[Sync] public ModelPhysics ModelPhysics { get; set; }
-	[Sync] public Rigidbody Rigidbody { get; set; }
+	public ModelPhysics ModelPhysics { get; set; }
+	public Rigidbody Rigidbody { get; set; }
 
-	//public List<FixedJoint> Welds { get; set; } = [];
-	//public List<SpringJoint> Ropes { get; set; } = [];
-	//public List<(GameObject to, Vector3 toPoint, Vector3 frompoint)> RopePoints { get; set; } = [];
-
-
-	[Property]
 	public Surface Surface => GetSurface();
+
 	private Surface GetSurface()
 	{
-		Dictionary<Surface, int> surfaces = new();
-		foreach ( var surface in Prop.Model.Physics.Surfaces )
-		{
-			if (surfaces.ContainsKey( surface ) )
-			{
-				surfaces[ surface ]++;
-				continue;
-			}
+		if ( !Prop.IsValid() )
+			return null;
 
-			surfaces.Add( surface, 1 );
+		var model = Prop.Model;
+		if ( !model.IsValid() || model.IsError )
+			return null;
+
+		var physics = model.Physics;
+		if ( physics == null || physics.Surfaces == null )
+			return null;
+
+		Dictionary<Surface, int> counts = new();
+		foreach ( var surf in physics.Surfaces )
+		{
+			if ( surf == null ) continue;
+			counts.TryGetValue( surf, out var c );
+			counts[surf] = c + 1;
 		}
 
-		return surfaces.Count > 0
-		? surfaces.Aggregate( ( l, r ) => l.Value > r.Value ? l : r ).Key
-		: (Surface)null;
+		if ( counts.Count == 0 )
+			return null;
+
+		return counts.Aggregate( ( a, b ) => a.Value > b.Value ? a : b ).Key;
 	}
 
 	public bool Explosive;
@@ -183,7 +186,6 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 	protected override void OnFixedUpdate()
 	{
-
 		if ( Prop.IsValid() )
 		{
 			Velocity = (Prop.WorldPosition - lastPosition) / Time.Delta;

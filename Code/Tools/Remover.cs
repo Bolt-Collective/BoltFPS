@@ -13,12 +13,20 @@ public partial class Remover : BaseTool
 			if ( !trace.GameObject.IsValid() )
 				return false;
 
-			if ( trace.GameObject.Components.TryGet( out PropHelper helper ) )
-				trace.GameObject.BroadcastDestroy();
+			BroadcastDestroy( trace.GameObject );
 
 			return true;
 		}
 
 		return false;
+	}
+
+	[Rpc.Broadcast]
+	public void BroadcastDestroy( GameObject gameObject )
+	{
+		if ( !gameObject.Root.Components.TryGet( out PropHelper propHelper ) )
+			return;
+
+		propHelper.GameObject?.Destroy();
 	}
 }
