@@ -132,6 +132,9 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 		BlurLerp = 1;
 
+		if ( !Owner.IsValid() )
+			return;
+
 		Owner.Zoom = 4;
 
 		ForceDisableViewmodel = true;

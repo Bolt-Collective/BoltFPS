@@ -69,12 +69,20 @@
 
 		Health = player.HealthComponent.Health / player.HealthComponent.MaxHealth;
 
-		if ( ColorAdjustments.IsValid() )
+		if ( !ColorAdjustments.IsValid() )
+			return;
+
+		try
 		{
 			ColorAdjustments.Saturation = SatuationCurve.Evaluate( 1 - Health );
 		}
+		catch
+		{
+			// sbox stop being stupid
+		}
 
-		int splatterCount = MathX.FloorToInt( SplatterCurve.Evaluate( 1 - Health ) );
+
+		int splatterCount = SplatterCurve.Evaluate( 1 - Health ).FloorToInt();
 
 		if ( splatterCount > Splatters?.Count )
 		{

@@ -337,6 +337,9 @@ public partial class BaseWeapon : Component
 
 		renderer?.Set( "b_deploy", true );
 
+		if ( !DeploySound.IsValid() )
+			return;
+
 		SoundExtensions.BroadcastSound( DeploySound, WorldPosition,
 			spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
 	}
