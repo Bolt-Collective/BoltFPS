@@ -26,31 +26,34 @@ public class PlayerDresser : Component, Component.INetworkSpawn
 			clothingCategories = new();
 
 		var clothingData = Network.Owner.GetUserData( "avatar" );
+		if ( clothingData == null )
+			return;
 		var container = new ClothingContainer();
 		container.Deserialize( clothingData );
+
 		container.Height = 1;
 
-		foreach(var clothing in new List<ClothingContainer.ClothingEntry>(container.Clothing))
+		if ( container.Clothing != null )
 		{
-			foreach(var group in bodyGroups)
+			foreach ( var clothing in new List<ClothingContainer.ClothingEntry>( container.Clothing ) )
 			{
-				if (group != clothing.Clothing.HideBody)
-					continue;
-				container.Clothing.Remove( clothing );
-			}
-			foreach ( var clothingCategory in clothingCategories )
-			{
-				if ( clothingCategory != clothing.Clothing.Category )
-					continue;
-				container.Clothing.Remove( clothing );
+				foreach ( var group in bodyGroups )
+				{
+					if ( group != clothing.Clothing.HideBody )
+						continue;
+					container.Clothing.Remove( clothing );
+				}
+				foreach ( var clothingCategory in clothingCategories )
+				{
+					if ( clothingCategory != clothing.Clothing.Category )
+						continue;
+					container.Clothing.Remove( clothing );
+				}
 			}
 		}
 
-		container.Apply( ModelRenderer );
-
 		foreach ( var group in bodyGroups )
 		{
-			Log.Info( group );
 			switch(group)
 			{
 				case Clothing.BodyGroups.Head:
