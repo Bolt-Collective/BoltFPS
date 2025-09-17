@@ -1,3 +1,6 @@
+using static Sandbox.PhysicsContact;
+using static Sandbox.Resources.ResourceCompileContext;
+
 namespace Seekers;
 
 public abstract class BaseJointTool : BaseTool
@@ -42,6 +45,31 @@ public abstract class BaseJointTool : BaseTool
 		return false;
 	}
 
+	public void DisconnectTag( GameObject target, string tag)
+	{
+		if ( target.IsProxy )
+			return;
+
+		if ( !target.Components.TryGet( out PropHelper propHelper ) )
+			return;
+
+		foreach (var child in target.Children)
+		{
+			if ( !child.Tags.Contains( tag ) )
+				continue;
+
+			if ( child.Components.TryGet<Joint>(out var joint))
+				propHelper.Joints.Remove( joint );
+
+			if ( child.Components.TryGet<JointPoint>( out var jointPoint ))
+			{
+				jointPoint.otherPoint.Destroy();
+			}
+
+			child.Destroy();
+		}
+	}
+
 	public override bool Reload( SceneTraceResult trace )
 	{
 		if ( !trace.Hit )
@@ -83,6 +111,12 @@ public abstract class BaseJointTool : BaseTool
 
 		g1.AddComponent<JointPoint>().otherPoint = g2;
 		g2.AddComponent<JointPoint>().otherPoint = g1;
+
+		g1.Network.AssignOwnership( Connection.Host );
+		g1.NetworkSpawn();
+
+		g2.Network.AssignOwnership( Connection.Host );
+		g2.NetworkSpawn();
 
 		return (g1, g2);
 	}

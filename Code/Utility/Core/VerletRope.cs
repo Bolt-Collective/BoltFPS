@@ -161,9 +161,13 @@ public class VerletRope : Component
 		ropePoint1.LocalPosition = point1.LocalPosition;
 		ropePoint1.LocalRotation = point1.LocalRotation;
 
+		ropePoint1.SetParent( point1 );
+
 		var ropePoint2 = new GameObject( parent: point2.Parent );
 		ropePoint2.LocalPosition = point2.LocalPosition;
 		ropePoint2.LocalRotation = point2.LocalRotation;
+
+		ropePoint2.SetParent( point2);
 
 		var vertletRope = ropePoint1.AddComponent<VerletRope>();
 		vertletRope.SegmentCount = Math.Max( 2, MathX.CeilToInt( len / 16.0f ) );

@@ -16,20 +16,7 @@ public class Rope : BaseJointTool
 	[Rpc.Broadcast]
 	public override void Disconnect( GameObject target )
 	{
-		if ( target.IsProxy )
-			return;
-
-		if ( !target.Components.TryGet( out PropHelper propHelper ) )
-			return;
-
-		foreach ( var joint in new List<Joint>( propHelper.Joints ) )
-		{
-			if ( joint.IsValid() && joint.Tags.Contains( "rope" ) )
-			{
-				propHelper.Joints.Remove( joint );
-				joint.Destroy();
-			}
-		}
+		DisconnectTag( target, "rope" );
 	}
 
 	[Rpc.Broadcast]

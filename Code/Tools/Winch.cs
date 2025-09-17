@@ -38,21 +38,7 @@ public class Winch : BaseJointTool
 	[Rpc.Broadcast]
 	public override void Disconnect( GameObject target )
 	{
-		if ( target.IsProxy )
-			return;
-
-		if ( !target.Components.TryGet( out PropHelper propHelper ) )
-			return;
-
-		foreach ( var joint in new List<Joint>( propHelper.Joints ) )
-		{
-			if ( joint.IsValid() && joint.Tags.Contains( "winch" ) )
-			{
-				propHelper.Joints.Remove( joint );
-				joint.Destroy();
-			}
-		}
-
+		DisconnectTag( target, "winch" );
 	}
 
 	[Rpc.Broadcast]
@@ -80,6 +66,7 @@ public class Winch : BaseJointTool
 		propHelper2?.Joints.Add( rope.joint );
 
 		rope.joint.Tags.Add( "winch" );
+		rope.rope.Tags.Add( "winch" );
 
 		point1.Network.AssignOwnership( Connection.Host );
 		point1.NetworkSpawn();
