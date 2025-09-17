@@ -45,7 +45,7 @@ public partial class Pawn : ShrimplePawns.Pawn
 	{
 		Log.Info( gameObject );
 		Rigidbody rigidbody = gameObject.Components.Get<Rigidbody>();
-		return rigidbody.PhysicsBody;
+		return rigidbody?.PhysicsBody;
 	}
 
 	TimeSince timeSinceImpulse;

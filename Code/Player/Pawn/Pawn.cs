@@ -283,7 +283,7 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 	public void OnCameraMove( ref Angles angles )
 	{
 		var ang = angles;
-		Inventory?.ActiveWeapon.OnCameraMove( this, ref ang );
+		Inventory?.ActiveWeapon?.OnCameraMove( this, ref ang );
 	}
 
 	public void OnCameraSetup( CameraComponent camera )
@@ -293,7 +293,7 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 			Screen.CreateVerticalFieldOfView( (Preferences.FieldOfView / Zoom) * FOVModifier, 9.0f / 16.0f );
 		Controller.AimSensitivityScale = 1 / Zoom;
 
-		Inventory?.ActiveWeapon.OnCameraSetup( this, camera );
+		Inventory?.ActiveWeapon?.OnCameraSetup( this, camera );
 	}
 
 	[Rpc.Broadcast, ConCmd( "giveall" )]
