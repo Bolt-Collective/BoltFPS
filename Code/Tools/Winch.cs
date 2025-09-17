@@ -47,7 +47,7 @@ public class Winch : BaseJointTool
 		if ( selection1.GameObject.IsProxy || selection2.GameObject.IsProxy )
 			return;
 
-		var (point1, point2) = GetJointPoints( selection1, selection2 );
+		var (point1, point2) = GetJointPoints( selection1, selection2, "winch" );
 		var rope = CreateRopeBetween( point1, point2, MaxLength );
 
 		var winchEntity = point1.Components.Create<WinchEntity>();
@@ -64,9 +64,6 @@ public class Winch : BaseJointTool
 
 		propHelper1?.Joints.Add( rope.joint );
 		propHelper2?.Joints.Add( rope.joint );
-
-		rope.joint.Tags.Add( "winch" );
-		rope.rope.Tags.Add( "winch" );
 
 		point1.Network.AssignOwnership( Connection.Host );
 		point1.NetworkSpawn();

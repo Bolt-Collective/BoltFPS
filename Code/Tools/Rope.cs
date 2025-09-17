@@ -25,7 +25,7 @@ public class Rope : BaseJointTool
 		if ( selection1.GameObject.IsProxy || selection2.GameObject.IsProxy )
 			return;
 
-		var (point1, point2) = GetJointPoints( selection1, selection2 );
+		var (point1, point2) = GetJointPoints( selection1, selection2, "rope" );
 		var rope = CreateRopeBetween( point1, point2, Slack, Rigid );
 
 		UndoSystem.Add( creator: Network.Owner.Id, callback: () =>
@@ -52,8 +52,6 @@ public class Rope : BaseJointTool
 			joint.Frequency = 0;
 			joint.Damping = 0;
 			joint.EnableCollision = true;
-
-			joint.Tags.Add( "rope" );
 
 			propHelper1?.Joints.Add( joint );
 			propHelper2?.Joints.Add( joint );

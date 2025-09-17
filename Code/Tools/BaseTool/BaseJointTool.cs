@@ -97,7 +97,7 @@ public abstract class BaseJointTool : BaseTool
 	{
 	}
 
-	public static (GameObject, GameObject) GetJointPoints( SelectionPoint selection1, SelectionPoint selection2 )
+	public static (GameObject, GameObject) GetJointPoints( SelectionPoint selection1, SelectionPoint selection2, string tag = "" )
 	{
 		var g1 = new GameObject();
 		g1.SetParent( selection1.GameObject );
@@ -111,6 +111,9 @@ public abstract class BaseJointTool : BaseTool
 
 		g1.AddComponent<JointPoint>().otherPoint = g2;
 		g2.AddComponent<JointPoint>().otherPoint = g1;
+
+		g1.Tags.Add( tag );
+		g2.Tags.Add( tag );
 
 		g1.Network.AssignOwnership( Connection.Host );
 		g1.NetworkSpawn();

@@ -41,20 +41,7 @@ public class Hydraulic : BaseJointTool
 	[Rpc.Broadcast]
 	public override void Disconnect( GameObject target )
 	{
-		if ( target.IsProxy )
-			return;
-
-		if ( !target.Components.TryGet( out PropHelper propHelper ) )
-			return;
-
-		foreach ( var joint in new List<Joint>( propHelper.Joints ) )
-		{
-			if ( joint.IsValid() && joint.Tags.Contains( "hydraulic" ) )
-			{
-				propHelper.Joints.Remove( joint );
-				joint.Destroy();
-			}
-		}
+		DisconnectTag( target, "hydraulic" );
 	}
 
 	[Rpc.Broadcast]
@@ -66,7 +53,7 @@ public class Hydraulic : BaseJointTool
 		PropHelper propHelper1 = selection1.GameObject.Root.Components.Get<PropHelper>();
 		PropHelper propHelper2 = selection2.GameObject.Root.Components.Get<PropHelper>();
 
-		(GameObject point1, GameObject point2) = GetJointPoints( selection1, selection2 );
+		(GameObject point1, GameObject point2) = GetJointPoints( selection1, selection2, "hydraulic" );
 
 		var dir = (point1.WorldPosition - point2.WorldPosition).Normal;
 
@@ -78,8 +65,6 @@ public class Hydraulic : BaseJointTool
 		sliderJoint.EnableCollision = true;
 		sliderJoint.MinLength = MinLength;
 		sliderJoint.MaxLength = MaxLength;
-
-		sliderJoint.Tags.Add( "hydraulic" );
 
 		propHelper1?.Joints.Add( sliderJoint );
 		propHelper2?.Joints.Add( sliderJoint );

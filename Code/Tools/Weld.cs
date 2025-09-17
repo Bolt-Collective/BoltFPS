@@ -7,20 +7,7 @@ public class Weld : BaseJointTool
 	[Rpc.Broadcast]
 	public override void Disconnect( GameObject target )
 	{
-		if ( target.IsProxy )
-			return;
-
-		if ( !target.Components.TryGet( out PropHelper propHelper ) )
-			return;
-
-		foreach ( var joint in new List<Joint>( propHelper.Joints ) )
-		{
-			if ( joint.IsValid() && joint.Tags.Contains( "weld" ) )
-			{
-				propHelper.Joints.Remove( joint );
-				joint.Destroy();
-			}
-		}
+		DisconnectTag( target, "weld" );
 	}
 
 	public override bool Secondary( SceneTraceResult trace )
@@ -64,7 +51,7 @@ public class Weld : BaseJointTool
 		PropHelper propHelper1 = selection1.GameObject.Root.Components.Get<PropHelper>();
 		PropHelper propHelper2 = selection2.GameObject.Root.Components.Get<PropHelper>();
 
-		(GameObject point1, GameObject point2) = GetJointPoints( selection1, selection2 );
+		(GameObject point1, GameObject point2) = GetJointPoints( selection1, selection2, "weld" );
 
 		var fixedJoint = point2.Components.Create<FixedJoint>();
 		fixedJoint.Body = point1;
@@ -73,7 +60,6 @@ public class Weld : BaseJointTool
 		fixedJoint.AngularDamping = 0;
 		fixedJoint.AngularFrequency = 0;
 
-		fixedJoint.Tags.Add( "weld" );
 
 		propHelper1?.Joints.Add( fixedJoint );
 		propHelper2?.Joints.Add( fixedJoint );
