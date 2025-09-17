@@ -20,7 +20,20 @@ public class Hinge : BaseJointTool
 	[Rpc.Broadcast]
 	public override void Disconnect( GameObject target )
 	{
+		if ( target.IsProxy )
+			return;
 
+		if ( !target.Components.TryGet( out PropHelper propHelper ) )
+			return;
+
+		foreach ( var joint in new List<Joint>( propHelper.Joints ) )
+		{
+			if ( joint.IsValid() && joint.Tags.Contains( "hinge" ) )
+			{
+				propHelper.Joints.Remove( joint );
+				joint.Destroy();
+			}
+		}
 	}
 
 	protected override void OnUpdate()
@@ -84,6 +97,8 @@ public class Hinge : BaseJointTool
 
 		hingeJoint.MinAngle = MinRotation;
 		hingeJoint.MaxAngle = MaxRotation;
+
+		hingeJoint.Tags.Add( "hinge" );
 
 		point1.WorldRotation = Rotation.LookAt( selection1.WorldNormal ) * hingeAxisRotations[currentAxisRotation];
 		point2.WorldRotation = Rotation.LookAt( -selection2.WorldNormal ) * hingeAxisRotations[currentAxisRotation];

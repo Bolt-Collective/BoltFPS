@@ -13,15 +13,14 @@ public class Weld : BaseJointTool
 		if ( !target.Components.TryGet( out PropHelper propHelper ) )
 			return;
 
-		foreach ( var joint in propHelper.Joints )
+		foreach ( var joint in new List<Joint>( propHelper.Joints ) )
 		{
-			if ( joint.IsValid() )
+			if ( joint.IsValid() && joint.Tags.Contains( "weld" ) )
 			{
+				propHelper.Joints.Remove( joint );
 				joint.Destroy();
 			}
 		}
-
-		propHelper.Joints.Clear();
 	}
 
 	public override bool Secondary( SceneTraceResult trace )
@@ -73,6 +72,8 @@ public class Weld : BaseJointTool
 		fixedJoint.LinearFrequency = 0;
 		fixedJoint.AngularDamping = 0;
 		fixedJoint.AngularFrequency = 0;
+
+		fixedJoint.Tags.Add( "weld" );
 
 		propHelper1?.Joints.Add( fixedJoint );
 		propHelper2?.Joints.Add( fixedJoint );

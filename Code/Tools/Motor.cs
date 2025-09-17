@@ -29,7 +29,20 @@ public class Motor : BaseJointTool
 	[Rpc.Broadcast]
 	public override void Disconnect( GameObject target )
 	{
+		if ( target.IsProxy )
+			return;
 
+		if ( !target.Components.TryGet( out PropHelper propHelper ) )
+			return;
+
+		foreach ( var joint in new List<Joint>( propHelper.Joints ) )
+		{
+			if ( joint.IsValid() && joint.Tags.Contains( "motor" ) )
+			{
+				propHelper.Joints.Remove( joint );
+				joint.Destroy();
+			}
+		}
 	}
 
 	[Sync]
@@ -112,6 +125,8 @@ public class Motor : BaseJointTool
 
 		hingeJoint.MinAngle = MinRotation;
 		hingeJoint.MaxAngle = MaxRotation;
+
+		hingeJoint.Tags.Add( "motor" );
 
 		point1.WorldRotation = Rotation.LookAt( selection1.WorldNormal ) * hingeAxisRotations[currentAxisRotation];
 		point2.WorldRotation = Rotation.LookAt( -selection2.WorldNormal ) * hingeAxisRotations[currentAxisRotation];

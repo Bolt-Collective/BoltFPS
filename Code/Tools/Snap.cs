@@ -10,26 +10,6 @@ public class Snap : BaseJointTool
 	public bool weld { get; set; }
 
 	[Rpc.Broadcast]
-	public override void Disconnect( GameObject target )
-	{
-		if ( target.IsProxy )
-			return;
-
-		if ( !target.Components.TryGet( out PropHelper propHelper ) )
-			return;
-
-		foreach ( var joint in propHelper.Joints )
-		{
-			if ( joint.IsValid() )
-			{
-				joint.Destroy();
-			}
-		}
-
-		propHelper.Joints.Clear();
-	}
-
-	[Rpc.Broadcast]
 	public override void Join( SelectionPoint selection1, SelectionPoint selection2 )
 	{
 		if ( selection1.GameObject.IsProxy || selection2.GameObject.IsProxy )

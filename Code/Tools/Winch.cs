@@ -38,7 +38,21 @@ public class Winch : BaseJointTool
 	[Rpc.Broadcast]
 	public override void Disconnect( GameObject target )
 	{
-		// Implementation for disconnection if needed
+		if ( target.IsProxy )
+			return;
+
+		if ( !target.Components.TryGet( out PropHelper propHelper ) )
+			return;
+
+		foreach ( var joint in new List<Joint>( propHelper.Joints ) )
+		{
+			if ( joint.IsValid() && joint.Tags.Contains( "winch" ) )
+			{
+				propHelper.Joints.Remove( joint );
+				joint.Destroy();
+			}
+		}
+
 	}
 
 	[Rpc.Broadcast]
@@ -59,12 +73,20 @@ public class Winch : BaseJointTool
 		winchEntity.Rope = rope.rope;
 		winchEntity.EntityOwner = Network.OwnerId;
 
+		var propHelper1 = point1.Components.Get<PropHelper>( FindMode.EverythingInSelfAndAncestors );
+		var propHelper2 = point2.Components.Get<PropHelper>( FindMode.EverythingInSelfAndAncestors );
+
+		propHelper1?.Joints.Add( rope.joint );
+		propHelper2?.Joints.Add( rope.joint );
+
+		rope.joint.Tags.Add( "winch" );
+
 		point1.Network.AssignOwnership( Connection.Host );
 		point1.NetworkSpawn();
 
 		UndoSystem.Add( creator: Network.Owner.Id, callback: () =>
 		{
-			return UndoSystem.UndoObjects("Undone Rope", point1, point2, rope.rope?.Attachment ?? null, rope.rope.GameObject);
+			return UndoSystem.UndoObjects("Undone Winch", point1, point2, rope.rope?.Attachment ?? null, rope.rope.GameObject);
 		}, prop: point1 );
 	}
 
