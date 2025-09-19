@@ -723,6 +723,20 @@
 					{
 						_class = "AnimFile"
 						name = "walk"
+						children = 
+						[
+							{
+								_class = "ExtractMotion"
+								extract_tx = true
+								extract_ty = true
+								extract_tz = false
+								extract_rz = false
+								linear = false
+								quadratic = false
+								root_bone_name = ""
+								motion_type = "Uniform"
+							},
+						]
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
@@ -740,29 +754,6 @@
 						start_frame = -1
 						end_frame = -1
 						framerate = 54.0
-						take = 0
-						reverse = false
-					},
-					{
-						_class = "AnimFile"
-						name = "walk2"
-						activity_name = ""
-						activity_weight = 1
-						weight_list_name = ""
-						fade_in_time = 0.2
-						fade_out_time = 0.2
-						looping = true
-						delta = false
-						worldSpace = false
-						hidden = false
-						anim_markup_ordered = false
-						disable_compression = false
-						disable_interpolation = false
-						enable_scale = false
-						source_filename = "models/zombie/Animations/Anim_UrbanZombie4_walk2.FBX"
-						start_frame = 0
-						end_frame = 67
-						framerate = -1.0
 						take = 0
 						reverse = false
 					},
@@ -1196,6 +1187,281 @@
 						start_frame = -1
 						end_frame = -1
 						framerate = 45.0
+						take = 0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "crawl"
+						children = 
+						[
+							{
+								_class = "ExtractMotion"
+								extract_tx = true
+								extract_ty = true
+								extract_tz = false
+								extract_rz = false
+								linear = false
+								quadratic = false
+								root_bone_name = "pelvis"
+								motion_type = "Single"
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						disable_interpolation = false
+						enable_scale = false
+						source_filename = "models/zombie/Animations/crawl/crawl.FBX"
+						start_frame = -1
+						end_frame = -1
+						framerate = -1.0
+						take = 0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "crawll"
+						children = 
+						[
+							{
+								_class = "ExtractMotion"
+								extract_tx = true
+								extract_ty = true
+								extract_tz = false
+								extract_rz = false
+								linear = false
+								quadratic = false
+								root_bone_name = "pelvis"
+								motion_type = "Single"
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						disable_interpolation = false
+						enable_scale = false
+						source_filename = "models/zombie/Animations/crawl/crawll.FBX"
+						start_frame = -1
+						end_frame = -1
+						framerate = -1.0
+						take = 1
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "crawlr"
+						children = 
+						[
+							{
+								_class = "ExtractMotion"
+								extract_tx = true
+								extract_ty = true
+								extract_tz = false
+								extract_rz = false
+								linear = false
+								quadratic = false
+								root_bone_name = "pelvis"
+								motion_type = "Single"
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						disable_interpolation = false
+						enable_scale = false
+						source_filename = "models/zombie/animations/crawl/crawlr.fbx"
+						start_frame = -1
+						end_frame = -1
+						framerate = -1.0
+						take = 1
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "crawlidle"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						disable_interpolation = false
+						enable_scale = false
+						source_filename = "models/zombie/animations/crawl/crawlidle.fbx"
+						start_frame = -1
+						end_frame = -1
+						framerate = -1.0
+						take = 1
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "crawlattackl"
+						children = 
+						[
+							{
+								_class = "AnimEvent"
+								event_class = "AE_GENERIC_EVENT"
+								event_frame = 8
+								event_keys = 
+								{
+									TypeName = "Attack"
+									Int = 0
+									Float = 0.23
+									Vector = [ 0.0, 0.0, 0.0 ]
+									StringData = ""
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_GENERIC_EVENT"
+								event_frame = 15
+								event_keys = 
+								{
+									TypeName = "FinishedAttack"
+									Int = 0
+									Float = 0.0
+									Vector = [ 0.0, 0.0, 0.0 ]
+									StringData = ""
+								}
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						disable_interpolation = false
+						enable_scale = false
+						source_filename = "models/zombie/animations/crawl/crawlattackl.fbx"
+						start_frame = -1
+						end_frame = -1
+						framerate = -1.0
+						take = 0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "crawlattackr"
+						children = 
+						[
+							{
+								_class = "AnimEvent"
+								event_class = "AE_GENERIC_EVENT"
+								event_frame = 8
+								event_keys = 
+								{
+									TypeName = "Attack"
+									Int = 0
+									Float = 0.23
+									Vector = [ 0.0, 0.0, 0.0 ]
+									StringData = ""
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_GENERIC_EVENT"
+								event_frame = 15
+								event_keys = 
+								{
+									TypeName = "FinishedAttack"
+									Int = 0
+									Float = 0.0
+									Vector = [ 0.0, 0.0, 0.0 ]
+									StringData = ""
+								}
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						disable_interpolation = false
+						enable_scale = false
+						source_filename = "models/zombie/animations/crawl/crawlattackr.fbx"
+						start_frame = -1
+						end_frame = -1
+						framerate = -1.0
+						take = 3
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "Fall"
+						children = 
+						[
+							{
+								_class = "ExtractMotion"
+								extract_tx = true
+								extract_ty = true
+								extract_tz = false
+								extract_rz = false
+								linear = false
+								quadratic = false
+								root_bone_name = "pelvis"
+								motion_type = "Single"
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						disable_interpolation = false
+						enable_scale = false
+						source_filename = "models/zombie/Animations/Anim_UrbanZombie4_Death2.FBX"
+						start_frame = 25
+						end_frame = 80
+						framerate = -1.0
 						take = 0
 						reverse = false
 					},

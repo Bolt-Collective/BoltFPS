@@ -17,8 +17,16 @@ public class ZombieNPC : NPC
 
 	[Group( "Movement" )]
 	[Property] public float WalkSpeed { get; set; } = 23.3f;
+
 	[Group( "Movement" )]
 	[Property] public float RunSpeed { get; set; } = 70f;
+
+	[Group( "Movement" )]
+	[Property] public float CrawlSpeed { get; set; } = 30f;
+
+	[Group( "Movement" )]
+	[Property] public float Crawl1Speed { get; set; } = 30f;
+
 	[Group( "Movement" )]
 	[Property] public RangedFloat WonderTime { get; set; } = new RangedFloat( 10, 30 );
 
@@ -29,12 +37,26 @@ public class ZombieNPC : NPC
 
 	[Group( "Combat" )]
 	[Property] public float AttackDistance { get; set; } = 30f;
+
+	[Group( "Combat" )]
+	[Property] public float AttackHeight { get; set; } = 60f;
+
+	[Group( "Combat" )]
+	[Property] public float CrawlAttackHeight { get; set; } = 60f;
+
+	[Group( "Combat" )]
+	[Property] public float CrawlAttackOffset { get; set; } = 60f;
+
+	[Group( "Combat" )]
+	[Property] public float CrawlAttackDistance { get; set; } = 30f;
+
+	[Group( "Combat" )]
+	[Property] public float CrawlAttackAttemptDistance { get; set; } = 60f;
+
 	[Group( "Combat" )]
 	[Property] public float MaxAttackAngle { get; set; } = 75f;
 	[Group( "Combat" )]
 	[Property] public float AttackAttemptDistance { get; set; } = 60f;
-	[Group( "Combat" )]
-	[Property] public float AttackHeight { get; set; } = 60f;
 
 	[Group( "Combat" )]
 	[Property] public float StopDistance { get; set; } = 30f;
@@ -44,6 +66,12 @@ public class ZombieNPC : NPC
 
 	[Group( "Combat" )]
 	[Property] public List<int> RightAttacks { get; set; }
+
+	[Group( "Combat" )]
+	[Property] public List<int> LeftCrawlAttacks { get; set; }
+
+	[Group( "Combat" )]
+	[Property] public List<int> RightCrawlAttacks { get; set; }
 
 	[Group( "Combat" )]
 	[Property] public float Damage { get; set; } = 25;
@@ -64,6 +92,9 @@ public class ZombieNPC : NPC
 	[Group( "Stamina" )]
 	[Property] public RangedFloat IdleSoundTime { get; set; } = new RangedFloat( 5, 7 );
 
+	[Property, Sync]
+	public bool Crawl { get; set; }
+
 	public Knowable ClosestEnemy { get; set; }
 
 	float stamina = 0;
@@ -74,11 +105,30 @@ public class ZombieNPC : NPC
 	float regenTime;
 	float decayTime;
 	bool hit;
+	bool move;
+	bool run;
+
+	[Sync]
+	float attackDistance { get; set; }
+
+	[Sync]
+	float attackHeight { get; set; }
+
+	[Sync]
+	float attackOffset { get; set; }
+
+	[Sync]
+	float attackAttemptDistance { get; set; }
 
 	TimeUntil attackDuration;
 	TimeUntil nextIdleSound;
 	RealTimeSince attackTime;
 	RealTimeSince sinceCantAttack;
+
+	Dismemberment.Dismemberable leftArmDis;
+	Dismemberment.Dismemberable rightArmDis;
+	Dismemberment.Dismemberable leftLegDis;
+	Dismemberment.Dismemberable rightLegDis;
 
 	protected override void OnStart()
 	{
@@ -87,6 +137,12 @@ public class ZombieNPC : NPC
 		accRandom = Game.Random.Next( 0, 1000 );
 		regenTime = StaminaRegenTime.GetValue();
 		decayTime = StaminaDecayTime.GetValue();
+
+		leftArmDis = Dismemberment.GetDismemberable( "Left Arm" );
+		rightArmDis = Dismemberment.GetDismemberable( "Right Arm" );
+		leftLegDis = Dismemberment.GetDismemberable( "Left Leg" );
+		rightLegDis = Dismemberment.GetDismemberable( "Right Leg" );
+
 		base.OnStart();
 	}
 
@@ -128,12 +184,28 @@ public class ZombieNPC : NPC
 			}
 		}
 
-		var speed = regen ? WalkSpeed : RunSpeed;
+		if ( rightLegDis.Health <= 0 || leftLegDis.Health <= 0 )
+			Crawl = true;
+
+		move = false;
+
+		var speed = (Body.RootMotion.Position / Time.Delta).Length;
+
+		if ( Crawl )
+		{
+			SetAttackStats( CrawlAttackDistance, CrawlAttackHeight, CrawlAttackOffset, CrawlAttackAttemptDistance );
+		}
+		else
+		{
+			run = !regen;
+			SetAttackStats( AttackDistance, AttackHeight, 0, AttackAttemptDistance );
+		}
 
 		IdleSoundPlayer();
 
-		Agent.MaxSpeed = speed;
-		Agent.Acceleration = speed * 5;
+		Agent.MaxSpeed = 0;
+		Agent.Velocity = (Body.RootMotion.Position / Time.Delta) * 1.5f * Body.WorldRotation;
+		Agent.UpdateRotation = Agent.Velocity.Length > 5;
 		ClosestEnemy = GetNearest( true )?.Knowable ?? null;
 		if ( !ClosestEnemy.IsValid() || !ClosestEnemy.GameObject.IsValid() )
 		{
@@ -142,6 +214,14 @@ public class ZombieNPC : NPC
 		}
 
 		Attacking();
+	}
+
+	public void SetAttackStats(float attackDis, float attackHei, float attackOff, float attackAttempt)
+	{
+		attackDistance = attackDis;
+		attackHeight = attackHei;
+		attackOffset = attackOff;
+		attackAttemptDistance = attackAttempt;
 	}
 
 	public void IdleSoundPlayer()
@@ -169,9 +249,9 @@ public class ZombieNPC : NPC
 		if ( hit )
 			return;
 
-		var pos = WorldPosition + WorldTransform.Forward * AttackDistance * 0.5f + Vector3.Up * AttackHeight / 2;
+		var pos = WorldPosition + WorldTransform.Forward * (attackDistance * 0.5f + attackOffset) + Vector3.Up * attackHeight / 2;
 
-		var size = new Vector3( AttackDistance, AttackDistance, AttackHeight );
+		var size = new Vector3( attackDistance, attackDistance, attackHeight );
 
 		for (int i = 0; i < 5; i++ )
 		{
@@ -217,22 +297,22 @@ public class ZombieNPC : NPC
 	public void Attacking()
 	{
 		var dis = WorldPosition.Distance( ClosestEnemy.Position );
-		if (dis < StopDistance)
-			Agent.MaxSpeed = 0;
+		move = dis > StopDistance;
 
 		var offsetX = -1 + Noise.Perlin( (Time.Now + accRandom) * AccuracyScale, 0 ) * 2;
 		var offsetY = -1 + Noise.Perlin( (Time.Now - accRandom) * AccuracyScale, 0 ) * 2;
 
 		var dir = new Vector3( offsetX, offsetY, 0 );
 
-		Agent.MoveTo(ClosestEnemy.Position + dir * dis * TargetAccuracy);
+		Agent.MoveTo( ClosestEnemy.Position + dir * dis * TargetAccuracy );
 
 		TryAttack( dis );
 	}
 
+
 	public void TryAttack(float dis)
 	{
-		if ( dis > AttackAttemptDistance )
+		if ( dis > attackAttemptDistance )
 			return;
 
 		if ( cannotAttack )
@@ -254,16 +334,14 @@ public class ZombieNPC : NPC
 	public void Attack()
 	{
 		SoundExtensions.BroadcastSound( AttackSound, WorldPosition );
-		var leftArm = Dismemberment.GetDismemberable( "Left Arm" );
-		var rightArm = Dismemberment.GetDismemberable( "Right Arm" );
 
 		var choices = new List<int>();
 
-		if ( leftArm.Health > 0 )
-			choices.AddRange( LeftAttacks );
+		if ( leftArmDis.Health > 0 )
+			choices.AddRange( Crawl ? LeftCrawlAttacks : LeftAttacks );
 
-		if ( rightArm.Health > 0 )
-			choices.AddRange( RightAttacks );
+		if ( rightArmDis.Health > 0 )
+			choices.AddRange( Crawl ? RightCrawlAttacks : RightAttacks );
 
 		if ( choices.Count <= 0 )
 			return;
@@ -280,17 +358,17 @@ public class ZombieNPC : NPC
 
 	public override void Animate()
 	{
-		var move = Agent.Velocity.Length;
-		var runScale = MathX.LerpInverse( move, 0, RunSpeed );
-		SetAnimation( type, move, runScale );
+		SetAnimation( move, run, leftArmDis.Health > 0, rightArmDis.Health > 0 );
 	}
 
 	[Rpc.Broadcast]
-	public void SetAnimation( float type, float move, float runScale )
+	public void SetAnimation( bool move, bool run, bool leftArm, bool rightArm )
 	{
-		Body.Set("type", type);
+		Body.Set("crawl", Crawl );
 		Body.Set( "move", move );
-		Body.Set( "runscale", runScale );
+		Body.Set( "run", run );
+		Body.Set( "leftarm", leftArm );
+		Body.Set( "rightarm", rightArm );
 	}
 
 	public override void OnKilled( DamageInfo damageInfo )
@@ -302,13 +380,24 @@ public class ZombieNPC : NPC
 
 	protected override void DrawGizmos()
 	{
+		Gizmo.Draw.Color = Color.Red;
+
 		var pos = Vector3.Forward * AttackDistance * 0.5f + Vector3.Up * AttackHeight / 2;
 		var size = new Vector3( AttackDistance, AttackDistance, AttackHeight );
 		Gizmo.Draw.LineBBox(BBox.FromPositionAndSize(pos, size));
+
+		Gizmo.Draw.Color = Color.Green;
+
+		pos = Vector3.Forward * (CrawlAttackDistance * 0.5f + CrawlAttackOffset) + Vector3.Up * CrawlAttackHeight / 2;
+		size = new Vector3( CrawlAttackDistance, CrawlAttackDistance, CrawlAttackHeight );
+
+		Gizmo.Draw.LineBBox( BBox.FromPositionAndSize( pos, size ) );
+
+		Gizmo.Draw.Color = Color.Blue;
 		Gizmo.Draw.IgnoreDepth = true;
 		Gizmo.Draw.LineThickness = 2;
 		Gizmo.Draw.Line( Vector3.Zero, Vector3.Zero + (Vector3.Forward * new Angles( 0, MaxAttackAngle, 0 )) * 250 );
 		Gizmo.Draw.Line( Vector3.Zero, Vector3.Zero + (Vector3.Forward * new Angles( 0, -MaxAttackAngle, 0 )) * 250 );
-		Gizmo.Draw.Line( Vector3.Zero, Vector3.Forward * AttackAttemptDistance );
+		Gizmo.Draw.Line( Vector3.Zero, Vector3.Forward * MathF.Max( CrawlAttackAttemptDistance, AttackAttemptDistance) );
 	}
 }
