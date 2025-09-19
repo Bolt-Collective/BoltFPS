@@ -4,6 +4,8 @@ public class Dismemberment : Component
 {
 	[RequireComponent, Property] public HealthComponent HealthComponent { get; set; }
 	[Property] public SkinnedModelRenderer Body { get; set; }
+	[Property] public GameObject Particle { get; set; }
+	[Property] public SoundEvent DisSound { get; set; }
 
 	[Property, InlineEditor] public List<Dismemberable> Dismemberables { get; set; }
 
@@ -64,5 +66,11 @@ public class Dismemberment : Component
 
 		if (dismemberable.Bone.IsValid())
 			dismemberable.Bone.Enabled = false;
+
+		if ( DisSound.IsValid() )
+			Sound.Play( DisSound, dismemberable.Bone.WorldPosition );
+
+		if ( Particle.IsValid() )
+			Particles.MakeParticleSystem( Particle, dismemberable.Bone.WorldTransform, 2 );
 	}
 }
