@@ -12,6 +12,9 @@ public class ZombieNPC : NPC
 	[Group( "References" )]
 	[Property] public SkinnedModelRenderer Body { get; set; }
 
+	[Group( "References" )]
+	[Property] public Dismemberment Dismemberment { get; set; }
+
 	[Group( "Movement" )]
 	[Property] public float WalkSpeed { get; set; } = 23.3f;
 	[Group( "Movement" )]
@@ -32,10 +35,16 @@ public class ZombieNPC : NPC
 	[Property] public float AttackAttemptDistance { get; set; } = 60f;
 	[Group( "Combat" )]
 	[Property] public float AttackHeight { get; set; } = 60f;
+
 	[Group( "Combat" )]
 	[Property] public float StopDistance { get; set; } = 30f;
+
 	[Group( "Combat" )]
-	[Property] public int AttackCount { get; set; } = 4;
+	[Property] public List<int> LeftAttacks { get; set; }
+
+	[Group( "Combat" )]
+	[Property] public List<int> RightAttacks { get; set; }
+
 	[Group( "Combat" )]
 	[Property] public float Damage { get; set; } = 25;
 
@@ -49,6 +58,8 @@ public class ZombieNPC : NPC
 
 	[Group( "Sounds" )]
 	[Property] public SoundEvent IdleSound { get; set; }
+	[Group( "Sounds" )]
+	[Property] public SoundEvent AttackSound { get; set; }
 
 	[Group( "Stamina" )]
 	[Property] public RangedFloat IdleSoundTime { get; set; } = new RangedFloat( 5, 7 );
@@ -242,7 +253,22 @@ public class ZombieNPC : NPC
 
 	public void Attack()
 	{
-		AttackAnimation(Game.Random.Next(AttackCount));
+		SoundExtensions.BroadcastSound( AttackSound, WorldPosition );
+		var leftArm = Dismemberment.GetDismemberable( "Left Arm" );
+		var rightArm = Dismemberment.GetDismemberable( "Right Arm" );
+
+		var choices = new List<int>();
+
+		if ( leftArm.Health > 0 )
+			choices.AddRange( LeftAttacks );
+
+		if ( rightArm.Health > 0 )
+			choices.AddRange( RightAttacks );
+
+		if ( choices.Count <= 0 )
+			return;
+
+		AttackAnimation( choices[Game.Random.Next(choices.Count)] );
 	}
 
 	[Rpc.Broadcast]

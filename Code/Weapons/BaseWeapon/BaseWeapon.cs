@@ -594,14 +594,13 @@ public partial class BaseWeapon : Component
 
 	public virtual void AttackPrimary()
 	{
-		SoundExtensions.BroadcastSound( ShootSound, WorldPosition,
-			ShootSound.Volume.FixedValue, spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
+		SoundExtensions.BroadcastSound( ShootSound, WorldPosition, ShootSound.Volume.FixedValue, spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
 	}
 
 	public virtual void AttackDry()
 	{
 		ViewModel?.Set( "b_attack_dry", true );
-		SoundExtensions.BroadcastSound( "gun_dryfire", WorldPosition,
+		SoundExtensions.BroadcastSoundPath( "gun_dryfire", WorldPosition,
 			spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
 
 		Owner?.Renderer?.SetParamNet( "b_attack_dry", true );
@@ -805,15 +804,17 @@ public partial class BaseWeapon : Component
 
 			var hitboxTags = tr.GetHitboxTags();
 
+			var hitboxName = tr.GameObject.Name;
+
 			var calcForce = forward * 25000 * damage;
 
-			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags, Owner, this );
+			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags, Owner, this, hitboxName: hitboxName );
 		}
 	}
 
 	public static void DoDamage( GameObject gameObject, float damage, Vector3 calcForce, Vector3 hitPosition,
 		HitboxTags hitboxTags = default, Pawn owner = null, Component inflictor = null, Team ownerTeam = null,
-		Component attacker = null )
+		Component attacker = null, string hitboxName = "" )
 	{
 		if ( attacker == null )
 			attacker = owner;
@@ -853,7 +854,7 @@ public partial class BaseWeapon : Component
 				}
 			}
 
-			player.TakeDamage( attacker, damage, inflictor, hitPosition, calcForce, hitboxTags );
+			player.TakeDamage( attacker, damage, inflictor, hitPosition, calcForce, hitboxTags, hitboxName: hitboxName );
 			if ( owner.IsValid() )
 			{
 				Crosshair.Instance.Trigger( player, damage, hitboxTags );

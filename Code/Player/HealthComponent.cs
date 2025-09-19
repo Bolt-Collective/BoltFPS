@@ -30,6 +30,7 @@ public partial class HealthComponent : Component, IRespawnable
 	public Action<float, float> OnHealthChanged { get; set; }
 
 	[Property] public Action<DamageInfo> OnKilled { get; set; }
+	[Property] public Action<DamageInfo> OnDamaged { get; set; }
 
 	/// <summary>
 	/// How long has it been since life state changed?
@@ -79,11 +80,11 @@ public partial class HealthComponent : Component, IRespawnable
 	[Rpc.Broadcast]
 	public void TakeDamage( Component attacker, float damage, Component inflictor = null, Vector3 position = default,
 		Vector3 force = default, HitboxTags hitbox = default, DamageFlags flags = DamageFlags.None,
-		float armorDamage = 0f, bool external = false )
+		float armorDamage = 0f, bool external = false, string hitboxName = "" )
 	{
 		if(LinkedHealth.IsValid())
 		{
-			LinkedHealth.TakeDamage( attacker, damage, inflictor, position, force, hitbox, flags, armorDamage, external );
+			LinkedHealth.TakeDamage( attacker, damage, inflictor, position, force, hitbox, flags, armorDamage, external, hitboxName );
 			return;
 		}
 		if ( !Networking.IsHost )
@@ -95,12 +96,14 @@ public partial class HealthComponent : Component, IRespawnable
 		}
 
 		var damageInfo = new DamageInfo( attacker, damage, inflictor, position, force, hitbox, flags, armorDamage,
-			external );
+			external, hitboxName );
 
 		damageInfo = WithThisAsVictim( damageInfo );
 		damageInfo = ModifyDamage( damageInfo );
 
 		BroadcastDamage( damageInfo );
+
+		OnDamaged?.Invoke( damageInfo );
 
 		if ( IsGodMode ) return;
 

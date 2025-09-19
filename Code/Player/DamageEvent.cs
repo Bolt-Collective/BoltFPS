@@ -89,7 +89,9 @@ public record DamageInfo(
 	HitboxTags Hitbox = default,
 	DamageFlags Flags = DamageFlags.None,
 	float ArmorDamage = 0f,
-	bool External = false )
+	bool External = false,
+	string hitbox = ""
+	)
 {
 	/// <summary>
 	/// Who took damage?

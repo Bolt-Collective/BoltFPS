@@ -5,8 +5,22 @@ using System;
 public static partial class SoundExtensions
 {
 	[Rpc.Broadcast]
-	public static void BroadcastSound( string soundName, Vector3 position, float volume = 1.0f, float pitch = 1.0f,
-		float spacialBlend = 1.0f )
+	public static void BroadcastSound( string soundName, Vector3 position )
+	{
+		try
+		{
+			var snd = Sound.Play( soundName, position );
+		}
+		catch
+		{
+			Log.Warning( $"{soundName} is not a valid sound, {position}" );
+		}
+	}
+
+
+	[Rpc.Broadcast]
+	public static void BroadcastSound( string soundName, Vector3 position, float volume, float pitch,
+		float spacialBlend )
 	{
 		try
 		{
@@ -22,8 +36,24 @@ public static partial class SoundExtensions
 		}
 	}
 
-	public static void BroadcastSound( SoundEvent sound, Vector3 position, float volume = 1.0f, float pitch = 1.0f,
-		float spacialBlend = 1.0f )
+	public static void BroadcastSoundPath( string sound, Vector3 position )
+	{
+		BroadcastSound( sound, position );
+	}
+
+	public static void BroadcastSoundPath( string sound, Vector3 position, float volume = 1, float pitch = 1,
+		float spacialBlend = 1 )
+	{
+		BroadcastSound( sound, position, volume, pitch, spacialBlend );
+	}
+
+	public static void BroadcastSound( SoundEvent sound, Vector3 position )
+	{
+		BroadcastSound( sound.ResourcePath, position );
+	}
+
+	public static void BroadcastSound( SoundEvent sound, Vector3 position, float volume = 1, float pitch = 1,
+		float spacialBlend = 1 )
 	{
 		BroadcastSound( sound.ResourcePath, position, volume, pitch, spacialBlend );
 	}
