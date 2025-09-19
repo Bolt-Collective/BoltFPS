@@ -69,7 +69,7 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 		}
 	}
 
-	public CameraComponent Camera => Scene?.Camera ?? Controller?.Camera;
+	public CameraComponent Camera => Controller?.Camera ?? Scene?.Camera;
 
 	public SkinnedModelRenderer Renderer => Controller.BodyModelRenderer;
 	public AnimationHelper AnimationHelper => Controller.AnimationHelper;
