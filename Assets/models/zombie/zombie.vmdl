@@ -18,8 +18,8 @@
 								to = "models/zombie/materials/zombie.vmat"
 							},
 							{
-								from = "material.001.vmat"
-								to = "models/zombie/materials/zombie.vmat"
+								from = "flesh.vmat"
+								to = "models/zombie/materials/stub/stub.vmat"
 							},
 						]
 						use_global_default = false
@@ -33,7 +33,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						name = "main"
+						name = "Torso"
 						filename = "models/zombie/sk_urbanzombie4_body.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
@@ -48,12 +48,228 @@
 							exception_list = 
 							[
 								"SK_UrbanZombie4_Body",
+								"Torso",
 							]
 						}
 					},
 					{
 						_class = "RenderMeshFile"
-						name = "lod1"
+						name = "LeftArm"
+						filename = "models/zombie/sk_urbanzombie4_body.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"LeftArm",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "LeftArmStub"
+						filename = "models/zombie/sk_urbanzombie4_body.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"LeftArmStubBone",
+								"LeftArmStub",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "RightArm"
+						filename = "models/zombie/sk_urbanzombie4_body.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"RightArm",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "RightArmStub"
+						filename = "models/zombie/sk_urbanzombie4_body.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"RightArmStubBone",
+								"RightArmStub",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "Head"
+						filename = "models/zombie/sk_urbanzombie4_body.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"Head",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "HeadStub"
+						filename = "models/zombie/sk_urbanzombie4_body.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"HeadStub",
+								"HeadStubBone",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "LeftLeg"
+						filename = "models/zombie/sk_urbanzombie4_body.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"LeftLeg",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "LeftLegStub"
+						filename = "models/zombie/sk_urbanzombie4_body.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"LeftLegStub",
+								"LeftLegStubBone",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "RightLeg"
+						filename = "models/zombie/sk_urbanzombie4_body.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"RightLeg",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "RightLegStub"
+						filename = "models/zombie/sk_urbanzombie4_body.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"RightLegStubBone",
+								"RightLegStub",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "Torso1"
 						filename = "models/zombie/lod1.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
@@ -68,13 +284,13 @@
 							exception_list = 
 							[
 								"SK_UrbanZombie4_Body",
-								"SK_UrbanZombie4_Body_001",
+								"Torso",
 							]
 						}
 					},
 					{
 						_class = "RenderMeshFile"
-						name = "lod2"
+						name = "Torso2"
 						filename = "models/zombie/lod2.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
@@ -89,13 +305,13 @@
 							exception_list = 
 							[
 								"SK_UrbanZombie4_Body",
-								"SK_UrbanZombie4_Body_001",
+								"Torso",
 							]
 						}
 					},
 					{
 						_class = "RenderMeshFile"
-						name = "lod3"
+						name = "Torso3"
 						filename = "models/zombie/lod3.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
@@ -110,7 +326,322 @@
 							exception_list = 
 							[
 								"SK_UrbanZombie4_Body",
-								"SK_UrbanZombie4_Body_001",
+								"Torso",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "LeftArm1"
+						filename = "models/zombie/lod1.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"LeftArm",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "LeftArm2"
+						filename = "models/zombie/lod2.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"LeftArm",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "LeftArm3"
+						filename = "models/zombie/lod3.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"LeftArm",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "RightArm1"
+						filename = "models/zombie/lod1.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"RightArm",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "RightArm2"
+						filename = "models/zombie/lod2.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"RightArm",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "RightArm3"
+						filename = "models/zombie/lod3.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"RightArm",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "Head1"
+						filename = "models/zombie/lod1.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"Head",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "Head2"
+						filename = "models/zombie/lod2.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"Head",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "Head3"
+						filename = "models/zombie/lod3.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"Head",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "LeftLeg1"
+						filename = "models/zombie/lod1.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"LeftLeg",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "LeftLeg2"
+						filename = "models/zombie/lod2.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"LeftLeg",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "LeftLeg3"
+						filename = "models/zombie/lod3.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"LeftLeg",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "RightLeg1"
+						filename = "models/zombie/lod1.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"RightLeg",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "RightLeg2"
+						filename = "models/zombie/lod2.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"RightLeg",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "RightLeg3"
+						filename = "models/zombie/lod3.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_UrbanZombie4_Body",
+								"RightLeg",
 							]
 						}
 					},
@@ -683,7 +1214,18 @@
 						switch_threshold = 0.0
 						meshes = 
 						[
-							"main",
+							"Torso",
+							"LeftArm",
+							"LeftLeg",
+							"RightArm",
+							"RightLeg",
+							"Head",
+							"HeadStub",
+							"LeftArmStub",
+							"LeftLegStub",
+							"RightArmStub",
+							"RightLegStub",
+							"RightArmStub",
 						]
 					},
 					{
@@ -691,7 +1233,17 @@
 						switch_threshold = 5.0
 						meshes = 
 						[
-							"lod1",
+							"Head1",
+							"LeftArm1",
+							"LeftLeg1",
+							"RightArm1",
+							"RightLeg1",
+							"Torso1",
+							"HeadStub",
+							"LeftArmStub",
+							"RightArmStub",
+							"LeftLegStub",
+							"RightLegStub",
 						]
 					},
 					{
@@ -699,7 +1251,12 @@
 						switch_threshold = 20.0
 						meshes = 
 						[
-							"lod2",
+							"Head2",
+							"LeftArm2",
+							"LeftLeg2",
+							"RightArm2",
+							"RightLeg2",
+							"Torso2",
 						]
 					},
 					{
@@ -707,7 +1264,12 @@
 						switch_threshold = 70.0
 						meshes = 
 						[
-							"lod3",
+							"Head3",
+							"LeftArm3",
+							"LeftLeg3",
+							"Torso3",
+							"RightArm3",
+							"RightLeg3",
 						]
 					},
 				]
@@ -1434,6 +1996,142 @@
 								point1 = [ -6.95379, -12.7833, 0.517867 ]
 							},
 						]
+					},
+				]
+			},
+			{
+				_class = "BodyGroupList"
+				children = 
+				[
+					{
+						_class = "BodyGroup"
+						name = "Head"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"Head",
+									"Head1",
+									"Head2",
+									"Head3",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								name = "None"
+								meshes = 
+								[
+									"HeadStub",
+								]
+							},
+						]
+						hidden_in_tools = false
+					},
+					{
+						_class = "BodyGroup"
+						name = "LeftArm"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"LeftArm",
+									"LeftArm1",
+									"LeftArm2",
+									"LeftArm3",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								name = "None1"
+								meshes = 
+								[
+									"LeftArmStub",
+								]
+							},
+						]
+						hidden_in_tools = false
+					},
+					{
+						_class = "BodyGroup"
+						name = "RightArm"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"RightArm",
+									"RightArm1",
+									"RightArm2",
+									"RightArm3",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								name = "None2"
+								meshes = 
+								[
+									"RightArmStub",
+								]
+							},
+						]
+						hidden_in_tools = false
+					},
+					{
+						_class = "BodyGroup"
+						name = "LeftLeg"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"LeftLeg",
+									"LeftLeg1",
+									"LeftLeg2",
+									"LeftLeg3",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								name = "None3"
+								meshes = 
+								[
+									"LeftLegStub",
+								]
+							},
+						]
+						hidden_in_tools = false
+					},
+					{
+						_class = "BodyGroup"
+						name = "RightLeg"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"RightLeg",
+									"RightLeg1",
+									"RightLeg2",
+									"RightLeg3",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								name = "None4"
+								meshes = 
+								[
+									"RightLegStub",
+								]
+							},
+						]
+						hidden_in_tools = false
 					},
 				]
 			},

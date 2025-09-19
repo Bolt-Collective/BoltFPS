@@ -14,72 +14,20 @@
 						remaps = 
 						[
 							{
-								from = "viewmodelarms_light.vmat"
-								to = "models/first_person/arms_materials/first_person_arms_light.vmat"
+								from = "06 - default.vmat"
+								to = "models/toolglove/materials/model_glooves.vmat"
 							},
 							{
-								from = "cube.vmat"
-								to = "materials/default/white.vmat"
+								from = "05 - default.002.vmat"
+								to = "models/toolglove/materials/model_accessories.vmat"
 							},
 							{
-								from = "cpu.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
-							},
-							{
-								from = "display.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
+								from = "05 - default.001.vmat"
+								to = "models/toolglove/materials/model_accessories.vmat"
 							},
 							{
 								from = "glove.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
-							},
-							{
-								from = "indexcable.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
-							},
-							{
-								from = "middlecable.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
-							},
-							{
-								from = "tape.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
-							},
-							{
-								from = "thumbcable.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
-							},
-							{
-								from = "tip.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
-							},
-							{
-								from = "wcablel1.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
-							},
-							{
-								from = "wcablel2.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
-							},
-							{
-								from = "wcabler1.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
-							},
-							{
-								from = "wcabler2.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
-							},
-							{
-								from = "board.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
-							},
-							{
-								from = "displayconnector.vmat"
-								to = "models/citizen_clothes/gloves/rubber_gloves/textures/rubber_gloves_black.vmat"
-							},
-							{
-								from = "arduino.vmat"
-								to = "materials/dev/primary_white.vmat"
+								to = "models/toolglove/materials/model_glooves.vmat"
 							},
 						]
 						use_global_default = false
@@ -93,6 +41,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
+						name = "toolglove"
 						filename = "models/toolglove/toolglove.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
@@ -103,33 +52,8 @@
 						parent_bone = ""
 						import_filter = 
 						{
-							exclude_by_default = true
-							exception_list = 
-							[
-								"1first_person_arms_mesh",
-								"glove_001",
-								"glove_002",
-								"Circuit_Board_Plate",
-								"Cpu",
-								"display",
-								"display_connector",
-								"glove",
-								"Cube",
-								"index_tip",
-								"indexcable",
-								"knuckletape",
-								"middle_tip",
-								"middlecable",
-								"thumb_cable_tape",
-								"thumbcable",
-								"wrist_tape",
-								"wristcable_l1",
-								"wristcable_l2",
-								"wristcable_r1",
-								"wristcable_r2",
-								"indextape",
-								"Arduino",
-							]
+							exclude_by_default = false
+							exception_list = [  ]
 						}
 					},
 				]
