@@ -31,6 +31,7 @@
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
+        "OnDamaged": null,
         "OnHealthChanged": null,
         "OnKilled": null
       },
@@ -2563,8 +2564,8 @@
                 "AutoExposureEnabled": true,
                 "ExposureCompensation": 0,
                 "ExposureMethod": "RGB",
-                "MaximumExposure": 3,
-                "MinimumExposure": 1,
+                "MaximumExposure": 2,
+                "MinimumExposure": 0.75,
                 "Mode": "Linear",
                 "OnComponentDestroy": null,
                 "OnComponentDisabled": null,
@@ -2588,7 +2589,7 @@
               {
                 "__type": "Sandbox.AmbientOcclusion",
                 "__guid": "3a354680-51bf-48b9-8f38-96fd70203598",
-                "__enabled": true,
+                "__enabled": false,
                 "__version": 1,
                 "DenoiseMode": "Temporal",
                 "FalloffRange": 1,
