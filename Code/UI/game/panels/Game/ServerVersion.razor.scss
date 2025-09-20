@@ -1,0 +1,25 @@
+@import "UI/_styles.scss";
+
+ServerVersion {
+  position: absolute;
+  flex-direction: column;
+
+  bottom: 0;
+  left: 0;
+  margin: 10px;
+  z-index: 3000;
+
+  .update {
+    color: limegreen;
+    font-weight: 600;
+    text-shadow: 2px 2px 2px black;
+  }
+
+  .red {
+    color: darkred;
+  }
+
+  p {
+    font-weight: 600;
+  }
+}

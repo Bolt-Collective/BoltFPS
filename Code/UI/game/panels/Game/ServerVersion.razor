@@ -1,0 +1,69 @@
+@using Sandbox.UI
+
+@inherits Panel
+
+@namespace Seekers
+
+<root>
+	@if ( IsServerOutdated() )
+	{
+		<h5 class="update">UPDATE AVAILABLE, RESTART SERVER</h5>
+	}
+	<p style="opacity: 0.5" class="@( IsServerOutdated() ? "red" : "" )">Server
+		Version: @ServerGamePackage.Revision.VersionId</p>
+	<p style="opacity: 0.5;">Updated: @CurrentGamePackage.Revision.Created.Humanize()</p>
+</root>
+
+
+@code
+{
+	public static ServerVersion Instance { get; private set; }
+
+	public Package CurrentGamePackage;
+
+	public Package ServerGamePackage;
+
+	TimeSince _timeSinceFetchedLast;
+
+	public ServerVersion()
+	{
+		Instance = this;
+		GetInitialPackages();
+	}
+
+	/// <summary>
+	/// Checks if the server is outdated.
+	/// </summary>
+	/// <returns>bool</returns>
+	public bool IsServerOutdated()
+	{
+		return CurrentGamePackage.Revision.VersionId != ServerGamePackage.Revision.VersionId;
+	}
+
+	async void GetInitialPackages()
+	{
+		try
+		{
+			CurrentGamePackage = await Package.FetchAsync( Game.Ident, true );
+			ServerGamePackage = await Package.FetchAsync( Game.Ident, true );
+		}
+		catch ( Exception e )
+		{
+			// ignore
+		}
+	}
+
+	public async override void Tick()
+	{
+		if ( _timeSinceFetchedLast >= 15 )
+		{
+			CurrentGamePackage = await Package.FetchAsync( Game.Ident, true );
+			Log.Info( CurrentGamePackage.Revision.Created );
+
+			_timeSinceFetchedLast = 0;
+		}
+	}
+
+	protected override int BuildHash() => HashCode.Combine( MathF.Round( RealTime.Now * 10 ) );
+
+}
