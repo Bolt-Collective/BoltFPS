@@ -2,6 +2,7 @@ using Sandbox;
 
 namespace Seekers;
 
+[EditorHandle("ui/input/controllers/controller_icon_ps3.png")]
 public partial class BasicNetworkHelper : SingletonComponent<BasicNetworkHelper>, Component.INetworkListener
 {
 	[Property] public bool StartServer { get; set; } = true;
