@@ -67,6 +67,8 @@ public class ViewModel : Component
 	private float lastYaw;
 	private float bobAnim;
 	private float bobSpeed;
+	private float pIntertiaSmooth;
+	private float yIntertiaSmooth;
 
 	private bool activated = false;
 
@@ -125,6 +127,9 @@ public class ViewModel : Component
 		PitchInertia += pitchDelta;
 		YawInertia += yawDelta;
 
+		pIntertiaSmooth = pIntertiaSmooth.LerpTo( PitchInertia, 10 * Time.Delta );
+		yIntertiaSmooth = yIntertiaSmooth.LerpTo( YawInertia, 10 * Time.Delta );
+
 		if ( SwingAndBob )
 		{
 			DoSwingAndBob( newPitch, pitchDelta, yawDelta );
@@ -136,8 +141,8 @@ public class ViewModel : Component
 					.Clamp( 0, 1 )
 				: 0;
 			Animate(
-				YawInertia,
-				PitchInertia,
+				yIntertiaSmooth,
+				pIntertiaSmooth,
 				velocity,
 				pawn.Controller.IsSprinting && Renderer.GetFloat( "attack_hold" ) <= 0 &&
 				pawn.Controller.wishDirection.Length >= 0.1f,

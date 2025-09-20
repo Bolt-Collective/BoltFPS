@@ -33,7 +33,8 @@ public partial class BaseWeapon : Component
 	[ImageAssetPath]
 	public string Icon { get; set; }
 
-	[Feature( "Animation" )] [Property] public WeaponIK LeftIK { get; set; }
+	[Feature( "Animation" )] [Property] public bool ADS { get; set; }
+	[Feature( "Animation" )][Property] public WeaponIK LeftIK { get; set; }
 
 	[Feature( "Animation" )]
 	[Property]
@@ -415,6 +416,11 @@ public partial class BaseWeapon : Component
 		if ( IsProxy )
 		{
 			return;
+		}
+
+		if (ViewModel.IsValid() && ADS)
+		{
+			ViewModel.Set( "ironsights", Input.Down("attack2") ? 1 : 0 );
 		}
 
 		if ( LastShot < RecoilTime && Owner.IsValid() )

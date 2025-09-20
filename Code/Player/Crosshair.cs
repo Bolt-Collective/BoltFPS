@@ -146,12 +146,14 @@ public partial class Crosshair : Component
 
 				if ( equipment.IsReloading )
 					linesTarget = 0.25f;
+
+				if ( Input.Down( "attack2" ) && equipment.ADS )
+					return;
 			}
 			else
 			{
 				type = CrosshairType.Dot;
 			}
-
 
 			//if ( UseDynamicCrosshair )
 			//	gap += player.Spread * 150f * scale;
