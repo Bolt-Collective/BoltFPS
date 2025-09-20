@@ -6,18 +6,33 @@ namespace Seekers;
 [Icon( "pan_tool" )]
 public class ViewModel : Component
 {
-	[Property, ToggleGroup( "SwingAndBob" )]
-	public bool SwingAndBob { get; set; } = true;
 
-	[Property, Group( "AnimGraph" ), ShowIf( "SwingAndBob", false )]
+	[Property]
+	public SwayTypes SwayType { get; set; }
+
+	public bool graphSway => SwayType == SwayTypes.Graph;
+
+	public bool swingAndBob => SwayType == SwayTypes.SwingAndBob;
+
+	public bool procedualSway => SwayType == SwayTypes.ProcedualSway;
+
+	[Property, Group( "AnimGraph" )]
 	public bool SprintHold { get; set; }
 
-	[Property, Group( "SwingAndBob" )] public float SwingInfluence { get; set; } = 0.05f;
-	[Property, Group( "SwingAndBob" )] public float ReturnSpeed { get; set; } = 5.0f;
-	[Property, Group( "SwingAndBob" )] public float MaxOffsetLength { get; set; } = 10.0f;
-	[Property, Group( "SwingAndBob" )] public float BobCycleTime { get; set; } = 7;
-	[Property, Group( "SwingAndBob" )] public Vector3 BobDirection { get; set; } = new(0.0f, 1.0f, 0.5f);
-	[Property, Group( "SwingAndBob" )] public float InertiaDamping { get; set; } = 20.0f;
+	[Property, Group( "SwingAndBob" ), ShowIf("swingAndBob", true)] public float SwingInfluence { get; set; } = 0.05f;
+	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float ReturnSpeed { get; set; } = 5.0f;
+	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float MaxOffsetLength { get; set; } = 10.0f;
+	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float BobCycleTime { get; set; } = 7;
+	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public Vector3 BobDirection { get; set; } = new(0.0f, 1.0f, 0.5f);
+	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float InertiaDamping { get; set; } = 20.0f;
+
+	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public Angles YawInertiaAngle { get; set; } = new Angles(0, 30, 20);
+	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public Angles PitchInertiaAngle { get; set; } = new Angles( 30, 0, 0 );
+	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public Curve JumpCurve { get; set; } = Curve.Ease;	
+	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public float JumpTime { get; set; } = 0.5f;
+	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public float JumpDownTime { get; set; } = 0.25f;
+	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public Vector3 JumpOffset { get; set; } = new Vector3( 0, 0, -1 );
+	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public GameObject RotateAround { get; set; }
 
 	[RequireComponent] public SkinnedModelRenderer Renderer { get; set; }
 
@@ -28,6 +43,13 @@ public class ViewModel : Component
 
 	[Property] public Dictionary<string, TranslatedAnim> AnimParamTranslate { get; set; }
 	[Property] public Dictionary<string, GameObject> AttachmentTranslate { get; set; }
+
+	public enum SwayTypes
+	{
+		Graph,
+		SwingAndBob,
+		ProcedualSway
+	}
 
 	public struct TranslatedAnim
 	{
@@ -69,6 +91,7 @@ public class ViewModel : Component
 	private float bobSpeed;
 	private float pIntertiaSmooth;
 	private float yIntertiaSmooth;
+	private float jumpOffsetSmooth;
 
 	private bool activated = false;
 
@@ -130,7 +153,7 @@ public class ViewModel : Component
 		pIntertiaSmooth = pIntertiaSmooth.LerpTo( PitchInertia, 10 * Time.Delta );
 		yIntertiaSmooth = yIntertiaSmooth.LerpTo( YawInertia, 10 * Time.Delta );
 
-		if ( SwingAndBob )
+		if ( swingAndBob )
 		{
 			DoSwingAndBob( newPitch, pitchDelta, yawDelta );
 		}
@@ -151,6 +174,19 @@ public class ViewModel : Component
 			);
 		}
 
+		switch (SwayType)
+		{
+			case SwayTypes.Graph:
+				GraphSway(pawn);
+				break;
+			case SwayTypes.SwingAndBob:
+				DoSwingAndBob( newPitch, pitchDelta, yawDelta );
+				break;
+			case SwayTypes.ProcedualSway:
+				ProcedualSway( pawn );
+				break;
+		}
+
 		if ( pitchInRange )
 		{
 			lastPitch = newPitch;
@@ -159,6 +195,48 @@ public class ViewModel : Component
 
 		YawInertia = YawInertia.LerpTo( 0, Time.Delta * InertiaDamping );
 		PitchInertia = PitchInertia.LerpTo( 0, Time.Delta * InertiaDamping );
+	}
+
+	public void GraphSway(Pawn pawn)
+	{
+		var velocity = pawn.Controller.IsGrounded
+				? GetPercentageBetween( pawn.Controller.Velocity.Length, 0, pawn.Controller.WalkSpeed )
+					.Clamp( 0, 1 )
+				: 0;
+		Animate(
+			yIntertiaSmooth,
+			pIntertiaSmooth,
+			velocity,
+			pawn.Controller.IsSprinting && Renderer.GetFloat( "attack_hold" ) <= 0 &&
+			pawn.Controller.wishDirection.Length >= 0.1f,
+			pawn.Controller.IsGrounded,
+			pawn.Inventory.ActiveWeapon.Ammo <= 0
+		);
+	}
+
+	public void ProcedualSway( Pawn pawn )
+	{
+		GraphSway( pawn );
+
+		var rotateAroundObject = RotateAround.IsValid() ? RotateAround : GameObject.Parent;
+
+		var rotateAroundPoint = WorldTransform.PointToLocal( rotateAroundObject.WorldPosition );
+
+		var pitchIntertia = (pIntertiaSmooth / 180) * PitchInertiaAngle.AsVector3();
+		var yawIntertia = (yIntertiaSmooth / 180) * YawInertiaAngle.AsVector3();
+
+		var rot = new Angles( pitchIntertia + yawIntertia );
+		LocalTransform = LocalTransform.RotateAround(rotateAroundPoint, rot);
+
+		var vel = 0f;
+		if ( !pawn.Controller.IsGrounded )
+			jumpOffsetSmooth += Time.Delta * 1 / JumpTime;
+		else
+			jumpOffsetSmooth -= Time.Delta * 1 / JumpDownTime;
+
+		jumpOffsetSmooth = jumpOffsetSmooth.Clamp( 0, 1 );
+
+		LocalPosition += JumpOffset * JumpCurve.Evaluate( jumpOffsetSmooth ); 
 	}
 
 	[Rpc.Broadcast]

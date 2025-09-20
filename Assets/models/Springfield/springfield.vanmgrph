@@ -15,7 +15,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -2640.0, 176.0 ]
+					m_vecPosition = [ -2976.0, 128.0 ]
 					m_nNodeID = 
 					{
 						m_id = 164119398
@@ -36,7 +36,7 @@
 				{
 					_class = "CSingleFrameAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -2496.0, 304.0 ]
+					m_vecPosition = [ -2720.0, 288.0 ]
 					m_nNodeID = 
 					{
 						m_id = 218539911
@@ -50,13 +50,171 @@
 			{
 				key = 
 				{
+					m_id = 359512461
+				}
+				value = 
+				{
+					_class = "CStateMachineAnimNode"
+					m_sName = "Bob"
+					m_vecPosition = [ -2704.0, -192.0 ]
+					m_nNodeID = 
+					{
+						m_id = 359512461
+					}
+					m_sNote = ""
+					m_states = 
+					[
+						{
+							_class = "CAnimState"
+							m_transitions = 
+							[
+								{
+									_class = "CAnimStateTransition"
+									m_conditions = 
+									[
+										{
+											_class = "CParameterAnimCondition"
+											m_comparisonOp = 2
+											m_paramID = 
+											{
+												m_id = 1142138789
+											}
+											m_comparisonValue = 
+											{
+												m_nType = 4
+												m_data = 0.1
+											}
+										},
+									]
+									m_blendDuration = 0.5
+									m_destState = 
+									{
+										m_id = 1513022660
+									}
+									m_bReset = false
+									m_resetCycleOption = "Beginning"
+									m_flFixedCycleValue = 0.0
+									m_bBlendCycle = false
+									m_blendCurve = 
+									{
+										m_vControlPoint1 = [ 0.5, 0.0 ]
+										m_vControlPoint2 = [ 0.5, 1.0 ]
+									}
+									m_bForceFootPlant = false
+									m_bDisabled = false
+									m_bRandomTimeBetween = false
+									m_flRandomTimeStart = 0.0
+									m_flRandomTimeEnd = 0.0
+								},
+							]
+							m_tags = [  ]
+							m_tagBehaviors = [  ]
+							m_name = "None"
+							m_inputConnection = 
+							{
+								m_nodeID = 
+								{
+									m_id = 862642511
+								}
+								m_outputID = 
+								{
+									m_id = 4294967295
+								}
+							}
+							m_stateID = 
+							{
+								m_id = 2022443145
+							}
+							m_position = [ 80.0, -64.0 ]
+							m_bIsStartState = true
+							m_bIsEndtState = false
+							m_bIsPassthrough = false
+							m_bIsRootMotionExclusive = false
+							m_bAlwaysEvaluate = false
+						},
+						{
+							_class = "CAnimState"
+							m_transitions = 
+							[
+								{
+									_class = "CAnimStateTransition"
+									m_conditions = 
+									[
+										{
+											_class = "CParameterAnimCondition"
+											m_comparisonOp = 5
+											m_paramID = 
+											{
+												m_id = 1142138789
+											}
+											m_comparisonValue = 
+											{
+												m_nType = 4
+												m_data = 0.1
+											}
+										},
+									]
+									m_blendDuration = 0.2
+									m_destState = 
+									{
+										m_id = 2022443145
+									}
+									m_bReset = false
+									m_resetCycleOption = "Beginning"
+									m_flFixedCycleValue = 0.0
+									m_bBlendCycle = false
+									m_blendCurve = 
+									{
+										m_vControlPoint1 = [ 0.5, 0.0 ]
+										m_vControlPoint2 = [ 0.5, 1.0 ]
+									}
+									m_bForceFootPlant = false
+									m_bDisabled = false
+									m_bRandomTimeBetween = false
+									m_flRandomTimeStart = 0.0
+									m_flRandomTimeEnd = 0.0
+								},
+							]
+							m_tags = [  ]
+							m_tagBehaviors = [  ]
+							m_name = "Bob"
+							m_inputConnection = 
+							{
+								m_nodeID = 
+								{
+									m_id = 1693858249
+								}
+								m_outputID = 
+								{
+									m_id = 4294967295
+								}
+							}
+							m_stateID = 
+							{
+								m_id = 1513022660
+							}
+							m_position = [ 80.0, 48.0 ]
+							m_bIsStartState = false
+							m_bIsEndtState = false
+							m_bIsPassthrough = false
+							m_bIsRootMotionExclusive = false
+							m_bAlwaysEvaluate = false
+						},
+					]
+					m_bBlockWaningTags = false
+					m_bLockStateWhenWaning = false
+				}
+			},
+			{
+				key = 
+				{
 					m_id = 417888217
 				}
 				value = 
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -1904.0, 240.0 ]
+					m_vecPosition = [ -2128.0, 224.0 ]
 					m_nNodeID = 
 					{
 						m_id = 417888217
@@ -77,7 +235,7 @@
 				{
 					_class = "CStateMachineAnimNode"
 					m_sName = "ADS"
-					m_vecPosition = [ -1552.0, 112.0 ]
+					m_vecPosition = [ -1776.0, 96.0 ]
 					m_nNodeID = 
 					{
 						m_id = 491603340
@@ -235,7 +393,7 @@
 				{
 					_class = "CAddAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -2096.0, 48.0 ]
+					m_vecPosition = [ -2320.0, 32.0 ]
 					m_nNodeID = 
 					{
 						m_id = 532164514
@@ -275,59 +433,13 @@
 			{
 				key = 
 				{
-					m_id = 567637233
-				}
-				value = 
-				{
-					_class = "CAddAnimNode"
-					m_sName = "Unnamed"
-					m_vecPosition = [ -736.0, -224.0 ]
-					m_nNodeID = 
-					{
-						m_id = 567637233
-					}
-					m_sNote = ""
-					m_baseInput = 
-					{
-						m_nodeID = 
-						{
-							m_id = 883875860
-						}
-						m_outputID = 
-						{
-							m_id = 4294967295
-						}
-					}
-					m_additiveInput = 
-					{
-						m_nodeID = 
-						{
-							m_id = 1097432608
-						}
-						m_outputID = 
-						{
-							m_id = 4294967295
-						}
-					}
-					m_timingBehavior = "UseChild2"
-					m_flTimingBlend = 0.5
-					m_footMotionTiming = "Child1"
-					m_bResetBase = true
-					m_bResetAdditive = true
-					m_bApplyChannelsSeparately = true
-					m_bModelSpace = false
-				}
-			},
-			{
-				key = 
-				{
 					m_id = 573689147
 				}
 				value = 
 				{
 					_class = "CStateMachineAnimNode"
 					m_sName = "Reload"
-					m_vecPosition = [ -1040.0, 96.0 ]
+					m_vecPosition = [ -1264.0, 80.0 ]
 					m_nNodeID = 
 					{
 						m_id = 573689147
@@ -597,83 +709,13 @@
 			{
 				key = 
 				{
-					m_id = 577639829
-				}
-				value = 
-				{
-					_class = "CBlendAnimNode"
-					m_sName = "Unnamed"
-					m_vecPosition = [ -2416.0, -64.0 ]
-					m_nNodeID = 
-					{
-						m_id = 577639829
-					}
-					m_sNote = ""
-					m_children = 
-					[
-						{
-							m_inputConnection = 
-							{
-								m_nodeID = 
-								{
-									m_id = 862642511
-								}
-								m_outputID = 
-								{
-									m_id = 4294967295
-								}
-							}
-							m_name = ""
-							m_blendValue = 0.0
-						},
-						{
-							m_inputConnection = 
-							{
-								m_nodeID = 
-								{
-									m_id = 1693858249
-								}
-								m_outputID = 
-								{
-									m_id = 4294967295
-								}
-							}
-							m_name = ""
-							m_blendValue = 1.0
-						},
-					]
-					m_blendValueSource = "Parameter"
-					m_param = 
-					{
-						m_id = 1142138789
-					}
-					m_blendKeyType = "BlendKey_UserValue"
-					m_bLockBlendOnReset = false
-					m_bSyncCycles = false
-					m_bLoop = true
-					m_bLockWhenWaning = true
-					m_damping = 
-					{
-						_class = "CAnimInputDamping"
-						m_speedFunction = "NoDamping"
-						m_fSpeedScale = 1.0
-						m_fMinSpeed = 10.0
-						m_fMaxTension = 1000.0
-						m_fTension = 100.0
-						m_fDamping = 5.0
-					}
-				}
-			},
-			{
-				key = 
-				{
 					m_id = 642724730
 				}
 				value = 
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -2432.0, 240.0 ]
+					m_vecPosition = [ -2656.0, 224.0 ]
 					m_nNodeID = 
 					{
 						m_id = 642724730
@@ -694,7 +736,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -2695.016113, -144.598083 ]
+					m_vecPosition = [ -3072.0, -224.0 ]
 					m_nNodeID = 
 					{
 						m_id = 862642511
@@ -703,198 +745,7 @@
 					m_tagSpans = [  ]
 					m_sequenceName = "Idle"
 					m_playbackSpeed = 1.0
-					m_bLoop = false
-				}
-			},
-			{
-				key = 
-				{
-					m_id = 883875860
-				}
-				value = 
-				{
-					_class = "CBlendAnimNode"
-					m_sName = "Pitch"
-					m_vecPosition = [ -928.0, -288.0 ]
-					m_nNodeID = 
-					{
-						m_id = 883875860
-					}
-					m_sNote = ""
-					m_children = 
-					[
-						{
-							m_inputConnection = 
-							{
-								m_nodeID = 
-								{
-									m_id = 908225173
-								}
-								m_outputID = 
-								{
-									m_id = 4294967295
-								}
-							}
-							m_name = "Down"
-							m_blendValue = -180.0
-						},
-						{
-							m_inputConnection = 
-							{
-								m_nodeID = 
-								{
-									m_id = 1288443958
-								}
-								m_outputID = 
-								{
-									m_id = 4294967295
-								}
-							}
-							m_name = "Middle"
-							m_blendValue = 0.0
-						},
-						{
-							m_inputConnection = 
-							{
-								m_nodeID = 
-								{
-									m_id = 1181258069
-								}
-								m_outputID = 
-								{
-									m_id = 4294967295
-								}
-							}
-							m_name = "Up"
-							m_blendValue = 180.0
-						},
-					]
-					m_blendValueSource = "Parameter"
-					m_param = 
-					{
-						m_id = 1435721392
-					}
-					m_blendKeyType = "BlendKey_UserValue"
-					m_bLockBlendOnReset = false
-					m_bSyncCycles = false
 					m_bLoop = true
-					m_bLockWhenWaning = true
-					m_damping = 
-					{
-						_class = "CAnimInputDamping"
-						m_speedFunction = "BouncySpring"
-						m_fSpeedScale = 20.0
-						m_fMinSpeed = 10.0
-						m_fMaxTension = 1000.0
-						m_fTension = 150.0
-						m_fDamping = 8.0
-					}
-				}
-			},
-			{
-				key = 
-				{
-					m_id = 908225173
-				}
-				value = 
-				{
-					_class = "CSequenceAnimNode"
-					m_sName = "Unnamed"
-					m_vecPosition = [ -1328.0, -304.0 ]
-					m_nNodeID = 
-					{
-						m_id = 908225173
-					}
-					m_sNote = ""
-					m_tagSpans = [  ]
-					m_sequenceName = "SwayPitchDown"
-					m_playbackSpeed = 1.0
-					m_bLoop = false
-				}
-			},
-			{
-				key = 
-				{
-					m_id = 1097432608
-				}
-				value = 
-				{
-					_class = "CBlendAnimNode"
-					m_sName = "Yaw"
-					m_vecPosition = [ -928.0, -176.0 ]
-					m_nNodeID = 
-					{
-						m_id = 1097432608
-					}
-					m_sNote = ""
-					m_children = 
-					[
-						{
-							m_inputConnection = 
-							{
-								m_nodeID = 
-								{
-									m_id = 1980803831
-								}
-								m_outputID = 
-								{
-									m_id = 4294967295
-								}
-							}
-							m_name = "Right"
-							m_blendValue = -180.0
-						},
-						{
-							m_inputConnection = 
-							{
-								m_nodeID = 
-								{
-									m_id = 1288443958
-								}
-								m_outputID = 
-								{
-									m_id = 4294967295
-								}
-							}
-							m_name = "Middle"
-							m_blendValue = 0.0
-						},
-						{
-							m_inputConnection = 
-							{
-								m_nodeID = 
-								{
-									m_id = 1997309940
-								}
-								m_outputID = 
-								{
-									m_id = 4294967295
-								}
-							}
-							m_name = "Left"
-							m_blendValue = 180.0
-						},
-					]
-					m_blendValueSource = "Parameter"
-					m_param = 
-					{
-						m_id = 1205877170
-					}
-					m_blendKeyType = "BlendKey_UserValue"
-					m_bLockBlendOnReset = false
-					m_bSyncCycles = false
-					m_bLoop = true
-					m_bLockWhenWaning = true
-					m_damping = 
-					{
-						_class = "CAnimInputDamping"
-						m_speedFunction = "BouncySpring"
-						m_fSpeedScale = 20.0
-						m_fMinSpeed = 10.0
-						m_fMaxTension = 1000.0
-						m_fTension = 150.0
-						m_fDamping = 8.0
-					}
 				}
 			},
 			{
@@ -906,7 +757,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -1264.0, 176.0 ]
+					m_vecPosition = [ -1488.0, 160.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1127431883
@@ -921,34 +772,13 @@
 			{
 				key = 
 				{
-					m_id = 1181258069
-				}
-				value = 
-				{
-					_class = "CSequenceAnimNode"
-					m_sName = "Unnamed"
-					m_vecPosition = [ -1328.0, -256.0 ]
-					m_nNodeID = 
-					{
-						m_id = 1181258069
-					}
-					m_sNote = ""
-					m_tagSpans = [  ]
-					m_sequenceName = "SwayPitchUp"
-					m_playbackSpeed = 1.0
-					m_bLoop = false
-				}
-			},
-			{
-				key = 
-				{
 					m_id = 1276427063
 				}
 				value = 
 				{
 					_class = "CAddAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -1728.0, 176.0 ]
+					m_vecPosition = [ -1952.0, 160.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1276427063
@@ -988,34 +818,13 @@
 			{
 				key = 
 				{
-					m_id = 1288443958
-				}
-				value = 
-				{
-					_class = "CSequenceAnimNode"
-					m_sName = "Unnamed"
-					m_vecPosition = [ -1328.0, -208.0 ]
-					m_nNodeID = 
-					{
-						m_id = 1288443958
-					}
-					m_sNote = ""
-					m_tagSpans = [  ]
-					m_sequenceName = "None"
-					m_playbackSpeed = 1.0
-					m_bLoop = false
-				}
-			},
-			{
-				key = 
-				{
 					m_id = 1315868291
 				}
 				value = 
 				{
 					_class = "CChoiceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -2448.0, 80.0 ]
+					m_vecPosition = [ -2784.0, 32.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1315868291
@@ -1091,7 +900,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -2640.0, 128.0 ]
+					m_vecPosition = [ -2976.0, 80.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1444880515
@@ -1112,7 +921,7 @@
 				{
 					_class = "CRootAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ 166.375488, 38.622406 ]
+					m_vecPosition = [ -816.0, 96.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1450842983
@@ -1122,7 +931,7 @@
 					{
 						m_nodeID = 
 						{
-							m_id = 1760904142
+							m_id = 573689147
 						}
 						m_outputID = 
 						{
@@ -1140,7 +949,7 @@
 				{
 					_class = "CStateMachineAnimNode"
 					m_sName = "Empty"
-					m_vecPosition = [ -2256.0, 240.0 ]
+					m_vecPosition = [ -2480.0, 224.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1464148955
@@ -1318,7 +1127,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -1264.0, 224.0 ]
+					m_vecPosition = [ -1488.0, 208.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1536394158
@@ -1339,7 +1148,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -2695.016113, -80.598083 ]
+					m_vecPosition = [ -3072.0, -160.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1693858249
@@ -1360,7 +1169,7 @@
 				{
 					_class = "CStateMachineAnimNode"
 					m_sName = "Shoot"
-					m_vecPosition = [ -2288.0, 48.0 ]
+					m_vecPosition = [ -2512.0, 32.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1742968121
@@ -1418,7 +1227,7 @@
 							{
 								m_nodeID = 
 								{
-									m_id = 577639829
+									m_id = 359512461
 								}
 								m_outputID = 
 								{
@@ -1596,59 +1405,13 @@
 			{
 				key = 
 				{
-					m_id = 1760904142
-				}
-				value = 
-				{
-					_class = "CAddAnimNode"
-					m_sName = "Unnamed"
-					m_vecPosition = [ -773.244629, 2.253842 ]
-					m_nNodeID = 
-					{
-						m_id = 1760904142
-					}
-					m_sNote = ""
-					m_baseInput = 
-					{
-						m_nodeID = 
-						{
-							m_id = 573689147
-						}
-						m_outputID = 
-						{
-							m_id = 4294967295
-						}
-					}
-					m_additiveInput = 
-					{
-						m_nodeID = 
-						{
-							m_id = 567637233
-						}
-						m_outputID = 
-						{
-							m_id = 4294967295
-						}
-					}
-					m_timingBehavior = "UseChild2"
-					m_flTimingBlend = 0.5
-					m_footMotionTiming = "Child1"
-					m_bResetBase = true
-					m_bResetAdditive = true
-					m_bApplyChannelsSeparately = true
-					m_bModelSpace = false
-				}
-			},
-			{
-				key = 
-				{
 					m_id = 1960836634
 				}
 				value = 
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -2640.0, 80.0 ]
+					m_vecPosition = [ -2976.0, 32.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1960836634
@@ -1656,48 +1419,6 @@
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "Fire1"
-					m_playbackSpeed = 1.0
-					m_bLoop = false
-				}
-			},
-			{
-				key = 
-				{
-					m_id = 1980803831
-				}
-				value = 
-				{
-					_class = "CSequenceAnimNode"
-					m_sName = "Unnamed"
-					m_vecPosition = [ -1328.0, -160.0 ]
-					m_nNodeID = 
-					{
-						m_id = 1980803831
-					}
-					m_sNote = ""
-					m_tagSpans = [  ]
-					m_sequenceName = "SwayYawRight"
-					m_playbackSpeed = 1.0
-					m_bLoop = false
-				}
-			},
-			{
-				key = 
-				{
-					m_id = 1997309940
-				}
-				value = 
-				{
-					_class = "CSequenceAnimNode"
-					m_sName = "Unnamed"
-					m_vecPosition = [ -1328.0, -112.0 ]
-					m_nNodeID = 
-					{
-						m_id = 1997309940
-					}
-					m_sNote = ""
-					m_tagSpans = [  ]
-					m_sequenceName = "SwayYawLeft"
 					m_playbackSpeed = 1.0
 					m_bLoop = false
 				}

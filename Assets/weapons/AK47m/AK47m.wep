@@ -1,0 +1,11 @@
+{
+  "DisplayName": "M4A1",
+  "Catagory": "Guns",
+  "Duplicates": true,
+  "ReplenishAmmo": false,
+  "Icon": "icons/3d/w_m4a1_c.vmdl_c.png",
+  "Description": "",
+  "Details": "weapons/ak47m/w_ak47m.prefab",
+  "__references": [],
+  "__version": 0
+}
