@@ -58,7 +58,7 @@
 		if ( _timeSinceFetchedLast >= 15 )
 		{
 			CurrentGamePackage = await Package.FetchAsync( Game.Ident, true );
-			Log.Info( CurrentGamePackage.Revision.Created );
+			//Log.Info( CurrentGamePackage.Revision.Created );
 
 			_timeSinceFetchedLast = 0;
 		}
