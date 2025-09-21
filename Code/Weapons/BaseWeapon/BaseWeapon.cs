@@ -631,7 +631,10 @@ public partial class BaseWeapon : Component
 
 	public virtual void AttackSecondary()
 	{
-		SoundExtensions.BroadcastSound( AltShootSound, WorldPosition, AltShootSound.Volume.FixedValue, spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
+		if ( AltShootSound.IsValid() )
+		{ 
+			SoundExtensions.BroadcastSound( AltShootSound, WorldPosition, AltShootSound.Volume.FixedValue, spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
+		}
 	}
 
 	/// <summary>
