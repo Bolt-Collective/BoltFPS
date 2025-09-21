@@ -5,8 +5,8 @@ namespace Seekers;
 
 public partial class MapLoader : MapInstance
 {
-	[Sync] public bool IsLoadingMap { get; set; }
-	public bool ClientIsLoadingMap { get; set; }
+	[Sync] public bool IsLoadingMap { get; set; } = true;
+	public bool ClientIsLoadingMap { get; set; } = true;
 
 	public static MapLoader Instance;
 
@@ -94,6 +94,8 @@ public partial class MapLoader : MapInstance
 
 		if ( Instance.MapName != map )
 		{
+			Instance.IsLoadingMap = true;
+			Instance.ClientIsLoadingMap = true;
 			await LoadMap( map );
 		}
 		else
@@ -249,12 +251,7 @@ public partial class MapLoader : MapInstance
 			Log.Error( "MapLoader instance is not available." );
 			return;
 		}
-
-		if ( Instance.ClientIsLoadingMap )
-		{
-			Log.Warning( "Already loading a map, please wait." );
-			return;
-		}
+		
 
 		ChangeMap( map );
 		Instance.Cleanup();
