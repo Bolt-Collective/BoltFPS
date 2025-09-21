@@ -4,14 +4,17 @@
 
 @namespace Seekers
 
+@if ( CurrentGamePackage == null || ServerGamePackage == null )
+	return;
+
 <root>
 	@if ( IsServerOutdated() )
 	{
 		<h5 class="update">UPDATE AVAILABLE, RESTART SERVER</h5>
 	}
 	<p style="opacity: 0.5" class="@( IsServerOutdated() ? "red" : "" )">Server
-		Version: @ServerGamePackage.Revision.VersionId</p>
-	<p style="opacity: 0.5;">Updated: @CurrentGamePackage.Revision.Created.Humanize()</p>
+		Version: @ServerGamePackage?.Revision?.VersionId</p>
+	<p style="opacity: 0.5;">Updated: @CurrentGamePackage?.Revision?.Created.Humanize()</p>
 </root>
 
 
@@ -37,7 +40,7 @@
 	/// <returns>bool</returns>
 	public bool IsServerOutdated()
 	{
-		return CurrentGamePackage.Revision.VersionId != ServerGamePackage.Revision.VersionId;
+		return CurrentGamePackage?.Revision?.VersionId != ServerGamePackage?.Revision?.VersionId;
 	}
 
 	async void GetInitialPackages()
