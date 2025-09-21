@@ -220,9 +220,15 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		return mass;
 	}
+	
+	[ConVar( "bolt_disablepropdamage", ConVarFlags.Cheat)]
+	public static bool DisableImpactDamage { get; set; } = false;
 
 	void ICollisionListener.OnCollisionStart( Collision collision )
 	{
+		if (DisableImpactDamage)
+			return;
+		
 		if ( IsProxy ) return;
 
 		var propData = GetModelPropData();
