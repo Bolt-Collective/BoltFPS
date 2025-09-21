@@ -39,6 +39,7 @@ partial class Grenade : BaseWeapon, Component.ICollisionListener
 
 	public override async void AttackSecondary()
 	{
+		base.AttackSecondary();
 		TimeSincePrimaryAttack = 0;
 		ViewModel?.Renderer?.Set( "b_attack", true );
 		await Task.DelaySeconds( ThrowDelay );
