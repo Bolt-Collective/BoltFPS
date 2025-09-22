@@ -1,0 +1,11 @@
+{
+  "DisplayName": "1911",
+  "Catagory": "Guns",
+  "Duplicates": true,
+  "ReplenishAmmo": false,
+  "Icon": "icons/3d/magnum.png",
+  "Description": "",
+  "Details": "weapons/1911/w_1911.prefab",
+  "__references": [],
+  "__version": 0
+}

@@ -1,0 +1,14 @@
+
+Layer0
+{
+	shader "shaders/complex.shader_c"
+
+	TextureColor "models/1911/textures/1911_albedo.png"
+	TextureAmbientOcclusion "models/1911/textures/1911_ao.png"
+	TextureNormal "models/1911/textures/1911_normal.png"
+	TextureRoughness "models/1911/textures/1911_roughness.png"
+	F_METALNESS_TEXTURE 1
+	F_SPECULAR 1
+	TextureMetalness "models/1911/textures/1911_metallic.png"
+
+}

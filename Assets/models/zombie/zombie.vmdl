@@ -1434,6 +1434,21 @@
 						children = 
 						[
 							{
+								_class = "AnimAlign"
+								align_tx = true
+								align_ty = true
+								align_tz = false
+								align_rx = false
+								align_ry = false
+								align_rz = false
+								align_frame_type = "Number"
+								frame = 0
+								align_to_anim = "idle1"
+								align_to_frame_type = "Number"
+								align_to_frame = 0
+								bone = "pelvis"
+							},
+							{
 								_class = "ExtractMotion"
 								extract_tx = true
 								extract_ty = true
@@ -1458,9 +1473,140 @@
 						disable_compression = false
 						disable_interpolation = false
 						enable_scale = false
-						source_filename = "models/zombie/Animations/Anim_UrbanZombie4_Death2.FBX"
-						start_frame = 25
-						end_frame = 80
+						source_filename = "models/zombie/animations/tripping.fbx"
+						start_frame = 21
+						end_frame = 38
+						framerate = -1.0
+						take = 0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "Stumbling"
+						children = 
+						[
+							{
+								_class = "AnimAlign"
+								align_tx = true
+								align_ty = true
+								align_tz = false
+								align_rx = false
+								align_ry = false
+								align_rz = false
+								align_frame_type = "Number"
+								frame = 0
+								align_to_anim = "idle1"
+								align_to_frame_type = "Number"
+								align_to_frame = 0
+								bone = "pelvis"
+							},
+							{
+								_class = "ExtractMotion"
+								extract_tx = true
+								extract_ty = true
+								extract_tz = false
+								extract_rz = false
+								linear = false
+								quadratic = false
+								root_bone_name = "pelvis"
+								motion_type = "Uniform"
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						disable_interpolation = false
+						enable_scale = false
+						source_filename = "models/zombie/Animations/vault/Stumbling.fbx"
+						start_frame = 12
+						end_frame = 68
+						framerate = -1.0
+						take = 0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "Getup1"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						disable_interpolation = false
+						enable_scale = false
+						source_filename = "models/zombie/Animations/vault/Getting Up.fbx"
+						start_frame = -1
+						end_frame = 18
+						framerate = -1.0
+						take = 0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "Getup2"
+						children = 
+						[
+							{
+								_class = "AnimAlign"
+								align_tx = true
+								align_ty = true
+								align_tz = true
+								align_rx = false
+								align_ry = false
+								align_rz = false
+								align_frame_type = "Number"
+								frame = 0
+								align_to_anim = "idle1"
+								align_to_frame_type = "Number"
+								align_to_frame = 0
+								bone = "foot_r"
+							},
+							{
+								_class = "AnimAlign"
+								align_tx = true
+								align_ty = true
+								align_tz = false
+								align_rx = false
+								align_ry = false
+								align_rz = false
+								align_frame_type = "Number"
+								frame = 0
+								align_to_anim = "idle1"
+								align_to_frame_type = "Number"
+								align_to_frame = 0
+								bone = "pelvis"
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						disable_interpolation = false
+						enable_scale = false
+						source_filename = "models/zombie/Animations/vault/Getting Up.fbx"
+						start_frame = 19
+						end_frame = 38
 						framerate = -1.0
 						take = 0
 						reverse = false

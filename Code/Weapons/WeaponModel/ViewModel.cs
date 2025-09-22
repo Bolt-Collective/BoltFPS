@@ -16,6 +16,9 @@ public class ViewModel : Component
 
 	public bool procedualSway => SwayType == SwayTypes.ProcedualSway;
 
+	[Property]
+	public List<SkinnedModelRenderer> SyncedRenderers { get; set; }
+
 	[Property, Group( "AnimGraph" )]
 	public bool SprintHold { get; set; }
 
@@ -33,6 +36,17 @@ public class ViewModel : Component
 	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public float JumpDownTime { get; set; } = 0.25f;
 	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public Vector3 JumpOffset { get; set; } = new Vector3( 0, 0, -1 );
 	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public GameObject RotateAround { get; set; }
+
+
+	[Property, ToggleGroup("ProcedualAim")] public bool procedualAim { get; set; }
+
+	[Property, Group( "ProcedualAim" )] public float AimTime { get; set; } = 2;
+	[Property, Group( "ProcedualAim" )] public Curve AimPosCurve { get; set; }
+	[Property, Group( "ProcedualAim" )] public Curve AimRotCurve { get; set; }
+	[Property, Group( "ProcedualAim" )] public GameObject IronSightPoint { get; set; }
+	[Property, Group( "ProcedualAim" )] public GameObject IronSightBack { get; set; }
+	[Property, Group( "ProcedualAim" )] public float Distance { get; set; }
+
 
 	[RequireComponent] public SkinnedModelRenderer Renderer { get; set; }
 
@@ -153,6 +167,8 @@ public class ViewModel : Component
 		pIntertiaSmooth = pIntertiaSmooth.LerpTo( PitchInertia, 10 * Time.Delta );
 		yIntertiaSmooth = yIntertiaSmooth.LerpTo( YawInertia, 10 * Time.Delta );
 
+		ProcedualAim();
+
 		if ( swingAndBob )
 		{
 			DoSwingAndBob( newPitch, pitchDelta, yawDelta );
@@ -207,7 +223,7 @@ public class ViewModel : Component
 			yIntertiaSmooth,
 			pIntertiaSmooth,
 			velocity,
-			pawn.Controller.IsSprinting && Renderer.GetFloat( "attack_hold" ) <= 0 &&
+			pawn.Controller.IsSprinting && pawn.Controller.IsGrounded && Renderer.GetFloat( "attack_hold" ) <= 0 &&
 			pawn.Controller.wishDirection.Length >= 0.1f,
 			pawn.Controller.IsGrounded,
 			pawn.Inventory.ActiveWeapon.Ammo <= 0
@@ -220,7 +236,7 @@ public class ViewModel : Component
 
 		var rotateAroundObject = RotateAround.IsValid() ? RotateAround : GameObject.Parent;
 
-		var rotateAroundPoint = WorldTransform.PointToLocal( rotateAroundObject.WorldPosition );
+		var rotateAroundPoint = GameObject.Parent.WorldTransform.PointToLocal( rotateAroundObject.WorldPosition );
 
 		var pitchIntertia = (pIntertiaSmooth / 180) * PitchInertiaAngle.AsVector3();
 		var yawIntertia = (yIntertiaSmooth / 180) * YawInertiaAngle.AsVector3();
@@ -236,30 +252,111 @@ public class ViewModel : Component
 
 		jumpOffsetSmooth = jumpOffsetSmooth.Clamp( 0, 1 );
 
-		LocalPosition += JumpOffset * JumpCurve.Evaluate( jumpOffsetSmooth ); 
+		LocalPosition += JumpOffset * JumpCurve.Evaluate( jumpOffsetSmooth );
+
+		if ( !IronSightBack.IsValid() ) return;
+
+		var ironSightsPoint = GameObject.Parent.WorldTransform.PointToLocal( IronSightBack.WorldPosition ).z + 0.6f;
+
+		LocalPosition -= Vector3.Up * ironSightsPoint.Clamp( 0, 100 );
+	}
+	private bool Aiming;
+	private float aimSmooth;
+	public void ProcedualAim()
+	{
+		if ( !procedualAim ) return;
+
+		var vel = 0f;
+		aimSmooth += (Aiming && !GetBool("b_sprint") ? Time.Delta : -Time.Delta) * 1 / AimTime;
+		aimSmooth = aimSmooth.Clamp( 0, 1 );
+
+		var targetPosOffset = Vector3.Zero;
+
+		var parentPos = GameObject.Parent.WorldPosition;
+		var parentRot = GameObject.Parent.WorldRotation;
+		var childRot = IronSightPoint.WorldRotation;
+
+		var offset = Rotation.Difference( childRot, parentRot ) * AimRotCurve.Evaluate( aimSmooth );
+
+		WorldRotation = offset * WorldRotation;
+		WorldPosition = parentPos + offset * (WorldPosition - parentPos);
+
+
+		targetPosOffset -= GameObject.Parent.WorldTransform.PointToLocal( IronSightPoint.WorldPosition );
+		targetPosOffset += Vector3.Forward * Distance;
+
+		LocalPosition += targetPosOffset * AimPosCurve.Evaluate( aimSmooth );
 	}
 
 	[Rpc.Broadcast]
 	public void Set( string name, bool value )
 	{
-		Renderer?.Set( GetAnim( name ), value );
+		var anim = GetAnim( name );
+
+
+		var renderers = new List<SkinnedModelRenderer>();
+		if (SyncedRenderers != null)
+			renderers.AddRange(SyncedRenderers);
+		renderers.Add( Renderer );
+
+		foreach(var renderer in renderers)
+			renderer?.Set( anim, value );
 	}
 
 	[Rpc.Broadcast]
 	public void Set( string name, float value )
 	{
-		Renderer?.Set( GetAnim( name ), value );
+		var anim = GetAnim( name );
+
+		var renderers = new List<SkinnedModelRenderer>();
+		if ( SyncedRenderers != null )
+			renderers.AddRange( SyncedRenderers );
+		renderers.Add( Renderer );
+
+		foreach ( var renderer in renderers )
+			renderer?.Set( anim, value );
 	}
 
 	[Rpc.Broadcast]
+	public void Set( string name, int value )
+	{
+		if ( name == "ironsights" )
+			Aiming = value != 0;
+
+		var anim = GetAnim( name );
+
+		var renderers = new List<SkinnedModelRenderer>();
+		if ( SyncedRenderers != null )
+			renderers.AddRange( SyncedRenderers );
+		renderers.Add( Renderer );
+
+		foreach ( var renderer in renderers )
+			renderer?.Set( anim, value );
+	}
+
+	public bool GetBool( string name )
+	{
+		return Renderer?.GetBool( GetAnim( name ) ) ?? false;
+	}
+
+	public float GetFloat( string name )
+	{
+		return Renderer?.GetFloat( GetAnim( name )) ?? 0;
+	}
+
+	public int GetInt( string name )
+	{
+		return Renderer?.GetInt( GetAnim( name ) ) ?? 0;
+	}
+
 	public void Animate( float yawInertia, float pitchInertia, float velocity, bool sprint, bool grounded, bool empty )
 	{
-		Renderer.Set( GetAnim( "aim_yaw_inertia" ), yawInertia );
-		Renderer.Set( GetAnim( "aim_pitch_inertia" ), pitchInertia );
-		Renderer.Set( GetAnim( "move_bob" ), velocity );
-		Renderer.Set( GetAnim( "b_sprint" ), sprint );
-		Renderer.Set( GetAnim( "b_grounded" ), grounded );
-		Renderer.Set( GetAnim( "b_empty" ), empty );
+		Set( "aim_yaw_inertia", yawInertia );
+		Set( "aim_pitch_inertia", pitchInertia );
+		Set( "move_bob", velocity );
+		Set("b_sprint", sprint );
+		Set( "b_grounded", grounded );
+		Set( "b_empty", empty );
 	}
 
 	public float GetPercentageBetween( float value, float min, float max )

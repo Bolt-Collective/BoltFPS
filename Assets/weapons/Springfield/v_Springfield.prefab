@@ -69,11 +69,53 @@
         "__type": "Seekers.ViewModel",
         "__guid": "fccc3908-17ff-41ca-9c46-1aee27bf34da",
         "__enabled": true,
+        "AimPosCurve": [
+          {
+            "x": 0,
+            "y": 0,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          }
+        ],
+        "AimRotCurve": {
+          "rangex": "0,0.7",
+          "frames": [
+            {
+              "x": 0,
+              "y": 0,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            },
+            {
+              "x": 1,
+              "y": 1,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ]
+        },
+        "AimTime": 0.2,
         "AnimParamTranslate": {},
         "AttachmentTranslate": {},
         "BobCycleTime": 7,
         "BobDirection": "0,0,0",
+        "Distance": 12,
         "InertiaDamping": 20,
+        "IronSightBack": null,
+        "IronSightPoint": {
+          "_type": "gameobject",
+          "go": "a1617289-e15b-4f1c-a41f-a1bc941fdd42"
+        },
         "JumpCurve": [
           {
             "x": 0,
@@ -102,6 +144,7 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "PitchInertiaAngle": "30,0,0",
+        "procedualAim": true,
         "ReturnSpeed": 5,
         "RotateAround": {
           "_type": "gameobject",
@@ -1001,6 +1044,23 @@
             ]
           }
         ]
+      },
+      {
+        "__guid": "a1617289-e15b-4f1c-a41f-a1bc941fdd42",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Object",
+        "Position": "12.85594,-1.553361,5.469608",
+        "Rotation": "0.1212562,0.008375317,-0.04439841,-0.9915926",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": []
       },
       {
         "__guid": "50111c1c-29f6-4a82-833e-59b9c887e9a6",

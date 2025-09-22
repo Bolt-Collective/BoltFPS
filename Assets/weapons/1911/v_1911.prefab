@@ -1,0 +1,1124 @@
+{
+  "RootObject": {
+    "__guid": "d6d104e0-3ea1-4fd0-9779-c152c3d342da",
+    "__version": 1,
+    "Flags": 0,
+    "Name": "v_1911",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "Sandbox.SkinnedModelRenderer",
+        "__guid": "99a326f9-c9de-4186-a861-d1d8156c841e",
+        "__enabled": true,
+        "AnimationGraph": null,
+        "BodyGroups": 18446744073709551615,
+        "BoneMergeTarget": null,
+        "CreateAttachments": false,
+        "CreateBoneObjects": true,
+        "LodOverride": null,
+        "MaterialGroup": null,
+        "MaterialOverride": null,
+        "Materials": null,
+        "Model": "models/1911/1911arms.vmdl",
+        "Morphs": {},
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Parameters": {
+          "bools": {
+            "b_attack": false
+          },
+          "ints": {},
+          "floats": {},
+          "vectors": {},
+          "rotations": {}
+        },
+        "PlaybackRate": 1,
+        "RenderOptions": {
+          "GameLayer": false,
+          "OverlayLayer": true,
+          "BloomLayer": false,
+          "AfterUILayer": false
+        },
+        "RenderType": "Off",
+        "Sequence": {
+          "Name": null,
+          "Looping": true,
+          "Blending": false
+        },
+        "Tint": "1,1,1,1",
+        "UseAnimGraph": true
+      },
+      {
+        "__type": "Seekers.ViewModel",
+        "__guid": "1a378c00-e605-44bf-8713-51d7724f8d63",
+        "__enabled": true,
+        "AimPosCurve": [
+          {
+            "x": 0,
+            "y": 0,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          }
+        ],
+        "AimRotCurve": {
+          "rangex": "0,0.7",
+          "frames": [
+            {
+              "x": 0,
+              "y": 0,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            },
+            {
+              "x": 1,
+              "y": 1,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ]
+        },
+        "AimTime": 0.2,
+        "AnimParamTranslate": {},
+        "AttachmentTranslate": {
+          "muzzle": {
+            "_type": "gameobject",
+            "go": "558744c1-7833-4e3a-9dce-2f7e29a11382"
+          },
+          "eject": {
+            "_type": "gameobject",
+            "go": "ac708daf-b676-4ead-90b3-155eb65a37d4"
+          }
+        },
+        "BobCycleTime": 7,
+        "BobDirection": "0,0,0",
+        "Distance": 8,
+        "InertiaDamping": 20,
+        "IronSightBack": null,
+        "IronSightPoint": {
+          "_type": "gameobject",
+          "go": "fed94392-d529-4488-a6be-1c783a42b8b3"
+        },
+        "JumpCurve": [
+          {
+            "x": 0,
+            "y": 0,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "in": -0.97560966,
+            "out": 0.97560966,
+            "mode": "Mirrored"
+          }
+        ],
+        "JumpDownTime": 0.25,
+        "JumpOffset": "0,0,-0.5",
+        "JumpTime": 1,
+        "MaxOffsetLength": 10,
+        "Offset": "-5.699998,0.8000001,-65.5",
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "PitchInertiaAngle": "30,0,0",
+        "procedualAim": true,
+        "ReturnSpeed": 5,
+        "RotateAround": {
+          "_type": "gameobject",
+          "go": "e8908825-98fa-487c-b7a8-160c449bce72"
+        },
+        "SprintHold": true,
+        "SwayType": "ProcedualSway",
+        "SwingInfluence": 0.05,
+        "SyncedRenderers": [
+          {
+            "_type": "component",
+            "component_id": "a2955561-eeb3-44d0-905b-b9ae3f923ec2",
+            "go": "f7ed820a-1044-4aee-b91b-7e54d4f9706f",
+            "component_type": "SkinnedModelRenderer"
+          }
+        ],
+        "YawInertiaAngle": "0,30,20"
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "1fcc71ef-7a7f-411d-932c-dc63c2673eab",
+        "__version": 1,
+        "Flags": 4,
+        "Name": "upperarm_l",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": [
+          {
+            "__guid": "bbbdf760-414d-4b29-925d-86eb2da1efc5",
+            "__version": 1,
+            "Flags": 4,
+            "Name": "lowerarm_l",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": [
+              {
+                "__guid": "f890e865-e011-4983-a6b7-f6cd3cc32c69",
+                "__version": 1,
+                "Flags": 4,
+                "Name": "lowerarm_twist_01_l",
+                "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              },
+              {
+                "__guid": "2c74bca5-39fe-4dac-851d-d1f4bc6c620f",
+                "__version": 1,
+                "Flags": 4,
+                "Name": "hand_l",
+                "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": [
+                  {
+                    "__guid": "a3d81523-ab41-47d2-942e-816ad0b09807",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "index_01_l",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "f4d975c6-f3ec-4625-9ec4-8bf53c9a1096",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "index_02_l",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "6b41e2f7-4c6c-442e-9c63-b3c2659a191d",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "index_03_l",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "__guid": "96218409-8e03-4a80-a471-7799a84202be",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "middle_01_l",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "7e8bf1c2-4888-45a0-a21b-d1e177e79b7f",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "middle_02_l",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "10a61a3f-1ab7-4572-8945-466dd45f6f2c",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "middle_03_l",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "__guid": "983327dc-0184-4d28-9b78-98b0ee4fe5ec",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "pinky_01_l",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "2c7500af-c498-4ef1-af61-35955363d9c1",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "pinky_02_l",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "adf3539d-59c9-471a-af88-061f7044684d",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "pinky_03_l",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "__guid": "e9c89146-7f0d-4117-8b51-5f88a6de7fa5",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "ring_01_l",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "9d4d39fa-781d-481b-bc1d-1967626e023a",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "ring_02_l",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "b11e7882-f41c-479e-a503-adf5598a046c",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "ring_03_l",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "__guid": "3c5d4030-b8f7-456e-9dee-90fd25a814ff",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "thumb_01_l",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "8d27dd29-138c-4b65-8025-647d0f9aec79",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "thumb_02_l",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "8d3f889e-5585-4cf0-9c92-68c90927317b",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "thumb_03_l",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "__guid": "ed6241bd-8c01-4327-85aa-9d2a1d284e6b",
+            "__version": 1,
+            "Flags": 4,
+            "Name": "upperarm_twist_01_l",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          }
+        ]
+      },
+      {
+        "__guid": "108cb63a-c2c1-43b6-9115-46d0763aa4d7",
+        "__version": 1,
+        "Flags": 4,
+        "Name": "upperarm_r",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": [
+          {
+            "__guid": "8f150a0d-efc8-49ee-ab21-697139d44e30",
+            "__version": 1,
+            "Flags": 4,
+            "Name": "lowerarm_r",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": [
+              {
+                "__guid": "f386676c-0456-4149-96a6-1f25c487c1ca",
+                "__version": 1,
+                "Flags": 4,
+                "Name": "lowerarm_twist_01_r",
+                "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              },
+              {
+                "__guid": "e8908825-98fa-487c-b7a8-160c449bce72",
+                "__version": 1,
+                "Flags": 4,
+                "Name": "hand_r",
+                "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": [
+                  {
+                    "__guid": "928a1833-63b1-4028-8a8c-e2f6d7256688",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "index_01_r",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "2c9eff0c-29f9-485d-8de7-6c0ec126dcb7",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "index_02_r",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "972a9101-1bd5-48f8-8ae2-786a449b4bce",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "index_03_r",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "__guid": "5d0429bd-36aa-45de-ba9d-811b0cc28840",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "middle_01_r",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "7a3435b6-43ac-44c0-8c24-1f8565ce7e2a",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "middle_02_r",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "5c4509c9-df04-4a54-a098-d1623c20414d",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "middle_03_r",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "__guid": "4ed0bc39-3e93-4b1c-a93f-c407a1ddbd9a",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "pinky_01_r",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "6c56059a-12a7-4dcf-90ce-4e9bd38cd9f0",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "pinky_02_r",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "16a0cde6-6f60-45de-9375-46e4fbb09173",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "pinky_03_r",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "__guid": "3a8b1c20-428c-4369-a156-9a29a6974812",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "ring_01_r",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "78ab080c-4fc3-4b5b-b26a-ea87a0078a56",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "ring_02_r",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "8f911ad3-f3bf-4f1a-8ace-4788fa7891d7",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "ring_03_r",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "__guid": "740c60b5-97e3-4a6d-b249-fca48ada20b0",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "thumb_01_r",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "fce9390d-023a-4204-9514-8dd9ef8719ca",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "thumb_02_r",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "6827a8de-f3ca-49b0-9468-3145de6219d3",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "thumb_03_r",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "__guid": "b8caac28-49be-438e-a4ec-98ce3cffecb5",
+            "__version": 1,
+            "Flags": 4,
+            "Name": "upperarm_twist_01_r",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          }
+        ]
+      },
+      {
+        "__guid": "31522411-f863-4de1-8b4c-a8dbf1c67596",
+        "__version": 1,
+        "Flags": 4,
+        "Name": "ik_hand_gun",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": [
+          {
+            "__guid": "f7ed820a-1044-4aee-b91b-7e54d4f9706f",
+            "__version": 1,
+            "Flags": 0,
+            "Name": "gun",
+            "Position": "0,0,0",
+            "Rotation": "0,0,-0.7071099,0.7071037",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [
+              {
+                "__type": "Sandbox.SkinnedModelRenderer",
+                "__guid": "a2955561-eeb3-44d0-905b-b9ae3f923ec2",
+                "__enabled": true,
+                "AnimationGraph": null,
+                "BodyGroups": 18446744073709551615,
+                "BoneMergeTarget": null,
+                "CreateAttachments": false,
+                "CreateBoneObjects": true,
+                "LodOverride": null,
+                "MaterialGroup": null,
+                "MaterialOverride": null,
+                "Materials": null,
+                "Model": "models/1911/1911.vmdl",
+                "Morphs": {},
+                "OnComponentDestroy": null,
+                "OnComponentDisabled": null,
+                "OnComponentEnabled": null,
+                "OnComponentFixedUpdate": null,
+                "OnComponentStart": null,
+                "OnComponentUpdate": null,
+                "Parameters": {
+                  "bools": {},
+                  "ints": {},
+                  "floats": {},
+                  "vectors": {},
+                  "rotations": {}
+                },
+                "PlaybackRate": 1,
+                "RenderOptions": {
+                  "GameLayer": false,
+                  "OverlayLayer": true,
+                  "BloomLayer": false,
+                  "AfterUILayer": false
+                },
+                "RenderType": "Off",
+                "Sequence": {
+                  "Name": null,
+                  "Looping": true,
+                  "Blending": false
+                },
+                "Tint": "1,1,1,1",
+                "UseAnimGraph": true
+              }
+            ],
+            "Children": [
+              {
+                "__guid": "921a92b5-601b-4894-93ee-e1b31aa7f363",
+                "__version": 1,
+                "Flags": 4,
+                "Name": "body",
+                "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": [
+                  {
+                    "__guid": "558744c1-7833-4e3a-9dce-2f7e29a11382",
+                    "__version": 1,
+                    "Flags": 0,
+                    "Name": "Muzzle",
+                    "Position": "-6.800001,-0.55,0",
+                    "Rotation": "0.0000001534354,-0.7071071,0.7071065,-0.00000007971721",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": []
+                  },
+                  {
+                    "__guid": "ac708daf-b676-4ead-90b3-155eb65a37d4",
+                    "__version": 1,
+                    "Flags": 0,
+                    "Name": "Eject",
+                    "Position": "-1.705606,-0.9950192,0.5382079",
+                    "Rotation": "-0.0000002270538,-0.3826847,0.9238816,0.00000009458416",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": []
+                  }
+                ]
+              },
+              {
+                "__guid": "43b49afd-b619-49c2-b82f-46f7cdd771d1",
+                "__version": 1,
+                "Flags": 4,
+                "Name": "mag",
+                "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              },
+              {
+                "__guid": "46adc760-2539-414d-9748-6989eb397f74",
+                "__version": 1,
+                "Flags": 4,
+                "Name": "trigger",
+                "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              },
+              {
+                "__guid": "23660b48-3803-4376-866c-b787a2f25263",
+                "__version": 1,
+                "Flags": 4,
+                "Name": "slide",
+                "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              },
+              {
+                "__guid": "666f6032-9dd2-4dad-a927-e10bbbdebede",
+                "__version": 1,
+                "Flags": 4,
+                "Name": "hammer",
+                "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "__guid": "fed94392-d529-4488-a6be-1c783a42b8b3",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Aim",
+        "Position": "17.37886,-2.24418,62.55302",
+        "Rotation": "-0.08460385,0.003223397,0.00002172573,0.9964095",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": []
+      }
+    ],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [],
+  "__version": 2
+}

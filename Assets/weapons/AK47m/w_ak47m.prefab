@@ -18,7 +18,7 @@
         "__type": "Seekers.MachineGun",
         "__guid": "e6d6f931-f23d-4fdb-adf9-20b8273f056f",
         "__enabled": true,
-        "ADS": false,
+        "ADS": true,
         "Ammo": 30,
         "BoneOffset": {
           "Position": "2.1855,0,-8.196",
@@ -38,10 +38,7 @@
         "ItemResource": null,
         "LeftIK": {
           "Active": true,
-          "GameObject": {
-            "_type": "gameobject",
-            "go": "8d0c9070-802a-421d-971b-dd7d4a2388ad"
-          },
+          "GameObject": null,
           "IsLeft": false
         },
         "MaxAmmo": 31,
@@ -93,9 +90,11 @@
             "-0.433125,0.43"
           ]
         },
+        "ReloadEmpty": true,
+        "ReloadEmptyTime": 3.67,
         "ReloadShortSound": "sounds/weapons/reloads/m4a1reloadc.sound",
         "ReloadSound": "sounds/weapons/reloads/m4a1reload.sound",
-        "ReloadTime": 2.5,
+        "ReloadTime": 2.85,
         "RemoveClothingCategories": [],
         "RemoveGroups": [],
         "SecondaryRate": 1,
@@ -111,103 +110,6 @@
       }
     ],
     "Children": [
-      {
-        "__guid": "d5754c80-fad6-48cd-b995-0c6b3cdc5dd6",
-        "__version": 1,
-        "Flags": 0,
-        "Name": "Model",
-        "Position": "0.8752536,1.112744,2.025724",
-        "Rotation": "-0.0000001229346,0.00000006891787,0.0000001639128,0.9999989",
-        "Scale": "1,1,1",
-        "Tags": "",
-        "Enabled": true,
-        "NetworkMode": 2,
-        "NetworkInterpolation": true,
-        "NetworkOrphaned": 0,
-        "OwnerTransfer": 1,
-        "Components": [
-          {
-            "__type": "Sandbox.SkinnedModelRenderer",
-            "__guid": "a1404db8-3164-4612-9484-24acb367f7fb",
-            "__enabled": true,
-            "AnimationGraph": null,
-            "BodyGroups": 171,
-            "BoneMergeTarget": null,
-            "CreateAttachments": false,
-            "CreateBoneObjects": true,
-            "LodOverride": null,
-            "MaterialGroup": null,
-            "MaterialOverride": null,
-            "Materials": null,
-            "Model": "models/weapons/sbox_assault_m4a1/w_m4a1.vmdl",
-            "Morphs": {},
-            "OnComponentDestroy": null,
-            "OnComponentDisabled": null,
-            "OnComponentEnabled": null,
-            "OnComponentFixedUpdate": null,
-            "OnComponentStart": null,
-            "OnComponentUpdate": null,
-            "Parameters": {
-              "bools": {},
-              "ints": {},
-              "floats": {},
-              "vectors": {},
-              "rotations": {}
-            },
-            "PlaybackRate": 1,
-            "RenderOptions": {
-              "GameLayer": true,
-              "OverlayLayer": false,
-              "BloomLayer": false,
-              "AfterUILayer": false
-            },
-            "RenderType": "On",
-            "Sequence": {
-              "Name": null,
-              "Looping": true,
-              "Blending": false
-            },
-            "Tint": "1,1,1,1",
-            "UseAnimGraph": false
-          }
-        ],
-        "Children": [
-          {
-            "__guid": "9c2e9b1f-1b7d-4bdf-b377-fc02dc0ccc4e",
-            "__version": 1,
-            "Flags": 0,
-            "Name": "hold_R",
-            "Position": "-1.45742,0,5.464317",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": []
-          },
-          {
-            "__guid": "8d0c9070-802a-421d-971b-dd7d4a2388ad",
-            "__version": 1,
-            "Flags": 0,
-            "Name": "leftik",
-            "Position": "4.804971,0.8108997,5.080464",
-            "Rotation": "-0.04512107,0.09017982,0.27016,-0.9575226",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": []
-          }
-        ]
-      },
       {
         "__guid": "f70b9bf0-77c6-4f7c-9ddf-b8c8a8284a38",
         "__version": 1,
@@ -241,6 +143,188 @@
         "OwnerTransfer": 1,
         "Components": [],
         "Children": []
+      },
+      {
+        "__guid": "db6475a6-1e15-4b28-802a-b7b5b9be41b8",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Object",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": []
+      },
+      {
+        "__guid": "1bd3295f-5a3b-4f5f-8d9c-6e735e5f14ad",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Model (1)",
+        "Position": "1.348025,1.112746,9.563159",
+        "Rotation": "-0.0000001229346,0.00000006891787,0.0000001639128,0.9999989",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.SkinnedModelRenderer",
+            "__guid": "4cb2e656-b988-4a52-8885-7e049bef4fda",
+            "__enabled": true,
+            "AnimationGraph": null,
+            "BodyGroups": 18446744073709551615,
+            "BoneMergeTarget": null,
+            "CreateAttachments": false,
+            "CreateBoneObjects": true,
+            "LodOverride": null,
+            "MaterialGroup": null,
+            "MaterialOverride": null,
+            "Materials": null,
+            "Model": "models/ak74m/v_ak.vmdl",
+            "Morphs": {},
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "Parameters": {
+              "bools": {},
+              "ints": {},
+              "floats": {},
+              "vectors": {},
+              "rotations": {}
+            },
+            "PlaybackRate": 1,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "RenderType": "On",
+            "Sequence": {
+              "Name": null,
+              "Looping": true,
+              "Blending": false
+            },
+            "Tint": "1,1,1,1",
+            "UseAnimGraph": false
+          }
+        ],
+        "Children": [
+          {
+            "__guid": "c5f7e610-6ad2-4002-b53b-ff8a8c1b186f",
+            "__version": 1,
+            "Flags": 0,
+            "Name": "hold_R",
+            "Position": "-1.45742,0,5.464317",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          },
+          {
+            "__guid": "b37eaa13-9e74-487e-8529-16ae7cbfe7e3",
+            "__version": 1,
+            "Flags": 0,
+            "Name": "leftik",
+            "Position": "4.804971,0.8108997,5.080464",
+            "Rotation": "-0.04512107,0.09017982,0.27016,-0.9575226",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          },
+          {
+            "__guid": "7c549ff1-8151-44d2-b75b-683004cc10c2",
+            "__version": 1,
+            "Flags": 4,
+            "Name": "body",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          },
+          {
+            "__guid": "0f909883-8a77-41df-a7aa-f416ccd7663e",
+            "__version": 1,
+            "Flags": 4,
+            "Name": "mag",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          },
+          {
+            "__guid": "a7dcb21c-b15e-4171-87b4-85386c38e2eb",
+            "__version": 1,
+            "Flags": 4,
+            "Name": "trigger",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          },
+          {
+            "__guid": "6b408bbe-bd86-44eb-8bb6-32fa5fd3d97e",
+            "__version": 1,
+            "Flags": 4,
+            "Name": "bolt",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          }
+        ]
       }
     ],
     "__properties": {
@@ -268,8 +352,6 @@
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "__references": [
-    "facepunch.w_m4a1#60166"
-  ],
+  "__references": [],
   "__version": 2
 }

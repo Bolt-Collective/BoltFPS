@@ -27,7 +27,7 @@
         "MaterialGroup": null,
         "MaterialOverride": null,
         "Materials": null,
-        "Model": "models/ak74m/v_ak47m.vmdl",
+        "Model": "models/ak74m/v_akarms.vmdl",
         "Morphs": {},
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
@@ -36,7 +36,9 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "Parameters": {
-          "bools": {},
+          "bools": {
+            "b_deploy": false
+          },
           "ints": {},
           "floats": {},
           "vectors": {},
@@ -62,11 +64,56 @@
         "__type": "Seekers.ViewModel",
         "__guid": "1a378c00-e605-44bf-8713-51d7724f8d63",
         "__enabled": true,
+        "AimPosCurve": [
+          {
+            "x": 0,
+            "y": 0,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          }
+        ],
+        "AimRotCurve": {
+          "rangex": "0,0.7",
+          "frames": [
+            {
+              "x": 0,
+              "y": 0,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            },
+            {
+              "x": 1,
+              "y": 1,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ]
+        },
+        "AimTime": 0.2,
         "AnimParamTranslate": {},
         "AttachmentTranslate": {},
         "BobCycleTime": 7,
         "BobDirection": "0,0,0",
+        "Distance": 8,
         "InertiaDamping": 20,
+        "IronSightBack": {
+          "_type": "gameobject",
+          "go": "94ba4a2f-94be-425f-96a2-7eda5a262225"
+        },
+        "IronSightPoint": {
+          "_type": "gameobject",
+          "go": "fed94392-d529-4488-a6be-1c783a42b8b3"
+        },
         "JumpCurve": [
           {
             "x": 0,
@@ -87,7 +134,7 @@
         "JumpOffset": "0,0,-0.5",
         "JumpTime": 1,
         "MaxOffsetLength": 10,
-        "Offset": "-1,0,-9.5",
+        "Offset": "-5.699998,0.8000001,-65.5",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -95,23 +142,32 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "PitchInertiaAngle": "30,0,0",
+        "procedualAim": true,
         "ReturnSpeed": 5,
         "RotateAround": {
           "_type": "gameobject",
-          "go": "4d84d8b6-e6be-4d2b-888d-6db3621f2107"
+          "go": "e8908825-98fa-487c-b7a8-160c449bce72"
         },
-        "SprintHold": false,
+        "SprintHold": true,
         "SwayType": "ProcedualSway",
         "SwingInfluence": 0.05,
+        "SyncedRenderers": [
+          {
+            "_type": "component",
+            "component_id": "a2955561-eeb3-44d0-905b-b9ae3f923ec2",
+            "go": "f7ed820a-1044-4aee-b91b-7e54d4f9706f",
+            "component_type": "SkinnedModelRenderer"
+          }
+        ],
         "YawInertiaAngle": "0,30,20"
       }
     ],
     "Children": [
       {
-        "__guid": "314a11db-27a1-49c9-bc27-3ffdad13618a",
+        "__guid": "1fcc71ef-7a7f-411d-932c-dc63c2673eab",
         "__version": 1,
         "Flags": 4,
-        "Name": "Arm_L",
+        "Name": "upperarm_l",
         "Position": "0,0,0",
         "Rotation": "0,0,0,1",
         "Scale": "1,1,1",
@@ -124,10 +180,10 @@
         "Components": [],
         "Children": [
           {
-            "__guid": "5c51193f-729d-49ec-8756-90a8bfce727e",
+            "__guid": "bbbdf760-414d-4b29-925d-86eb2da1efc5",
             "__version": 1,
             "Flags": 4,
-            "Name": "UpArm_L",
+            "Name": "lowerarm_l",
             "Position": "0,0,0",
             "Rotation": "0,0,0,1",
             "Scale": "1,1,1",
@@ -140,10 +196,27 @@
             "Components": [],
             "Children": [
               {
-                "__guid": "166583fe-fa12-46ce-809a-34289c512d2a",
+                "__guid": "f890e865-e011-4983-a6b7-f6cd3cc32c69",
                 "__version": 1,
                 "Flags": 4,
-                "Name": "BoneTwist_03_L",
+                "Name": "lowerarm_twist_01_l",
+                "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              },
+              {
+                "__guid": "2c74bca5-39fe-4dac-851d-d1f4bc6c620f",
+                "__version": 1,
+                "Flags": 4,
+                "Name": "hand_l",
                 "Position": "0,0,0",
                 "Rotation": "0,0,0,1",
                 "Scale": "1,1,1",
@@ -156,10 +229,10 @@
                 "Components": [],
                 "Children": [
                   {
-                    "__guid": "5bab6c85-02c3-40b5-9390-e9190453966c",
+                    "__guid": "a3d81523-ab41-47d2-942e-816ad0b09807",
                     "__version": 1,
                     "Flags": 4,
-                    "Name": "BoneTwist_02_L",
+                    "Name": "index_01_l",
                     "Position": "0,0,0",
                     "Rotation": "0,0,0,1",
                     "Scale": "1,1,1",
@@ -172,10 +245,10 @@
                     "Components": [],
                     "Children": [
                       {
-                        "__guid": "548b6207-54a6-4e89-9a2c-03834e009464",
+                        "__guid": "f4d975c6-f3ec-4625-9ec4-8bf53c9a1096",
                         "__version": 1,
                         "Flags": 4,
-                        "Name": "BoneTwist_01_L",
+                        "Name": "index_02_l",
                         "Position": "0,0,0",
                         "Rotation": "0,0,0,1",
                         "Scale": "1,1,1",
@@ -186,69 +259,33 @@
                         "NetworkOrphaned": 0,
                         "OwnerTransfer": 1,
                         "Components": [],
-                        "Children": []
+                        "Children": [
+                          {
+                            "__guid": "6b41e2f7-4c6c-442e-9c63-b3c2659a191d",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "index_03_l",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "__guid": "97bc5980-9a86-4af2-a8e0-aeb127dd7dc6",
-        "__version": 1,
-        "Flags": 4,
-        "Name": "Arm_R",
-        "Position": "0,0,0",
-        "Rotation": "0,0,0,1",
-        "Scale": "1,1,1",
-        "Tags": "",
-        "Enabled": true,
-        "NetworkMode": 2,
-        "NetworkInterpolation": true,
-        "NetworkOrphaned": 0,
-        "OwnerTransfer": 1,
-        "Components": [],
-        "Children": [
-          {
-            "__guid": "5ec7d76a-b37e-48a2-8177-8c6c7217d73f",
-            "__version": 1,
-            "Flags": 4,
-            "Name": "UpArm_R",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": [
-              {
-                "__guid": "9ebd099d-1d2c-4d26-a462-6eb6a881dec9",
-                "__version": 1,
-                "Flags": 4,
-                "Name": "BoneTwist_03_R",
-                "Position": "0,0,0",
-                "Rotation": "0,0,0,1",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": [
+                  },
                   {
-                    "__guid": "dc88727c-e8e5-4ae1-801c-be1d5cd29a0e",
+                    "__guid": "96218409-8e03-4a80-a471-7799a84202be",
                     "__version": 1,
                     "Flags": 4,
-                    "Name": "BoneTwist_02_R",
+                    "Name": "middle_01_l",
                     "Position": "0,0,0",
                     "Rotation": "0,0,0,1",
                     "Scale": "1,1,1",
@@ -261,10 +298,10 @@
                     "Components": [],
                     "Children": [
                       {
-                        "__guid": "d3093f03-0dce-450c-a74a-738682eede8d",
+                        "__guid": "7e8bf1c2-4888-45a0-a21b-d1e177e79b7f",
                         "__version": 1,
                         "Flags": 4,
-                        "Name": "BoneTwist_01_R",
+                        "Name": "middle_02_l",
                         "Position": "0,0,0",
                         "Rotation": "0,0,0,1",
                         "Scale": "1,1,1",
@@ -275,69 +312,33 @@
                         "NetworkOrphaned": 0,
                         "OwnerTransfer": 1,
                         "Components": [],
-                        "Children": []
+                        "Children": [
+                          {
+                            "__guid": "10a61a3f-1ab7-4572-8945-466dd45f6f2c",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "middle_03_l",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "__guid": "2712cf64-aae8-4443-b2b1-2b083cfb4d3e",
-        "__version": 1,
-        "Flags": 4,
-        "Name": "Hand_L",
-        "Position": "0,0,0",
-        "Rotation": "0,0,0,1",
-        "Scale": "1,1,1",
-        "Tags": "",
-        "Enabled": true,
-        "NetworkMode": 2,
-        "NetworkInterpolation": true,
-        "NetworkOrphaned": 0,
-        "OwnerTransfer": 1,
-        "Components": [],
-        "Children": [
-          {
-            "__guid": "cc391125-367f-411d-96ef-09a91ca015d7",
-            "__version": 1,
-            "Flags": 4,
-            "Name": "Bone_L_004",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": [
-              {
-                "__guid": "e49e0847-800c-4d1e-ada7-e50a68938bdf",
-                "__version": 1,
-                "Flags": 4,
-                "Name": "Bone_L_005",
-                "Position": "0,0,0",
-                "Rotation": "0,0,0,1",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": [
+                  },
                   {
-                    "__guid": "69f354ea-eb2c-4250-bb60-808b84a35e45",
+                    "__guid": "983327dc-0184-4d28-9b78-98b0ee4fe5ec",
                     "__version": 1,
                     "Flags": 4,
-                    "Name": "Bone_L_006",
+                    "Name": "pinky_01_l",
                     "Position": "0,0,0",
                     "Rotation": "0,0,0,1",
                     "Scale": "1,1,1",
@@ -350,10 +351,10 @@
                     "Components": [],
                     "Children": [
                       {
-                        "__guid": "722905d5-2e07-47bc-8382-3e3453899610",
+                        "__guid": "2c7500af-c498-4ef1-af61-35955363d9c1",
                         "__version": 1,
                         "Flags": 4,
-                        "Name": "Bone_L_007",
+                        "Name": "pinky_02_l",
                         "Position": "0,0,0",
                         "Rotation": "0,0,0,1",
                         "Scale": "1,1,1",
@@ -364,51 +365,33 @@
                         "NetworkOrphaned": 0,
                         "OwnerTransfer": 1,
                         "Components": [],
-                        "Children": []
+                        "Children": [
+                          {
+                            "__guid": "adf3539d-59c9-471a-af88-061f7044684d",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "pinky_03_l",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "__guid": "997f8722-9dec-4aab-9de6-740ec0bba364",
-            "__version": 1,
-            "Flags": 4,
-            "Name": "Bone_L_008",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": [
-              {
-                "__guid": "0e6e0929-7040-4ef5-9037-b51b53ebe954",
-                "__version": 1,
-                "Flags": 4,
-                "Name": "Bone_L_009",
-                "Position": "0,0,0",
-                "Rotation": "0,0,0,1",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": [
+                  },
                   {
-                    "__guid": "6d8e6ea1-10e7-4ead-abe4-2e017f9eb792",
+                    "__guid": "e9c89146-7f0d-4117-8b51-5f88a6de7fa5",
                     "__version": 1,
                     "Flags": 4,
-                    "Name": "Bone_L_010",
+                    "Name": "ring_01_l",
                     "Position": "0,0,0",
                     "Rotation": "0,0,0,1",
                     "Scale": "1,1,1",
@@ -421,10 +404,10 @@
                     "Components": [],
                     "Children": [
                       {
-                        "__guid": "9cd37b68-b07a-4de3-910d-0af2002cf6c0",
+                        "__guid": "9d4d39fa-781d-481b-bc1d-1967626e023a",
                         "__version": 1,
                         "Flags": 4,
-                        "Name": "Bone_L_011",
+                        "Name": "ring_02_l",
                         "Position": "0,0,0",
                         "Rotation": "0,0,0,1",
                         "Scale": "1,1,1",
@@ -435,51 +418,33 @@
                         "NetworkOrphaned": 0,
                         "OwnerTransfer": 1,
                         "Components": [],
-                        "Children": []
+                        "Children": [
+                          {
+                            "__guid": "b11e7882-f41c-479e-a503-adf5598a046c",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "ring_03_l",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "__guid": "cd0b9dfc-623f-44f5-83b5-846c9b906917",
-            "__version": 1,
-            "Flags": 4,
-            "Name": "Bone_L_012",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": [
-              {
-                "__guid": "d6f03039-2efd-406c-a564-655ddb1761e1",
-                "__version": 1,
-                "Flags": 4,
-                "Name": "Bone_L_013",
-                "Position": "0,0,0",
-                "Rotation": "0,0,0,1",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": [
+                  },
                   {
-                    "__guid": "0681fd0f-a254-4aa2-af36-a7e4cc8b5a85",
+                    "__guid": "3c5d4030-b8f7-456e-9dee-90fd25a814ff",
                     "__version": 1,
                     "Flags": 4,
-                    "Name": "Bone_L_014",
+                    "Name": "thumb_01_l",
                     "Position": "0,0,0",
                     "Rotation": "0,0,0,1",
                     "Scale": "1,1,1",
@@ -492,10 +457,10 @@
                     "Components": [],
                     "Children": [
                       {
-                        "__guid": "b13927b0-049d-45c5-80c5-0272413cbdb8",
+                        "__guid": "8d27dd29-138c-4b65-8025-647d0f9aec79",
                         "__version": 1,
                         "Flags": 4,
-                        "Name": "Bone_L_015",
+                        "Name": "thumb_02_l",
                         "Position": "0,0,0",
                         "Rotation": "0,0,0,1",
                         "Scale": "1,1,1",
@@ -506,7 +471,25 @@
                         "NetworkOrphaned": 0,
                         "OwnerTransfer": 1,
                         "Components": [],
-                        "Children": []
+                        "Children": [
+                          {
+                            "__guid": "8d3f889e-5585-4cf0-9c92-68c90927317b",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "thumb_03_l",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
                       }
                     ]
                   }
@@ -515,541 +498,10 @@
             ]
           },
           {
-            "__guid": "1d512147-2cf1-43a1-92ff-39a28476d10b",
+            "__guid": "ed6241bd-8c01-4327-85aa-9d2a1d284e6b",
             "__version": 1,
             "Flags": 4,
-            "Name": "Bone_L_016",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": [
-              {
-                "__guid": "b289184d-d7f1-4735-a9d9-f6676e7ccb0d",
-                "__version": 1,
-                "Flags": 4,
-                "Name": "Bone_L_017",
-                "Position": "0,0,0",
-                "Rotation": "0,0,0,1",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": [
-                  {
-                    "__guid": "902f0d51-da10-4af8-aa35-10dc5bc4f07d",
-                    "__version": 1,
-                    "Flags": 4,
-                    "Name": "Bone_L_018",
-                    "Position": "0,0,0",
-                    "Rotation": "0,0,0,1",
-                    "Scale": "1,1,1",
-                    "Tags": "",
-                    "Enabled": true,
-                    "NetworkMode": 2,
-                    "NetworkInterpolation": true,
-                    "NetworkOrphaned": 0,
-                    "OwnerTransfer": 1,
-                    "Components": [],
-                    "Children": [
-                      {
-                        "__guid": "19588be0-6541-494c-8cca-8c646389bb61",
-                        "__version": 1,
-                        "Flags": 4,
-                        "Name": "Bone_L_019",
-                        "Position": "0,0,0",
-                        "Rotation": "0,0,0,1",
-                        "Scale": "1,1,1",
-                        "Tags": "",
-                        "Enabled": true,
-                        "NetworkMode": 2,
-                        "NetworkInterpolation": true,
-                        "NetworkOrphaned": 0,
-                        "OwnerTransfer": 1,
-                        "Components": [],
-                        "Children": []
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "__guid": "a43f69cb-a71a-4cb1-8e6d-ac3ea15f6310",
-            "__version": 1,
-            "Flags": 4,
-            "Name": "Bone_L_020",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": [
-              {
-                "__guid": "a8f1d256-21d0-483d-aab3-6c3fe9294d93",
-                "__version": 1,
-                "Flags": 4,
-                "Name": "Bone_L_021",
-                "Position": "0,0,0",
-                "Rotation": "0,0,0,1",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": [
-                  {
-                    "__guid": "45eef5f4-34c3-4021-8b70-843c7ab28c62",
-                    "__version": 1,
-                    "Flags": 4,
-                    "Name": "Bone_L_022",
-                    "Position": "0,0,0",
-                    "Rotation": "0,0,0,1",
-                    "Scale": "1,1,1",
-                    "Tags": "",
-                    "Enabled": true,
-                    "NetworkMode": 2,
-                    "NetworkInterpolation": true,
-                    "NetworkOrphaned": 0,
-                    "OwnerTransfer": 1,
-                    "Components": [],
-                    "Children": []
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "__guid": "68e68992-9182-43ec-9728-82e33721169b",
-        "__version": 1,
-        "Flags": 4,
-        "Name": "Hand_R",
-        "Position": "0,0,0",
-        "Rotation": "0,0,0,1",
-        "Scale": "1,1,1",
-        "Tags": "",
-        "Enabled": true,
-        "NetworkMode": 2,
-        "NetworkInterpolation": true,
-        "NetworkOrphaned": 0,
-        "OwnerTransfer": 1,
-        "Components": [],
-        "Children": [
-          {
-            "__guid": "1e6fdf41-61f6-4146-817e-82d3632f99ea",
-            "__version": 1,
-            "Flags": 4,
-            "Name": "Bone_R_004",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": [
-              {
-                "__guid": "9d1ca545-51cd-4baa-99fb-af9280790df1",
-                "__version": 1,
-                "Flags": 4,
-                "Name": "Bone_R_005",
-                "Position": "0,0,0",
-                "Rotation": "0,0,0,1",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": [
-                  {
-                    "__guid": "32d68c5c-ec60-4466-ae2f-dd984f474a00",
-                    "__version": 1,
-                    "Flags": 4,
-                    "Name": "Bone_R_006",
-                    "Position": "0,0,0",
-                    "Rotation": "0,0,0,1",
-                    "Scale": "1,1,1",
-                    "Tags": "",
-                    "Enabled": true,
-                    "NetworkMode": 2,
-                    "NetworkInterpolation": true,
-                    "NetworkOrphaned": 0,
-                    "OwnerTransfer": 1,
-                    "Components": [],
-                    "Children": [
-                      {
-                        "__guid": "0a44b990-3e2b-4bb0-8c77-a64d92408382",
-                        "__version": 1,
-                        "Flags": 4,
-                        "Name": "Bone_R_007",
-                        "Position": "0,0,0",
-                        "Rotation": "0,0,0,1",
-                        "Scale": "1,1,1",
-                        "Tags": "",
-                        "Enabled": true,
-                        "NetworkMode": 2,
-                        "NetworkInterpolation": true,
-                        "NetworkOrphaned": 0,
-                        "OwnerTransfer": 1,
-                        "Components": [],
-                        "Children": []
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "__guid": "9bb13240-8c75-412f-bc44-3106649d17e9",
-            "__version": 1,
-            "Flags": 4,
-            "Name": "Bone_R_008",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": [
-              {
-                "__guid": "c9f8aaf4-fe25-4ec9-8062-2be4872b5ba8",
-                "__version": 1,
-                "Flags": 4,
-                "Name": "Bone_R_009",
-                "Position": "0,0,0",
-                "Rotation": "0,0,0,1",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": [
-                  {
-                    "__guid": "cef12bc9-5639-4382-aa0c-9ff4e6e10103",
-                    "__version": 1,
-                    "Flags": 4,
-                    "Name": "Bone_R_010",
-                    "Position": "0,0,0",
-                    "Rotation": "0,0,0,1",
-                    "Scale": "1,1,1",
-                    "Tags": "",
-                    "Enabled": true,
-                    "NetworkMode": 2,
-                    "NetworkInterpolation": true,
-                    "NetworkOrphaned": 0,
-                    "OwnerTransfer": 1,
-                    "Components": [],
-                    "Children": [
-                      {
-                        "__guid": "18aa77f1-1bee-4d6a-b0f6-8efff638aee0",
-                        "__version": 1,
-                        "Flags": 4,
-                        "Name": "Bone_R_011",
-                        "Position": "0,0,0",
-                        "Rotation": "0,0,0,1",
-                        "Scale": "1,1,1",
-                        "Tags": "",
-                        "Enabled": true,
-                        "NetworkMode": 2,
-                        "NetworkInterpolation": true,
-                        "NetworkOrphaned": 0,
-                        "OwnerTransfer": 1,
-                        "Components": [],
-                        "Children": []
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "__guid": "1de8d3fc-948b-455e-9142-9dec523781d0",
-            "__version": 1,
-            "Flags": 4,
-            "Name": "Bone_R_012",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": [
-              {
-                "__guid": "e122726b-929d-4523-b593-a9fa0696844c",
-                "__version": 1,
-                "Flags": 4,
-                "Name": "Bone_R_013",
-                "Position": "0,0,0",
-                "Rotation": "0,0,0,1",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": [
-                  {
-                    "__guid": "3ad16e97-e5ed-4b26-8ae2-587aeefcb141",
-                    "__version": 1,
-                    "Flags": 4,
-                    "Name": "Bone_R_014",
-                    "Position": "0,0,0",
-                    "Rotation": "0,0,0,1",
-                    "Scale": "1,1,1",
-                    "Tags": "",
-                    "Enabled": true,
-                    "NetworkMode": 2,
-                    "NetworkInterpolation": true,
-                    "NetworkOrphaned": 0,
-                    "OwnerTransfer": 1,
-                    "Components": [],
-                    "Children": [
-                      {
-                        "__guid": "9462a3e2-8024-4d11-a277-7b27f1dfb8c2",
-                        "__version": 1,
-                        "Flags": 4,
-                        "Name": "Bone_R_015",
-                        "Position": "0,0,0",
-                        "Rotation": "0,0,0,1",
-                        "Scale": "1,1,1",
-                        "Tags": "",
-                        "Enabled": true,
-                        "NetworkMode": 2,
-                        "NetworkInterpolation": true,
-                        "NetworkOrphaned": 0,
-                        "OwnerTransfer": 1,
-                        "Components": [],
-                        "Children": []
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "__guid": "fdb910d4-bf9e-40e9-8824-041a1e9397e0",
-            "__version": 1,
-            "Flags": 4,
-            "Name": "Bone_R_016",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": [
-              {
-                "__guid": "00d55a6c-0e53-4d8e-920e-2cd1ee51b6e1",
-                "__version": 1,
-                "Flags": 4,
-                "Name": "Bone_R_017",
-                "Position": "0,0,0",
-                "Rotation": "0,0,0,1",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": [
-                  {
-                    "__guid": "d8a40bfd-8bff-4fe9-addb-60ef942f7813",
-                    "__version": 1,
-                    "Flags": 4,
-                    "Name": "Bone_R_018",
-                    "Position": "0,0,0",
-                    "Rotation": "0,0,0,1",
-                    "Scale": "1,1,1",
-                    "Tags": "",
-                    "Enabled": true,
-                    "NetworkMode": 2,
-                    "NetworkInterpolation": true,
-                    "NetworkOrphaned": 0,
-                    "OwnerTransfer": 1,
-                    "Components": [],
-                    "Children": [
-                      {
-                        "__guid": "93ad755c-b99a-46cf-ba4b-1b024378e3e0",
-                        "__version": 1,
-                        "Flags": 4,
-                        "Name": "Bone_R_019",
-                        "Position": "0,0,0",
-                        "Rotation": "0,0,0,1",
-                        "Scale": "1,1,1",
-                        "Tags": "",
-                        "Enabled": true,
-                        "NetworkMode": 2,
-                        "NetworkInterpolation": true,
-                        "NetworkOrphaned": 0,
-                        "OwnerTransfer": 1,
-                        "Components": [],
-                        "Children": []
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "__guid": "e176e7de-ec66-4eb9-9dd5-07eb95f6916b",
-            "__version": 1,
-            "Flags": 4,
-            "Name": "Bone_R_020",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": [
-              {
-                "__guid": "c7febcd1-e6f7-4b1d-8d38-3ec295001c12",
-                "__version": 1,
-                "Flags": 4,
-                "Name": "Bone_R_021",
-                "Position": "0,0,0",
-                "Rotation": "0,0,0,1",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": [
-                  {
-                    "__guid": "8a736c6d-daf6-4f4d-9aee-14a8f06f0a6e",
-                    "__version": 1,
-                    "Flags": 4,
-                    "Name": "Bone_R_022",
-                    "Position": "0,0,0",
-                    "Rotation": "0,0,0,1",
-                    "Scale": "1,1,1",
-                    "Tags": "",
-                    "Enabled": true,
-                    "NetworkMode": 2,
-                    "NetworkInterpolation": true,
-                    "NetworkOrphaned": 0,
-                    "OwnerTransfer": 1,
-                    "Components": [],
-                    "Children": []
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "__guid": "4d84d8b6-e6be-4d2b-888d-6db3621f2107",
-        "__version": 1,
-        "Flags": 4,
-        "Name": "PBody",
-        "Position": "0,0,0",
-        "Rotation": "0,0,0,1",
-        "Scale": "1,1,1",
-        "Tags": "",
-        "Enabled": true,
-        "NetworkMode": 2,
-        "NetworkInterpolation": true,
-        "NetworkOrphaned": 0,
-        "OwnerTransfer": 1,
-        "Components": [],
-        "Children": [
-          {
-            "__guid": "cb4fd8d2-c7a7-49c7-b804-3c918d209260",
-            "__version": 1,
-            "Flags": 4,
-            "Name": "Rif",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": []
-          },
-          {
-            "__guid": "98d6454e-3071-4ecb-a928-c7d0d2a28af6",
-            "__version": 1,
-            "Flags": 4,
-            "Name": "Trigger",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [],
-            "Children": []
-          },
-          {
-            "__guid": "881cbf00-e164-40a3-91ed-6ef938291caf",
-            "__version": 1,
-            "Flags": 4,
-            "Name": "Safety",
+            "Name": "upperarm_twist_01_l",
             "Position": "0,0,0",
             "Rotation": "0,0,0,1",
             "Scale": "1,1,1",
@@ -1065,12 +517,445 @@
         ]
       },
       {
-        "__guid": "f9516233-f0a4-4c79-a1f9-f681feddc53b",
+        "__guid": "108cb63a-c2c1-43b6-9115-46d0763aa4d7",
         "__version": 1,
         "Flags": 4,
-        "Name": "Pmag",
+        "Name": "upperarm_r",
         "Position": "0,0,0",
         "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": [
+          {
+            "__guid": "8f150a0d-efc8-49ee-ab21-697139d44e30",
+            "__version": 1,
+            "Flags": 4,
+            "Name": "lowerarm_r",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": [
+              {
+                "__guid": "f386676c-0456-4149-96a6-1f25c487c1ca",
+                "__version": 1,
+                "Flags": 4,
+                "Name": "lowerarm_twist_01_r",
+                "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              },
+              {
+                "__guid": "e8908825-98fa-487c-b7a8-160c449bce72",
+                "__version": 1,
+                "Flags": 4,
+                "Name": "hand_r",
+                "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": [
+                  {
+                    "__guid": "928a1833-63b1-4028-8a8c-e2f6d7256688",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "index_01_r",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "2c9eff0c-29f9-485d-8de7-6c0ec126dcb7",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "index_02_r",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "972a9101-1bd5-48f8-8ae2-786a449b4bce",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "index_03_r",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "__guid": "5d0429bd-36aa-45de-ba9d-811b0cc28840",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "middle_01_r",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "7a3435b6-43ac-44c0-8c24-1f8565ce7e2a",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "middle_02_r",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "5c4509c9-df04-4a54-a098-d1623c20414d",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "middle_03_r",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "__guid": "4ed0bc39-3e93-4b1c-a93f-c407a1ddbd9a",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "pinky_01_r",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "6c56059a-12a7-4dcf-90ce-4e9bd38cd9f0",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "pinky_02_r",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "16a0cde6-6f60-45de-9375-46e4fbb09173",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "pinky_03_r",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "__guid": "3a8b1c20-428c-4369-a156-9a29a6974812",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "ring_01_r",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "78ab080c-4fc3-4b5b-b26a-ea87a0078a56",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "ring_02_r",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "8f911ad3-f3bf-4f1a-8ace-4788fa7891d7",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "ring_03_r",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "__guid": "740c60b5-97e3-4a6d-b249-fca48ada20b0",
+                    "__version": 1,
+                    "Flags": 4,
+                    "Name": "thumb_01_r",
+                    "Position": "0,0,0",
+                    "Rotation": "0,0,0,1",
+                    "Scale": "1,1,1",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [],
+                    "Children": [
+                      {
+                        "__guid": "fce9390d-023a-4204-9514-8dd9ef8719ca",
+                        "__version": 1,
+                        "Flags": 4,
+                        "Name": "thumb_02_r",
+                        "Position": "0,0,0",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "6827a8de-f3ca-49b0-9468-3145de6219d3",
+                            "__version": 1,
+                            "Flags": 4,
+                            "Name": "thumb_03_r",
+                            "Position": "0,0,0",
+                            "Rotation": "0,0,0,1",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "__guid": "b8caac28-49be-438e-a4ec-98ce3cffecb5",
+            "__version": 1,
+            "Flags": 4,
+            "Name": "upperarm_twist_01_r",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          }
+        ]
+      },
+      {
+        "__guid": "31522411-f863-4de1-8b4c-a8dbf1c67596",
+        "__version": 1,
+        "Flags": 4,
+        "Name": "ik_hand_gun",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": [
+          {
+            "__guid": "f7ed820a-1044-4aee-b91b-7e54d4f9706f",
+            "__version": 1,
+            "Flags": 0,
+            "Name": "v_ak",
+            "Position": "0,0,0",
+            "Rotation": "0,0,-0.7071099,0.7071037",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [
+              {
+                "__type": "Sandbox.SkinnedModelRenderer",
+                "__guid": "a2955561-eeb3-44d0-905b-b9ae3f923ec2",
+                "__enabled": true,
+                "AnimationGraph": null,
+                "BodyGroups": 18446744073709551615,
+                "BoneMergeTarget": null,
+                "CreateAttachments": false,
+                "CreateBoneObjects": false,
+                "LodOverride": null,
+                "MaterialGroup": null,
+                "MaterialOverride": null,
+                "Materials": null,
+                "Model": "models/ak74m/v_ak.vmdl",
+                "Morphs": {},
+                "OnComponentDestroy": null,
+                "OnComponentDisabled": null,
+                "OnComponentEnabled": null,
+                "OnComponentFixedUpdate": null,
+                "OnComponentStart": null,
+                "OnComponentUpdate": null,
+                "Parameters": {
+                  "bools": {},
+                  "ints": {},
+                  "floats": {},
+                  "vectors": {},
+                  "rotations": {}
+                },
+                "PlaybackRate": 1,
+                "RenderOptions": {
+                  "GameLayer": false,
+                  "OverlayLayer": true,
+                  "BloomLayer": false,
+                  "AfterUILayer": false
+                },
+                "RenderType": "Off",
+                "Sequence": {
+                  "Name": null,
+                  "Looping": true,
+                  "Blending": false
+                },
+                "Tint": "1,1,1,1",
+                "UseAnimGraph": true
+              }
+            ],
+            "Children": []
+          }
+        ]
+      },
+      {
+        "__guid": "fed94392-d529-4488-a6be-1c783a42b8b3",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Aim",
+        "Position": "16.69043,-5.279046,63.77384",
+        "Rotation": "0.001892317,-0.005619394,-0.00006309152,0.9999825",
         "Scale": "1,1,1",
         "Tags": "",
         "Enabled": true,
@@ -1082,12 +967,12 @@
         "Children": []
       },
       {
-        "__guid": "1b2d457d-5b9e-4bc6-86d5-8806044ecad3",
+        "__guid": "94ba4a2f-94be-425f-96a2-7eda5a262225",
         "__version": 1,
-        "Flags": 4,
-        "Name": "Pmag2",
-        "Position": "0,0,0",
-        "Rotation": "0,0,0,1",
+        "Flags": 0,
+        "Name": "ClipP",
+        "Position": "8.011609,-5.275978,63.20332",
+        "Rotation": "0.001892317,-0.005619393,-0.00006309152,0.9999825",
         "Scale": "1,1,1",
         "Tags": "",
         "Enabled": true,
