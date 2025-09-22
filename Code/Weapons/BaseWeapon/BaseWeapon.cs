@@ -60,6 +60,7 @@ public partial class BaseWeapon : Component
 	[Feature( "Sounds" )][Property] public SoundEvent ReloadSound { get; set; }
 	[Feature( "Sounds" )][Property] public SoundEvent ReloadShortSound { get; set; }
 	[Feature( "Sounds" )][Property] public SoundEvent ShootSound { get; set; }
+	[Feature( "Sounds" )][Property] public SoundEvent AltShootSound { get; set; }
 
 	[Feature( "Firing" )][Property] public float PrimaryRate { get; set; } = 5.0f;
 	[Feature( "Firing" )][Property] public float SecondaryRate { get; set; } = 15.0f;
@@ -646,6 +647,10 @@ public partial class BaseWeapon : Component
 
 	public virtual void AttackSecondary()
 	{
+		if ( AltShootSound.IsValid() )
+		{
+			SoundExtensions.BroadcastSound( AltShootSound, WorldPosition, AltShootSound.Volume.FixedValue, spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
+		}
 	}
 
 	/// <summary>
