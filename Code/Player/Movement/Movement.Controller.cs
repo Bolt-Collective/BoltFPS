@@ -103,7 +103,7 @@ public abstract partial class Movement : Component
 	[Rpc.Owner]
 	public virtual void Punch( Vector3 amount, bool clearGround = true )
 	{
-		if (clearGround)
+		if ( clearGround )
 			ClearGround();
 		Velocity += amount;
 	}
@@ -145,7 +145,7 @@ public abstract partial class Movement : Component
 		if ( !IsGrounded )
 			return;
 
-		if (GroundObject is null )
+		if ( GroundObject is null )
 		{
 			OnGroundVelocity = 0;
 			return;
@@ -168,6 +168,8 @@ public abstract partial class Movement : Component
 
 	private void Move()
 	{
+		if ( !CanMove )
+			return;
 
 		var previousVelocity = Velocity;
 
