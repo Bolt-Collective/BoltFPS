@@ -168,9 +168,7 @@ public abstract partial class Movement : Component
 
 	private void Move()
 	{
-		if ( !CanMove )
-			return;
-		
+
 		var previousVelocity = Velocity;
 
 		var movePos = MovePos();
