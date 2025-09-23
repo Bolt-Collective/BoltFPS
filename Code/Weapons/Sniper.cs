@@ -43,7 +43,7 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 		CalculateRandomRecoil( (MinRecoil, MaxRecoil), (MinRecoil / 2, MaxRecoil / 2) );
 
-		AnglesLerp -= Recoil;
+		AnglesLerp -= new Angles( Recoil.x, Recoil.y, 0 );
 
 		BroadcastAttackPrimary();
 

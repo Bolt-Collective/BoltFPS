@@ -43,9 +43,9 @@
           "IsLeft": false
         },
         "MaxAmmo": 31,
-        "MaxRecoil": 1.5,
+        "MaxRecoil": 8,
         "MergeModel": false,
-        "MinRecoil": 0.75,
+        "MinRecoil": 1,
         "MuzzleOverride": null,
         "Name": "M4A1",
         "OnComponentDestroy": null,
@@ -101,7 +101,7 @@
         "SecondaryRate": 1,
         "ShootSound": "sounds/guns/gunshot3.sound",
         "ShowAmmo": true,
-        "Spread": 0,
+        "Spread": 0.15,
         "SpreadIncrease": 0,
         "TracerEffect": null,
         "ViewModelPrefab": {
