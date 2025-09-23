@@ -9,13 +9,25 @@ partial class Shotgun : BaseWeapon
 	[Feature( "Firing" ), Property] public override float Spread { get; set; } = 0.1f;
 	[Feature( "Firing" ), Property] public int Bullets { get; set; } = 27;
 	[Feature( "Sounds" ), Property] public SoundEvent LoadSound { get; set; }
+	[Feature( "Ammo" ), Property] public bool FirstShell { get; set; } = true;
+	[Feature( "Ammo" ), Property] public float ReloadTransitionTime { get; set; } = 0.67f;
+
+	bool stopReload = false;
+	bool emptyReload = false;
 
 	public override bool CanPrimaryAttack()
 	{
 		if ( Owner == null || !Input.Pressed( "attack1" ) ) return false;
 
 		if ( IsReloading )
-			FinishReload();
+		{
+			if (Ammo > 0)
+			{
+				stopReload = true;
+				FinishReload();
+			}
+			return false;
+		}
 
 		var rate = PrimaryRate;
 		if ( rate <= 0 ) return true;
@@ -30,6 +42,7 @@ partial class Shotgun : BaseWeapon
 		TimeSincePrimaryAttack = 0;
 		TimeSinceSecondaryAttack = 0;
 		Ammo--;
+
 		FinishReloadSequence();
 
 		CalculateRandomRecoil( (MinRecoil, MaxRecoil), (MinRecoil / 2, MaxRecoil / 2) );
@@ -84,12 +97,28 @@ partial class Shotgun : BaseWeapon
 
 	public override void StartReloadEffects()
 	{
-		ViewModel?.Set( "b_reloading", true );
 		ViewModel?.Set( "speed_reload", (1 / ReloadTime) * 1.7f );
 		SoundExtensions.FollowSound( ReloadSound, GameObject );
 
-		if ( Ammo <= 0 )
+		if ( Ammo <= 0 && FirstShell )
 			ViewModel?.Set( "b_reloading_first_shell", true );
+
+	}
+
+	public override void Reload()
+	{
+		ViewModel?.Set( "b_reloading", true );
+
+		BroadcastReload();
+		StartReloadEffects();
+
+		if ( IsReloading )
+		{
+			return;
+		}
+
+		TimeSinceReload = 0;
+		IsReloading = true;
 	}
 
 	public override void OnReloadFinish()
@@ -97,11 +126,12 @@ partial class Shotgun : BaseWeapon
 		TimeSincePrimaryAttack = 0;
 		TimeSinceSecondaryAttack = 0;
 
-		if ( Ammo < MaxAmmo )
+		if ( Ammo < MaxAmmo && !stopReload)
 		{
-			if ( Ammo > 0 )
+			if ( Ammo > 0 || !FirstShell )
 			{
-				SoundExtensions.FollowSound( LoadSound, GameObject );
+				if ( LoadSound.IsValid() )
+					SoundExtensions.FollowSound( LoadSound, GameObject );
 				ViewModel?.Set( "b_reloading_shell", true );
 			}
 
@@ -115,6 +145,7 @@ partial class Shotgun : BaseWeapon
 
 	protected virtual void FinishReloadSequence()
 	{
+		stopReload = false;
 		IsReloading = false;
 		ViewModel?.Set( "b_reloading", false );
 		ViewModel?.Set( "reload_finished", true );

@@ -59,7 +59,7 @@
         "ProjectileSpeed": 0,
         "RecoilPattern": {
           "Points": [
-            "0,0.68"
+            "0,1.36"
           ]
         },
         "ReloadEmpty": false,

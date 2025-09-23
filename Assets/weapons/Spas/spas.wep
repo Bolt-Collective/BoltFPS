@@ -1,0 +1,11 @@
+{
+  "DisplayName": "Spas",
+  "Catagory": "Guns",
+  "Duplicates": true,
+  "ReplenishAmmo": false,
+  "Icon": "icons/3d/shotgun.png",
+  "Description": "",
+  "Details": "weapons/spas/w_spas.prefab",
+  "__references": [],
+  "__version": 0
+}

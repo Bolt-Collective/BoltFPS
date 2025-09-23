@@ -1,20 +1,32 @@
 {
   "RootObject": {
     "__guid": "19e49a33-8002-459e-a15d-b94d58d4bc00",
+    "__version": 1,
     "Flags": 0,
-    "Name": "v_shotgun",
+    "Name": "v_spaghelli m4",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
     "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
     "Components": [
       {
         "__type": "Sandbox.SkinnedModelRenderer",
         "__guid": "4b9726b4-41da-438d-a169-ba84b1f7ca09",
+        "__enabled": true,
         "AnimationGraph": null,
         "BodyGroups": 75,
         "BoneMergeTarget": null,
         "CreateAttachments": false,
         "CreateBoneObjects": false,
+        "LodOverride": null,
         "MaterialGroup": null,
         "MaterialOverride": null,
+        "Materials": null,
         "Model": "models/weapons/sbox_shotgun_spaghellim4/v_spaghellim4.vmdl",
         "Morphs": {},
         "OnComponentDestroy": null,
@@ -39,7 +51,9 @@
         },
         "RenderType": "Off",
         "Sequence": {
-          "Name": null
+          "Name": null,
+          "Looping": true,
+          "Blending": false
         },
         "Tint": "1,1,1,1",
         "UseAnimGraph": true
@@ -47,32 +61,82 @@
       {
         "__type": "Seekers.ViewModel",
         "__guid": "7a43d9c7-418c-4aad-904a-d0b9b4813c24",
+        "__enabled": true,
+        "AimPosCurve": {
+          "rangex": "0,0",
+          "rangey": "0,0"
+        },
+        "AimRotCurve": {
+          "rangex": "0,0",
+          "rangey": "0,0"
+        },
+        "AimTime": 2,
+        "AnimParamTranslate": {},
+        "AttachmentTranslate": {},
         "BobCycleTime": 7,
         "BobDirection": "0,1,0.5",
+        "Distance": 0,
         "InertiaDamping": 20,
+        "IronSightBack": null,
+        "IronSightPoint": null,
+        "JumpCurve": [
+          {
+            "x": 0,
+            "y": 0,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          }
+        ],
+        "JumpDownTime": 0.25,
+        "JumpOffset": "0,0,-1",
+        "JumpTime": 0.5,
         "MaxOffsetLength": 10,
-        "offset": "-3,0,0",
+        "Offset": "-3,0,0",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
+        "PitchInertiaAngle": "30,0,0",
+        "procedualAim": false,
         "ReturnSpeed": 5,
-        "SwingAndBob": false,
-        "SwingInfluence": 0.05
+        "RotateAround": null,
+        "SprintHold": false,
+        "SwayType": "Graph",
+        "SwingInfluence": 0.05,
+        "SyncedRenderers": [],
+        "YawInertiaAngle": "0,30,20"
       }
     ],
     "Children": [
       {
         "__guid": "ad38ebb0-4aae-492f-9903-5118dbb8219c",
+        "__version": 1,
         "Flags": 0,
         "Name": "Arms",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
         "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
         "Components": [
           {
             "__type": "Sandbox.SkinnedModelRenderer",
             "__guid": "8b089165-9aab-46d1-a062-30f22bce851d",
+            "__enabled": true,
             "AnimationGraph": null,
             "BodyGroups": 21,
             "BoneMergeTarget": {
@@ -83,8 +147,10 @@
             },
             "CreateAttachments": false,
             "CreateBoneObjects": false,
+            "LodOverride": null,
             "MaterialGroup": null,
             "MaterialOverride": null,
+            "Materials": null,
             "Model": "models/first_person/first_person_arms.vmdl",
             "Morphs": {},
             "OnComponentDestroy": null,
@@ -109,24 +175,21 @@
             },
             "RenderType": "Off",
             "Sequence": {
-              "Name": null
+              "Name": null,
+              "Looping": true,
+              "Blending": false
             },
             "Tint": "1,1,1,1",
             "UseAnimGraph": true
           }
-        ]
+        ],
+        "Children": []
       }
     ],
-    "__variables": [],
     "__properties": {
-      "FixedUpdateFrequency": 50,
-      "MaxFixedUpdates": 5,
-      "NetworkFrequency": 30,
       "NetworkInterpolation": true,
-      "PhysicsSubSteps": 1,
-      "ThreadedAnimation": true,
       "TimeScale": 1,
-      "UseFixedUpdate": true,
+      "WantsSystemScene": true,
       "Metadata": {},
       "NavMesh": {
         "Enabled": false,
@@ -140,15 +203,16 @@
         "ExcludedBodies": "",
         "IncludedBodies": ""
       }
-    }
+    },
+    "__variables": []
   },
+  "ResourceVersion": 2,
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "ResourceVersion": 1,
   "__references": [
     "facepunch.v_spaghellim4#90536"
   ],
-  "__version": 1
+  "__version": 2
 }

@@ -1,0 +1,348 @@
+{
+  "RootObject": {
+    "__guid": "e7d01cce-80f0-4272-a038-e133d2b41065",
+    "__version": 1,
+    "Flags": 0,
+    "Name": "w_spas",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "item,weapon",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "Seekers.Shotgun",
+        "__guid": "4e253d37-03ec-4714-9420-9b71c33574d3",
+        "__enabled": true,
+        "ADS": true,
+        "AltShootSound": null,
+        "Ammo": 5,
+        "BoneOffset": {
+          "Position": "0,0,0",
+          "Scale": "1,1,1",
+          "Rotation": "0,0,0,1"
+        },
+        "Bullets": 14,
+        "Chamber": true,
+        "CrosshairType": "Shotgun",
+        "Damage": 3.75,
+        "DeploySound": null,
+        "DisableInFP": [],
+        "FemaleReplacement": null,
+        "FirstShell": false,
+        "Handedness": "Both",
+        "HoldType": "Shotgun",
+        "Icon": "icons/weapons/guns/spaghellim4_01.png",
+        "ItemResource": "weapons/spas/spas.wep",
+        "LeftIK": {
+          "Active": true,
+          "GameObject": {
+            "_type": "gameobject",
+            "go": "7f82a04d-8786-44cc-8eb9-744d4266ee48"
+          },
+          "IsLeft": false
+        },
+        "LoadSound": null,
+        "MaxAmmo": 6,
+        "MaxRecoil": 10,
+        "MergeModel": false,
+        "MinRecoil": 5,
+        "MuzzleOverride": null,
+        "Name": "Spaghelli M4",
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "ParentBone": "hold_r",
+        "PrimaryRate": 1.14,
+        "Projectile": null,
+        "ProjectileSpeed": 0,
+        "ReloadEmpty": false,
+        "ReloadEmptyTime": 0,
+        "ReloadShortSound": null,
+        "ReloadSound": null,
+        "ReloadTime": 1,
+        "ReloadTransitionTime": 0.67,
+        "RemoveClothingCategories": null,
+        "RemoveGroups": null,
+        "SecondaryRate": 1,
+        "ShootSound": "sounds/guns/gunshot8.sound",
+        "ShowAmmo": true,
+        "Spread": 0.05,
+        "SpreadIncrease": 0,
+        "TracerEffect": null,
+        "ViewModelPrefab": {
+          "_type": "gameobject",
+          "prefab": "weapons/spas/v_spas.prefab"
+        }
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "0a5748a6-9ab4-4cef-a8f3-25aef17f7931",
+        "__version": 1,
+        "__Prefab": "weapons/common/effects/eject_shotgun.prefab",
+        "__PrefabInstancePatch": {
+          "AddedObjects": [],
+          "RemovedObjects": [],
+          "PropertyOverrides": [
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "Position",
+              "Value": "5000,5000,5000"
+            },
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "NetworkInterpolation",
+              "Value": false
+            }
+          ],
+          "MovedObjects": []
+        },
+        "__PrefabIdToInstanceId": {
+          "58e7d3cd-b650-4d5b-9fda-b145dc107cb0": "0a5748a6-9ab4-4cef-a8f3-25aef17f7931",
+          "b3fd4985-597d-48db-9370-bd0ab65f1d3d": "fdacaca5-4e90-419b-8cda-f4e60ecad46f",
+          "2fe8404b-67ac-4fe7-9adb-47b4259c990a": "9913bd13-623d-45a5-b604-a756b2944f54",
+          "6f3695a1-a42f-426b-88af-e3bcf8383892": "0295dda1-1ec4-4c61-b7e6-a9d3ee763574",
+          "7d507b35-0577-4a72-afac-daeef59fd59b": "4cd90309-d1d8-434a-bd39-cc584e713a1a"
+        }
+      },
+      {
+        "__guid": "d812f8f2-71ea-497f-a97f-86c0559afc9a",
+        "__version": 1,
+        "__Prefab": "weapons/common/effects/muzzle.prefab",
+        "__PrefabInstancePatch": {
+          "AddedObjects": [],
+          "RemovedObjects": [],
+          "PropertyOverrides": [
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "Position",
+              "Value": "5000,5000,5000"
+            }
+          ],
+          "MovedObjects": []
+        },
+        "__PrefabIdToInstanceId": {
+          "58e7d3cd-b650-4d5b-9fda-b145dc107cb0": "d812f8f2-71ea-497f-a97f-86c0559afc9a",
+          "a70cbe64-75ac-410d-9a51-4047cb408c3b": "1d63426a-d721-40bf-91b7-45f70fe691ca",
+          "883fb5c6-fa9e-4821-a15d-d53a4cd80596": "2e8b9ee9-bf72-407f-b95b-3d4032f611f5",
+          "b3eb45d5-db39-4555-8dad-4434dcf158c6": "c886950e-a623-4a07-8f60-09fcaf4ac9c5",
+          "7e3613e2-4a23-4a58-80b6-d22e955fba38": "2519b3b8-03b6-4988-8d3c-08fa1154732a",
+          "3ff82be0-d21d-48c3-9caf-66e6b9285ece": "b741e54a-96f0-41bd-9ff9-f2e929de816d",
+          "904e51f5-7cfc-4a94-90e4-71fc7ace52e6": "681106c5-d2d1-4306-93da-e6d4be0ee228",
+          "680450bf-14d4-4529-91c6-624b22343625": "d19b9d88-e05f-44a4-9ac4-7d6bf147de12",
+          "baa9f222-142f-48b8-892a-e0aaff2b5fda": "82a89347-d794-4e24-a937-39ca9bee1a49",
+          "eebd05d9-e86c-4f4a-8ffd-62c90b935097": "05764f34-59de-40a7-986c-9771a299bfcf"
+        }
+      },
+      {
+        "__guid": "a722244f-66f8-4573-a531-7aefa1863ed2",
+        "__version": 1,
+        "__Prefab": "weapons/common/effects/eject_shotgun.prefab",
+        "__PrefabInstancePatch": {
+          "AddedObjects": [],
+          "RemovedObjects": [],
+          "PropertyOverrides": [
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "Position",
+              "Value": "5000,5000,5000"
+            },
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "NetworkInterpolation",
+              "Value": false
+            }
+          ],
+          "MovedObjects": []
+        },
+        "__PrefabIdToInstanceId": {
+          "58e7d3cd-b650-4d5b-9fda-b145dc107cb0": "a722244f-66f8-4573-a531-7aefa1863ed2",
+          "b3fd4985-597d-48db-9370-bd0ab65f1d3d": "d86e8c6b-f3aa-44a6-9bb6-db3e18b9de82",
+          "2fe8404b-67ac-4fe7-9adb-47b4259c990a": "443fd6ad-e999-4f1e-92b3-b0f6ecf03a38",
+          "6f3695a1-a42f-426b-88af-e3bcf8383892": "78569075-fed2-48bc-a128-80090ec0e8e8",
+          "7d507b35-0577-4a72-afac-daeef59fd59b": "8c191b03-cd05-4ce1-bcf8-20996e370bd7"
+        }
+      },
+      {
+        "__guid": "76764226-c1f7-4978-ae4e-09a3f523fb53",
+        "__version": 1,
+        "__Prefab": "weapons/common/effects/muzzle.prefab",
+        "__PrefabInstancePatch": {
+          "AddedObjects": [],
+          "RemovedObjects": [],
+          "PropertyOverrides": [
+            {
+              "Target": {
+                "Type": "GameObject",
+                "IdValue": "58e7d3cd-b650-4d5b-9fda-b145dc107cb0"
+              },
+              "Property": "Position",
+              "Value": "5000,5000,5000"
+            }
+          ],
+          "MovedObjects": []
+        },
+        "__PrefabIdToInstanceId": {
+          "58e7d3cd-b650-4d5b-9fda-b145dc107cb0": "76764226-c1f7-4978-ae4e-09a3f523fb53",
+          "a70cbe64-75ac-410d-9a51-4047cb408c3b": "dc13ab9d-a24a-4756-9249-db84ade918e9",
+          "883fb5c6-fa9e-4821-a15d-d53a4cd80596": "89655ad0-a44e-4941-bc84-5274ae7d32e7",
+          "b3eb45d5-db39-4555-8dad-4434dcf158c6": "ca50523c-e3bd-4c8f-93b4-5c5e50b5dcfa",
+          "7e3613e2-4a23-4a58-80b6-d22e955fba38": "43409b4f-f89d-4dbf-861b-ecf992e8f643",
+          "3ff82be0-d21d-48c3-9caf-66e6b9285ece": "b21ddd8a-a015-4683-9997-204f123c106d",
+          "904e51f5-7cfc-4a94-90e4-71fc7ace52e6": "ca86f9df-62b8-4019-a229-ccb184597954",
+          "680450bf-14d4-4529-91c6-624b22343625": "368d384a-5275-45c2-8701-8da2fdbc0a19",
+          "baa9f222-142f-48b8-892a-e0aaff2b5fda": "222f3ba6-ee27-4928-ae82-8949f84d8eeb",
+          "eebd05d9-e86c-4f4a-8ffd-62c90b935097": "8d8c5195-4a98-47e2-ac5d-dba2cbe5d5d5"
+        }
+      },
+      {
+        "__guid": "d07f6e10-3747-4401-8524-290da8a5950a",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Model",
+        "Position": "4.741977,0.7220733,-7.345629",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.SkinnedModelRenderer",
+            "__guid": "abfc91ee-c839-4cba-aea0-d832ed3796a0",
+            "__enabled": true,
+            "AnimationGraph": null,
+            "BodyGroups": 3,
+            "BoneMergeTarget": null,
+            "CreateAttachments": false,
+            "CreateBoneObjects": false,
+            "LodOverride": null,
+            "MaterialGroup": null,
+            "MaterialOverride": null,
+            "Materials": null,
+            "Model": "models/weapons/sbox_shotgun_spaghellim4/w_spaghellim4.vmdl",
+            "Morphs": {},
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "Parameters": {
+              "bools": {},
+              "ints": {},
+              "floats": {},
+              "vectors": {},
+              "rotations": {}
+            },
+            "PlaybackRate": 1,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "RenderType": "On",
+            "Sequence": {
+              "Name": null,
+              "Looping": true,
+              "Blending": false
+            },
+            "Tint": "1,1,1,1",
+            "UseAnimGraph": true
+          }
+        ],
+        "Children": [
+          {
+            "__guid": "7f82a04d-8786-44cc-8eb9-744d4266ee48",
+            "__version": 1,
+            "Flags": 0,
+            "Name": "ik",
+            "Position": "5.855959,2.915011,3.366139",
+            "Rotation": "-0.0000002011657,0.000000118278,-0.6290877,0.7773345",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          }
+        ]
+      },
+      {
+        "__guid": "aed18528-2cdb-46cd-8251-9496df76c586",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Muzzle",
+        "Position": "33.8,0,4.15",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": []
+      }
+    ],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [
+    "facepunch.w_spaghellim4#58057"
+  ],
+  "__version": 2
+}
