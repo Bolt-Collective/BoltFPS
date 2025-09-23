@@ -25,16 +25,16 @@ public partial class BaseWeapon : Component
 	private int shots;
 
 	private float shotTime;
-	[Feature( "General" )][Property] public string Name { get; set; }
-	[Feature( "General" )][Property] public ItemResource ItemResource { get; set; }
+	[Feature( "General" )] [Property] public string Name { get; set; }
+	[Feature( "General" )] [Property] public ItemResource ItemResource { get; set; }
 
 	[Feature( "General" )]
 	[Property]
 	[ImageAssetPath]
 	public string Icon { get; set; }
 
-	[Feature( "Animation" )][Property] public bool ADS { get; set; }
-	[Feature( "Animation" )][Property] public WeaponIK LeftIK { get; set; }
+	[Feature( "Animation" )] [Property] public bool ADS { get; set; }
+	[Feature( "Animation" )] [Property] public WeaponIK LeftIK { get; set; }
 
 	[Feature( "Animation" )]
 	[Property]
@@ -46,27 +46,27 @@ public partial class BaseWeapon : Component
 	public CitizenAnimationHelper.Hand Handedness { get; set; }
 		= CitizenAnimationHelper.Hand.Right;
 
-	[Feature( "Animation" )][Property] public string ParentBone { get; set; } = "hold_r";
-	[Feature( "Animation" )][Property] public Transform BoneOffset { get; set; } = new( 0 );
+	[Feature( "Animation" )] [Property] public string ParentBone { get; set; } = "hold_r";
+	[Feature( "Animation" )] [Property] public Transform BoneOffset { get; set; } = new(0);
 
-	[Feature( "Models" )][Property] public GameObject ViewModelPrefab { get; set; }
-	[Feature( "Models" )][Property] public GameObject TracerEffect { get; set; }
+	[Feature( "Models" )] [Property] public GameObject ViewModelPrefab { get; set; }
+	[Feature( "Models" )] [Property] public GameObject TracerEffect { get; set; }
 
 	[Feature( "Sounds" )]
 	[Property]
 	public SoundEvent DeploySound { get; set; } =
 		ResourceLibrary.Get<SoundEvent>( "sounds/weapons/switch/switch_3.sound" );
 
-	[Feature( "Sounds" )][Property] public SoundEvent ReloadSound { get; set; }
-	[Feature( "Sounds" )][Property] public SoundEvent ReloadShortSound { get; set; }
-	[Feature( "Sounds" )][Property] public SoundEvent ShootSound { get; set; }
-	[Feature( "Sounds" )][Property] public SoundEvent AltShootSound { get; set; }
+	[Feature( "Sounds" )] [Property] public SoundEvent ReloadSound { get; set; }
+	[Feature( "Sounds" )] [Property] public SoundEvent ReloadShortSound { get; set; }
+	[Feature( "Sounds" )] [Property] public SoundEvent ShootSound { get; set; }
+	[Feature( "Sounds" )] [Property] public SoundEvent AltShootSound { get; set; }
 
-	[Feature( "Firing" )][Property] public float PrimaryRate { get; set; } = 5.0f;
-	[Feature( "Firing" )][Property] public float SecondaryRate { get; set; } = 15.0f;
-	[Feature( "Firing" )][Property] public virtual float Damage { get; set; }
-	[Feature( "Firing" )][Property] public virtual float Spread { get; set; }
-	[Feature( "Firing" )][Property] public virtual float SpreadIncrease { get; set; }
+	[Feature( "Firing" )] [Property] public float PrimaryRate { get; set; } = 5.0f;
+	[Feature( "Firing" )] [Property] public float SecondaryRate { get; set; } = 15.0f;
+	[Feature( "Firing" )] [Property] public virtual float Damage { get; set; }
+	[Feature( "Firing" )] [Property] public virtual float Spread { get; set; }
+	[Feature( "Firing" )] [Property] public virtual float SpreadIncrease { get; set; }
 
 	[Property, ShowIf( "UseProjectile", true ), Group( "Projectile" ), Feature( "Firing" )]
 	public GameObject Projectile { get; set; }
@@ -74,17 +74,20 @@ public partial class BaseWeapon : Component
 	[Property, ShowIf( "UseProjectile", true ), Group( "Projectile" ), Feature( "Firing" )]
 	public float ProjectileSpeed { get; set; }
 
-	[Feature( "Ammo" )][Property] public int Ammo { get; set; }
-	[Feature( "Ammo" )][Property] public int MaxAmmo { get; set; }
-	[Feature( "Ammo" )][Property] public bool Chamber { get; set; } = true;
-	[Feature( "Ammo" )][Property] public bool ShowAmmo { get; set; } = true;
-	[Feature( "Ammo" )][Property] public float ReloadTime { get; set; } = 3.0f;
-	[Feature( "Ammo" )][Property] public bool ReloadEmpty { get; set; }
-	[Feature( "Ammo" )][Property, ShowIf( "ReloadEmpty", true )] public float ReloadEmptyTime { get; set; }
+	[Feature( "Ammo" )] [Property] public int Ammo { get; set; }
+	[Feature( "Ammo" )] [Property] public int MaxAmmo { get; set; }
+	[Feature( "Ammo" )] [Property] public bool Chamber { get; set; } = true;
+	[Feature( "Ammo" )] [Property] public bool ShowAmmo { get; set; } = true;
+	[Feature( "Ammo" )] [Property] public float ReloadTime { get; set; } = 3.0f;
+	[Feature( "Ammo" )] [Property] public bool ReloadEmpty { get; set; }
+
+	[Feature( "Ammo" )]
+	[Property, ShowIf( "ReloadEmpty", true )]
+	public float ReloadEmptyTime { get; set; }
 
 	public float CurrentReloadTime => Ammo <= 0 && ReloadEmpty ? ReloadEmptyTime : ReloadTime;
 
-	[Feature( "UI" )][Property] public CrosshairType CrosshairType { get; set; }
+	[Feature( "UI" )] [Property] public CrosshairType CrosshairType { get; set; }
 
 	[Feature( "Weapon Visuals" )]
 	[Property]
@@ -124,8 +127,8 @@ public partial class BaseWeapon : Component
 	public Pawn Owner => GameObject?.Root?.Components.Get<Pawn>( FindMode.EverythingInSelfAndDescendants );
 
 	public virtual bool WantsHideHud => false;
-	
-	
+
+
 	public RealTimeSince LastShot { get; set; }
 	public Vector2 Recoil { get; set; }
 	public virtual float RecoilTime => 0.05f.Clamp( 0, BulletTime );
@@ -198,8 +201,7 @@ public partial class BaseWeapon : Component
 		var effect =
 			Tracer?.Clone( new CloneConfig
 			{
-				Transform = new Transform().WithPosition( origin.Position ),
-				StartEnabled = true
+				Transform = new Transform().WithPosition( origin.Position ), StartEnabled = true
 			} );
 		if ( effect.IsValid() && effect.GetComponentInChildren<BeamEffect>() is { } tracer )
 		{
@@ -223,7 +225,7 @@ public partial class BaseWeapon : Component
 	private float RandomRecoilValue( float min, float max )
 	{
 		return Game.Random.Next( (int)(min * 10), (int)(max * 10) ) * 0.1f *
-			   (Game.Random.Next( 0, 2 ) == 1 ? -1 : 1);
+		       (Game.Random.Next( 0, 2 ) == 1 ? -1 : 1);
 	}
 
 	public void SetIk( GameObject target, bool active, bool left )
@@ -248,8 +250,8 @@ public partial class BaseWeapon : Component
 		ResetBodyGroups();
 
 		if ( MergeModel &&
-			 GameObject.Components.TryGet<SkinnedModelRenderer>( out var skinnedModel,
-				 FindMode.EnabledInSelfAndChildren ) )
+		     GameObject.Components.TryGet<SkinnedModelRenderer>( out var skinnedModel,
+			     FindMode.EnabledInSelfAndChildren ) )
 		{
 			SkinMergeModel( skinnedModel );
 		}
@@ -614,7 +616,8 @@ public partial class BaseWeapon : Component
 
 	public virtual void AttackPrimary()
 	{
-		SoundExtensions.BroadcastSound( ShootSound, WorldPosition, ShootSound.Volume.FixedValue, spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
+		SoundExtensions.BroadcastSound( ShootSound, WorldPosition, ShootSound.Volume.FixedValue,
+			spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
 	}
 
 	public virtual void AttackDry()
@@ -646,7 +649,8 @@ public partial class BaseWeapon : Component
 	{
 		if ( AltShootSound.IsValid() )
 		{
-			SoundExtensions.BroadcastSound( AltShootSound, WorldPosition, AltShootSound.Volume.FixedValue, spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
+			SoundExtensions.BroadcastSound( AltShootSound, WorldPosition, AltShootSound.Volume.FixedValue,
+				spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
 		}
 	}
 
@@ -838,7 +842,8 @@ public partial class BaseWeapon : Component
 
 			var calcForce = forward * 25000 * damage;
 
-			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags, Owner, this, hitboxName: hitboxName );
+			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags, Owner, this,
+				hitboxName: hitboxName );
 		}
 	}
 
@@ -873,7 +878,7 @@ public partial class BaseWeapon : Component
 
 
 		if ( gameObject.Root.Components.TryGet<HealthComponent>( out var player,
-				FindMode.EverythingInSelfAndChildren ) )
+			    FindMode.EverythingInSelfAndChildren ) )
 		{
 			if ( !ownerTeam.FriendlyFire && gameObject.Tags.Has( "player" ) )
 			{
@@ -884,7 +889,8 @@ public partial class BaseWeapon : Component
 				}
 			}
 
-			player.TakeDamage( attacker, damage, inflictor, hitPosition, calcForce, hitboxTags, hitboxName: hitboxName );
+			player.TakeDamage( attacker, damage, inflictor, hitPosition, calcForce, hitboxTags,
+				hitboxName: hitboxName );
 			if ( owner.IsValid() )
 			{
 				Crosshair.Instance.Trigger( player, damage, hitboxTags );

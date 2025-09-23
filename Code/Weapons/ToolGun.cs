@@ -51,6 +51,7 @@ public partial class ToolGun : BaseWeapon
 		if ( IsProxy )
 			return;
 
+
 		Seekers.CurrentTool.Show = this.Active;
 
 		if ( Owner?.Inventory.IsValid() ?? false )
@@ -129,6 +130,13 @@ public partial class ToolGun : BaseWeapon
 		var direction = closestIntersection - Scene.Camera.WorldPosition;
 
 		Owner.Controller.LookAt( closestIntersection );
+	}
+
+	public override void OnControl()
+	{
+		UpdateScreen();
+
+		base.OnControl();
 	}
 
 	public override void AttackPrimary()

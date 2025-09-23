@@ -74,6 +74,25 @@
         "BobCycleTime": 7,
         "BobDirection": "0,1,0.5",
         "InertiaDamping": 20,
+        "JumpCurve": [
+          {
+            "x": 0,
+            "y": 0,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          }
+        ],
+        "JumpDownTime": 0.25,
+        "JumpOffset": "0,0,-1",
+        "JumpTime": 0.5,
         "MaxOffsetLength": 10,
         "Offset": "-2,0,0",
         "OnComponentDestroy": null,
@@ -82,10 +101,13 @@
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
+        "PitchInertiaAngle": "30,0,0",
         "ReturnSpeed": 5,
+        "RotateAround": null,
         "SprintHold": false,
-        "SwingAndBob": false,
-        "SwingInfluence": 0.05
+        "SwayType": "Graph",
+        "SwingInfluence": 0.05,
+        "YawInertiaAngle": "0,30,20"
       }
     ],
     "Children": [
