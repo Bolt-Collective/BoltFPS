@@ -169,7 +169,7 @@ public abstract partial class Movement : Component, IScenePhysicsEvents
 	public Vector3 forwardDirection => Scene.Camera?.WorldTransform.Forward.WithZ( 0 ).Normal ?? default;
 	public Vector3 rightDirection => Scene.Camera?.WorldTransform.Right.WithZ( 0 ).Normal ?? default;
 
-	[Sync] public Angles EyeAngles { get; set; }
+	[Sync( SyncFlags.Interpolate )] public Angles EyeAngles { get; set; }
 
 	public bool IgnoreMove { get; set; }
 

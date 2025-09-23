@@ -104,7 +104,6 @@ public partial class BaseWeapon : Component
 		}
 	}
 
-	[Sync] public bool IsSitting { get; set; }
 	[Sync] public bool IsReloading { get; set; }
 
 	[Sync] public RealTimeSince TimeSinceReload { get; set; }
@@ -125,12 +124,10 @@ public partial class BaseWeapon : Component
 	public Pawn Owner => GameObject?.Root?.Components.Get<Pawn>( FindMode.EverythingInSelfAndDescendants );
 
 	public virtual bool WantsHideHud => false;
-
-	public PlayerInventory Inventory =>
-		GameObject?.Root?.Components.Get<PlayerInventory>( FindMode.EverythingInSelfAndDescendants );
-
+	
+	
 	public RealTimeSince LastShot { get; set; }
-	public Angles Recoil { get; set; }
+	public Vector2 Recoil { get; set; }
 	public virtual float RecoilTime => 0.05f.Clamp( 0, BulletTime );
 	public float BulletTime => 1 / PrimaryRate;
 
@@ -212,14 +209,14 @@ public partial class BaseWeapon : Component
 
 	protected void CalculateRandomRecoil( (float min, float max) pitchRecoil, (float min, float max) yawRecoil )
 	{
-		Recoil = new Angles( -MathF.Abs( RandomRecoilValue( pitchRecoil.min, pitchRecoil.max ) ),
-			RandomRecoilValue( yawRecoil.min, yawRecoil.max ), 0 );
+		Recoil = new Vector2( -MathF.Abs( RandomRecoilValue( pitchRecoil.min, pitchRecoil.max ) ),
+			RandomRecoilValue( yawRecoil.min, yawRecoil.max ) );
 		LastShot = 0;
 	}
 
 	protected void AddRecoil( Vector2 recoil )
 	{
-		Recoil = new Angles( -recoil.y, -recoil.x, 0 );
+		Recoil = new Vector2( -recoil.y, -recoil.x );
 		LastShot = 0;
 	}
 
