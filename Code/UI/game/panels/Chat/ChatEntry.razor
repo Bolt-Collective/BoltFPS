@@ -5,6 +5,7 @@
 @namespace Seekers
 
 <root class="entry @( Entry.Styles )">
+	
 	@if ( Entry.SteamId != 0 )
 	{
 		<img class="avatar" src="@( $"avatar:{Entry.SteamId}" )"/>
@@ -14,13 +15,15 @@
 	{
 		if ( BasicNetworkHelper.Devs.Contains( Entry.SteamId ) )
 		{
-			<div class="breaker rainbow">[@Entry.Name]:</div>
+			<div class="breaker rainbow">[DEV]</div>
+			<div class="breaker">@Entry.Name:</div>
 		}
 		else
 		{
-			<div class="breaker">[@Entry.Name]:</div>
+			<div class="breaker">@Entry.Name:</div>
 		}
 	}
+
 	<div class="message-content">
 		@Entry.Message
 	</div>
