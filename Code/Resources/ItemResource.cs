@@ -15,7 +15,7 @@ public class ItemResource : GameResource
 
 	[KeyProperty, TextArea] public string Description { get; set; } = "An item.";
 
-	public string Details { get; set; }
+	[ResourceType( "prefab" )] public string Details { get; set; }
 
 	public string GetDetails()
 	{
