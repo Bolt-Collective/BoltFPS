@@ -47,6 +47,8 @@ public class ViewModel : Component
 	[Property, Group( "ProcedualAim" )] public GameObject IronSightPoint { get; set; }
 	[Property, Group( "ProcedualAim" )] public GameObject IronSightBack { get; set; }
 	[Property, Group( "ProcedualAim" )] public float Distance { get; set; }
+	[Property, Group( "ProcedualAim" )] public float Distance60 { get; set; }
+	[Property, Group( "ProcedualAim" )] public float Distance120 { get; set; }
 
 
 	[Property, ToggleGroup( "BulletGroups" )] public bool BulletGroups { get; set; }
@@ -78,6 +80,29 @@ public class ViewModel : Component
 			{
 				float t = (fov - 90f) / (120f - 90f);
 				return MathX.Lerp( 0, OffsetAt120, t );
+			}
+		}
+	}
+
+	private float AimOffset
+	{
+		get
+		{
+			float fov = Preferences.FieldOfView;
+
+			if ( fov < 90f )
+			{
+				if ( Distance60 == 0 )
+					return OffsetAt60;
+				float t = (fov - 60f) / (90f - 60f);
+				return MathX.Lerp( Distance60, 0, t );
+			}
+			else
+			{
+				if ( Distance120 == 0 )
+					return OffsetAt120;
+				float t = (fov - 90f) / (120f - 90f);
+				return MathX.Lerp( 0, Distance120, t );
 			}
 		}
 	}
@@ -322,7 +347,7 @@ public class ViewModel : Component
 
 
 		targetPosOffset -= GameObject.Parent.WorldTransform.PointToLocal( IronSightPoint.WorldPosition );
-		targetPosOffset += Vector3.Forward * (Distance + XOffset);
+		targetPosOffset += Vector3.Forward * (Distance + AimOffset);
 
 		LocalPosition += targetPosOffset * AimPosCurve.Evaluate( aimSmooth );
 	}

@@ -1,0 +1,11 @@
+{
+  "DisplayName": "SVD",
+  "Catagory": "BoltZ Guns",
+  "Duplicates": true,
+  "ReplenishAmmo": false,
+  "Icon": "icons/3d/w_m4a1_c.vmdl_c.png",
+  "Description": "",
+  "Details": "weapons/svd/w_svd.prefab",
+  "__references": [],
+  "__version": 0
+}

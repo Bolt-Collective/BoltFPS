@@ -31,7 +31,7 @@ Layer0
 	TextureNormal "models/M4A1/textures/M_M4A1_Normal_OpenGL.png"
 
 	//---- Roughness ----
-	g_flRoughnessScaleFactor "1.000"
+	g_flRoughnessScaleFactor "0.538"
 	TextureRoughness "models/m4a1/textures/m_m4a1_roughness.png"
 
 	//---- Texture Coordinates ----
