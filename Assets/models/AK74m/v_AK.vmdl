@@ -109,7 +109,7 @@
 						enable_scale = false
 						source_filename = "models/ak74m/anims/gun/rifle2_gun_equipe.fbx"
 						start_frame = -1
-						end_frame = -1
+						end_frame = 45
 						framerate = -1.0
 						take = 1
 						reverse = false

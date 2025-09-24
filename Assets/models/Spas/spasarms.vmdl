@@ -98,7 +98,7 @@
 						enable_scale = false
 						source_filename = "models/Spas/Animations/SHOTGUN4_arms_equipe.FBX"
 						start_frame = -1
-						end_frame = -1
+						end_frame = 58
 						framerate = -1.0
 						take = 0
 						reverse = false

@@ -136,7 +136,7 @@
 						enable_scale = false
 						source_filename = "models/spas/animations/gun/shotgun4_gun_equipe.fbx"
 						start_frame = -1
-						end_frame = -1
+						end_frame = 50
 						framerate = -1.0
 						take = 0
 						reverse = false
