@@ -193,10 +193,8 @@ public partial class BaseWeapon : Component
 		{
 			return;
 		}
-
-		var attachment = LocalWorldModel.GetAttachment( "muzzle" );
-
-		var origin = LocalWorldModel.GetAttachment( "muzzle" ).GetValueOrDefault();
+		
+		var origin = ViewModel.GetAttachment( "muzzle" );
 
 		var effect =
 			Tracer?.Clone( new CloneConfig
