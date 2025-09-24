@@ -322,7 +322,7 @@ public class ViewModel : Component
 
 
 		targetPosOffset -= GameObject.Parent.WorldTransform.PointToLocal( IronSightPoint.WorldPosition );
-		targetPosOffset += Vector3.Forward * Distance;
+		targetPosOffset += Vector3.Forward * (Distance + XOffset);
 
 		LocalPosition += targetPosOffset * AimPosCurve.Evaluate( aimSmooth );
 	}

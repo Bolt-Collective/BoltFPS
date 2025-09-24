@@ -106,7 +106,7 @@
         "BobDirection": "0,1,0.5",
         "BulletGroupName": "Ammo",
         "BulletGroups": false,
-        "Distance": 12,
+        "Distance": 17.7,
         "InertiaDamping": 20,
         "IronSightBack": {
           "_type": "gameobject",

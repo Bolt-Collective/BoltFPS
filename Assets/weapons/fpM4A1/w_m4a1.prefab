@@ -18,6 +18,8 @@
         "__type": "Seekers.MachineGun",
         "__guid": "e6d6f931-f23d-4fdb-adf9-20b8273f056f",
         "__enabled": true,
+        "ADS": false,
+        "AltShootSound": null,
         "Ammo": 30,
         "BoneOffset": {
           "Position": "2.1855,0,-8.196",
@@ -47,6 +49,7 @@
         "MaxRecoil": 1.5,
         "MergeModel": false,
         "MinRecoil": 0.75,
+        "MuzzleOverride": null,
         "Name": "M4A1",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
@@ -56,6 +59,8 @@
         "OnComponentUpdate": null,
         "ParentBone": "hold_r",
         "PrimaryRate": 10,
+        "Projectile": null,
+        "ProjectileSpeed": 0,
         "RecoilPattern": {
           "Points": [
             "0.388125,1",
@@ -89,6 +94,8 @@
             "-0.433125,0.43"
           ]
         },
+        "ReloadEmpty": false,
+        "ReloadEmptyTime": 0,
         "ReloadShortSound": "sounds/weapons/reloads/m4a1reloadc.sound",
         "ReloadSound": "sounds/weapons/reloads/m4a1reload.sound",
         "ReloadTime": 2.5,
@@ -102,7 +109,7 @@
         "TracerEffect": null,
         "ViewModelPrefab": {
           "_type": "gameobject",
-          "prefab": "weapons/m4a1/v_m4a1.prefab"
+          "prefab": "weapons/fpm4a1/v_m4a1.prefab"
         }
       }
     ],

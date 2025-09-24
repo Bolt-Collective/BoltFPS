@@ -115,7 +115,7 @@
         "BobDirection": "0,0,0",
         "BulletGroupName": "Ammo",
         "BulletGroups": false,
-        "Distance": 8,
+        "Distance": 13.7,
         "InertiaDamping": 20,
         "IronSightBack": null,
         "IronSightPoint": {
