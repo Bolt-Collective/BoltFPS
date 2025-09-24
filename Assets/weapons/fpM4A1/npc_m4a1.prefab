@@ -1,0 +1,189 @@
+{
+  "RootObject": {
+    "__guid": "fba57dd6-c569-4ae9-ad96-2ca6ea29b45e",
+    "__version": 1,
+    "Flags": 0,
+    "Name": "npc_m4a1",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "item,weapon",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "Seekers.BasicNPCGun",
+        "__guid": "4dd86538-ce39-4569-b1e6-5d14b6d688c0",
+        "__enabled": true,
+        "Ammo": 30,
+        "Damage": 7,
+        "MaxAmmo": 30,
+        "Muzzle": {
+          "_type": "gameobject",
+          "go": "f70b9bf0-77c6-4f7c-9ddf-b8c8a8284a38"
+        },
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Owner": null,
+        "Range": 1024,
+        "Rate": 8.333,
+        "ReloadSound": "sounds/weapons/reloads/m4a1reload.sound",
+        "ReloadTime": 2.5,
+        "ShootSound": "sounds/guns/akm/ar1_shoot 01.sound",
+        "Shots": 1,
+        "Spread": 0.1,
+        "TracerEffect": null
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "d5754c80-fad6-48cd-b995-0c6b3cdc5dd6",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Model",
+        "Position": "3.375254,0.8127438,-5.074275",
+        "Rotation": "-0.0000001229346,0.00000006891787,0.0000001639128,0.9999989",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.SkinnedModelRenderer",
+            "__guid": "a1404db8-3164-4612-9484-24acb367f7fb",
+            "__enabled": true,
+            "AnimationGraph": null,
+            "BodyGroups": 171,
+            "BoneMergeTarget": null,
+            "CreateAttachments": false,
+            "CreateBoneObjects": true,
+            "MaterialGroup": null,
+            "MaterialOverride": null,
+            "Materials": null,
+            "Model": "models/weapons/sbox_assault_m4a1/w_m4a1.vmdl",
+            "Morphs": {},
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "Parameters": {
+              "bools": {},
+              "ints": {},
+              "floats": {},
+              "vectors": {},
+              "rotations": {}
+            },
+            "PlaybackRate": 1,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "RenderType": "On",
+            "Sequence": {
+              "Name": null,
+              "Looping": true,
+              "Blending": false
+            },
+            "Tint": "1,1,1,1",
+            "UseAnimGraph": false
+          }
+        ],
+        "Children": [
+          {
+            "__guid": "9c2e9b1f-1b7d-4bdf-b377-fc02dc0ccc4e",
+            "__version": 1,
+            "Flags": 0,
+            "Name": "hold_R",
+            "Position": "-1.45742,0,5.464317",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          },
+          {
+            "__guid": "8d0c9070-802a-421d-971b-dd7d4a2388ad",
+            "__version": 1,
+            "Flags": 0,
+            "Name": "leftik",
+            "Position": "4.804971,0.8108997,5.080464",
+            "Rotation": "-0.04512107,0.09017982,0.27016,-0.9575226",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          }
+        ]
+      },
+      {
+        "__guid": "f70b9bf0-77c6-4f7c-9ddf-b8c8a8284a38",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Muzzle",
+        "Position": "22.79955,0,2.498127",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": []
+      }
+    ],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [
+    "facepunch.w_m4a1#60166"
+  ],
+  "__version": 2
+}

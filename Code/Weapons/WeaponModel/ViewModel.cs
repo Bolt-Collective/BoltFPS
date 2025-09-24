@@ -1,3 +1,4 @@
+using Sandbox;
 using ShrimplePawns;
 using System.Net.Mail;
 
@@ -48,12 +49,38 @@ public class ViewModel : Component
 	[Property, Group( "ProcedualAim" )] public float Distance { get; set; }
 
 
+	[Property, ToggleGroup( "BulletGroups" )] public bool BulletGroups { get; set; }
+	[Property, Group( "BulletGroups" )] public string BulletGroupName { get; set; } = "Ammo";
+	[Property, Group( "BulletGroups" )] public int MaxBulletGroup { get; set; } = 4;
+
+
 	[RequireComponent] public SkinnedModelRenderer Renderer { get; set; }
 
 	public float YawInertia { get; private set; }
 	public float PitchInertia { get; private set; }
 
+	[Property] public float OffsetAt60 { get; set; }
 	[Property] public Vector3 Offset { get; set; }
+	[Property] public float OffsetAt120 { get; set; }
+
+	private float XOffset
+	{
+		get
+		{
+			float fov = Preferences.FieldOfView;
+
+			if ( fov < 90f )
+			{
+				float t = (fov - 60f) / (90f - 60f);
+				return MathX.Lerp( OffsetAt60, 0, t );
+			}
+			else
+			{
+				float t = (fov - 90f) / (120f - 90f);
+				return MathX.Lerp( 0, OffsetAt120, t );
+			}
+		}
+	}
 
 	[Property] public Dictionary<string, TranslatedAnim> AnimParamTranslate { get; set; }
 	[Property] public Dictionary<string, GameObject> AttachmentTranslate { get; set; }
@@ -143,7 +170,7 @@ public class ViewModel : Component
 			activated = true;
 		}
 
-		LocalPosition = Offset;
+		LocalPosition = Offset + Vector3.Forward * XOffset;
 		WorldRotation = inRot;
 
 
@@ -167,7 +194,7 @@ public class ViewModel : Component
 		pIntertiaSmooth = pIntertiaSmooth.LerpTo( PitchInertia, 10 * Time.Delta );
 		yIntertiaSmooth = yIntertiaSmooth.LerpTo( YawInertia, 10 * Time.Delta );
 
-		ProcedualAim();
+		ProcedualAim(pawn);
 
 		if ( swingAndBob )
 		{
@@ -211,6 +238,17 @@ public class ViewModel : Component
 
 		YawInertia = YawInertia.LerpTo( 0, Time.Delta * InertiaDamping );
 		PitchInertia = PitchInertia.LerpTo( 0, Time.Delta * InertiaDamping );
+
+		DoBulletGroups(pawn);
+	}
+
+	public void DoBulletGroups( Pawn pawn )
+	{
+		if ( !BulletGroups )
+			return;
+
+		foreach ( var renderer in Renderers )
+			renderer.SetBodyGroup( BulletGroupName, pawn.Inventory.ActiveWeapon.Ammo.Clamp( 0, MaxBulletGroup ) );
 	}
 
 	public void GraphSway(Pawn pawn)
@@ -262,12 +300,13 @@ public class ViewModel : Component
 	}
 	private bool Aiming;
 	private float aimSmooth;
-	public void ProcedualAim()
+	public void ProcedualAim(Pawn pawn)
 	{
 		if ( !procedualAim ) return;
 
+
 		var vel = 0f;
-		aimSmooth += (Aiming && !GetBool("b_sprint") ? Time.Delta : -Time.Delta) * 1 / AimTime;
+		aimSmooth += (Aiming && !GetBool("b_sprint") && !pawn.Inventory.ActiveWeapon.IsReloading ? Time.Delta : -Time.Delta) * 1 / AimTime;
 		aimSmooth = aimSmooth.Clamp( 0, 1 );
 
 		var targetPosOffset = Vector3.Zero;
@@ -293,13 +332,7 @@ public class ViewModel : Component
 	{
 		var anim = GetAnim( name );
 
-
-		var renderers = new List<SkinnedModelRenderer>();
-		if (SyncedRenderers != null)
-			renderers.AddRange(SyncedRenderers);
-		renderers.Add( Renderer );
-
-		foreach(var renderer in renderers)
+		foreach(var renderer in Renderers )
 			renderer?.Set( anim, value );
 	}
 
@@ -308,12 +341,7 @@ public class ViewModel : Component
 	{
 		var anim = GetAnim( name );
 
-		var renderers = new List<SkinnedModelRenderer>();
-		if ( SyncedRenderers != null )
-			renderers.AddRange( SyncedRenderers );
-		renderers.Add( Renderer );
-
-		foreach ( var renderer in renderers )
+		foreach ( var renderer in Renderers )
 			renderer?.Set( anim, value );
 	}
 
@@ -325,12 +353,7 @@ public class ViewModel : Component
 
 		var anim = GetAnim( name );
 
-		var renderers = new List<SkinnedModelRenderer>();
-		if ( SyncedRenderers != null )
-			renderers.AddRange( SyncedRenderers );
-		renderers.Add( Renderer );
-
-		foreach ( var renderer in renderers )
+		foreach ( var renderer in Renderers )
 			renderer?.Set( anim, value );
 	}
 
@@ -347,6 +370,18 @@ public class ViewModel : Component
 	public int GetInt( string name )
 	{
 		return Renderer?.GetInt( GetAnim( name ) ) ?? 0;
+	}
+
+	private List<SkinnedModelRenderer> Renderers => GetRenderers();
+
+	private List<SkinnedModelRenderer> GetRenderers()
+	{
+		var renderers = new List<SkinnedModelRenderer>();
+		if ( SyncedRenderers != null )
+			renderers.AddRange( SyncedRenderers );
+		renderers.Add( Renderer );
+
+		return renderers;
 	}
 
 	public void Animate( float yawInertia, float pitchInertia, float velocity, bool sprint, bool grounded, bool empty )

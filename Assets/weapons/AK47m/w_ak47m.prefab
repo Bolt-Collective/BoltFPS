@@ -91,11 +91,11 @@
             "-0.86625,0.86"
           ]
         },
-        "ReloadEmpty": false,
-        "ReloadEmptyTime": 0,
+        "ReloadEmpty": true,
+        "ReloadEmptyTime": 3.18,
         "ReloadShortSound": null,
         "ReloadSound": null,
-        "ReloadTime": 2.85,
+        "ReloadTime": 2.1,
         "RemoveClothingCategories": [],
         "RemoveGroups": [],
         "SecondaryRate": 1,

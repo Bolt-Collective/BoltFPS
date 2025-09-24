@@ -62,11 +62,11 @@
             "0,1.36"
           ]
         },
-        "ReloadEmpty": false,
-        "ReloadEmptyTime": 0,
+        "ReloadEmpty": true,
+        "ReloadEmptyTime": 2.5,
         "ReloadShortSound": null,
         "ReloadSound": null,
-        "ReloadTime": 2.75,
+        "ReloadTime": 2.38,
         "RemoveClothingCategories": null,
         "RemoveGroups": null,
         "SecondaryRate": 1,

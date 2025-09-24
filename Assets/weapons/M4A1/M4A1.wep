@@ -5,7 +5,7 @@
   "ReplenishAmmo": false,
   "Icon": "icons/3d/w_m4a1_c.vmdl_c.png",
   "Description": "",
-  "Details": null,
+  "Details": "weapons/m4a1/w_m4a1.prefab",
   "__references": [],
   "__version": 0
 }

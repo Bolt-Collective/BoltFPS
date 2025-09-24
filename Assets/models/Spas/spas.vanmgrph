@@ -435,7 +435,7 @@
 				{
 					_class = "CStateMachineAnimNode"
 					m_sName = "Bob"
-					m_vecPosition = [ -565.488525, -171.482498 ]
+					m_vecPosition = [ -576.0, -176.0 ]
 					m_nNodeID = 
 					{
 						m_id = 359512461
@@ -533,7 +533,7 @@
 											}
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.5
 									m_destState = 
 									{
 										m_id = 2022443145
@@ -561,7 +561,7 @@
 							{
 								m_nodeID = 
 								{
-									m_id = 890989528
+									m_id = 1654346894
 								}
 								m_outputID = 
 								{
@@ -1800,6 +1800,38 @@
 					]
 					m_bBlockWaningTags = false
 					m_bLockStateWhenWaning = false
+				}
+			},
+			{
+				key = 
+				{
+					m_id = 1654346894
+				}
+				value = 
+				{
+					_class = "CSpeedScaleAnimNode"
+					m_sName = "Unnamed"
+					m_vecPosition = [ -736.0, -112.0 ]
+					m_nNodeID = 
+					{
+						m_id = 1654346894
+					}
+					m_sNote = ""
+					m_inputConnection = 
+					{
+						m_nodeID = 
+						{
+							m_id = 890989528
+						}
+						m_outputID = 
+						{
+							m_id = 4294967295
+						}
+					}
+					m_param = 
+					{
+						m_id = 823575223
+					}
 				}
 			},
 			{
