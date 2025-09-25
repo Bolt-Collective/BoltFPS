@@ -10,22 +10,24 @@ public sealed class Scope : Component
 	Material _material;
 
 	private Texture RenderTexture;
+
 	protected override void OnStart()
 	{
 		_material = Target.CreateCopy();
 
 		Renderer.Materials.SetOverride( 0, _material );
 
-		RenderTexture = Texture.CreateRenderTarget( "scope", ImageFormat.Default, Screen.Size );
+		RenderTexture = Texture.CreateRenderTarget( "scope", ImageFormat.RGBA8888, Screen.Size );
 
 		_material.Set( "Color", RenderTexture );
 
 		CameraComponent.FieldOfView = 90 / Zoom;
 	}
+
 	protected override void OnUpdate()
 	{
 		CameraComponent.RenderToTexture( RenderTexture );
-		
+
 		CameraComponent.WorldTransform = Scene.Camera.WorldTransform;
 	}
 }

@@ -14,7 +14,7 @@
   "Transmission": true,
   "OcclusionRadius": 64,
   "DistanceAttenuation": true,
-  "Distance": 15000,
+  "Distance": 2000,
   "Falloff": [
     {
       "x": 0,

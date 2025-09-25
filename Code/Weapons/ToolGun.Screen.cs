@@ -50,12 +50,19 @@ public partial class ToolGun
 
 		var toolName = CurrentTool?.GetType().Name;
 
+		float glow = 0.85f + 0.15f * MathF.Sin( Time.Now * 6f );
+
+		float jitter = 0.02f * MathF.Sin( Time.Now * 120f );
+		float intensity = Math.Clamp( glow + jitter, 0f, 1f );
+
 		var text = new TextRendering.Scope( toolName, Color.White, 100 );
 
-		text.LineHeight = 0.75f;
-		text.FontName = "Work Sans";
-		text.TextColor = Color.White.Lighten( 2f );
+		text.FilterMode = FilterMode.Point;
+		text.FontName = "Roboto";
 		text.FontWeight = 700;
+
+		var baseColor = new Color( 0.8f, 0.9f, 1f ); // soft bluish white
+		text.TextColor = baseColor * intensity;
 
 		cl.Paint.DrawText( text, new Rect( new Vector2( 0, 0 ), ScreenTexture.Size ), TextFlag.Center );
 
