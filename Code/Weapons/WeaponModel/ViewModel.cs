@@ -23,9 +23,6 @@ public class ViewModel : Component
 	[Property, Group( "AnimGraph" )]
 	public bool SprintHold { get; set; }
 
-	[Property]
-	public Scope ScopePoint { get; set; }
-
 	[Property, Group( "SwingAndBob" ), ShowIf("swingAndBob", true)] public float SwingInfluence { get; set; } = 0.05f;
 	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float ReturnSpeed { get; set; } = 5.0f;
 	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float MaxOffsetLength { get; set; } = 10.0f;
@@ -52,6 +49,8 @@ public class ViewModel : Component
 	[Property, Group( "ProcedualAim" )] public float Distance { get; set; }
 	[Property, Group( "ProcedualAim" )] public float Distance60 { get; set; }
 	[Property, Group( "ProcedualAim" )] public float Distance120 { get; set; }
+	[Property, Group( "ProcedualAim" )] public Scope ScopePoint { get; set; }
+	[Property, Group( "ProcedualAim" )] public float ScopeCost { get; set; } = 10;
 
 
 	[Property, ToggleGroup( "BulletGroups" )] public bool BulletGroups { get; set; }
@@ -328,6 +327,7 @@ public class ViewModel : Component
 	}
 	private bool Aiming;
 	private float aimSmooth;
+	private float steadySmooth;
 	public void ProcedualAim(Pawn pawn)
 	{
 		if ( !procedualAim ) return;
@@ -337,19 +337,36 @@ public class ViewModel : Component
 		aimSmooth += (Aiming && !GetBool("b_sprint") && !pawn.Inventory.ActiveWeapon.IsReloading ? Time.Delta : -Time.Delta) * 1 / AimTime;
 		aimSmooth = aimSmooth.Clamp( 0, 1 );
 
+		var goingSteady = ScopePoint.IsValid() && pawn.Stamina > 0 && Input.Down( "Walk" );
+		if ( goingSteady )
+			pawn.TakeStamina(Time.Delta * ScopeCost);
+
+		if ( pawn.Stamina < 0.1f )
+			goingSteady = false;
+
+		steadySmooth += (goingSteady ? Time.Delta : -Time.Delta) * (1f / 0.3f);
+		steadySmooth = steadySmooth.Clamp( 0, 1 );
+
 		var targetPosOffset = Vector3.Zero;
 
 		var parentPos = GameObject.Parent.WorldPosition;
 		var parentRot = GameObject.Parent.WorldRotation;
-		var childRot = IronSightPoint.WorldRotation;
+
+		var ironRel = GameObject.Parent.WorldTransform.RotationToLocal( IronSightPoint.WorldRotation );
+		var scopeRel = GameObject.Parent.WorldTransform.RotationToLocal( ScopePoint?.WorldRotation ?? IronSightPoint.WorldRotation );
+		var blendedRel = Rotation.Lerp( ironRel, scopeRel, steadySmooth );
+
+		var childRot = GameObject.Parent.WorldTransform.RotationToWorld( blendedRel );
 
 		var offset = Rotation.Difference( childRot, parentRot ) * AimRotCurve.Evaluate( aimSmooth );
 
 		WorldRotation = offset * WorldRotation;
 		WorldPosition = parentPos + offset * (WorldPosition - parentPos);
 
+		var ironPointPos = GameObject.Parent.WorldTransform.PointToLocal( IronSightPoint.WorldPosition );
+		var scopePosRel = GameObject.Parent.WorldTransform.PointToLocal( ScopePoint?.WorldPosition ?? IronSightPoint.WorldPosition );
 
-		targetPosOffset -= GameObject.Parent.WorldTransform.PointToLocal( IronSightPoint.WorldPosition );
+		targetPosOffset -= ironPointPos.LerpTo(scopePosRel, steadySmooth).WithX(ironPointPos.x);
 		targetPosOffset += Vector3.Forward * (Distance + AimOffset);
 
 		LocalPosition += targetPosOffset * AimPosCurve.Evaluate( aimSmooth );

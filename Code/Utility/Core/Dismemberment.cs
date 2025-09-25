@@ -28,11 +28,24 @@ public class Dismemberment : Component
 		public string BodyGroup { get; set; }
 		public int dismemberedValue { get; set; } = 1;
 		public float Health { get; set; } = 100;
+		public float HealthCost { get; set; } = 100;
+
+		[Hide] public Component LastAttaker;
 	}
 
 	protected override void OnStart()
 	{
 		HealthComponent.OnDamaged += OnDamaged;
+	}
+
+	protected override void OnFixedUpdate()
+	{
+		foreach(var dismemberable in Dismemberables)
+		{
+			if ( dismemberable.Health > 0 )
+				continue;
+			HealthComponent.TakeDamage( dismemberable?.LastAttaker ?? this, dismemberable.HealthCost * Time.Delta );
+		}
 	}
 
 	public void OnDamaged(DamageInfo damageInfo)
@@ -50,6 +63,8 @@ public class Dismemberment : Component
 				continue;
 
 			dismemberable.Health -= damageInfo.Damage;
+
+			dismemberable.LastAttaker = damageInfo.Attacker;
 
 			if ( dismemberable.Health > 0 )
 				continue;

@@ -29,7 +29,7 @@
         "Bullets": 14,
         "Chamber": true,
         "CrosshairType": "Shotgun",
-        "Damage": 3.75,
+        "Damage": 5.714286,
         "DeploySound": null,
         "DisableInFP": [],
         "FemaleReplacement": null,
@@ -74,7 +74,7 @@
         "SecondaryRate": 1,
         "ShootSound": "sounds/guns/gunshot8.sound",
         "ShowAmmo": true,
-        "Spread": 0.05,
+        "Spread": 0.07,
         "SpreadIncrease": 0,
         "TracerEffect": null,
         "ViewModelPrefab": {

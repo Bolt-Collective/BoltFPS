@@ -1,5 +1,6 @@
 ﻿using Sandbox.Citizen;
 using ShrimplePawns;
+using System.Security.Cryptography;
 
 namespace Seekers;
 
@@ -279,6 +280,12 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 		{
 			Controller.ThirdPerson = !Controller.ThirdPerson;
 		}
+	}
+
+	public void TakeStamina(float amount)
+	{
+		Stamina = (Stamina - amount).Clamp( 0, 1 );
+		_staminaUsedTime = 0;
 	}
 
 	public void OnCameraMove( ref Angles angles )
