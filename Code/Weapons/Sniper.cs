@@ -16,6 +16,8 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 	[Feature( "Firing" ), Property] public float MinRecoil { get; set; } = 0.5f;
 	[Feature( "Firing" ), Property] public float MaxRecoil { get; set; } = 1f;
 	[Feature( "Firing" ), Property] public float SpreadMult { get; set; } = 0.2f;
+	[Feature( "Scope" ), Property] public float Zoom { get; set; } = 4f;
+	[Feature( "Scope" ), Property] public float SensMod { get; set; } = 0.25f;
 	public RealTimeSince TimeSinceDischarge { get; set; }
 
 	CommandList scopeCommandList;
@@ -26,6 +28,9 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 	private Angles LastAngles;
 
 	private Angles AnglesLerp;
+
+	public Vector3 AimPosOverride;
+	public Vector3 AimDirectionOverride;
 
 	[Feature( "Scope" ), Property] private float AngleOffsetScale { get; set; } = 0.01f;
 
@@ -120,10 +125,24 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 	bool scopingIn = false;
 
+	public override void ShootBullet( float force, float damage, float bulletSize )
+	{
+		var ray = Owner.AimRay;
+		if ( Scoped && (ViewModel?.ScopePoint.IsValid() ?? false) )
+		{
+			Vector2 screenPosA = Scene.Camera.PointToScreenNormal( ViewModel.ScopePoint.WorldPosition );
+
+			// Step 2: unproject same screen position using Camera B
+			ray = ViewModel.ScopePoint.CameraComponent.ScreenNormalToRay( screenPosA );
+		}
+		ShootBullet( ray.Position, ray.Forward, force, damage, bulletSize );
+	}
+
 	public async void Scope()
 	{
 		ViewModel.Set( "ironsights", 1 );
-		SoundExtensions.BroadcastSound( ZoomSound.ResourceName, WorldPosition );
+		if(ZoomSound.IsValid())
+			SoundExtensions.BroadcastSound( ZoomSound.ResourceName, WorldPosition );
 
 		Scoped = true;
 		scopingIn = true;
@@ -135,9 +154,11 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 		if ( !Owner.IsValid() )
 			return;
 
-		Owner.Zoom = 4;
+		Owner.Zoom = Zoom;
+		Owner.SensMod = SensMod;
 
-		ForceDisableViewmodel = true;
+		if (ScopeOverlay.IsValid())
+			ForceDisableViewmodel = true;
 	}
 
 	float easeOutCirc( float x )
@@ -161,6 +182,7 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 		AnglesLerp = new Angles();
 
 		Owner.Zoom = 1;
+		Owner.SensMod = 1;
 
 		ForceDisableViewmodel = false;
 

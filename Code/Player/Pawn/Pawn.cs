@@ -42,6 +42,7 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 
 	[Sync] public Client Owner { get; set; }
 	public float Zoom { get; set; } = 1f;
+	public float SensMod { get; set; } = 1f;
 	public float FOVModifier { get; set; } = 1f;
 	public float Stamina { get; set; } = 1;
 
@@ -286,12 +287,15 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 		Inventory?.ActiveWeapon?.OnCameraMove( this, ref ang );
 	}
 
+	float smoothZoom;
 	public void OnCameraSetup( CameraComponent camera )
 	{
+		var vel = 0f;
+		smoothZoom = MathX.SmoothDamp( smoothZoom, Zoom, ref vel, 0.1f, Time.Delta );
 		camera.FovAxis = CameraComponent.Axis.Vertical;
 		camera.FieldOfView =
-			Screen.CreateVerticalFieldOfView( (Preferences.FieldOfView / Zoom) * FOVModifier, 9.0f / 16.0f );
-		Controller.AimSensitivityScale = 1 / Zoom;
+			Screen.CreateVerticalFieldOfView( (Preferences.FieldOfView / smoothZoom) * FOVModifier, 9.0f / 16.0f );
+		Controller.AimSensitivityScale = SensMod;
 
 		Inventory?.ActiveWeapon?.OnCameraSetup( this, camera );
 	}

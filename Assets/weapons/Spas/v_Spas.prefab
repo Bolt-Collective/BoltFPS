@@ -101,19 +101,12 @@
         },
         "AimTime": 0.2,
         "AnimParamTranslate": {},
-        "AttachmentTranslate": {
-          "muzzle": {
-            "_type": "gameobject",
-            "go": "fde50fae-6053-4096-b3fe-cb6cf2bcaa35"
-          }
-        },
+        "AttachmentTranslate": {},
         "BobCycleTime": 7,
         "BobDirection": "0,1,0.5",
         "BulletGroupName": "Ammo",
         "BulletGroups": false,
         "Distance": 17.7,
-        "Distance120": 0,
-        "Distance60": 0,
         "InertiaDamping": 20,
         "IronSightBack": {
           "_type": "gameobject",
@@ -986,23 +979,6 @@
         "Name": "Aim",
         "Position": "17.46958,-5.117197,63.69432",
         "Rotation": "-0.0005237685,-0.001307482,-0.00001421571,0.999999",
-        "Scale": "1,1,1",
-        "Tags": "",
-        "Enabled": true,
-        "NetworkMode": 2,
-        "NetworkInterpolation": true,
-        "NetworkOrphaned": 0,
-        "OwnerTransfer": 1,
-        "Components": [],
-        "Children": []
-      },
-      {
-        "__guid": "fde50fae-6053-4096-b3fe-cb6cf2bcaa35",
-        "__version": 1,
-        "Flags": 0,
-        "Name": "Muzzle",
-        "Position": "38.44716,-5.35287,62.34785",
-        "Rotation": "0,0,0,1",
         "Scale": "1,1,1",
         "Tags": "",
         "Enabled": true,

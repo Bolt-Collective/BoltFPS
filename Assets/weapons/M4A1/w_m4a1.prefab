@@ -101,7 +101,7 @@
         "SecondaryRate": 1,
         "ShootSound": "sounds/guns/gunshot3.sound",
         "ShowAmmo": true,
-        "Spread": 0.02,
+        "Spread": 0.15,
         "SpreadIncrease": 0,
         "TracerEffect": null,
         "ViewModelPrefab": {

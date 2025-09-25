@@ -23,7 +23,6 @@
         "BoneMergeTarget": null,
         "CreateAttachments": false,
         "CreateBoneObjects": false,
-        "LodOverride": null,
         "MaterialGroup": null,
         "MaterialOverride": null,
         "Materials": null,
@@ -62,66 +61,23 @@
         "__type": "Seekers.ViewModel",
         "__guid": "fccc3908-17ff-41ca-9c46-1aee27bf34da",
         "__enabled": true,
-        "AimPosCurve": {
-          "rangex": "0,0",
-          "rangey": "0,0"
-        },
-        "AimRotCurve": {
-          "rangex": "0,0",
-          "rangey": "0,0"
-        },
-        "AimTime": 2,
         "AnimParamTranslate": {},
         "AttachmentTranslate": {},
         "BobCycleTime": 7,
         "BobDirection": "0,1,0.5",
-        "BulletGroupName": "Ammo",
-        "BulletGroups": false,
-        "Distance": 0,
-        "Distance120": 0,
-        "Distance60": 0,
         "InertiaDamping": 20,
-        "IronSightBack": null,
-        "IronSightPoint": null,
-        "JumpCurve": [
-          {
-            "x": 0,
-            "y": 0,
-            "in": 0,
-            "out": 0,
-            "mode": "Mirrored"
-          },
-          {
-            "x": 1,
-            "y": 1,
-            "in": 0,
-            "out": 0,
-            "mode": "Mirrored"
-          }
-        ],
-        "JumpDownTime": 0.25,
-        "JumpOffset": "0,0,-1",
-        "JumpTime": 0.5,
-        "MaxBulletGroup": 4,
         "MaxOffsetLength": 10,
-        "Offset": "0,0,-145",
-        "OffsetAt120": 0,
-        "OffsetAt60": 0,
+        "Offset": "0,0,-72.6",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
-        "PitchInertiaAngle": "30,0,0",
-        "procedualAim": false,
         "ReturnSpeed": 5,
-        "RotateAround": null,
         "SprintHold": false,
-        "SwayType": "Graph",
-        "SwingInfluence": 0.05,
-        "SyncedRenderers": [],
-        "YawInertiaAngle": "0,30,20"
+        "SwingAndBob": true,
+        "SwingInfluence": 0.05
       }
     ],
     "Children": [],

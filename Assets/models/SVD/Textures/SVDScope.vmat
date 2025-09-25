@@ -1,0 +1,22 @@
+// THIS FILE IS AUTO-GENERATED
+
+Layer0
+{
+	shader "shaders/worldscope.shader"
+
+	Color "textures/scopetarget.png"
+	g_flDistance "1.552"
+	g_flSize "1.100"
+	g_flVignetteHardness "3.034"
+	g_flVignetteSize "0.500"
+	Retical "models/SVD/Textures/scope retical.png"
+	Roughness "models/SVD/Textures/ScopeRoughness.png"
+
+	//---- Fog ----
+	g_bFogEnabled "1"
+
+	DynamicParams
+	{
+		Color "Color"
+	}
+}

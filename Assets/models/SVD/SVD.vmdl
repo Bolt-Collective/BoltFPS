@@ -29,6 +29,10 @@
 								from = "wire.002.vmat"
 								to = "models/svd/textures/bullet.vmat"
 							},
+							{
+								from = "scope.vmat"
+								to = "models/svd/textures/svdscope.vmat"
+							},
 						]
 						use_global_default = false
 						global_default_material = "materials/default.vmat"
@@ -77,6 +81,7 @@
 								"Ammo4",
 								"SK_SNIPER_1",
 								"Chamber",
+								"Scope_001",
 							]
 						}
 					},

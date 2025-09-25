@@ -23,6 +23,9 @@ public class ViewModel : Component
 	[Property, Group( "AnimGraph" )]
 	public bool SprintHold { get; set; }
 
+	[Property]
+	public Scope ScopePoint { get; set; }
+
 	[Property, Group( "SwingAndBob" ), ShowIf("swingAndBob", true)] public float SwingInfluence { get; set; } = 0.05f;
 	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float ReturnSpeed { get; set; } = 5.0f;
 	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float MaxOffsetLength { get; set; } = 10.0f;

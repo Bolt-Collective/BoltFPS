@@ -1,0 +1,526 @@
+{
+  "IsSubgraph": false,
+  "Path": "shaders/worldscope.shdrgrph",
+  "Model": "models/dev/plane.vmdl",
+  "Title": null,
+  "Description": "",
+  "Category": null,
+  "Icon": null,
+  "AddToNodeLibrary": false,
+  "BlendMode": "Opaque",
+  "ShadingModel": "Lit",
+  "Domain": "Surface",
+  "PreviewSettings": {
+    "RenderBackfaces": false,
+    "EnableShadows": true,
+    "ShowGround": false,
+    "ShowSkybox": true,
+    "BackgroundColor": "0,0,0,1",
+    "Tint": "1,1,1,1"
+  },
+  "Version": 1,
+  "nodes": [
+    {
+      "_class": "Result",
+      "DefaultOpacity": 1,
+      "DefaultRoughness": 1,
+      "DefaultMetalness": 0,
+      "DefaultAmbientOcclusion": 1,
+      "Identifier": "0",
+      "Position": "156,-96",
+      "HandleOffsets": {},
+      "Albedo": {
+        "Identifier": "7",
+        "Output": "Result"
+      },
+      "Roughness": {
+        "Identifier": "8",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "TextureSampler",
+      "Image": "textures/scope retical.png",
+      "Sampler": {
+        "Filter": "Aniso",
+        "AddressU": "Wrap",
+        "AddressV": "Wrap"
+      },
+      "UI": {
+        "Name": "Retical",
+        "IsAttribute": false,
+        "Default": "1,1,1,1",
+        "Extension": "Color",
+        "CustomExtension": null,
+        "ShowExtension": true,
+        "Processor": "None",
+        "ColorSpace": "Srgb",
+        "ImageFormat": "DXT5",
+        "SrgbRead": true,
+        "Priority": 0,
+        "PrimaryGroup": {
+          "Name": null,
+          "Priority": 0
+        },
+        "SecondaryGroup": {
+          "Name": null,
+          "Priority": 0
+        }
+      },
+      "Identifier": "1",
+      "Position": "-732,-120",
+      "HandleOffsets": {},
+      "Coords": {
+        "Identifier": "5",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "TextureSampler",
+      "Image": "textures/scopetarget.png",
+      "Sampler": {
+        "Filter": "Aniso",
+        "AddressU": "Wrap",
+        "AddressV": "Wrap"
+      },
+      "UI": {
+        "Name": "Color",
+        "IsAttribute": false,
+        "Default": "1,1,1,1",
+        "Extension": "Color",
+        "CustomExtension": null,
+        "ShowExtension": true,
+        "Processor": "None",
+        "ColorSpace": "Srgb",
+        "ImageFormat": "DXT5",
+        "SrgbRead": true,
+        "Priority": 0,
+        "PrimaryGroup": {
+          "Name": null,
+          "Priority": 0
+        },
+        "SecondaryGroup": {
+          "Name": null,
+          "Priority": 0
+        }
+      },
+      "Identifier": "2",
+      "Position": "-732,-336",
+      "HandleOffsets": {},
+      "Coords": {
+        "Identifier": "25",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Power",
+      "DefaultA": 1,
+      "DefaultB": 3,
+      "Identifier": "3",
+      "Position": "-1692,252",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "9",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Divide",
+      "DefaultA": 1,
+      "DefaultB": 1,
+      "Identifier": "4",
+      "Position": "-1452,348",
+      "HandleOffsets": {},
+      "B": {
+        "Identifier": "3",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "TileAndOffset",
+      "DefaultTile": "4,4",
+      "DefaultOffset": "1.5,1.5",
+      "WrapTo01": false,
+      "Identifier": "5",
+      "Position": "-948,36",
+      "HandleOffsets": {},
+      "Tile": {
+        "Identifier": "4",
+        "Output": "Result"
+      },
+      "Offset": {
+        "Identifier": "10",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "TangentViewVector",
+      "Identifier": "6",
+      "Position": "-2052,-60",
+      "HandleOffsets": {}
+    },
+    {
+      "_class": "Multiply",
+      "DefaultA": 0,
+      "DefaultB": 1,
+      "Identifier": "7",
+      "Position": "-276,-72",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "15",
+        "Output": "Result"
+      },
+      "B": {
+        "Identifier": "16",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "TextureSampler",
+      "Image": "materials/dev/black_color.tga",
+      "Sampler": {
+        "Filter": "Aniso",
+        "AddressU": "Wrap",
+        "AddressV": "Wrap"
+      },
+      "UI": {
+        "Name": "Roughness",
+        "IsAttribute": false,
+        "Default": "1,1,1,1",
+        "Extension": "Color",
+        "CustomExtension": null,
+        "ShowExtension": true,
+        "Processor": "None",
+        "ColorSpace": "Srgb",
+        "ImageFormat": "DXT5",
+        "SrgbRead": true,
+        "Priority": 0,
+        "PrimaryGroup": {
+          "Name": null,
+          "Priority": 0
+        },
+        "SecondaryGroup": {
+          "Name": null,
+          "Priority": 0
+        }
+      },
+      "Identifier": "8",
+      "Position": "-96,0",
+      "HandleOffsets": {}
+    },
+    {
+      "_class": "Float",
+      "Min": 0,
+      "Max": 2,
+      "Value": 1.2646251,
+      "Name": "Size",
+      "IsAttribute": false,
+      "UI": {
+        "Type": "Default",
+        "Step": 0,
+        "Priority": 0,
+        "PrimaryGroup": {
+          "Name": null,
+          "Priority": 0
+        },
+        "SecondaryGroup": {
+          "Name": null,
+          "Priority": 0
+        }
+      },
+      "Identifier": "9",
+      "Position": "-1920,216",
+      "HandleOffsets": {}
+    },
+    {
+      "_class": "Add",
+      "DefaultA": 0,
+      "DefaultB": 1,
+      "Identifier": "10",
+      "Position": "-1212,-60",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "24",
+        "Output": "Result"
+      },
+      "B": {
+        "Identifier": "12",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Subtract",
+      "DefaultA": 0,
+      "DefaultB": 1,
+      "Identifier": "11",
+      "Position": "-1236,120",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "4",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Multiply",
+      "DefaultA": 0,
+      "DefaultB": -0.5,
+      "Identifier": "12",
+      "Position": "-1236,36",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "11",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Multiply",
+      "DefaultA": 0,
+      "DefaultB": 1,
+      "Identifier": "13",
+      "Position": "-288,348",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "14",
+        "Output": "Result"
+      },
+      "B": {
+        "Identifier": "20",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Subtract",
+      "DefaultA": 1,
+      "DefaultB": 1,
+      "Identifier": "14",
+      "Position": "-432,312",
+      "HandleOffsets": {},
+      "B": {
+        "Identifier": "18",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Multiply",
+      "DefaultA": 0,
+      "DefaultB": 1,
+      "Identifier": "15",
+      "Position": "-468,-96",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "2",
+        "Output": "Result"
+      },
+      "B": {
+        "Identifier": "1",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Saturate",
+      "Identifier": "16",
+      "Position": "-264,264",
+      "HandleOffsets": {},
+      "Input": {
+        "Identifier": "13",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Distance",
+      "Identifier": "17",
+      "Position": "-720,324",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "5",
+        "Output": "Result"
+      },
+      "B": {
+        "Identifier": "19",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Divide",
+      "DefaultA": 0,
+      "DefaultB": 1,
+      "Identifier": "18",
+      "Position": "-528,396",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "17",
+        "Output": "Result"
+      },
+      "B": {
+        "Identifier": "21",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Float2",
+      "Min": "0,0",
+      "Max": "1,1",
+      "Value": "0.5,0.5",
+      "Name": "",
+      "IsAttribute": false,
+      "UI": {
+        "Type": "Default",
+        "Step": 0,
+        "Priority": 0,
+        "PrimaryGroup": {
+          "Name": null,
+          "Priority": 0
+        },
+        "SecondaryGroup": {
+          "Name": null,
+          "Priority": 0
+        }
+      },
+      "Identifier": "19",
+      "Position": "-924,396",
+      "HandleOffsets": {}
+    },
+    {
+      "_class": "Float",
+      "Min": 0,
+      "Max": 10,
+      "Value": 7,
+      "Name": "Vignette Hardness",
+      "IsAttribute": false,
+      "UI": {
+        "Type": "Default",
+        "Step": 0,
+        "Priority": 0,
+        "PrimaryGroup": {
+          "Name": null,
+          "Priority": 0
+        },
+        "SecondaryGroup": {
+          "Name": null,
+          "Priority": 0
+        }
+      },
+      "Identifier": "20",
+      "Position": "-420,456",
+      "HandleOffsets": {}
+    },
+    {
+      "_class": "Float",
+      "Min": 0,
+      "Max": 1,
+      "Value": 0.49999997,
+      "Name": "Vignette Size",
+      "IsAttribute": false,
+      "UI": {
+        "Type": "Default",
+        "Step": 0,
+        "Priority": 0,
+        "PrimaryGroup": {
+          "Name": null,
+          "Priority": 0
+        },
+        "SecondaryGroup": {
+          "Name": null,
+          "Priority": 0
+        }
+      },
+      "Identifier": "21",
+      "Position": "-684,492",
+      "HandleOffsets": {}
+    },
+    {
+      "_class": "Float",
+      "Min": 0,
+      "Max": 10,
+      "Value": 3.9479456,
+      "Name": "Distance",
+      "IsAttribute": false,
+      "UI": {
+        "Type": "Default",
+        "Step": 0,
+        "Priority": 0,
+        "PrimaryGroup": {
+          "Name": null,
+          "Priority": 0
+        },
+        "SecondaryGroup": {
+          "Name": null,
+          "Priority": 0
+        }
+      },
+      "Identifier": "22",
+      "Position": "-1728,96",
+      "HandleOffsets": {}
+    },
+    {
+      "_class": "Normalize",
+      "Identifier": "23",
+      "Position": "-1812,-48",
+      "HandleOffsets": {},
+      "Input": {
+        "Identifier": "6",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Multiply",
+      "DefaultA": 0,
+      "DefaultB": 1,
+      "Identifier": "24",
+      "Position": "-1452,12",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "23",
+        "Output": "Result"
+      },
+      "B": {
+        "Identifier": "22",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "ScreenCoordinate",
+      "Identifier": "25",
+      "Position": "-1032,-336",
+      "HandleOffsets": {}
+    },
+    {
+      "_class": "CombineVector",
+      "DefaultX": 1.77,
+      "DefaultY": 1,
+      "DefaultZ": 0,
+      "DefaultW": 0,
+      "Identifier": "26",
+      "Position": "-1344,-324",
+      "HandleOffsets": {},
+      "X": {
+        "Identifier": "27",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Float",
+      "Min": 0,
+      "Max": 1,
+      "Value": 1.777777,
+      "Name": "",
+      "IsAttribute": false,
+      "UI": {
+        "Type": "Default",
+        "Step": 0,
+        "Priority": 0,
+        "PrimaryGroup": {
+          "Name": null,
+          "Priority": 0
+        },
+        "SecondaryGroup": {
+          "Name": null,
+          "Priority": 0
+        }
+      },
+      "Identifier": "27",
+      "Position": "-1884,-324",
+      "HandleOffsets": {}
+    }
+  ]
+}

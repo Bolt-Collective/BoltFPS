@@ -193,8 +193,10 @@ public partial class BaseWeapon : Component
 		{
 			return;
 		}
-		
-		var origin = ViewModel.GetAttachment( "muzzle" );
+
+		var attachment = LocalWorldModel.GetAttachment( "muzzle" );
+
+		var origin = LocalWorldModel.GetAttachment( "muzzle" ).GetValueOrDefault();
 
 		var effect =
 			Tracer?.Clone( new CloneConfig
@@ -792,6 +794,7 @@ public partial class BaseWeapon : Component
 		// ShootBullet is coded in a way where we can have bullets pass through shit
 		// or bounce off shit, in which case it'll return multiple results
 		//
+
 		foreach ( var trace in TraceBullet( GameObject.Root, pos, pos + forward * 5000, bulletSize ) )
 		{
 			var tr = trace;

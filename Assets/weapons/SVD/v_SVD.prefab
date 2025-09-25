@@ -7,7 +7,7 @@
     "Position": "0,0,0",
     "Rotation": "0,0,0,1",
     "Scale": "1,1,1",
-    "Tags": "",
+    "Tags": "sniper",
     "Enabled": true,
     "NetworkMode": 2,
     "NetworkInterpolation": true,
@@ -101,12 +101,7 @@
         },
         "AimTime": 0.2,
         "AnimParamTranslate": {},
-        "AttachmentTranslate": {
-          "muzzle": {
-            "_type": "gameobject",
-            "go": "c551cff1-6399-4ff2-9389-3dac1f276d3b"
-          }
-        },
+        "AttachmentTranslate": {},
         "BobCycleTime": 7,
         "BobDirection": "0,0,0",
         "BulletGroupName": "Ammo",
@@ -156,6 +151,12 @@
         "RotateAround": {
           "_type": "gameobject",
           "go": "e8908825-98fa-487c-b7a8-160c449bce72"
+        },
+        "ScopePoint": {
+          "_type": "component",
+          "component_id": "333d185d-eca1-4286-be55-038ce027d310",
+          "go": "31eddcbe-4595-4e10-8c72-fe3473b2047e",
+          "component_type": "Scope"
         },
         "SprintHold": true,
         "SwayType": "ProcedualSway",
@@ -955,6 +956,138 @@
               }
             ],
             "Children": []
+          },
+          {
+            "__guid": "8fcff626-970c-45e5-bb99-60f127864658",
+            "__version": 1,
+            "Flags": 0,
+            "Name": "Scope",
+            "Position": "0,0,0",
+            "Rotation": "0,-0,-0.7071068,0.7071068",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkInterpolation": true,
+            "NetworkOrphaned": 0,
+            "OwnerTransfer": 1,
+            "Components": [
+              {
+                "__type": "Sandbox.ModelRenderer",
+                "__guid": "38be2d6b-2383-41a8-a03a-3adb1453a01a",
+                "__enabled": true,
+                "BodyGroups": 18446744073709551615,
+                "CreateAttachments": false,
+                "LodOverride": null,
+                "MaterialGroup": null,
+                "MaterialOverride": null,
+                "Materials": null,
+                "Model": "models/svd/scope.vmdl",
+                "OnComponentDestroy": null,
+                "OnComponentDisabled": null,
+                "OnComponentEnabled": null,
+                "OnComponentFixedUpdate": null,
+                "OnComponentStart": null,
+                "OnComponentUpdate": null,
+                "RenderOptions": {
+                  "GameLayer": false,
+                  "OverlayLayer": true,
+                  "BloomLayer": false,
+                  "AfterUILayer": false
+                },
+                "RenderType": "Off",
+                "Tint": "1,1,1,1"
+              }
+            ],
+            "Children": [
+              {
+                "__guid": "31eddcbe-4595-4e10-8c72-fe3473b2047e",
+                "__version": 1,
+                "Flags": 0,
+                "Name": "Aim (1)",
+                "Position": "-3.470354,0.2397525,2.741838",
+                "Rotation": "-0.00003945035,-0.005910359,-0.00003336032,0.9999825",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [
+                  {
+                    "__type": "Scope",
+                    "__guid": "333d185d-eca1-4286-be55-038ce027d310",
+                    "__enabled": true,
+                    "CameraComponent": {
+                      "_type": "component",
+                      "component_id": "0607dac2-0688-40f9-b9f2-5dda70009693",
+                      "go": "2fd0deda-55d4-4f63-85c0-55360c02641f",
+                      "component_type": "CameraComponent"
+                    },
+                    "OnComponentDestroy": null,
+                    "OnComponentDisabled": null,
+                    "OnComponentEnabled": null,
+                    "OnComponentFixedUpdate": null,
+                    "OnComponentStart": null,
+                    "OnComponentUpdate": null,
+                    "Renderer": {
+                      "_type": "component",
+                      "component_id": "38be2d6b-2383-41a8-a03a-3adb1453a01a",
+                      "go": "8fcff626-970c-45e5-bb99-60f127864658",
+                      "component_type": "ModelRenderer"
+                    },
+                    "Target": "models/svd/textures/svdscope.vmat",
+                    "Zoom": 3
+                  }
+                ],
+                "Children": [
+                  {
+                    "__guid": "2fd0deda-55d4-4f63-85c0-55360c02641f",
+                    "__version": 1,
+                    "Flags": 0,
+                    "Name": "Camera",
+                    "Position": "-10127.7,5315.89,-64299.78",
+                    "Rotation": "0.0005823826,0.01321565,0.00007990991,0.9999124",
+                    "Scale": "999.9999,999.9999,999.9999",
+                    "Tags": "maincamera",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [
+                      {
+                        "__type": "Sandbox.CameraComponent",
+                        "__guid": "0607dac2-0688-40f9-b9f2-5dda70009693",
+                        "__enabled": false,
+                        "BackgroundColor": "0.33333,0.46275,0.52157,1",
+                        "ClearFlags": "All",
+                        "FieldOfView": 30,
+                        "FovAxis": "Horizontal",
+                        "IsMainCamera": false,
+                        "OnComponentDestroy": null,
+                        "OnComponentDisabled": null,
+                        "OnComponentEnabled": null,
+                        "OnComponentFixedUpdate": null,
+                        "OnComponentStart": null,
+                        "OnComponentUpdate": null,
+                        "Orthographic": false,
+                        "OrthographicHeight": 1204,
+                        "Priority": 1,
+                        "RenderExcludeTags": "sniper",
+                        "RenderTags": "",
+                        "TargetEye": "None",
+                        "Viewport": "0,0,1,1",
+                        "ZFar": 10000,
+                        "ZNear": 10
+                      }
+                    ],
+                    "Children": []
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -963,25 +1096,8 @@
         "__version": 1,
         "Flags": 0,
         "Name": "Aim",
-        "Position": "5.615896,-5.229013,64.44492",
-        "Rotation": "-0.0005493427,-0.007458045,-0.0000526607,0.9999721",
-        "Scale": "1,1,1",
-        "Tags": "",
-        "Enabled": true,
-        "NetworkMode": 2,
-        "NetworkInterpolation": true,
-        "NetworkOrphaned": 0,
-        "OwnerTransfer": 1,
-        "Components": [],
-        "Children": []
-      },
-      {
-        "__guid": "c551cff1-6399-4ff2-9389-3dac1f276d3b",
-        "__version": 1,
-        "Flags": 0,
-        "Name": "Muzzle",
-        "Position": "48.58417,-5.35287,62.4335",
-        "Rotation": "0,0,0,1",
+        "Position": "5.848724,-5.242691,64.41739",
+        "Rotation": "-0.0005595784,0,0,0.9999998",
         "Scale": "1,1,1",
         "Tags": "",
         "Enabled": true,
