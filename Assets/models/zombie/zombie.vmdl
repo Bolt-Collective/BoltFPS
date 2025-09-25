@@ -1511,6 +1511,10 @@
 								root_bone_name = "pelvis"
 								motion_type = "Uniform"
 							},
+							{
+								_class = "AnimAddLayer"
+								anim_name = "StumblingRoot"
+							},
 						]
 						activity_name = ""
 						activity_weight = 1
@@ -1526,8 +1530,8 @@
 						disable_interpolation = false
 						enable_scale = false
 						source_filename = "models/zombie/Animations/vault/Stumbling.fbx"
-						start_frame = 12
-						end_frame = 68
+						start_frame = 15
+						end_frame = 63
 						framerate = -1.0
 						take = 0
 						reverse = false
@@ -1609,6 +1613,52 @@
 						end_frame = 38
 						framerate = -1.0
 						take = 0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "StumblingRoot"
+						children = 
+						[
+							{
+								_class = "AnimSubtract"
+								anim_name = "@Stumbling"
+								frame = 0
+							},
+							{
+								_class = "AnimAlign"
+								align_tx = true
+								align_ty = true
+								align_tz = false
+								align_rx = false
+								align_ry = false
+								align_rz = false
+								align_frame_type = "Number"
+								frame = 0
+								align_to_anim = "idle1"
+								align_to_frame_type = "Number"
+								align_to_frame = 0
+								bone = "pelvis"
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = true
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						disable_interpolation = false
+						enable_scale = false
+						source_filename = "models/zombie/Animations/vault/Stumbling.fbx"
+						start_frame = 15
+						end_frame = 63
+						framerate = -1.0
+						take = 1
 						reverse = false
 					},
 				]
