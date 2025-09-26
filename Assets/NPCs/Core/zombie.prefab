@@ -113,7 +113,7 @@
       {
         "__type": "Sandbox.NavMeshAgent",
         "__guid": "08928add-4f63-43b9-b238-e0dca94c8898",
-        "__enabled": false,
+        "__enabled": true,
         "Acceleration": 120,
         "AutoTraverseLinks": true,
         "Height": 64,

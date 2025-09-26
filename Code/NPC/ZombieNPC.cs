@@ -30,6 +30,9 @@ public class ZombieNPC : NPC
 	[Group( "Movement" )]
 	[Property] public RangedFloat WonderTime { get; set; } = new RangedFloat( 10, 30 );
 
+	[Group( "Movement" )]
+	[Property] public float VaultTime { get; set; } = 2.3f;
+
 	[Group( "Stamina" )]
 	[Property] public RangedFloat StaminaDecayTime { get; set; } = new RangedFloat( 4, 7 );
 	[Group( "Stamina" )]
@@ -164,10 +167,17 @@ public class ZombieNPC : NPC
 	public override void Think()
 	{
 		// if finishedattack event is not caught then reset cannotAttack
-		if ( attackTime > 4 )
-			cannotAttack = false;
 
-		if (regen)
+		if (vaulting)
+		{
+			Vaulting();
+			return;
+		}
+
+		if ( rightLegDis.Health <= 0 || leftLegDis.Health <= 0 )
+			Crawl = true;
+
+		if ( regen )
 		{
 			stamina += (1 / regenTime) * Time.Delta;
 			if ( stamina > 1 )
@@ -184,8 +194,8 @@ public class ZombieNPC : NPC
 			}
 		}
 
-		if ( rightLegDis.Health <= 0 || leftLegDis.Health <= 0 )
-			Crawl = true;
+		if ( attackTime > 4 )
+			cannotAttack = false;
 
 		move = false;
 
@@ -204,7 +214,7 @@ public class ZombieNPC : NPC
 		IdleSoundPlayer();
 
 		Agent.MaxSpeed = 0;
-		Agent.Velocity = (Body.RootMotion.Position / Time.Delta) * 1.5f * Body.WorldRotation;
+		Agent.Velocity = (Body.RootMotion.Position / Time.Delta) * Body.PlaybackRate * 2f * Body.WorldRotation;
 		Agent.UpdateRotation = Agent.Velocity.Length > 5;
 		ClosestEnemy = GetNearest( true )?.Knowable ?? null;
 		if ( !ClosestEnemy.IsValid() || !ClosestEnemy.GameObject.IsValid() )
@@ -214,6 +224,21 @@ public class ZombieNPC : NPC
 		}
 
 		Attacking();
+	}
+
+	public void Vaulting()
+	{
+		if (ExitVault < 0)
+		{
+			Agent.Enabled = true;
+			vaulting = false;
+			Log.Info( "poo" );
+			return;
+		}
+		Agent.Enabled = false;
+		var vel = (Body.RootMotion.Position / Time.Delta) * Body.PlaybackRate * 4f * Body.WorldRotation;
+		WorldPosition += vel * Time.Delta;
+		WorldRotation.SlerpTo( VaultLinkObject.WorldRotation, Time.Delta );
 	}
 
 	public void SetAttackStats(float attackDis, float attackHei, float attackOff, float attackAttempt)
@@ -399,5 +424,24 @@ public class ZombieNPC : NPC
 		Gizmo.Draw.Line( Vector3.Zero, Vector3.Zero + (Vector3.Forward * new Angles( 0, MaxAttackAngle, 0 )) * 250 );
 		Gizmo.Draw.Line( Vector3.Zero, Vector3.Zero + (Vector3.Forward * new Angles( 0, -MaxAttackAngle, 0 )) * 250 );
 		Gizmo.Draw.Line( Vector3.Zero, Vector3.Forward * MathF.Max( CrawlAttackAttemptDistance, AttackAttemptDistance) );
+	}
+
+	bool vaulting = false;
+	GameObject VaultLinkObject;
+	TimeUntil ExitVault;
+	public void VaultLink( GameObject Link )
+	{
+		if ( Crawl )
+			return;
+		VaultLinkObject = Link;
+		vaulting = true;
+		VaultAnim();
+		ExitVault = VaultTime / Body.PlaybackRate;
+	}
+
+	[Rpc.Broadcast]
+	public void VaultAnim()
+	{
+		Body.Set( "vault", true );
 	}
 }
