@@ -173,10 +173,7 @@
           "OnComponentFixedUpdate": null,
           "OnComponentStart": null,
           "OnComponentUpdate": null,
-          "PlayerPrefab": {
-            "_type": "gameobject",
-            "prefab": "prefabs/skeleton.prefab"
-          },
+          "PlayerPrefab": null,
           "PlayerWhitelist": [
             76561198043979097,
             76561198193615491,
@@ -335,6 +332,7 @@
             "textures/blood_splatter/decal_blood_splatter_02.png",
             "textures/blood_splatter/decal_blood_splatter_03.png"
           ],
+          "FadeOutTime": "0.2 0.5",
           "FadeTime": 0.1,
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
