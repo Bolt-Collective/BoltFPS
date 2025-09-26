@@ -845,24 +845,8 @@
               "Type": "Component",
               "IdValue": "e4280842-54eb-4701-93aa-3368c03bd36f"
             },
-            "Property": "StaminaDecayTime",
-            "Value": "1000000 100000"
-          },
-          {
-            "Target": {
-              "Type": "Component",
-              "IdValue": "e4280842-54eb-4701-93aa-3368c03bd36f"
-            },
             "Property": "StaminaRegenTime",
-            "Value": "0.1 0.1"
-          },
-          {
-            "Target": {
-              "Type": "Component",
-              "IdValue": "e4280842-54eb-4701-93aa-3368c03bd36f"
-            },
-            "Property": "VaultTime",
-            "Value": 2.3
+            "Value": "100000 100000"
           }
         ],
         "MovedObjects": []

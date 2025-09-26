@@ -164,6 +164,16 @@ public class ZombieNPC : NPC
 		hit = false;
 	}
 
+	protected override void OnUpdate()
+	{
+		base.OnUpdate();
+
+		if ( IsProxy )
+			return;
+
+		Agent.Velocity = (Body.RootMotion.Position / Time.Delta) * Body.WorldRotation * (vaulting ? 1.5f : 0);
+	}
+
 	public override void Think()
 	{
 		// if finishedattack event is not caught then reset cannotAttack
@@ -214,7 +224,7 @@ public class ZombieNPC : NPC
 		IdleSoundPlayer();
 
 		Agent.MaxSpeed = 0;
-		Agent.Velocity = (Body.RootMotion.Position / Time.Delta) * Body.PlaybackRate * 2f * Body.WorldRotation;
+
 		Agent.UpdateRotation = Agent.Velocity.Length > 5;
 		ClosestEnemy = GetNearest( true )?.Knowable ?? null;
 		if ( !ClosestEnemy.IsValid() || !ClosestEnemy.GameObject.IsValid() )
