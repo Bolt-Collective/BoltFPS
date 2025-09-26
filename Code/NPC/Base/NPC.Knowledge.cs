@@ -59,7 +59,7 @@ public abstract class Knowable : Component, IKnowable
 		return 1;
 	}
 
-	public KnowledgeRecord? GetNearest( bool onlyEnemies = false, KnowledgeKind kind = default)
+	public KnowledgeRecord? GetNearest( bool onlyEnemies = false, KnowledgeKind[] kinds = default)
 	{
 		KnowledgeRecord? best = null;
 		var bestDist = float.MaxValue;
@@ -72,7 +72,7 @@ public abstract class Knowable : Component, IKnowable
 			if ( onlyEnemies && !TeamRef.IsEnemy( rec.Team ) )
 				continue;
 			
-			if ( kind != default && rec.Kind != kind )
+			if ( kinds != default &&  !kinds.Contains( rec.Kind ))
 				continue;
 
 			if (!rec.Target.IsValid())

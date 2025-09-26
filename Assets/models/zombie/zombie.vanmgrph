@@ -2947,6 +2947,19 @@
 												m_data = true
 											}
 										},
+										{
+											_class = "CParameterAnimCondition"
+											m_comparisonOp = 0
+											m_paramID = 
+											{
+												m_id = 549950491
+											}
+											m_comparisonValue = 
+											{
+												m_nType = 1
+												m_data = true
+											}
+										},
 									]
 									m_blendDuration = 0.5
 									m_destState = 

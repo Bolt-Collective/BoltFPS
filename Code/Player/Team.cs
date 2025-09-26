@@ -46,7 +46,7 @@ public sealed class Team : GameResource
 		if ( gameObject.Root.Components.TryGet<Pawn>( out var pawn ) )
 			return IsEnemy( pawn.Owner.Team );
 
-		if ( gameObject.Root.Components.TryGet<NPC>( out var npc ) )
+		if ( gameObject.Root.Components.TryGet<Knowable>( out var npc ) )
 			return IsEnemy( npc.TeamRef );
 
 		return false;

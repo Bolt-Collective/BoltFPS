@@ -98,6 +98,9 @@ public class ZombieNPC : NPC
 	[Property, Sync]
 	public bool Crawl { get; set; }
 
+	[Property]
+	public Knowable TargetBarrier { get; set; }
+
 	public Knowable ClosestEnemy { get; set; }
 
 	float stamina = 0;
@@ -171,7 +174,8 @@ public class ZombieNPC : NPC
 		if ( IsProxy )
 			return;
 
-		Agent.Velocity = (Body.RootMotion.Position / Time.Delta) * Body.WorldRotation * (vaulting ? 1.5f : 0);
+		if (move)
+			Agent.Velocity = (Body.RootMotion.Position / Time.Delta) * Body.WorldRotation * (vaulting ? 1.5f : 1);
 	}
 
 	public override void Think()
@@ -225,8 +229,21 @@ public class ZombieNPC : NPC
 
 		Agent.MaxSpeed = 0;
 
-		Agent.UpdateRotation = Agent.Velocity.Length > 5;
-		ClosestEnemy = GetNearest( true )?.Knowable ?? null;
+		Agent.UpdateRotation = Agent.Velocity.Length > 5 && attackDuration < 0 && !vaulting;
+
+		if (attackDuration > 0 && ClosestEnemy.IsValid())
+		{
+			Log.Info( ClosestEnemy.ShootTargets );
+			var dir = ((ClosestEnemy.ShootTargets?.First() ?? ClosestEnemy.GameObject).WorldPosition - WorldPosition).WithZ(0);
+			var look = Rotation.LookAt( dir );
+			WorldRotation = WorldRotation.SlerpTo( look, 2 * Time.Delta );
+		}
+
+		if ( TargetBarrier.IsValid() && TargetBarrier.Components.TryGet<HealthComponent>(out var hc) && hc.Health > 0 )
+			ClosestEnemy = TargetBarrier;
+		else
+			ClosestEnemy = GetNearest( true, [KnowledgeKind.Player, KnowledgeKind.NPC] )?.Knowable ?? null;
+
 		if ( !ClosestEnemy.IsValid() || !ClosestEnemy.GameObject.IsValid() )
 		{
 			None();
@@ -248,7 +265,7 @@ public class ZombieNPC : NPC
 		Agent.Enabled = false;
 		var vel = (Body.RootMotion.Position / Time.Delta) * Body.PlaybackRate * 4f * Body.WorldRotation;
 		WorldPosition += vel * Time.Delta;
-		WorldRotation.SlerpTo( VaultLinkObject.WorldRotation, Time.Delta );
+		WorldRotation = WorldRotation.SlerpTo( VaultLinkObject.WorldRotation, 3 * Time.Delta );
 	}
 
 	public void SetAttackStats(float attackDis, float attackHei, float attackOff, float attackAttempt)
@@ -279,6 +296,8 @@ public class ZombieNPC : NPC
 		base.OnFixedUpdate();
 	}
 
+
+	List<GameObject> alreadyHit;
 	public void AttackBox()
 	{
 		if ( hit )
@@ -287,20 +306,29 @@ public class ZombieNPC : NPC
 		var pos = WorldPosition + WorldTransform.Forward * (attackDistance * 0.5f + attackOffset) + Vector3.Up * attackHeight / 2;
 
 		var size = new Vector3( attackDistance, attackDistance, attackHeight );
+		
 
 		for (int i = 0; i < 5; i++ )
 		{
-			var ray = Scene.Trace.Ray( pos, pos )
+			var rayBuilt = Scene.Trace.Ray( pos, pos )
 			.UseHitboxes()
 			.WithAnyTags( "solid", "player", "npc", "glass" )
 			.WithoutTags( "playercontroller", "debris", "movement" )
 			.IgnoreStatic()
 			.IgnoreGameObjectHierarchy( GameObject )
-			.Size( size )
-			.Run();
+			.Size( size );
+
+			foreach(var hit in alreadyHit)
+				rayBuilt = rayBuilt.IgnoreGameObjectHierarchy( hit.Root );
+
+			var ray = rayBuilt.Run();
 
 			if ( !ray.Hit )
-				return;
+				break;
+
+			Log.Info( ray.GameObject );
+
+			alreadyHit.Add( ray.GameObject );
 
 			var dir = (ray.HitPosition - WorldPosition).Normal.WithZ(0);
 
@@ -368,6 +396,7 @@ public class ZombieNPC : NPC
 
 	public void Attack()
 	{
+		alreadyHit = new List<GameObject>();
 		SoundExtensions.BroadcastSound( AttackSound, WorldPosition );
 
 		var choices = new List<int>();
@@ -437,10 +466,12 @@ public class ZombieNPC : NPC
 	}
 
 	bool vaulting = false;
+	bool hasVaulted = false;
 	GameObject VaultLinkObject;
 	TimeUntil ExitVault;
 	public void VaultLink( GameObject Link )
 	{
+		TargetBarrier.Enabled = false;
 		if ( Crawl )
 			return;
 		VaultLinkObject = Link;

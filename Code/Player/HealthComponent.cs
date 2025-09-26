@@ -23,6 +23,10 @@ public partial class HealthComponent : Component, IRespawnable
 	[Property, Sync( SyncFlags.FromHost )]
 	public bool IsGodMode { get; set; } = false;
 
+
+	[Property, Sync( SyncFlags.FromHost )]
+	public bool IgnorePlayerDamage { get; set; } = false;
+
 	/// <summary>
 	/// An action (mainly for ActionGraphs) to respond to when a GameObject's health changes.
 	/// </summary>
@@ -82,6 +86,9 @@ public partial class HealthComponent : Component, IRespawnable
 		Vector3 force = default, HitboxTags hitbox = default, DamageFlags flags = DamageFlags.None,
 		float armorDamage = 0f, bool external = false, string hitboxName = "" )
 	{
+		if ( IgnorePlayerDamage && attacker.GameObject.Root.Components.TryGet<Pawn>( out var pw ) )
+			return;
+
 		if(LinkedHealth.IsValid())
 		{
 			LinkedHealth.TakeDamage( attacker, damage, inflictor, position, force, hitbox, flags, armorDamage, external, hitboxName );
