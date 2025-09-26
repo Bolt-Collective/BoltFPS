@@ -4,17 +4,16 @@
 
 @namespace Seekers
 
-@if ( CurrentGamePackage == null || ServerGamePackage == null )
-	return;
 
 <root>
 	@if ( IsServerOutdated() )
 	{
 		<h5 class="update">UPDATE AVAILABLE, RESTART SERVER</h5>
 	}
-	<p style="opacity: 0.5" class="@( IsServerOutdated() ? "red" : "" )">Server
-		Version: @ServerGamePackage?.Revision?.VersionId</p>
-	<p style="opacity: 0.5;">Updated: @CurrentGamePackage?.Revision?.Created.Humanize()</p>
+	<p style="opacity: 0.5" class="@( IsServerOutdated() ? "red" : "" )">
+		Version:</p>
+	<p>@ServerGamePackage?.Revision?.VersionId</p>
+	<p style="opacity: 0.5;">@CurrentGamePackage?.Revision?.Created.Humanize()</p>
 </root>
 
 
@@ -47,8 +46,9 @@
 	{
 		try
 		{
-			CurrentGamePackage = await Package.FetchAsync( Game.Ident, true );
-			ServerGamePackage = await Package.FetchAsync( Game.Ident, true );
+			var package = await Package.FetchAsync( Game.Ident, true );
+			ServerGamePackage = package;
+			CurrentGamePackage = package;
 		}
 		catch ( Exception e )
 		{
