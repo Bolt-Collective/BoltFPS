@@ -52,6 +52,10 @@
           "go": "d2e3e23b-fc99-4412-8cf7-b2afefa95469",
           "component_type": "Dismemberment"
         },
+        "Eyes": {
+          "_type": "gameobject",
+          "go": "26061c9a-ea62-4131-abf0-93eea53e0ee3"
+        },
         "HealthComponent": {
           "_type": "component",
           "component_id": "daedf297-0491-47c5-acec-39b6df2a789a",
@@ -106,7 +110,9 @@
         "StaminaRegenTime": "4 8",
         "StopDistance": 50,
         "TargetAccuracy": 1,
+        "TargetBarrier": null,
         "Team": "teams/evil_npc.team",
+        "VaultTime": 2.3,
         "WalkSpeed": 23.3,
         "WonderTime": "1 4"
       },
@@ -137,6 +143,7 @@
         "HitboxMultipliers": {
           "Head": 10
         },
+        "IgnorePlayerDamage": false,
         "IsGodMode": false,
         "LinkedHealth": null,
         "MaxHealth": 1000,

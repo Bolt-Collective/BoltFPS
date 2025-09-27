@@ -15,6 +15,9 @@ public class ZombieNPC : NPC
 	[Group( "References" )]
 	[Property] public Dismemberment Dismemberment { get; set; }
 
+	[Group( "References" )]
+	[Property] public GameObject Eyes { get; set; }
+
 	[Group( "Movement" )]
 	[Property] public float WalkSpeed { get; set; } = 23.3f;
 
@@ -136,6 +139,8 @@ public class ZombieNPC : NPC
 	Dismemberment.Dismemberable leftLegDis;
 	Dismemberment.Dismemberable rightLegDis;
 
+	public (GameObject pos, GameObject left, GameObject right)? pull;
+
 	protected override void OnStart()
 	{
 		type = Game.Random.Next( 0, 101 ) / 100f;
@@ -178,9 +183,22 @@ public class ZombieNPC : NPC
 			Agent.Velocity = (Body.RootMotion.Position / Time.Delta) * Body.WorldRotation * (vaulting ? 1.5f : 1);
 	}
 
+	[Sync]
+	private bool pulling { get; set; }
 	public override void Think()
 	{
 		// if finishedattack event is not caught then reset cannotAttack
+
+		pulling = pull != null;
+
+		if (pulling)
+		{
+			Pulling();
+			return;
+		}
+
+		iklefthandenabled = false;
+		ikrighthandenabled = false;
 
 		if (vaulting)
 		{
@@ -233,7 +251,6 @@ public class ZombieNPC : NPC
 
 		if (attackDuration > 0 && ClosestEnemy.IsValid())
 		{
-			Log.Info( ClosestEnemy.ShootTargets );
 			var dir = ((ClosestEnemy.ShootTargets?.First() ?? ClosestEnemy.GameObject).WorldPosition - WorldPosition).WithZ(0);
 			var look = Rotation.LookAt( dir );
 			WorldRotation = WorldRotation.SlerpTo( look, 2 * Time.Delta );
@@ -253,6 +270,34 @@ public class ZombieNPC : NPC
 		Attacking();
 	}
 
+	public void Pulling()
+	{
+		var pullPoints = pull.Value;
+
+		iklefthandenabled = true;
+		ikrighthandenabled = true;
+
+		iklefthandposition = pullPoints.left.WorldPosition;
+		iklefthandrotation = pullPoints.left.WorldRotation;
+
+		ikrighthandposition = pullPoints.right.WorldPosition;
+		ikrighthandrotation = pullPoints.right.WorldRotation;
+
+		move = false;
+		Agent.Enabled = false;
+
+		WorldPosition = WorldPosition.LerpTo( pullPoints.pos.WorldPosition, 5 * Time.Delta );
+		WorldRotation = WorldRotation.SlerpTo( pullPoints.pos.WorldRotation, 5 * Time.Delta );
+	}
+
+	[Sync] public bool iklefthandenabled { get; set; }
+	[Sync] public Vector3 iklefthandposition { get; set; }
+	[Sync] public Rotation iklefthandrotation { get; set; }
+
+	[Sync] public bool ikrighthandenabled { get; set; }
+	[Sync] public Vector3 ikrighthandposition { get; set; }
+	[Sync] public Rotation ikrighthandrotation { get; set; }
+
 	public void Vaulting()
 	{
 		if (ExitVault < 0)
@@ -265,7 +310,7 @@ public class ZombieNPC : NPC
 		Agent.Enabled = false;
 		var vel = (Body.RootMotion.Position / Time.Delta) * Body.PlaybackRate * 4f * Body.WorldRotation;
 		WorldPosition += vel * Time.Delta;
-		WorldRotation = WorldRotation.SlerpTo( VaultLinkObject.WorldRotation, 3 * Time.Delta );
+		WorldRotation = WorldRotation.SlerpTo( VaultLinkObject.WorldRotation, 10 * Time.Delta );
 	}
 
 	public void SetAttackStats(float attackDis, float attackHei, float attackOff, float attackAttempt)
@@ -326,11 +371,9 @@ public class ZombieNPC : NPC
 			if ( !ray.Hit )
 				break;
 
-			Log.Info( ray.GameObject );
-
 			alreadyHit.Add( ray.GameObject );
 
-			var dir = (ray.HitPosition - WorldPosition).Normal.WithZ(0);
+			var dir = (ray.HitPosition - WorldPosition).WithZ(0).Normal;
 
 			if ( MathF.Abs(Vector3.GetAngle( WorldTransform.Forward.WithZ( 0 ).Normal, dir )) > MaxAttackAngle )
 				return;
@@ -360,7 +403,11 @@ public class ZombieNPC : NPC
 	public void Attacking()
 	{
 		var dis = WorldPosition.Distance( ClosestEnemy.Position );
-		move = dis > StopDistance;
+
+		if ( ClosestEnemy.Kind != KnowledgeKind.Player && ClosestEnemy.Kind != KnowledgeKind.NPC )
+			move = dis > 30;
+		else
+			move = dis > StopDistance;
 
 		var offsetX = -1 + Noise.Perlin( (Time.Now + accRandom) * AccuracyScale, 0 ) * 2;
 		var offsetY = -1 + Noise.Perlin( (Time.Now - accRandom) * AccuracyScale, 0 ) * 2;
@@ -423,6 +470,21 @@ public class ZombieNPC : NPC
 	public override void Animate()
 	{
 		SetAnimation( move, run, leftArmDis.Health > 0, rightArmDis.Health > 0 );
+
+		Body.Set( "ik.lefthand.enabled", iklefthandenabled );
+		Body.Set( "ik.lefthand.position", iklefthandposition );
+		Body.Set( "ik.lefthand.rotation", iklefthandrotation );
+
+		Body.Set( "ik.righthand.enabled", ikrighthandenabled );
+		Body.Set( "ik.righthand.position", ikrighthandposition );
+		Body.Set( "ik.righthand.rotation", ikrighthandrotation );
+
+
+		var lookPos = iklefthandposition.LerpTo( ikrighthandposition, 0.5f );
+
+		var lookDir = (lookPos - Eyes.WorldPosition).Normal;
+
+		Body.SetLookDirection( "aim_head", lookDir, pulling ? 1f : 0 );
 	}
 
 	[Rpc.Broadcast]
@@ -433,6 +495,7 @@ public class ZombieNPC : NPC
 		Body.Set( "run", run );
 		Body.Set( "leftarm", leftArm );
 		Body.Set( "rightarm", rightArm );
+		Body.Set( "pull", pulling );
 	}
 
 	public override void OnKilled( DamageInfo damageInfo )

@@ -1632,6 +1632,67 @@
 						take = 1
 						reverse = false
 					},
+					{
+						_class = "AnimFile"
+						name = "Pulling"
+						children = 
+						[
+							{
+								_class = "AnimAddLayer"
+								anim_name = "PullingTop"
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						disable_interpolation = false
+						enable_scale = false
+						source_filename = "models/zombie/Pulling.fbx"
+						start_frame = -1
+						end_frame = -1
+						framerate = -1.0
+						take = 3
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "PullingTop"
+						children = 
+						[
+							{
+								_class = "AnimSubtract"
+								anim_name = "Pulling"
+								frame = 0
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = true
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						disable_interpolation = false
+						enable_scale = false
+						source_filename = "models/zombie/Pulling.fbx"
+						start_frame = -1
+						end_frame = -1
+						framerate = -1.0
+						take = 5
+						reverse = false
+					},
 				]
 				default_root_bone_name = ""
 			},
@@ -2617,6 +2678,150 @@
 							},
 						]
 						hidden_in_tools = false
+					},
+				]
+			},
+			{
+				_class = "IKData"
+				children = 
+				[
+					{
+						_class = "IKChain"
+						name = "righthand"
+						children = 
+						[
+							{
+								_class = "IKChainJoint"
+								name = "upperarm_r"
+								children = 
+								[
+									{
+										_class = "IKChainJoint"
+										name = "lowerarm_r"
+										children = 
+										[
+											{
+												_class = "IKChainJoint"
+												name = "hand_r"
+												bone = "hand_r"
+											},
+										]
+										bone = "lowerarm_r"
+									},
+								]
+								bone = "upperarm_r"
+							},
+						]
+						m_bDoBonesOrientAlongPositiveX = true
+						"m_DefaultSolverSettings.m_nNumIterations" = 6
+						"m_DefaultSolverSettings.m_SolverType " = "IKSOLVER_TwoBone"
+						"m_DefaultTargetSettings.m_Bone" = 
+						{
+							m_Name = "hand_r"
+						}
+						"m_DefaultTargetSettings.m_TargetSource" = "Bone"
+						"m_Data.m_DefaultTargetSettings.m_AnimgraphParameterNamePosition" = 
+						{
+							m_id = 4294967295
+						}
+						"m_Data.m_EndEffectorFixedOffsetAttachment" = 
+						{
+							m_Name = ""
+						}
+						"m_Data.m_bParentJointRequiresAlignment" = true
+					},
+					{
+						_class = "IKChain"
+						name = "lefthand"
+						children = 
+						[
+							{
+								_class = "IKChainJoint"
+								name = "upperarm_l"
+								children = 
+								[
+									{
+										_class = "IKChainJoint"
+										name = "lowerarm_l"
+										children = 
+										[
+											{
+												_class = "IKChainJoint"
+												name = "hand_l"
+												bone = "hand_l"
+											},
+										]
+										bone = "lowerarm_l"
+									},
+								]
+								bone = "upperarm_l"
+							},
+						]
+						m_bDoBonesOrientAlongPositiveX = true
+						"m_DefaultSolverSettings.m_nNumIterations" = 6
+						"m_DefaultSolverSettings.m_SolverType " = "IKSOLVER_TwoBone"
+						"m_DefaultTargetSettings.m_Bone" = 
+						{
+							m_Name = "hand_l"
+						}
+						"m_DefaultTargetSettings.m_TargetSource" = "Bone"
+						"m_Data.m_DefaultTargetSettings.m_AnimgraphParameterNamePosition" = 
+						{
+							m_id = 4294967295
+						}
+						"m_Data.m_EndEffectorFixedOffsetAttachment" = 
+						{
+							m_Name = ""
+						}
+						"m_Data.m_bParentJointRequiresAlignment" = true
+					},
+				]
+			},
+			{
+				_class = "GameDataList"
+				children = 
+				[
+					{
+						_class = "LookAtChain"
+						name = "look"
+						lookat_chain = 
+						{
+							name = ""
+							bones = 
+							[
+								{
+									name = "head"
+									weight = 1.0
+								},
+								{
+									name = "neck_01"
+									weight = 0.589
+								},
+								{
+									name = "spine_03"
+									weight = 0.196
+								},
+								{
+									name = "spine_02"
+									weight = 0.142
+								},
+							]
+						}
+					},
+				]
+			},
+			{
+				_class = "AttachmentList"
+				children = 
+				[
+					{
+						_class = "Attachment"
+						name = "forwardref"
+						parent_bone = ""
+						relative_origin = [ 3.0, 0.0, 0.0 ]
+						relative_angles = [ 0.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = true
 					},
 				]
 			},

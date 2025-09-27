@@ -59,7 +59,7 @@ public abstract class Knowable : Component, IKnowable
 		return 1;
 	}
 
-	public KnowledgeRecord? GetNearest( bool onlyEnemies = false, KnowledgeKind[] kinds = default)
+	public KnowledgeRecord? GetNearest( bool onlyEnemies = false, KnowledgeKind[] kinds = default, GameObject[] ignore = default)
 	{
 		KnowledgeRecord? best = null;
 		var bestDist = float.MaxValue;
@@ -67,6 +67,9 @@ public abstract class Knowable : Component, IKnowable
 		foreach ( var rec in Memory.Values )
 		{
 			if ( ai_ignoreplayers && rec.Kind == KnowledgeKind.Player )
+				continue;
+
+			if ( ignore != default && ignore.Contains( rec.Knowable.GameObject ) )
 				continue;
 
 			if ( onlyEnemies && !TeamRef.IsEnemy( rec.Team ) )
@@ -94,7 +97,6 @@ public abstract class Knowable : Component, IKnowable
 
 public class KnowledgeScanner : GameObjectSystem
 {
-
 	public KnowledgeScanner( Scene scene ) : base( scene )
 	{
 		Listen( Stage.PhysicsStep, 10, Scan, "DoingSomething" );
@@ -112,15 +114,13 @@ public class KnowledgeScanner : GameObjectSystem
 
 		nextScan = 1;
 
-		
-
 		foreach ( var target in Scene.GetAllComponents<Knowable>() )
 		{
 			if ( target is not IKnowable knowable )
 				continue;
 			if ( !knowable.GameObject.IsValid() )
 				continue;
-			if (knowable.Kind != KnowledgeKind.NPC)
+			if (knowable.Kind == KnowledgeKind.Player)
 				continue;
 
 			Scan( target );
