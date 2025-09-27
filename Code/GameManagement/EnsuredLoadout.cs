@@ -91,7 +91,7 @@ public partial class EnsuredLoadout : SingletonComponent<EnsuredLoadout>
 		bool equip = true;
 		foreach ( var weapon in PlayerLoadouts[Connection.Local.Id] )
 		{
-			pawn.Inventory.Pickup( weapon, equip );
+			pawn.Inventory?.Pickup( weapon, equip );
 			equip = false;
 		}
 	}

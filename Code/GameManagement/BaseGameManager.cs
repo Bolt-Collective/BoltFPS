@@ -3,11 +3,13 @@ using Sandbox;
 namespace Seekers;
 
 [EditorHandle("ui/input/controllers/controller_icon_ps3.png")]
-public partial class BasicNetworkHelper : SingletonComponent<BasicNetworkHelper>, Component.INetworkListener
+public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Component.INetworkListener
 {
 	[Property] public bool StartServer { get; set; } = true;
-	[Property] public PrefabFile PlayerPrefab { get; set; }
+	[Property, Header("Player")] public PrefabFile PlayerPrefab { get; set; }
 
+	[Property, Header("Player")] public PrefabFile ClientPrefab { get; set; }
+	
 	[Property] [Group( "Dev" )] public readonly List<long> PlayerWhitelist = new()
 	{
 		76561198043979097, // trende
@@ -24,7 +26,7 @@ public partial class BasicNetworkHelper : SingletonComponent<BasicNetworkHelper>
 		76561198289339378 // graffiti
 	};
 
-	[Property] public List<long> KickedPlayers = new();
+	[Property] public List<long> BannedPlayers = new();
 
 	[Property] [Group( "Dev" )] public bool DevMode { get; set; }
 
@@ -38,9 +40,9 @@ public partial class BasicNetworkHelper : SingletonComponent<BasicNetworkHelper>
 			return false;
 		}
 
-		if ( KickedPlayers.Contains( channel.SteamId.Value ) )
+		if ( BannedPlayers.Contains( channel.SteamId.Value ) )
 		{
-			reason = "You have been kicked from this game. ta ta";
+			reason = "You have been kicked from this game.";
 			return false;
 		}
 
@@ -53,11 +55,11 @@ public partial class BasicNetworkHelper : SingletonComponent<BasicNetworkHelper>
 		if ( existingClient.IsValid() && !Application.IsDedicatedServer )
 			return;
 
-		var clientObj = Game.ActiveScene.CreateObject();
+		var clientObj = ClientPrefab.GetScene().Clone();
 		clientObj.Name = $"Client - {channel.DisplayName}";
 		clientObj.Tags.Add( "engine" );
 
-		var client = clientObj.AddComponent<Client>();
+		var client = clientObj.GetComponent<Client>();
 		client.SteamId = channel.SteamId;
 		clientObj.NetworkSpawn( channel );
 
@@ -110,25 +112,5 @@ public partial class BasicNetworkHelper : SingletonComponent<BasicNetworkHelper>
 
 			client.Respawn( client.Network.Owner, weapons: StartingWeapons );
 		}
-	}
-
-
-	public Transform FindSpawnLocation()
-	{
-		return new Transform( WorldPosition );
-		//
-		// If we have any SpawnPoint components in the scene, then use those
-		//
-		var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
-		if ( spawnPoints.Length > 0 )
-		{
-			var transform = Random.Shared.FromArray( spawnPoints ).Transform.World;
-			return transform.WithPosition( transform.Position + Vector3.Up * 5 );
-		}
-
-		//
-		// Failing that, spawn where we are
-		//
-		return WorldTransform;
 	}
 }

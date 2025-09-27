@@ -13,7 +13,7 @@
 
 	@if ( !Entry.Styles.Contains( "notification" ) )
 	{
-		if ( BasicNetworkHelper.Devs.Contains( Entry.SteamId ) )
+		if ( BaseGameManager.Devs.Contains( Entry.SteamId ) )
 		{
 			<div class="breaker rainbow">[DEV]</div>
 			<div class="breaker">@Entry.Name:</div>
@@ -32,7 +32,7 @@
 
 @code
 {
-	BasicNetworkHelper GameManager => BasicNetworkHelper.Instance;
+	BaseGameManager GameManager => BaseGameManager.Instance;
 	public ChatBox.Entry Entry { get; set; }
 
 	public override void Tick()
