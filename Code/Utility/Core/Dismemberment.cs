@@ -50,7 +50,6 @@ public class Dismemberment : Component
 
 	public void OnDamaged(DamageInfo damageInfo)
 	{
-		Log.Info( damageInfo.hitbox );
 		if ( IsProxy )
 			return;
 

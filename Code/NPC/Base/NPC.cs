@@ -162,6 +162,9 @@ public abstract partial class NPC : Knowable
 
 	public void CreateRagdoll( SkinnedModelRenderer body, DamageInfo damageInfo, Model replacement = null )
 	{
+		if ( !body.IsValid() )
+			return;
+
 		body.GameObject.SetParent( Game.ActiveScene );
 		body.AddComponent<TimedDestroyComponent>().Time = 15;
 		body.UseAnimGraph = false;
@@ -172,11 +175,12 @@ public abstract partial class NPC : Knowable
 
 		ModelPhysics modelPhysics = null;
 
-		if ( body.Components.TryGet<ModelPhysics>( out var mp ) )
+		if ( body.Components.TryGet<ModelPhysics>( out var mp, FindMode.EverythingInSelf ) )
 			modelPhysics = mp;
 		else
 			body.AddComponent<ModelPhysics>();
 
+		modelPhysics.Enabled = true;
 		modelPhysics.Model = body.Model;
 		modelPhysics.Renderer = body;
 		modelPhysics.MotionEnabled = true;
