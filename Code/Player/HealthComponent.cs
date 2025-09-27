@@ -113,10 +113,10 @@ public partial class HealthComponent : Component, IRespawnable
 		OnDamaged?.Invoke( damageInfo );
 
 		if ( IsGodMode ) return;
-
+		var prevHealth = Health;
 		Health = Math.Max( 0f, Health - damageInfo.Damage );
 
-		if ( Health > 0f || State != LifeState.Alive ) return;
+		if ( ( prevHealth > 0 && Health > 0f) ) return;
 
 		Health = 0f;
 		State = LifeState.Dead;

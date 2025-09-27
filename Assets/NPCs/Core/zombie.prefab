@@ -75,6 +75,10 @@
         "LeftCrawlAttacks": [
           0
         ],
+        "LeftShoulder": {
+          "_type": "gameobject",
+          "go": "0212980d-6f41-4063-9395-75d82e56ead0"
+        },
         "MaxAttackAngle": 26.40002,
         "Name": "Zombie",
         "OnComponentDestroy": null,
@@ -91,6 +95,10 @@
         "RightCrawlAttacks": [
           1
         ],
+        "RightShoulder": {
+          "_type": "gameobject",
+          "go": "c65068c1-7a9d-4d28-9461-f9e0d83894e7"
+        },
         "RunSpeed": 112,
         "ShootTargets": [
           {
@@ -491,7 +499,7 @@
           {
             "__type": "Sandbox.ModelPhysics",
             "__guid": "572585e5-5a18-4f1f-ade3-4af30cb64ac7",
-            "__enabled": true,
+            "__enabled": false,
             "IgnoreRoot": false,
             "Locking": {
               "X": false,

@@ -67,8 +67,8 @@ public abstract partial class NPC : Knowable
 
 	protected override void OnFixedUpdate()
 	{
-		if ( Agent.Velocity.Length > 5 && Agent.TargetPosition.HasValue &&
-		     Agent.TargetPosition.Value.Distance( WorldPosition ) > 5 && Agent.Enabled )
+		if ( (Agent.Velocity.Length > 5 && Agent.TargetPosition.HasValue &&
+		     Agent.TargetPosition.Value.Distance( WorldPosition ) > 5) || !Agent.Enabled )
 			failedMoving = 0;
 
 		if ( failedMoving > 2 )

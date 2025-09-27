@@ -8,6 +8,6 @@ public class ZombieVaultLink : NavMeshLink
 		if ( !agent.GameObject.Root.Components.TryGet<ZombieNPC>( out var zombie ) )
 			return;
 
-		zombie.VaultLink( GameObject );
+		zombie.VaultLink( this );
 	}
 }

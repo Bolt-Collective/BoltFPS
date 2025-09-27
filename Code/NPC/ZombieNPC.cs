@@ -18,6 +18,12 @@ public class ZombieNPC : NPC
 	[Group( "References" )]
 	[Property] public GameObject Eyes { get; set; }
 
+	[Group( "References" )]
+	[Property] public GameObject LeftShoulder { get; set; }
+
+	[Group( "References" )]
+	[Property] public GameObject RightShoulder { get; set; }
+
 	[Group( "Movement" )]
 	[Property] public float WalkSpeed { get; set; } = 23.3f;
 
@@ -179,11 +185,14 @@ public class ZombieNPC : NPC
 		if ( IsProxy )
 			return;
 
+
+		if (pulling)
+			Pulling();
+
 		if (move)
 			Agent.Velocity = (Body.RootMotion.Position / Time.Delta) * Body.WorldRotation * (vaulting ? 1.5f : 1);
 	}
 
-	[Sync]
 	private bool pulling { get; set; }
 	public override void Think()
 	{
@@ -192,10 +201,7 @@ public class ZombieNPC : NPC
 		pulling = pull != null;
 
 		if (pulling)
-		{
-			Pulling();
 			return;
-		}
 
 		iklefthandenabled = false;
 		ikrighthandenabled = false;
@@ -205,6 +211,8 @@ public class ZombieNPC : NPC
 			Vaulting();
 			return;
 		}
+
+		Agent.UpdatePosition = true;
 
 		if ( rightLegDis.Health <= 0 || leftLegDis.Health <= 0 )
 			Crawl = true;
@@ -270,24 +278,40 @@ public class ZombieNPC : NPC
 		Attacking();
 	}
 
+	public RealTimeSince timePulling;
+
+	[Sync] public bool PullingAnimation
+	{
+		get { return pulling && timePulling > 0.5f; }
+	}
+
 	public void Pulling()
 	{
 		var pullPoints = pull.Value;
 
-		iklefthandenabled = true;
-		ikrighthandenabled = true;
+		iklefthandenabled = timePulling > 0.5f;
+		ikrighthandenabled = timePulling > 0.5f;
 
-		iklefthandposition = pullPoints.left.WorldPosition;
-		iklefthandrotation = pullPoints.left.WorldRotation;
+		if (timePulling > 0.2f)
+		{
+			iklefthandposition = pullPoints.left.WorldPosition;
+			iklefthandrotation = pullPoints.left.WorldRotation;
 
-		ikrighthandposition = pullPoints.right.WorldPosition;
-		ikrighthandrotation = pullPoints.right.WorldRotation;
+			ikrighthandposition = pullPoints.right.WorldPosition;
+			ikrighthandrotation = pullPoints.right.WorldRotation;
+		}
 
 		move = false;
-		Agent.Enabled = false;
+		Agent.UpdatePosition = false;
 
 		WorldPosition = WorldPosition.LerpTo( pullPoints.pos.WorldPosition, 5 * Time.Delta );
 		WorldRotation = WorldRotation.SlerpTo( pullPoints.pos.WorldRotation, 5 * Time.Delta );
+	}
+
+	public void LetGo()
+	{
+		pull = null;
+		timePulling = 0;
 	}
 
 	[Sync] public bool iklefthandenabled { get; set; }
@@ -302,16 +326,18 @@ public class ZombieNPC : NPC
 	{
 		if (ExitVault < 0)
 		{
-			Agent.Enabled = true;
 			vaulting = false;
-			Log.Info( "poo" );
+			Agent.Enabled = false;
+			Agent.Enabled = true;
 			return;
 		}
-		Agent.Enabled = false;
+		Agent.UpdatePosition = false;
 		var vel = (Body.RootMotion.Position / Time.Delta) * Body.PlaybackRate * 4f * Body.WorldRotation;
 		WorldPosition += vel * Time.Delta;
+		WorldPosition = WorldPosition.LerpTo( WorldPosition.ClosestPointOnLine( VaultLinkObject.WorldStartPosition, VaultLinkObject.WorldEndPosition ), 10 * Time.Delta );
 		WorldRotation = WorldRotation.SlerpTo( VaultLinkObject.WorldRotation, 10 * Time.Delta );
 	}
+
 
 	public void SetAttackStats(float attackDis, float attackHei, float attackOff, float attackAttempt)
 	{
@@ -405,9 +431,13 @@ public class ZombieNPC : NPC
 		var dis = WorldPosition.Distance( ClosestEnemy.Position );
 
 		if ( ClosestEnemy.Kind != KnowledgeKind.Player && ClosestEnemy.Kind != KnowledgeKind.NPC )
-			move = dis > 30;
+		{
+			move = dis > 20;
+		}
 		else
+		{
 			move = dis > StopDistance;
+		}
 
 		var offsetX = -1 + Noise.Perlin( (Time.Now + accRandom) * AccuracyScale, 0 ) * 2;
 		var offsetY = -1 + Noise.Perlin( (Time.Now - accRandom) * AccuracyScale, 0 ) * 2;
@@ -480,22 +510,24 @@ public class ZombieNPC : NPC
 		Body.Set( "ik.righthand.rotation", ikrighthandrotation );
 
 
-		var lookPos = iklefthandposition.LerpTo( ikrighthandposition, 0.5f );
+		var lookPos = iklefthandposition.LerpTo( ikrighthandposition, 0.5f ) + Vector3.Up * 15;
 
 		var lookDir = (lookPos - Eyes.WorldPosition).Normal;
 
-		Body.SetLookDirection( "aim_head", lookDir, pulling ? 1f : 0 );
+		Body.SetLookDirection( "aim_head", lookDir, PullingAnimation ? 1f : 0 );
+
+		Body.Set( "pull", PullingAnimation );
+
+		Body.Set( "crawl", Crawl );
 	}
 
 	[Rpc.Broadcast]
 	public void SetAnimation( bool move, bool run, bool leftArm, bool rightArm )
 	{
-		Body.Set("crawl", Crawl );
 		Body.Set( "move", move );
 		Body.Set( "run", run );
 		Body.Set( "leftarm", leftArm );
 		Body.Set( "rightarm", rightArm );
-		Body.Set( "pull", pulling );
 	}
 
 	public override void OnKilled( DamageInfo damageInfo )
@@ -530,11 +562,11 @@ public class ZombieNPC : NPC
 
 	bool vaulting = false;
 	bool hasVaulted = false;
-	GameObject VaultLinkObject;
+	ZombieVaultLink VaultLinkObject;
 	TimeUntil ExitVault;
-	public void VaultLink( GameObject Link )
+	public void VaultLink( ZombieVaultLink Link )
 	{
-		TargetBarrier.Enabled = false;
+		TargetBarrier = null;
 		if ( Crawl )
 			return;
 		VaultLinkObject = Link;

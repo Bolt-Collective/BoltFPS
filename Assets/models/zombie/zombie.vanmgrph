@@ -2183,7 +2183,7 @@
 				{
 					_class = "CStateMachineAnimNode"
 					m_sName = "Pull"
-					m_vecPosition = [ -544.0, -272.0 ]
+					m_vecPosition = [ -560.0, -272.0 ]
 					m_nNodeID = 
 					{
 						m_id = 964887719
@@ -2213,7 +2213,7 @@
 											}
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.5
 									m_destState = 
 									{
 										m_id = 899943154
@@ -2281,7 +2281,7 @@
 											}
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.5
 									m_destState = 
 									{
 										m_id = 1245881062
@@ -3320,7 +3320,7 @@
 											}
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.5
 									m_destState = 
 									{
 										m_id = 1970440710
@@ -3388,7 +3388,7 @@
 											}
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.5
 									m_destState = 
 									{
 										m_id = 1542853511
@@ -3622,7 +3622,7 @@
 											}
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.5
 									m_destState = 
 									{
 										m_id = 1970440710
@@ -3690,7 +3690,7 @@
 											}
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.5
 									m_destState = 
 									{
 										m_id = 1542853511
