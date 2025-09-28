@@ -949,15 +949,11 @@ public partial class BaseWeapon : Component
 	public virtual void ShootBullet( float force, float damage, float bulletSize )
 	{
 		var ray = Owner.AimRay;
-		if ( ADS && Input.Down( "attack2" ) && (ViewModel?.ScopePoint.IsValid() ?? false) )
+		if ( ADS && Input.Down( "attack2" ) && (ViewModel?.ScopePoint.IsValid() ?? false) && !ViewModel.Scope.IsValid() )
 		{
 			Vector2 screenPosA = Scene.Camera.PointToScreenNormal( ViewModel.ScopePoint.WorldPosition );
 
-			// Step 2: unproject same screen position using Camera B
-			if ( ViewModel.Scope.IsValid() )
-				ray = ViewModel.Scope.CameraComponent.ScreenNormalToRay( screenPosA );
-			else
-				ray = Scene.Camera.ScreenNormalToRay( screenPosA );
+			ray = ViewModel.Scope.CameraComponent.ScreenNormalToRay( screenPosA );
 		}
 
 		ShootBullet( ray.Position, ray.Forward, force, damage, bulletSize );
@@ -1021,6 +1017,7 @@ public partial class BaseWeapon : Component
 
 		public Vector2 Modify = 1;
 		[KeyProperty] public List<Vector2> Points { get; set; } = new();
+		[KeyProperty] public float RecoilMult { get; set; } = 1;
 
 		public Vector2 GetPoint( RealTimeSince lastRecoil, float bulletTime )
 		{
@@ -1031,7 +1028,7 @@ public partial class BaseWeapon : Component
 				currentPoint = 0;
 			}
 
-			return Points[currentPoint];
+			return Points[currentPoint] * RecoilMult;
 		}
 
 		[Button]
@@ -1040,6 +1037,22 @@ public partial class BaseWeapon : Component
 			for ( var i = 0; i < Points.Count; i++ )
 			{
 				Points[i] *= Modify;
+			}
+		}
+
+		[Button]
+		public void Normalize()
+		{
+			if ( Points.Count == 0 ) return;
+			float maxX = Points.Max( p => MathF.Abs( p.x ) );
+			float maxY = Points.Max( p => MathF.Abs( p.y ) );
+			float max = MathF.Max( maxX, maxY );
+
+			if ( max <= 0.0001f ) return;
+
+			for ( int i = 0; i < Points.Count; i++ )
+			{
+				Points[i] /= max;
 			}
 		}
 	}

@@ -106,11 +106,7 @@
       },
       "Identifier": "2",
       "Position": "-732,-336",
-      "HandleOffsets": {},
-      "Coords": {
-        "Identifier": "25",
-        "Output": "Result"
-      }
+      "HandleOffsets": {}
     },
     {
       "_class": "Power",
@@ -479,26 +475,6 @@
       }
     },
     {
-      "_class": "ScreenCoordinate",
-      "Identifier": "25",
-      "Position": "-1032,-336",
-      "HandleOffsets": {}
-    },
-    {
-      "_class": "CombineVector",
-      "DefaultX": 1.77,
-      "DefaultY": 1,
-      "DefaultZ": 0,
-      "DefaultW": 0,
-      "Identifier": "26",
-      "Position": "-1344,-324",
-      "HandleOffsets": {},
-      "X": {
-        "Identifier": "27",
-        "Output": "Result"
-      }
-    },
-    {
       "_class": "Float",
       "Min": 0,
       "Max": 1,
@@ -518,7 +494,7 @@
           "Priority": 0
         }
       },
-      "Identifier": "27",
+      "Identifier": "25",
       "Position": "-1884,-324",
       "HandleOffsets": {}
     }

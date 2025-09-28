@@ -31,8 +31,8 @@ Layer0
 	TextureNormal "models/mp5/textures/mp5_normal.png"
 
 	//---- Roughness ----
-	g_flRoughnessScaleFactor "0.359"
-	TextureRoughness "models/mp5/textures/mp5_metallic.png"
+	g_flRoughnessScaleFactor "1.000"
+	TextureRoughness "materials/default/default_rough.tga"
 
 	//---- Texture Coordinates ----
 	g_nScaleTexCoordUByModelScaleAxis "0"

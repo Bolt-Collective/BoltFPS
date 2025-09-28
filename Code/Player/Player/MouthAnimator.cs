@@ -12,6 +12,9 @@ public sealed class MouthAnimator : Component
 
 	protected override void OnUpdate()
 	{
+		if ( LocalVoiceMixer.Get() == null )
+			return;
+
 		if ( !IsProxy )
 			SpeechVolume = LocalVoiceMixer.Get().Meter.Current.MaxLevel;
 
