@@ -27,7 +27,7 @@ public sealed class Scope : Component
 		//creates nre but works?
 		try
 		{
-			CameraComponent.CustomProjectionMatrix = CreateSquareProjection( 15, CameraComponent.ZNear, CameraComponent.ZFar );
+			CameraComponent.CustomProjectionMatrix = CreateSquareProjection( CameraComponent.FieldOfView, CameraComponent.ZNear, CameraComponent.ZFar );
 		}
 		catch { }
 	}
@@ -48,7 +48,5 @@ public sealed class Scope : Component
 	protected override void OnUpdate()
 	{
 		CameraComponent.RenderToTexture( RenderTexture );
-
-		CameraComponent.WorldTransform = Scene.Camera.WorldTransform;
 	}
 }

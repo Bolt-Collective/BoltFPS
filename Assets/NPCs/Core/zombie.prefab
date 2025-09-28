@@ -147,14 +147,12 @@
         "__type": "Seekers.HealthComponent",
         "__guid": "daedf297-0491-47c5-acec-39b6df2a789a",
         "__enabled": true,
-        "Health": 1000,
-        "HitboxMultipliers": {
-          "Head": 10
-        },
+        "Health": 100,
+        "HitboxMultipliers": {},
         "IgnorePlayerDamage": false,
         "IsGodMode": false,
         "LinkedHealth": null,
-        "MaxHealth": 1000,
+        "MaxHealth": 100,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -346,8 +344,8 @@
             },
             "BodyGroup": "LeftArm",
             "dismemberedValue": 1,
-            "Health": 70,
-            "HealthCost": 15
+            "Health": 50,
+            "HealthCost": 3
           },
           {
             "Name": "Right Arm",
@@ -361,8 +359,8 @@
             },
             "BodyGroup": "RightArm",
             "dismemberedValue": 1,
-            "Health": 70,
-            "HealthCost": 15
+            "Health": 50,
+            "HealthCost": 3
           },
           {
             "Name": "Head",
@@ -375,8 +373,8 @@
             },
             "BodyGroup": "Head",
             "dismemberedValue": 1,
-            "Health": 500,
-            "HealthCost": 150
+            "Health": 50,
+            "HealthCost": 30
           },
           {
             "Name": "Left Leg",
@@ -390,7 +388,7 @@
             },
             "BodyGroup": "LeftLeg",
             "dismemberedValue": 1,
-            "Health": 70,
+            "Health": 50,
             "HealthCost": 0
           },
           {
@@ -405,7 +403,7 @@
             },
             "BodyGroup": "RightLeg",
             "dismemberedValue": 1,
-            "Health": 70,
+            "Health": 50,
             "HealthCost": 0
           }
         ],

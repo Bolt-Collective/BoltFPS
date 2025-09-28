@@ -956,6 +956,11 @@ public partial class BaseWeapon : Component
 			ray = Scene.Camera.ScreenNormalToRay( screenPosA );
 		}
 
+		if ( ADS && Input.Down( "attack2" ) && ViewModel.Scope.IsValid() )
+		{
+			ray = ViewModel.Scope.CameraComponent.WorldTransform.ForwardRay;
+		}
+
 		ShootBullet( ray.Position, ray.Forward, force, damage, bulletSize );
 	}
 
