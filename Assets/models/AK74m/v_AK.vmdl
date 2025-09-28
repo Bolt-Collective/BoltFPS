@@ -17,6 +17,10 @@
 								from = "wpnm_akm.vmat"
 								to = "models/ak74m/textures/akm.vmat"
 							},
+							{
+								from = "wpnm_ammunition.vmat"
+								to = "models/ammunation/textures/ammunation.vmat"
+							},
 						]
 						use_global_default = false
 						global_default_material = "materials/default.vmat"
@@ -40,7 +44,119 @@
 						import_filter = 
 						{
 							exclude_by_default = false
-							exception_list = [  ]
+							exception_list = 
+							[
+								"b1",
+								"b2",
+								"b3",
+								"Follower_3",
+								"Follower_2",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "Ammo1"
+						filename = "models/ak74m/fpsanims.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"Follower_2",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "Ammo2"
+						filename = "models/ak74m/fpsanims.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"b1",
+								"Follower_2",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "Ammo3"
+						filename = "models/ak74m/fpsanims.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"b2",
+								"b1",
+								"Follower_3",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "Ammo4"
+						filename = "models/ak74m/fpsanims.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"b2",
+								"b1",
+								"b3",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "Ammo0"
+						filename = "models/ak74m/fpsanims.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"Follower_2",
+							]
 						}
 					},
 				]
@@ -346,6 +462,60 @@
 					},
 				]
 				bone_cull_type = "Aggressive"
+			},
+			{
+				_class = "BodyGroupList"
+				children = 
+				[
+					{
+						_class = "BodyGroup"
+						name = "Ammo"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								name = "Ammo0"
+								meshes = 
+								[
+									"Ammo0",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								name = "Ammo01"
+								meshes = 
+								[
+									"Ammo1",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								name = "Ammo02"
+								meshes = 
+								[
+									"Ammo2",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								name = "Ammo03"
+								meshes = 
+								[
+									"Ammo3",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								name = "Ammo04"
+								meshes = 
+								[
+									"Ammo4",
+								]
+							},
+						]
+						hidden_in_tools = false
+					},
+				]
 			},
 		]
 		model_archetype = ""

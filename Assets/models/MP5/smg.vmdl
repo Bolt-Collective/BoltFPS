@@ -42,6 +42,42 @@
 								"MP5_006",
 								"MP5_007",
 								"MP5_002",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "Ammo"
+						filename = "models/mp5/smg.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = [  ]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "Ammo1"
+						filename = "models/mp5/smg.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
 								"MP5_003",
 							]
 						}
@@ -165,6 +201,19 @@
 									tags = ""
 								}
 							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_GENERIC_EVENT"
+								event_frame = 54
+								event_keys = 
+								{
+									TypeName = "refill ammo"
+									Int = 0
+									Float = 1.0
+									Vector = [ 0.0, 0.0, 0.0 ]
+									StringData = ""
+								}
+							},
 						]
 						activity_name = ""
 						activity_weight = 1
@@ -237,6 +286,19 @@
 									stop_on_seq_change = false
 									use_layer_sequence = false
 									tags = ""
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_GENERIC_EVENT"
+								event_frame = 86
+								event_keys = 
+								{
+									TypeName = "refill ammo"
+									Int = 0
+									Float = 1.5
+									Vector = [ 0.0, 0.0, 0.0 ]
+									StringData = ""
 								}
 							},
 						]
@@ -321,6 +383,36 @@
 						mirror_z = false
 						flip_bone_forward = false
 						swap_left_and_right_bones = false
+					},
+				]
+			},
+			{
+				_class = "BodyGroupList"
+				children = 
+				[
+					{
+						_class = "BodyGroup"
+						name = "Ammo"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								name = "Ammo0"
+								meshes = 
+								[
+									"Ammo",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								name = "Ammo01"
+								meshes = 
+								[
+									"Ammo1",
+								]
+							},
+						]
+						hidden_in_tools = false
 					},
 				]
 			},

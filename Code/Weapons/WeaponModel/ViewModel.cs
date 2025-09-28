@@ -1,6 +1,7 @@
 using Sandbox;
 using ShrimplePawns;
 using System.Net.Mail;
+using System.Security.Cryptography;
 
 namespace Seekers;
 
@@ -174,6 +175,14 @@ public class ViewModel : Component
 	protected override void OnStart()
 	{
 		Scope = ScopePoint?.GetComponent<Scope>();
+		foreach(var renderer in Renderers)
+			renderer.OnGenericEvent += Event;
+	}
+
+	public void Event(SceneModel.GenericEvent @event)
+	{
+		if ( @event.Type.ToLower() == "refill ammo" )
+			OverrideFill = @event.Float;
 	}
 
 	protected override void OnPreRender()
@@ -277,13 +286,14 @@ public class ViewModel : Component
 		DoBulletGroups(pawn);
 	}
 
+	TimeUntil OverrideFill;
 	public void DoBulletGroups( Pawn pawn )
 	{
 		if ( !BulletGroups )
 			return;
 
 		foreach ( var renderer in Renderers )
-			renderer.SetBodyGroup( BulletGroupName, pawn.Inventory.ActiveWeapon.Ammo.Clamp( 0, MaxBulletGroup ) );
+			renderer.SetBodyGroup( BulletGroupName, OverrideFill > 0 ? MaxBulletGroup : pawn.Inventory.ActiveWeapon.Ammo.Clamp( 0, MaxBulletGroup ) );
 	}
 
 	public void GraphSway(Pawn pawn)
@@ -507,5 +517,12 @@ public class ViewModel : Component
 		offset = offset.WithZ( -MathF.Abs( offset.z ) );
 
 		return offset;
+	}
+
+	protected override void DrawGizmos()
+	{
+		Gizmo.Draw.IgnoreDepth = true;
+		if ( ScopePoint.IsValid() )
+			Gizmo.Draw.Line( WorldTransform.PointToLocal( ScopePoint.WorldPosition ), WorldTransform.PointToLocal( ScopePoint.WorldPosition + ScopePoint.WorldTransform.Backward * 200 ));
 	}
 }
