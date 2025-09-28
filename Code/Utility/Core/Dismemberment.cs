@@ -61,7 +61,7 @@ public class Dismemberment : Component
 			if ( !dismemberable.HitboxNames.Contains( damageInfo.hitbox ) )
 				continue;
 
-			dismemberable.Health -= damageInfo.Damage;
+			dismemberable.Health -= damageInfo.Damage * 100 / HealthComponent.MaxHealth;
 
 			dismemberable.LastAttaker = damageInfo.Attacker;
 
