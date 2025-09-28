@@ -49,7 +49,7 @@ public class ViewModel : Component
 	[Property, Group( "ProcedualAim" )] public float Distance { get; set; }
 	[Property, Group( "ProcedualAim" )] public float Distance60 { get; set; }
 	[Property, Group( "ProcedualAim" )] public float Distance120 { get; set; }
-	[Property, Group( "ProcedualAim" )] public Scope ScopePoint { get; set; }
+	[Property, Group( "ProcedualAim" )] public GameObject ScopePoint { get; set; }
 	[Property, Group( "ProcedualAim" )] public float ScopeCost { get; set; } = 10;
 
 
@@ -166,6 +166,14 @@ public class ViewModel : Component
 	protected override void OnEnabled()
 	{
 		Renderer?.Set( GetAnim( "b_deploy" ), true );
+	}
+
+
+	public Scope Scope { get; set; }
+
+	protected override void OnStart()
+	{
+		Scope = ScopePoint?.GetComponent<Scope>();
 	}
 
 	protected override void OnPreRender()
@@ -337,7 +345,7 @@ public class ViewModel : Component
 		aimSmooth += (Aiming && !GetBool("b_sprint") && !pawn.Inventory.ActiveWeapon.IsReloading ? Time.Delta : -Time.Delta) * 1 / AimTime;
 		aimSmooth = aimSmooth.Clamp( 0, 1 );
 
-		var goingSteady = ScopePoint.IsValid() && pawn.Stamina > 0 && Input.Down( "Walk" );
+		var goingSteady = ScopePoint.IsValid() && pawn.Stamina > 0 && Input.Down( "Walk" ) && Input.Down("attack2");
 		if ( goingSteady )
 			pawn.TakeStamina(Time.Delta * ScopeCost);
 

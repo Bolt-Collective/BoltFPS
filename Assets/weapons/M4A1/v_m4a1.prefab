@@ -107,6 +107,8 @@
         "BulletGroupName": "Ammo",
         "BulletGroups": true,
         "Distance": 9.7,
+        "Distance120": 0,
+        "Distance60": 0,
         "InertiaDamping": 20,
         "IronSightBack": null,
         "IronSightPoint": {
@@ -149,6 +151,11 @@
         "RotateAround": {
           "_type": "gameobject",
           "go": "e8908825-98fa-487c-b7a8-160c449bce72"
+        },
+        "ScopeCost": 0.2,
+        "ScopePoint": {
+          "_type": "gameobject",
+          "go": "fa2049ac-f4df-421c-9f84-f0222a42f9a0"
         },
         "SprintHold": true,
         "SwayType": "ProcedualSway",
@@ -947,7 +954,25 @@
                 "UseAnimGraph": true
               }
             ],
-            "Children": []
+            "Children": [
+              {
+                "__guid": "fa2049ac-f4df-421c-9f84-f0222a42f9a0",
+                "__version": 1,
+                "Flags": 0,
+                "Name": "Object",
+                "Position": "15.71212,-0.000001594686,2.000158",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              }
+            ]
           }
         ]
       },

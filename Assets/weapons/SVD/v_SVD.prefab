@@ -152,12 +152,10 @@
           "_type": "gameobject",
           "go": "e8908825-98fa-487c-b7a8-160c449bce72"
         },
-        "ScopeCost": 0.5,
+        "ScopeCost": 0.2,
         "ScopePoint": {
-          "_type": "component",
-          "component_id": "333d185d-eca1-4286-be55-038ce027d310",
-          "go": "31eddcbe-4595-4e10-8c72-fe3473b2047e",
-          "component_type": "Scope"
+          "_type": "gameobject",
+          "go": "31eddcbe-4595-4e10-8c72-fe3473b2047e"
         },
         "SprintHold": true,
         "SwayType": "ProcedualSway",

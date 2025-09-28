@@ -116,6 +116,8 @@
         "BulletGroupName": "Ammo",
         "BulletGroups": false,
         "Distance": 13.7,
+        "Distance120": 0,
+        "Distance60": 0,
         "InertiaDamping": 20,
         "IronSightBack": null,
         "IronSightPoint": {
@@ -158,6 +160,11 @@
         "RotateAround": {
           "_type": "gameobject",
           "go": "e8908825-98fa-487c-b7a8-160c449bce72"
+        },
+        "ScopeCost": 0.2,
+        "ScopePoint": {
+          "_type": "gameobject",
+          "go": "5c66182f-736f-4007-a3f4-9cbcc010f64a"
         },
         "SprintHold": true,
         "SwayType": "ProcedualSway",
@@ -1066,6 +1073,23 @@
                 "Flags": 4,
                 "Name": "hammer",
                 "Position": "0,0,0",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              },
+              {
+                "__guid": "5c66182f-736f-4007-a3f4-9cbcc010f64a",
+                "__version": 1,
+                "Flags": 0,
+                "Name": "Object",
+                "Position": "12.85433,3.041173,0.6307469",
                 "Rotation": "0,0,0,1",
                 "Scale": "1,1,1",
                 "Tags": "",

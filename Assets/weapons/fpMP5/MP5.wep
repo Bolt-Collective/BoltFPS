@@ -1,0 +1,11 @@
+{
+  "DisplayName": "MP5",
+  "Catagory": "Guns",
+  "Duplicates": true,
+  "ReplenishAmmo": false,
+  "Icon": "icons/3d/w_mp5_c.vmdl_c.png",
+  "Description": "",
+  "Details": "weapons/fpmp5/w_mp5.prefab",
+  "__references": [],
+  "__version": 0
+}

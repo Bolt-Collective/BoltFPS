@@ -107,6 +107,8 @@
         "BulletGroupName": "Ammo",
         "BulletGroups": false,
         "Distance": 17.7,
+        "Distance120": 0,
+        "Distance60": 0,
         "InertiaDamping": 20,
         "IronSightBack": {
           "_type": "gameobject",
@@ -152,6 +154,11 @@
         "RotateAround": {
           "_type": "gameobject",
           "go": "40770dd8-1251-4c07-aca8-f3e3c6e59f58"
+        },
+        "ScopeCost": 0.2,
+        "ScopePoint": {
+          "_type": "gameobject",
+          "go": "c031e15b-7130-4018-9a83-387f31a6bba9"
         },
         "SprintHold": false,
         "SwayType": "ProcedualSway",
@@ -957,6 +964,23 @@
                 "Flags": 0,
                 "Name": "Clip",
                 "Position": "-2.079617,0.3664723,1.177148",
+                "Rotation": "0,0,0,1",
+                "Scale": "1,1,1",
+                "Tags": "",
+                "Enabled": true,
+                "NetworkMode": 2,
+                "NetworkInterpolation": true,
+                "NetworkOrphaned": 0,
+                "OwnerTransfer": 1,
+                "Components": [],
+                "Children": []
+              },
+              {
+                "__guid": "c031e15b-7130-4018-9a83-387f31a6bba9",
+                "__version": 1,
+                "Flags": 0,
+                "Name": "Object",
+                "Position": "23.40558,0.3663991,1.619817",
                 "Rotation": "0,0,0,1",
                 "Scale": "1,1,1",
                 "Tags": "",

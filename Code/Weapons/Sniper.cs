@@ -125,19 +125,6 @@ public partial class Sniper : BaseWeapon, Component.ICollisionListener
 
 	bool scopingIn = false;
 
-	public override void ShootBullet( float force, float damage, float bulletSize )
-	{
-		var ray = Owner.AimRay;
-		if ( Scoped && (ViewModel?.ScopePoint.IsValid() ?? false) )
-		{
-			Vector2 screenPosA = Scene.Camera.PointToScreenNormal( ViewModel.ScopePoint.WorldPosition );
-
-			// Step 2: unproject same screen position using Camera B
-			ray = ViewModel.ScopePoint.CameraComponent.ScreenNormalToRay( screenPosA );
-		}
-		ShootBullet( ray.Position, ray.Forward, force, damage, bulletSize );
-	}
-
 	public async void Scope()
 	{
 		ViewModel.Set( "ironsights", 1 );

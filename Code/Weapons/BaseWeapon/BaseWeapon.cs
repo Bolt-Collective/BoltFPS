@@ -276,6 +276,7 @@ public partial class BaseWeapon : Component
 		}
 
 		Owner.Zoom = 1;
+		Owner.SensMod = 1;
 
 		var go = ViewModelPrefab?.Clone( new CloneConfig
 		{
@@ -942,13 +943,23 @@ public partial class BaseWeapon : Component
 		gameobject.NetworkSpawn();
 	}
 
-
 	/// <summary>
 	///     Shoot a single bullet from owners view point
 	/// </summary>
 	public virtual void ShootBullet( float force, float damage, float bulletSize )
 	{
 		var ray = Owner.AimRay;
+		if ( ADS && Input.Down( "attack2" ) && (ViewModel?.ScopePoint.IsValid() ?? false) )
+		{
+			Vector2 screenPosA = Scene.Camera.PointToScreenNormal( ViewModel.ScopePoint.WorldPosition );
+
+			// Step 2: unproject same screen position using Camera B
+			if ( ViewModel.Scope.IsValid() )
+				ray = ViewModel.Scope.CameraComponent.ScreenNormalToRay( screenPosA );
+			else
+				ray = Scene.Camera.ScreenNormalToRay( screenPosA );
+		}
+
 		ShootBullet( ray.Position, ray.Forward, force, damage, bulletSize );
 	}
 
