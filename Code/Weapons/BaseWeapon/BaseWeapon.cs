@@ -949,11 +949,11 @@ public partial class BaseWeapon : Component
 	public virtual void ShootBullet( float force, float damage, float bulletSize )
 	{
 		var ray = Owner.AimRay;
-		if ( ADS && Input.Down( "attack2" ) && (ViewModel?.ScopePoint.IsValid() ?? false) && !ViewModel.Scope.IsValid() )
+		if ( ADS && Input.Down( "attack2" ) && ViewModel.ScopePoint.IsValid() && !ViewModel.Scope.IsValid() )
 		{
 			Vector2 screenPosA = Scene.Camera.PointToScreenNormal( ViewModel.ScopePoint.WorldPosition );
 
-			ray = ViewModel.Scope.CameraComponent.ScreenNormalToRay( screenPosA );
+			ray = Scene.Camera.ScreenNormalToRay( screenPosA );
 		}
 
 		ShootBullet( ray.Position, ray.Forward, force, damage, bulletSize );
