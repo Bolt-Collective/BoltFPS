@@ -5,6 +5,7 @@ partial class SequentialGun : BaseWeapon
 {
 	[Feature( "Firing" ), Property] public float MinRecoil { get; set; } = 2f;
 	[Feature( "Firing" ), Property] public float MaxRecoil { get; set; } = 3f;
+	[Feature( "Firing" ), Property] public float LastBulletRate { get; set; } = 1f;
 	[Feature( "Firing" ), Property] public override float Damage { get; set; } = 4f;
 	[Feature( "Firing" ), Property] public override float Spread { get; set; } = 0.1f;
 	[Feature( "Firing" ), Property] public int Bullets { get; set; } = 27;
@@ -40,9 +41,11 @@ partial class SequentialGun : BaseWeapon
 	{
 		base.AttackPrimary();
 
-		TimeSincePrimaryAttack = 0;
-		TimeSinceSecondaryAttack = 0;
 		Ammo--;
+
+		TimeSincePrimaryAttack = Ammo <= 0 ? 1 / (PrimaryRate - LastBulletRate) : 0;
+		TimeSinceSecondaryAttack = 0;
+		
 
 		FinishReloadSequence();
 

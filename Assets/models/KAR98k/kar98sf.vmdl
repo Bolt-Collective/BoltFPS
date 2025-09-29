@@ -25,6 +25,18 @@
 								from = "wpnm_ammunition.vmat"
 								to = "models/ammunation/textures/ammunation.vmat"
 							},
+							{
+								from = "2.001.vmat"
+								to = "models/kar98k/textures/kar2.vmat"
+							},
+							{
+								from = "3.001.vmat"
+								to = "models/kar98k/textures/kar3.vmat"
+							},
+							{
+								from = "attachments.vmat"
+								to = "models/kar98k/textures/attachments.vmat"
+							},
 						]
 						use_global_default = false
 						global_default_material = "materials/default.vmat"

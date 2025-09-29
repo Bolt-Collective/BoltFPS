@@ -39,6 +39,7 @@
         "HoldType": "Shotgun",
         "Icon": "icons/weapons/guns/spaghellim4_01.png",
         "ItemResource": "weapons/spas/spas.wep",
+        "LastBulletRate": 2,
         "LeftIK": {
           "Active": true,
           "GameObject": {
