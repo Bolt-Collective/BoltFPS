@@ -355,7 +355,7 @@ public class ViewModel : Component
 		aimSmooth += (Aiming && !GetBool("b_sprint") && !pawn.Inventory.ActiveWeapon.IsReloading ? Time.Delta : -Time.Delta) * 1 / AimTime;
 		aimSmooth = aimSmooth.Clamp( 0, 1 );
 
-		var goingSteady = ScopePoint.IsValid() && pawn.Stamina > 0 && Input.Down( "Walk" ) && Input.Down("attack2");
+		var goingSteady = ScopePoint.IsValid() && pawn.Stamina > 0 && Input.Down( "Walk" ) && Input.Down("attack2") && pawn.Inventory.ActiveWeapon.TimeSincePrimaryAttack > 1 / pawn.Inventory.ActiveWeapon.PrimaryRate;
 		if ( goingSteady )
 			pawn.TakeStamina(Time.Delta * ScopeCost);
 

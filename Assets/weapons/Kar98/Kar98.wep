@@ -1,0 +1,11 @@
+{
+  "DisplayName": "Spas",
+  "Catagory": "BoltZ Guns",
+  "Duplicates": true,
+  "ReplenishAmmo": false,
+  "Icon": "icons/3d/shotgun.png",
+  "Description": "",
+  "Details": "weapons/kar98/w_kar98.prefab",
+  "__references": [],
+  "__version": 0
+}
