@@ -1,0 +1,15 @@
+name: Push Notification Workflow
+
+on: [push]
+
+jobs:
+  discord_notification:
+    runs-on: ubuntu-latest
+    name: Push Notification
+    steps:
+      - name: Send Notification
+        uses: Retr0-01/better-discord-notification@main
+        with:
+          webhook-url: ${{secrets.DISCORD_WEBHOOK}}
+          embed-color: '3329330'
+          footer-icon: 'https://cdn.sbox.game/org/bolt/logo.c1f0aa4b-c102-4ac9-ad7b-91347a9dfc79.png'
