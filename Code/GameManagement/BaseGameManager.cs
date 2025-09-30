@@ -1,3 +1,4 @@
+using BoltFPS;
 using Sandbox;
 
 namespace Seekers;
@@ -90,7 +91,8 @@ public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Comp
 			LoadingScreen.Title = "Creating Lobby";
 			await Task.DelayRealtimeSeconds( 0.1f );
 
-			var lobbyConfig = new LobbyConfig();
+			var lobbySettings = BaseLobbySettings.Load();
+			var lobbyConfig = lobbySettings.ToLobbyConfig();
 
 			Networking.CreateLobby( lobbyConfig );
 			Log.Info( "Creating lobby" );
