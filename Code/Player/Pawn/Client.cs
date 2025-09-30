@@ -34,9 +34,10 @@ public partial class Client : ShrimplePawns.Client
 
 			Respawning = false;
 
-			if ( Networking.IsHost && TryGetPawn( out Pawn pawn ) && lastTeam != _team )
+			if ( Networking.IsHost && TryGetPawn( out Pawn pawn ) && lastTeam != _team && BaseGameManager.Instance.IsValid() )
 			{
-				Respawn( Connection );
+				if (BaseGameManager.Instance.RespawnOnTeamChange || (BaseGameManager.Instance.RespawnTeams != null && BaseGameManager.Instance.RespawnTeams.Contains( _team )))
+					Respawn( Connection );
 			}
 		}
 	}

@@ -81,7 +81,7 @@ public partial class HealthComponent : Component, IRespawnable
 		Health = MaxHealth;
 	}
 
-	[Rpc.Broadcast]
+	[Rpc.Host]
 	public void TakeDamage( Component attacker, float damage, Component inflictor = null, Vector3 position = default,
 		Vector3 force = default, HitboxTags hitbox = default, DamageFlags flags = DamageFlags.None,
 		float armorDamage = 0f, bool external = false, string hitboxName = "" )
@@ -122,6 +122,20 @@ public partial class HealthComponent : Component, IRespawnable
 		State = LifeState.Dead;
 
 		Kill( damageInfo );
+	}
+
+	[Rpc.Host]
+	public void TakeSimpleDamage( float damage )
+	{
+		var prevHealth = Health;
+		Health = Math.Max( 0f, Health - damage );
+
+		if ( (prevHealth > 0 && Health > 0f) ) return;
+
+		Health = 0f;
+		State = LifeState.Dead;
+
+		Kill( new DamageInfo(null, damage) );
 	}
 
 	private DamageInfo WithThisAsVictim( DamageInfo damageInfo )

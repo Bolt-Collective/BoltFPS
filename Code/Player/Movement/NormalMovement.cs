@@ -90,6 +90,20 @@ public partial class NormalMovement : Movement
 			ToggleNoclip();
 		}
 
+		PickMode();
+
+		var angleMult = MathX.LerpInverse( MathF.Abs(Vector3.GetAngle( Pawn.AimRay.Forward.Normal, Velocity.WithZ(0).Normal )), FovMaxAngle, 0);
+
+		var fovSpeed = ( (Velocity.WithZ(0).Length - RunSpeed) * FovMod * 0.01f * angleMult).Clamp(0, FovMaxMult);
+		if ( !Pawn.IsValid() )
+			return;
+
+		var vel = 0f;
+		Pawn.FOVModifier = MathX.SmoothDamp(Pawn.FOVModifier, 1 + fovSpeed, ref vel, FovSmooth, Time.Delta);
+	}
+
+	public virtual void PickMode()
+	{
 		switch ( MoveMode )
 		{
 			case MoveModes.Walk:
@@ -102,16 +116,6 @@ public partial class NormalMovement : Movement
 				NoClip();
 				break;
 		}
-
-
-		var angleMult = MathX.LerpInverse( MathF.Abs(Vector3.GetAngle( Pawn.AimRay.Forward.Normal, Velocity.WithZ(0).Normal )), FovMaxAngle, 0);
-
-		var fovSpeed = ( (Velocity.WithZ(0).Length - RunSpeed) * FovMod * 0.01f * angleMult).Clamp(0, FovMaxMult);
-		if ( !Pawn.IsValid() )
-			return;
-
-		var vel = 0f;
-		Pawn.FOVModifier = MathX.SmoothDamp(Pawn.FOVModifier, 1 + fovSpeed, ref vel, FovSmooth, Time.Delta);
 	}
 
 	[ConCmd( "noclip", ConVarFlags.Admin )]
@@ -134,7 +138,7 @@ public partial class NormalMovement : Movement
 
 	[Property] public bool CanSetHeight = true;
 
-	private void SetHeight( float height )
+	public void SetHeight( float height )
 	{
 		if ( !CanSetHeight )
 			return;
@@ -142,7 +146,7 @@ public partial class NormalMovement : Movement
 		Height = height;
 	}
 
-	private float heightVelocity;
+	public float heightVelocity;
 
 	public bool IsRunning => MaxSpeed == RunSpeed;
 	public bool IsSprinting => MaxSpeed == SprintSpeed;
@@ -179,7 +183,7 @@ public partial class NormalMovement : Movement
 		return (newPosition, Velocity);
 	}
 
-	private void Walk()
+	public void Walk()
 	{
 		if ( Input.Pressed( "Duck" ) && EnableCrouching )
 		{
@@ -206,7 +210,7 @@ public partial class NormalMovement : Movement
 			MaxSpeed = WalkSpeed;
 	}
 
-	private void Crouch()
+	public void Crouch()
 	{
 		if ( (!Input.Down( "Duck" ) && !Input.Down( "Slide" ) && StandCheck()) || !EnableCrouching )
 		{
@@ -227,7 +231,7 @@ public partial class NormalMovement : Movement
 		MaxSpeed = CrouchSpeed;
 	}
 
-	private void NoClip()
+	public void NoClip()
 	{
 		SetHeight( MathX.SmoothDamp( Height, StandingHeight, ref heightVelocity, 0.1f, Time.Delta ) );
 

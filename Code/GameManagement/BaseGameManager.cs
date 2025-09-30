@@ -31,6 +31,8 @@ public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Comp
 	[Property] [Group( "Dev" )] public bool DevMode { get; set; }
 
 	[Property] public List<ItemResource> StartingWeapons { get; set; }
+	[Property] public bool RespawnOnTeamChange { get; set; } = true;
+	[Property, ShowIf("RespawnOnTeamChange", false)] public List<Team> RespawnTeams { get; set; }
 
 	bool INetworkListener.AcceptConnection( Connection channel, ref string reason )
 	{

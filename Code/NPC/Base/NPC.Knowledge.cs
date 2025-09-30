@@ -151,6 +151,7 @@ public class KnowledgeScanner : GameObjectSystem
 				rec.LastPos = knowable.Position;
 				rec.LastSeenTime = Time.Now;
 				rec.SeenCount++;
+				rec.Team = knowable.Team;
 				rec.Threat = MathF.Max( rec.Threat, 1 );
 				thisKnowable.Memory[knowable.KnowableID] = rec;
 			}
