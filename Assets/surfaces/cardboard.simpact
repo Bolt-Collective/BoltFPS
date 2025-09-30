@@ -43,11 +43,11 @@
   "PrefabCollection": {
     "BulletImpact": {
       "_type": "gameobject",
-      "prefab": "prefabs/surface/wood_bullet.prefab"
+      "prefab": "particles/impacts/cardboard-bullet.prefab"
     },
     "BluntImpact": {
       "_type": "gameobject",
-      "prefab": "weapons/common/effects/impact_wood.prefab"
+      "go": "0d80eec7-9acf-4e93-974d-66e8eefe224e"
     }
   },
   "SoundCollection": {

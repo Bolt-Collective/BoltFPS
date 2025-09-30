@@ -41,7 +41,10 @@
     "ScrapeSmooth": null
   },
   "PrefabCollection": {
-    "BulletImpact": null,
+    "BulletImpact": {
+      "_type": "gameobject",
+      "prefab": "particles/impacts/glass_bullet.prefab"
+    },
     "BluntImpact": null
   },
   "SoundCollection": {

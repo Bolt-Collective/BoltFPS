@@ -43,7 +43,7 @@
   "PrefabCollection": {
     "BulletImpact": {
       "_type": "gameobject",
-      "prefab": "prefabs/surface/metal_bullet.prefab"
+      "prefab": "particles/impacts/metal_bullet.prefab"
     },
     "BluntImpact": null
   },

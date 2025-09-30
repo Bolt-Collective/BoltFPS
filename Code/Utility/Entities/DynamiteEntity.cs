@@ -30,7 +30,7 @@ public class DynamiteEntity : OwnedEntity
 
 			explosionCount++;
 
-			if ( explosionCount > 5 )
+			if ( explosionCount > 10 )
 				particle = null;
 
 			if ( nextParticle < 0 )
