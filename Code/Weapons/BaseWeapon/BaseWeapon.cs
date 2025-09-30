@@ -892,7 +892,6 @@ public partial class BaseWeapon : Component
 					return;
 				}
 			}
-
 			player.TakeDamage( attacker, damage, inflictor, hitPosition, calcForce, hitboxTags,
 				hitboxName: hitboxName );
 			if ( owner.IsValid() )

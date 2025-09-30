@@ -195,6 +195,9 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 
 	protected override void OnUpdate()
 	{
+		if ( HealthComponent.IsValid() && HealthComponent.OnKilled == null )
+			HealthComponent.OnKilled += OnKilled;
+
 		HealthComponent.IsGodMode = isGod;
 		if ( !Owner.IsValid() )
 			return;

@@ -174,6 +174,7 @@ public class ZombieNPC : NPC
 	
 	public void SetAttack(float duration)
 	{
+		alreadyHit = new List<GameObject>();
 		attackDuration = duration;
 		hit = false;
 	}
@@ -368,16 +369,13 @@ public class ZombieNPC : NPC
 	}
 
 
-	List<GameObject> alreadyHit;
+	List<GameObject> alreadyHit = new();
 	public void AttackBox()
 	{
-		if ( hit )
-			return;
 
 		var pos = WorldPosition + WorldTransform.Forward * (attackDistance * 0.5f + attackOffset) + Vector3.Up * attackHeight / 2;
 
 		var size = new Vector3( attackDistance, attackDistance, attackHeight );
-		
 
 		for (int i = 0; i < 5; i++ )
 		{
@@ -417,7 +415,6 @@ public class ZombieNPC : NPC
 
 			hit = true;
 			BaseWeapon.DoDamage( ray.GameObject, Damage, WorldTransform.Forward * 100000, ray.EndPosition, ownerTeam: Team, attacker: this );
-			break;
 		}
 	}
 
@@ -473,7 +470,6 @@ public class ZombieNPC : NPC
 
 	public void Attack()
 	{
-		alreadyHit = new List<GameObject>();
 		SoundExtensions.BroadcastSound( AttackSound, WorldPosition );
 
 		var choices = new List<int>();

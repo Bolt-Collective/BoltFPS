@@ -237,11 +237,13 @@ public partial class HealthComponent : Component, IRespawnable
 
 		if ( !IsProxy )
 			AddDeath();
-		
 
 		Scene.Dispatch( new KillEvent( damageInfo ) );
 
 		damageInfo.DisplayFeed();
+
+
+		Log.Info( OnKilled );
 
 		OnKilled?.Invoke( damageInfo );
 	}
