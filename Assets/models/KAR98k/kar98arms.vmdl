@@ -436,7 +436,7 @@
 						target_bone = "ik_hand_gun"
 						ignore_Translation = false
 						ignore_rotation = false
-						do_not_discard = false
+						do_not_discard = true
 					},
 				]
 				bone_cull_type = "Aggressive"
