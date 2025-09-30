@@ -1,9 +1,9 @@
 {
-  "DisplayName": "M4A1",
+  "DisplayName": "MP5",
   "Catagory": "BoltZ Guns",
   "Duplicates": true,
   "ReplenishAmmo": false,
-  "Icon": "icons/3d/w_m4a1_c.vmdl_c.png",
+  "Icon": "icons/3d/w_mp5_c.vmdl_c.png",
   "Description": "",
   "Details": "weapons/mp5/w_mp5.prefab",
   "__references": [],
