@@ -1,12 +1,11 @@
 {
   "UI": false,
   "Volume": "1",
-  "Pitch": "1",
+  "Pitch": "0.9 1.2",
   "Decibels": 70,
   "SelectionMode": "Random",
   "Sounds": [
     "surfaces/sounds/wood/wood_impact_sound_04.vsnd",
-    "surfaces/sounds/wood/wood_impact_sound_03.vsnd",
     "surfaces/sounds/wood/wood_impact_sound_01.vsnd"
   ],
   "Occlusion": true,

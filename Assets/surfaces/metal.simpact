@@ -6,7 +6,6 @@
   "Friction": 0.7,
   "Elasticity": 0.1,
   "Density": 2700,
-  "Thickness": -1,
   "RollingResistance": 0,
   "BounceThreshold": 0,
   "Dampening": 0,
@@ -47,7 +46,7 @@
     },
     "BluntImpact": {
       "_type": "gameobject",
-      "go": "0d80eec7-9acf-4e93-974d-66e8eefe224e"
+      "prefab": "particles/impacts/metal_bullet.prefab"
     }
   },
   "SoundCollection": {

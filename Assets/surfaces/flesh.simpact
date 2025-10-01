@@ -6,7 +6,6 @@
   "Friction": 0,
   "Elasticity": 0,
   "Density": 0,
-  "Thickness": 0,
   "RollingResistance": 0,
   "BounceThreshold": 0,
   "Dampening": 0,
@@ -47,17 +46,17 @@
     },
     "BluntImpact": {
       "_type": "gameobject",
-      "go": "0d80eec7-9acf-4e93-974d-66e8eefe224e"
+      "prefab": "particles/impacts/flesh_bullet.prefab"
     }
   },
   "SoundCollection": {
     "FootLeft": "surfaces/sounds/flesh/flesh_bullet_impact.sound",
     "FootRight": "surfaces/sounds/flesh/flesh_bullet_impact.sound",
-    "FootLaunch": null,
-    "FootLand": null,
+    "FootLaunch": "surfaces/sounds/flesh/flesh_bullet_impact.sound",
+    "FootLand": "surfaces/sounds/flesh/flesh_bullet_impact.sound",
     "Bullet": "surfaces/sounds/flesh/flesh_bullet_impact.sound",
-    "ImpactHard": "surfaces/sounds/flesh/flesh_bullet_impact.sound",
-    "ImpactSoft": "surfaces/sounds/flesh/flesh_bullet_impact.sound",
+    "ImpactHard": "sounds/impacts/melee/impact-melee-flesh.sound",
+    "ImpactSoft": "sounds/impacts/melee/impact-melee-flesh.sound",
     "ScrapeRough": null,
     "ScrapeSmooth": null,
     "Break": null

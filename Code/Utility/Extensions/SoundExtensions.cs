@@ -29,6 +29,8 @@ public static partial class SoundExtensions
 			snd.Volume = volume;
 			snd.Pitch = pitch;
 			snd.SpacialBlend = spacialBlend;
+			
+			//DebugOverlaySystem.Current.Sphere( new Sphere( position, 16 ), duration: 10f, overlay: true );
 		}
 		catch
 		{

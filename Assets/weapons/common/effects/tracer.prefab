@@ -18,6 +18,7 @@
         "__type": "TemporaryEffect",
         "__guid": "5d1ac917-155b-4480-98d5-05060f0caa1b",
         "__enabled": true,
+        "BecomeOrphan": false,
         "DestroyAfterSeconds": 1,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
@@ -30,7 +31,7 @@
       {
         "__type": "Sandbox.BeamEffect",
         "__guid": "101a66d2-928f-412c-adc0-e5ef2f070466",
-        "__enabled": true,
+        "__enabled": false,
         "Additive": true,
         "Alpha": {
           "Type": "Curve",
@@ -51,10 +52,15 @@
               "mode": "Mirrored"
             }
           ],
-          "CurveB": {
-            "rangex": "0,0",
-            "rangey": "0,0"
-          }
+          "CurveB": [
+            {
+              "x": 0.5,
+              "y": 0.5,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ]
         },
         "BeamColor": {
           "Type": "Gradient",
@@ -140,163 +146,6 @@
           "Evaluation": "Life",
           "Constants": "0,1,0,0"
         }
-      },
-      {
-        "__type": "Sandbox.ParticleEffect",
-        "__guid": "34ce6359-dab6-4a2b-8541-f14b2eb6d98c",
-        "__enabled": true,
-        "__version": 2,
-        "Alpha": 1,
-        "ApplyAlpha": false,
-        "ApplyColor": false,
-        "ApplyRotation": false,
-        "ApplyShape": false,
-        "Bounce": 1,
-        "Brightness": 1,
-        "Bumpiness": 0,
-        "Collision": false,
-        "CollisionIgnore": null,
-        "CollisionPrefab": null,
-        "CollisionPrefabAlign": false,
-        "CollisionPrefabChance": 1,
-        "CollisionPrefabRotation": 0,
-        "CollisionRadius": 1,
-        "ConstantMovement": {
-          "X": 0,
-          "Y": 0,
-          "Z": 0
-        },
-        "Damping": 0,
-        "DieOnCollisionChance": 0,
-        "FollowerPrefab": null,
-        "FollowerPrefabChance": 1,
-        "FollowerPrefabKill": true,
-        "Force": false,
-        "ForceDirection": "0,0,0",
-        "ForceScale": 1,
-        "ForceSpace": "World",
-        "Friction": 1,
-        "Gradient": {
-          "Type": "Constant",
-          "Evaluation": "Life",
-          "GradientA": {
-            "blend": "Linear",
-            "color": [
-              {
-                "t": 0.5,
-                "c": "1,1,1,1"
-              }
-            ],
-            "alpha": []
-          },
-          "GradientB": {
-            "blend": "Linear",
-            "color": [
-              {
-                "t": 0.5,
-                "c": "1,1,1,1"
-              }
-            ],
-            "alpha": []
-          },
-          "ConstantA": "1,1,1,1",
-          "ConstantB": "1,1,1,1"
-        },
-        "InitialVelocity": {
-          "X": 0,
-          "Y": 0,
-          "Z": 0
-        },
-        "Lifetime": 1,
-        "LocalSpace": 0,
-        "MaxParticles": 1000,
-        "OnComponentDestroy": null,
-        "OnComponentDisabled": null,
-        "OnComponentEnabled": null,
-        "OnComponentFixedUpdate": null,
-        "OnComponentStart": null,
-        "OnComponentUpdate": null,
-        "OnParticleCreated": null,
-        "OnParticleDestroyed": null,
-        "OrbitalForce": {
-          "X": 0,
-          "Y": 0,
-          "Z": 0
-        },
-        "OrbitalPull": 0,
-        "PerParticleTimeScale": 1,
-        "Pitch": 0,
-        "PreWarm": 0,
-        "PushStrength": 0,
-        "Roll": 0,
-        "Scale": 1,
-        "SequenceId": 0,
-        "SequenceSpeed": 1,
-        "SequenceTime": 1,
-        "SheetSequence": false,
-        "StartDelay": 0,
-        "StartVelocity": 0,
-        "Stretch": 0,
-        "TimeScale": 1,
-        "Timing": "GameTime",
-        "Tint": "1,1,1,1",
-        "UsePrefabFeature": false,
-        "Yaw": 0
-      },
-      {
-        "__type": "Sandbox.ParticleTrailRenderer",
-        "__guid": "654e7083-b23f-4674-a4de-b6a6930314b6",
-        "__enabled": true,
-        "BlendMode": "Normal",
-        "CastShadows": false,
-        "Color": {
-          "blend": "Linear",
-          "color": [
-            {
-              "t": 0.5,
-              "c": "0,1,1,1"
-            }
-          ],
-          "alpha": []
-        },
-        "LifeTime": 2,
-        "MaxPoints": 64,
-        "OnComponentDestroy": null,
-        "OnComponentDisabled": null,
-        "OnComponentEnabled": null,
-        "OnComponentFixedUpdate": null,
-        "OnComponentStart": null,
-        "OnComponentUpdate": null,
-        "Opaque": true,
-        "PointDistance": 8,
-        "RenderOptions": {
-          "GameLayer": true,
-          "OverlayLayer": false,
-          "BloomLayer": false,
-          "AfterUILayer": false
-        },
-        "ScaleFromParticle": true,
-        "Texturing": {
-          "Texture": null,
-          "Material": null,
-          "WorldSpace": true,
-          "UnitsPerTexture": 10,
-          "Scale": 1,
-          "Offset": 0,
-          "Scroll": 0,
-          "Clamp": false
-        },
-        "TintFromParticle": true,
-        "Width": [
-          {
-            "x": 0.5,
-            "y": 5,
-            "in": 0,
-            "out": 0,
-            "mode": "Mirrored"
-          }
-        ],
-        "Wireframe": false
       }
     ],
     "Children": [],

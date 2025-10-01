@@ -6,7 +6,6 @@
   "Friction": 0.8,
   "Elasticity": 0.05,
   "Density": 2000,
-  "Thickness": -1,
   "RollingResistance": 0,
   "BounceThreshold": 35,
   "Dampening": 0,
@@ -47,7 +46,7 @@
     },
     "BluntImpact": {
       "_type": "gameobject",
-      "prefab": "prefabs/surface/default-bullet.prefab"
+      "prefab": "particles/impacts/default-bullet.prefab"
     }
   },
   "SoundCollection": {
