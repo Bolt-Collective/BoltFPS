@@ -109,6 +109,10 @@
         "Distance": 13.7,
         "Distance120": 0,
         "Distance60": 0,
+        "EjectEffect": {
+          "_type": "gameobject",
+          "go": "5ec04d46-cb14-4b57-bbc3-3a0e576b35cf"
+        },
         "InertiaDamping": 20,
         "IronSightBack": {
           "_type": "gameobject",
@@ -958,6 +962,48 @@
               }
             ],
             "Children": []
+          },
+          {
+            "__guid": "5ec04d46-cb14-4b57-bbc3-3a0e576b35cf",
+            "__version": 1,
+            "__Prefab": "prefabs/eject.prefab",
+            "__PrefabInstancePatch": {
+              "AddedObjects": [],
+              "RemovedObjects": [],
+              "PropertyOverrides": [
+                {
+                  "Target": {
+                    "Type": "GameObject",
+                    "IdValue": "f7a38793-ba2c-4000-9544-c97ed49e57ac"
+                  },
+                  "Property": "Name",
+                  "Value": "Eject"
+                },
+                {
+                  "Target": {
+                    "Type": "GameObject",
+                    "IdValue": "f7a38793-ba2c-4000-9544-c97ed49e57ac"
+                  },
+                  "Property": "Position",
+                  "Value": "0.0000009536743,-3.493006,0.0000002682209"
+                },
+                {
+                  "Target": {
+                    "Type": "GameObject",
+                    "IdValue": "f7a38793-ba2c-4000-9544-c97ed49e57ac"
+                  },
+                  "Property": "Rotation",
+                  "Value": "0.3826835,0.00000001672763,0.9238795,-0.00000004038406"
+                }
+              ],
+              "MovedObjects": []
+            },
+            "__PrefabIdToInstanceId": {
+              "f7a38793-ba2c-4000-9544-c97ed49e57ac": "5ec04d46-cb14-4b57-bbc3-3a0e576b35cf",
+              "36d2e6d1-2bee-4fbf-a3c6-f78a40a1f569": "e4f3726b-6a34-42e7-bea2-ffdc90ef2f25",
+              "09d6e509-ec56-4599-84d7-526b00ab81af": "fd5e2f8c-24ec-4bf6-a486-2e57d30ccd73",
+              "b0207031-e5a5-4db7-b78d-2a768a3d153a": "edd40217-bb05-40e4-9885-12622608c68b"
+            }
           },
           {
             "__guid": "2ca8b813-5aac-4853-a425-0f072c2260f8",

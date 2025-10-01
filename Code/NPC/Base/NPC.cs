@@ -80,9 +80,12 @@ public abstract partial class NPC : Knowable
 
 		ToolVisuals();
 		previousTool = CurrentTool;
+
+		Animate();
+
 		if ( !Networking.IsHost )
 			return;
-		Animate();
+		
 		if ( ai_disable )
 			return;
 		Think();

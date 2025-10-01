@@ -24,6 +24,8 @@ public class ViewModel : Component
 	[Property, Group( "AnimGraph" )]
 	public bool SprintHold { get; set; }
 
+	[Property, Group( "Particles" )] public GameObject EjectEffect { get; set; }
+
 	[Property, Group( "SwingAndBob" ), ShowIf("swingAndBob", true)] public float SwingInfluence { get; set; } = 0.05f;
 	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float ReturnSpeed { get; set; } = 5.0f;
 	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float MaxOffsetLength { get; set; } = 10.0f;
@@ -169,7 +171,8 @@ public class ViewModel : Component
 		Renderer?.Set( GetAnim( "b_deploy" ), true );
 	}
 
-
+	private ParticleEffect ejectEffect;
+	private ParticleEmitter ejectEmitter;
 	public Scope Scope { get; set; }
 
 	protected override void OnStart()
@@ -177,12 +180,21 @@ public class ViewModel : Component
 		Scope = ScopePoint?.GetComponent<Scope>();
 		foreach(var renderer in Renderers)
 			renderer.OnGenericEvent += Event;
+
+		if ( !EjectEffect.IsValid() )
+			return;
+
+		ejectEffect = EjectEffect.GetComponent<ParticleEffect>();
+		ejectEmitter = EjectEffect.GetComponent<ParticleEmitter>();
 	}
 
 	public void Event(SceneModel.GenericEvent @event)
 	{
 		if ( @event.Type.ToLower() == "refill ammo" )
 			OverrideFill = @event.Float;
+
+		if ( @event.Type.ToLower() == "eject" )
+			Eject();
 	}
 
 	protected override void OnPreRender()
@@ -286,6 +298,14 @@ public class ViewModel : Component
 		DoBulletGroups(pawn);
 	}
 
+	public void Eject()
+	{
+		if ( !ejectEffect.IsValid() || !ejectEmitter.IsValid() )
+			return;
+
+		ejectEmitter.Emit( ejectEffect );
+	}
+
 	TimeUntil OverrideFill;
 	public void DoBulletGroups( Pawn pawn )
 	{
@@ -296,16 +316,19 @@ public class ViewModel : Component
 			renderer.SetBodyGroup( BulletGroupName, OverrideFill > 0 ? MaxBulletGroup : pawn.Inventory.ActiveWeapon.Ammo.Clamp( 0, MaxBulletGroup ) );
 	}
 
+	float smoothedVel;
 	public void GraphSway(Pawn pawn)
 	{
 		var velocity = pawn.Controller.IsGrounded
 				? GetPercentageBetween( pawn.Controller.Velocity.Length, 0, pawn.Controller.WalkSpeed )
 					.Clamp( 0, 1 )
 				: 0;
+
+		smoothedVel = smoothedVel.LerpTo( velocity, Time.Delta * 5 );
 		Animate(
 			yIntertiaSmooth,
 			pIntertiaSmooth,
-			velocity,
+			smoothedVel,
 			pawn.Controller.IsSprinting && pawn.Controller.IsGrounded && Renderer.GetFloat( "attack_hold" ) <= 0 &&
 			pawn.Controller.wishDirection.Length >= 0.1f,
 			pawn.Controller.IsGrounded,

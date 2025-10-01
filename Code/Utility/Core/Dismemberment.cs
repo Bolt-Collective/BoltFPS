@@ -29,6 +29,7 @@ public class Dismemberment : Component
 		public int dismemberedValue { get; set; } = 1;
 		public float Health { get; set; } = 100;
 		public float HealthCost { get; set; } = 100;
+		public bool invinsible { get; set; }
 
 		[Hide] public Component LastAttaker;
 	}
@@ -44,7 +45,7 @@ public class Dismemberment : Component
 		{
 			if ( dismemberable.Health > 0 )
 				continue;
-			HealthComponent.TakeDamage( dismemberable?.LastAttaker ?? this, dismemberable.HealthCost * Time.Delta );
+			HealthComponent.TakeDamage( dismemberable?.LastAttaker ?? this, (dismemberable.HealthCost * HealthComponent.MaxHealth / 100) * Time.Delta );
 		}
 	}
 
@@ -55,6 +56,9 @@ public class Dismemberment : Component
 
 		foreach(var dismemberable in Dismemberables)
 		{
+			if ( dismemberable.invinsible )
+				return;
+
 			if ( dismemberable.Health <= 0 )
 				continue;
 

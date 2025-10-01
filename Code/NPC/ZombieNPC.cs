@@ -160,6 +160,9 @@ public class ZombieNPC : NPC
 		leftLegDis = Dismemberment.GetDismemberable( "Left Leg" );
 		rightLegDis = Dismemberment.GetDismemberable( "Right Leg" );
 
+		leftLegDis.invinsible = true;
+		rightLegDis.invinsible = true;
+
 		base.OnStart();
 	}
 
@@ -511,13 +514,12 @@ public class ZombieNPC : NPC
 		var lookDir = (lookPos - Eyes.WorldPosition).Normal;
 
 		Body.SetLookDirection( "aim_head", lookDir, PullingAnimation ? 1f : 0 );
-
+		Log.Info( PullingAnimation );
 		Body.Set( "pull", PullingAnimation );
 
 		Body.Set( "crawl", Crawl );
 	}
 
-	[Rpc.Broadcast]
 	public void SetAnimation( bool move, bool run, bool leftArm, bool rightArm )
 	{
 		Body.Set( "move", move );
@@ -567,6 +569,8 @@ public class ZombieNPC : NPC
 			return;
 		VaultLinkObject = Link;
 		vaulting = true;
+		leftLegDis.invinsible = false;
+		rightLegDis.invinsible = false;
 		VaultAnim();
 		ExitVault = VaultTime / Body.PlaybackRate;
 	}

@@ -118,6 +118,10 @@
         "Distance": 13.7,
         "Distance120": 0,
         "Distance60": 0,
+        "EjectEffect": {
+          "_type": "gameobject",
+          "go": "fbd065b5-0c03-4501-81f2-07aa168350eb"
+        },
         "InertiaDamping": 20,
         "IronSightBack": null,
         "IronSightPoint": {
@@ -1102,6 +1106,62 @@
                 "Children": []
               }
             ]
+          },
+          {
+            "__guid": "fbd065b5-0c03-4501-81f2-07aa168350eb",
+            "__version": 1,
+            "__Prefab": "prefabs/eject.prefab",
+            "__PrefabInstancePatch": {
+              "AddedObjects": [],
+              "RemovedObjects": [],
+              "PropertyOverrides": [
+                {
+                  "Target": {
+                    "Type": "GameObject",
+                    "IdValue": "f7a38793-ba2c-4000-9544-c97ed49e57ac"
+                  },
+                  "Property": "Name",
+                  "Value": "Eject"
+                },
+                {
+                  "Target": {
+                    "Type": "GameObject",
+                    "IdValue": "f7a38793-ba2c-4000-9544-c97ed49e57ac"
+                  },
+                  "Property": "Position",
+                  "Value": "2.701277,-6.495135,0.3735944"
+                },
+                {
+                  "Target": {
+                    "Type": "GameObject",
+                    "IdValue": "f7a38793-ba2c-4000-9544-c97ed49e57ac"
+                  },
+                  "Property": "Rotation",
+                  "Value": "0.3826835,0.00000001672763,0.9238795,-0.00000004038406"
+                },
+                {
+                  "Target": {
+                    "Type": "Component",
+                    "IdValue": "09d6e509-ec56-4599-84d7-526b00ab81af"
+                  },
+                  "Property": "Choices",
+                  "Value": [
+                    {
+                      "Model": "models/ammunation/45_casing.vmdl",
+                      "MaterialGroup": null,
+                      "BodyGroups": 18446744073709551615
+                    }
+                  ]
+                }
+              ],
+              "MovedObjects": []
+            },
+            "__PrefabIdToInstanceId": {
+              "f7a38793-ba2c-4000-9544-c97ed49e57ac": "fbd065b5-0c03-4501-81f2-07aa168350eb",
+              "36d2e6d1-2bee-4fbf-a3c6-f78a40a1f569": "77fe26ef-49b2-4544-ab75-26a24497cd85",
+              "09d6e509-ec56-4599-84d7-526b00ab81af": "8e6b50e5-0b83-4fac-8b47-bc5b25da78ae",
+              "b0207031-e5a5-4db7-b78d-2a768a3d153a": "c9b5a2f7-ea0d-48b6-b21a-955e87f77b1c"
+            }
           }
         ]
       },

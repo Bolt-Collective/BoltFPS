@@ -109,6 +109,10 @@
         "Distance": 17.7,
         "Distance120": 0,
         "Distance60": 0,
+        "EjectEffect": {
+          "_type": "gameobject",
+          "go": "6ee50bf2-0977-4df1-a374-e2565f41609b"
+        },
         "InertiaDamping": 20,
         "IronSightBack": {
           "_type": "gameobject",
@@ -993,6 +997,48 @@
                 "Children": []
               }
             ]
+          },
+          {
+            "__guid": "6ee50bf2-0977-4df1-a374-e2565f41609b",
+            "__version": 1,
+            "__Prefab": "prefabs/eject.prefab",
+            "__PrefabInstancePatch": {
+              "AddedObjects": [],
+              "RemovedObjects": [],
+              "PropertyOverrides": [
+                {
+                  "Target": {
+                    "Type": "GameObject",
+                    "IdValue": "f7a38793-ba2c-4000-9544-c97ed49e57ac"
+                  },
+                  "Property": "Name",
+                  "Value": "Eject"
+                },
+                {
+                  "Target": {
+                    "Type": "GameObject",
+                    "IdValue": "f7a38793-ba2c-4000-9544-c97ed49e57ac"
+                  },
+                  "Property": "Position",
+                  "Value": "-0.8881886,-1.979456,1.164563"
+                },
+                {
+                  "Target": {
+                    "Type": "GameObject",
+                    "IdValue": "f7a38793-ba2c-4000-9544-c97ed49e57ac"
+                  },
+                  "Property": "Rotation",
+                  "Value": "-0.3826835,0.00000001672763,-0.9238795,-0.00000004038406"
+                }
+              ],
+              "MovedObjects": []
+            },
+            "__PrefabIdToInstanceId": {
+              "f7a38793-ba2c-4000-9544-c97ed49e57ac": "6ee50bf2-0977-4df1-a374-e2565f41609b",
+              "36d2e6d1-2bee-4fbf-a3c6-f78a40a1f569": "0d33d743-d19c-41fe-a27c-0398ba57fc7c",
+              "09d6e509-ec56-4599-84d7-526b00ab81af": "3cd83a1e-36f6-48f5-a6e7-71d1bb6c2dba",
+              "b0207031-e5a5-4db7-b78d-2a768a3d153a": "25f8f31c-27ab-4e89-9c50-98cf45d5150d"
+            }
           }
         ]
       },
