@@ -91,7 +91,7 @@ public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Comp
 			LoadingScreen.Title = "Creating Lobby";
 			await Task.DelayRealtimeSeconds( 0.1f );
 
-			var lobbySettings = BaseLobbySettings.Load();
+			var lobbySettings = BaseLobbySettings.Load<BaseLobbySettings>();
 			var lobbyConfig = lobbySettings.ToLobbyConfig();
 
 			Networking.CreateLobby( lobbyConfig );

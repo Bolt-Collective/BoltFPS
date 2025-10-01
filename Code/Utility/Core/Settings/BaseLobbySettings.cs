@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 using Sandbox.Utility;
 
 namespace BoltFPS;
@@ -33,16 +34,13 @@ public class BaseLobbySettings
 	/// <returns>
 	/// An instance of <see cref="BaseLobbySettings"/> representing the loaded or default lobby settings.
 	/// </returns>
-	public static BaseLobbySettings Load()
+	public static T Load<T>() where T : BaseLobbySettings, new()
 	{
 		if ( !FileSystem.Data?.FileExists( "lobbysettings.json" ) ?? false )
-		{
-			return new BaseLobbySettings();
-		}
+			return new T();
 
 		var json = FileSystem.Data?.ReadAllText( "lobbysettings.json" );
-
-		return JsonSerializer.Deserialize<BaseLobbySettings>( json ?? string.Empty );
+		return JsonSerializer.Deserialize<T>( json ?? string.Empty ) ?? new T();
 	}
 
 	/// <summary>
