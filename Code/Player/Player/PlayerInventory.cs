@@ -2,7 +2,7 @@ using Sandbox.Diagnostics;
 
 namespace Seekers;
 
-public sealed class PlayerInventory : Component, IPlayerEvent
+public class PlayerInventory : Component, IPlayerEvent
 {
 	[RequireComponent] public Pawn Owner { get; set; }
 	[Sync, Property] public NetList<BaseWeapon> Weapons { get; set; } = new();
@@ -48,42 +48,24 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 		if ( Input.MouseWheel != 0 ) SwitchActiveSlot( (int)-Input.MouseWheel.y );
 	}
 
-	[Rpc.Broadcast]
+	[Rpc.Owner]
 	public void Pickup( string prefabName, bool equip = true )
 	{
-		if ( IsProxy )
+		if ( string.IsNullOrEmpty( prefabName ) )
 			return;
 
+		// Find prefab object from name
+		var prefabObject = GameObject.GetPrefab( prefabName );
+		if ( prefabObject == null )
+			return;
+
+		// Reuse second Pickup
+		Pickup( prefabObject, equip );
+	}
+
+	public virtual void Pickup( GameObject prefabObject, bool equip = true )
+	{
 		if ( !Owner.Renderer.IsValid() )
-			return;
-
-		Owner.Renderer.GameObject.Enabled = true;
-
-		var prefab = GameObject.Clone( prefabName, global::Transform.Zero, Owner.Renderer.GameObject, false );
-		prefab?.NetworkSpawn( false, Network.Owner );
-
-		var weapon = prefab?.Components.Get<BaseWeapon>( true );
-		//Assert.NotNull( weapon );
-
-		Weapons.Add( weapon );
-
-		if ( equip )
-			SetActiveSlot( Weapons.Count - 1 );
-
-		IPlayerEvent.PostToGameObject( Owner.GameObject, e => e.OnWeaponAdded( weapon ) );
-	}
-
-	public void RemoveWeapon( BaseWeapon weapon )
-	{
-		Weapons?.Remove( weapon );
-		weapon?.GameObject?.BroadcastDestroy();
-		SetActiveSlot( lastSlot.Clamp( 0, Weapons.Count() - 1 ) );
-	}
-
-	[Rpc.Broadcast]
-	public void Pickup( GameObject prefabObject )
-	{
-		if ( IsProxy )
 			return;
 
 		Owner.Renderer.GameObject.Enabled = true;
@@ -96,9 +78,18 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 
 		Weapons.Add( weapon );
 
-		SetActiveSlot( Weapons.Count - 1 );
+		if ( equip )
+			SetActiveSlot( Weapons.Count - 1 );
 
 		IPlayerEvent.PostToGameObject( Owner.GameObject, e => e.OnWeaponAdded( weapon ) );
+	}
+
+
+	public void RemoveWeapon( BaseWeapon weapon )
+	{
+		Weapons?.Remove( weapon );
+		weapon?.GameObject?.BroadcastDestroy();
+		SetActiveSlot( lastSlot.Clamp( 0, Weapons.Count() - 1 ) );
 	}
 
 	[ConCmd( "give" )]
@@ -113,7 +104,7 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 	}
 
 	public int lastSlot;
-	int currentSlot;
+	public int currentSlot;
 
 	public void SetActiveSlot( int i )
 	{

@@ -514,7 +514,6 @@ public class ZombieNPC : NPC
 		var lookDir = (lookPos - Eyes.WorldPosition).Normal;
 
 		Body.SetLookDirection( "aim_head", lookDir, PullingAnimation ? 1f : 0 );
-		Log.Info( PullingAnimation );
 		Body.Set( "pull", PullingAnimation );
 
 		Body.Set( "crawl", Crawl );
