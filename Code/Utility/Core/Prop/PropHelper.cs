@@ -105,6 +105,8 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 	private Vector3 lastPosition = Vector3.Zero;
 
+	private ModelExplosionBehavior _legacyExplosionData;
+
 	protected override void OnStart()
 	{
 		Prop ??= GetComponent<Prop>();
@@ -114,7 +116,19 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		ModelPhysics ??= GetComponent<ModelPhysics>();
 		Rigidbody ??= GetComponent<Rigidbody>();
 
-		Explosive = Prop.Model.TryGetData<ModelExplosionBehavior>( out var data );
+		if ( !Prop.Model.IsValid() )
+			return;
+
+		if ( Prop.Model.Data != null )
+		{
+			var oldExplosiveDataExists = Prop.Model.TryGetData<ModelExplosionBehavior>( out var data );
+
+			Explosive = Prop.Model.Data.Explosive || oldExplosiveDataExists;
+
+			if ( oldExplosiveDataExists )
+				_legacyExplosionData = data;
+		}
+
 		Health = Prop?.Health ?? 0f;
 		Velocity = 0f;
 
@@ -158,16 +172,39 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 			}
 		}
 
-		if ( Prop.Model.TryGetData<ModelExplosionBehavior>( out var data ) )
+		if ( Explosive )
 		{
-			Log.Info( "did we explode" );
-			// Rest in peace data.Effect
-			Explosion( data.Sound, WorldPosition, data.Radius,
-				data.Damage,
-				data.Force, "weapons/common/effects/medium_explosion.prefab" );
+			if ( Prop.Model?.Data != null && Prop.Model.Data.Explosive )
+			{
+				// Use modern explosion data
+				var data = Prop.Model.Data;
+
+				Prop.CreateExplosion();
+
+				Explosion(
+					"he_grenade_explode",
+					WorldPosition,
+					data.ExplosionRadius,
+					data.ExplosionDamage,
+					data.ExplosionForce
+				);
+			}
+			else if ( _legacyExplosionData != null )
+			{
+				// Use legacy explosion data
+				Explosion(
+					_legacyExplosionData.Sound,
+					WorldPosition,
+					_legacyExplosionData.Radius,
+					_legacyExplosionData.Damage,
+					_legacyExplosionData.Force,
+					"weapons/common/effects/medium_explosion.prefab"
+				);
+			}
 		}
 
 		Prop.Model = null; // Prevents prop from spawning more gibs.
+		Prop.GameObject.Destroy();
 	}
 
 	[Rpc.Host]
@@ -220,15 +257,15 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		return mass;
 	}
-	
-	[ConVar( "bolt_disablepropdamage", ConVarFlags.Cheat)]
+
+	[ConVar( "bolt_disablepropdamage", ConVarFlags.Cheat )]
 	public static bool DisableImpactDamage { get; set; } = false;
 
 	void ICollisionListener.OnCollisionStart( Collision collision )
 	{
-		if (DisableImpactDamage)
+		if ( DisableImpactDamage )
 			return;
-		
+
 		if ( IsProxy ) return;
 
 		var propData = GetModelPropData();

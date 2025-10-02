@@ -66,7 +66,7 @@ public partial class BaseWeapon : Component
 	[Feature( "Firing" )] [Property] public float SecondaryRate { get; set; } = 15.0f;
 	[Feature( "Firing" )] [Property] public virtual float Damage { get; set; }
 	[Feature( "Firing" )] [Property] public virtual float Spread { get; set; }
-	[Feature( "Firing" )][Property] public virtual float ADSSpreadMult { get; set; } = 0.5f;
+	[Feature( "Firing" )] [Property] public virtual float ADSSpreadMult { get; set; } = 0.5f;
 	[Feature( "Firing" )] [Property] public virtual float SpreadIncrease { get; set; }
 
 	[Property, ShowIf( "UseProjectile", true ), Group( "Projectile" ), Feature( "Firing" )]
@@ -299,7 +299,7 @@ public partial class BaseWeapon : Component
 
 		if ( GameObject.Root.Components.TryGet<PlayerDresser>( out var dresser, FindMode.EnabledInSelfAndChildren ) )
 		{
-			dresser.DisableClothingGroups( useRemoves ? RemoveGroups : null,
+			dresser?.DisableClothingGroups( useRemoves ? RemoveGroups : null,
 				useRemoves ? RemoveClothingCategories : null );
 		}
 	}
@@ -747,7 +747,7 @@ public partial class BaseWeapon : Component
 
 		shots++;
 
-		var spread = (ADS && Input.Down("attack2") ? Spread * ADSSpreadMult : Spread ) + SpreadIncrease;
+		var spread = (ADS && Input.Down( "attack2" ) ? Spread * ADSSpreadMult : Spread) + SpreadIncrease;
 
 		if ( spreadOverride > -1 )
 		{
@@ -892,6 +892,7 @@ public partial class BaseWeapon : Component
 					return;
 				}
 			}
+
 			player.TakeDamage( attacker, damage, inflictor, hitPosition, calcForce, hitboxTags,
 				hitboxName: hitboxName );
 			if ( owner.IsValid() )
