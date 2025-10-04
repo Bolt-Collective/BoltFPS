@@ -122,7 +122,7 @@
 	public string GetIcon( Team team ) =>
 		!string.IsNullOrEmpty( IconOveride ) ? IconOveride : team.Image;
 
-	private BasePlayerInfo GetInfo( Client client )
+	private IPlayerInfo GetInfo( Client client )
 	{
 		if ( client?.Network?.Owner == null ) return null;
 		return BaseGameManager.Instance?.PlayerInfos.GetValueOrDefault( client.Network.Owner.Id );

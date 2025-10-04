@@ -246,9 +246,6 @@ public partial class HealthComponent : Component, IRespawnable
 
 		damageInfo.DisplayFeed();
 
-
-		Log.Info( OnKilled );
-
 		OnKilled?.Invoke( damageInfo );
 	}
 

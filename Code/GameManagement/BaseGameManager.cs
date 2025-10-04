@@ -3,12 +3,21 @@ using Sandbox;
 
 namespace Seekers;
 
-public class BasePlayerInfo
+public interface IPlayerInfo
+{
+	int Kills { get; set; }
+	int Deaths { get; set; }
+
+	void Reset();
+	IPlayerInfo Clone();
+}
+
+public class BasePlayerInfo : IPlayerInfo
 {
 	public int Kills { get; set; }
 	public int Deaths { get; set; }
 
-	public virtual BasePlayerInfo Clone()
+	public virtual IPlayerInfo Clone()
 	{
 		return new BasePlayerInfo();
 	}
@@ -24,7 +33,7 @@ public class BasePlayerInfo
 public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Component.INetworkListener
 {
 	[Sync( Flags = SyncFlags.FromHost ), Property]
-	public NetDictionary<Guid, BasePlayerInfo> PlayerInfos { get; set; } = new();
+	public NetDictionary<Guid, IPlayerInfo> PlayerInfos { get; set; } = new();
 
 	[Property] public bool StartServer { get; set; } = true;
 	[Property, Header( "Player" )] public PrefabFile PlayerPrefab { get; set; }
@@ -57,21 +66,23 @@ public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Comp
 	[Property, ShowIf( "RespawnOnTeamChange", false )]
 	public List<Team> RespawnTeams { get; set; }
 
+	public virtual IPlayerInfo Info { get; set; }
+
 
 	/// <summary>
 	/// Retrieves information about the current player.
 	/// </summary>
 	/// <returns>A <see cref="PlayerInfo"/> object containing details about the player.</returns>
-	public BasePlayerInfo GetPlayerInfo( Connection connection )
+	public IPlayerInfo GetPlayerInfo( Connection connection )
 	{
 		return PlayerInfos.GetValueOrDefault( connection.Id );
 	}
 
-	private void AddPlayer( Connection channel )
+	private void AddPlayer( IPlayerInfo info, Connection channel )
 	{
 		if ( PlayerInfos.ContainsKey( channel.Id ) )
 			return;
-		PlayerInfos.Add( channel.Id, new BasePlayerInfo() );
+		PlayerInfos.Add( channel.Id, info.Clone() );
 	}
 
 	private void RemovePlayer( Connection channel )
@@ -104,7 +115,7 @@ public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Comp
 		if ( existingClient.IsValid() && !Application.IsDedicatedServer )
 			return;
 
-		AddPlayer( channel );
+		AddPlayer( Info, channel );
 
 		var clientObj = ClientPrefab.GetScene().Clone();
 		clientObj.Name = $"Client - {channel.DisplayName}";
