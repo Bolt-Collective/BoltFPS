@@ -1,5 +1,4 @@
 @inherits PanelComponent
-
 @namespace Seekers
 
 <root>
@@ -10,8 +9,9 @@
 			{
 				Team team = i == 0 ? TopTeamL : TopTeamR;
 				int score = i == 0 ? TopTeamLScore : TopTeamRScore;
+
 				<div class="toplist @( i == 0 ? "left" : "" )">
-					@foreach ( var conn in AllClients?.Where( x => x.Team == team ).OrderBy( x => -x.Kills )! )
+					@foreach ( var conn in AllClients?.Where( x => x.Team == team ).OrderByDescending( x => GetInfo( x )?.Kills ?? 0 )! )
 					{
 						<div class="avatars">
 							<div class="avatarcontainer">
@@ -25,30 +25,37 @@
 			}
 		</div>
 	}
+
 	<div class="mainboard @( Input.Down( "Score" ) || ForceOpen ? "" : "hidden" )">
 		@if ( Teams == null || Teams.Count == 0 )
 		{
 			return;
 		}
+
 		@foreach ( var team in Teams )
 		{
 			Team t = team;
 			<div class="player-list" onclick=@( () => TeamSelected?.Invoke( t ) )>
 				<div class="team-header">
-					@if ( (IconOveride != null && IconOveride != string.Empty) || (team.Image != null && team.Image != string.Empty) )
+					@if ( !string.IsNullOrEmpty( IconOveride ) || !string.IsNullOrEmpty( team.Image ) )
 					{
 						<img class="icon-small" src=@GetIcon( team )/>
 					}
 					<div style="color: @team.Color.Hex">@GetName( team )</div>
 					@if ( Remaining )
 					{
-						<div class="remaining"><span class="count" style="color: @team.Color.Hex">@AllClients?.Where( x => x.Team == team ).Count()</span>players remaining</div>
+						<div class="remaining">
+                            <span class="count" style="color: @team.Color.Hex">
+                                @AllClients?.Count( x => x.Team == team )
+                            </span> players remaining
+						</div>
 					}
 				</div>
 
 				<div class="divider" style="background-color: rgba(@team.Color.Hex, 0.15);"></div>
 
-				<div class="entry key" style="background-color: rgba(@team.Color.Hex, 0.25); color: rgba(@team.Color.Hex, 0.9);">
+				<div class="entry key"
+				     style="background-color: rgba(@team.Color.Hex, 0.25); color: rgba(@team.Color.Hex, 0.9);">
 					<div class="info" style="padding: 10px">#</div>
 					<div class="name" style="flex-grow: 1">
 						<img class="avatar"/>
@@ -58,20 +65,23 @@
 					<div class="info small">Deaths</div>
 					<div class="info small">Ping</div>
 				</div>
+
 				@{
 					int count = 0;
 				}
-				@foreach ( var conn in AllClients?.Where( x => x.Team == team ).OrderBy( x => -x.Kills )! )
+				@foreach ( var conn in AllClients?.Where( x => x.Team == team ).OrderByDescending( x => GetInfo( x )?.Kills ?? 0 )! )
 				{
 					count++;
+					var info = GetInfo( conn );
+
 					<div class="entry">
 						<div class="info" style="padding: 10px">@count</div>
 						<div class="name" style="flex-grow: 1">
 							<img src=@( $"avatar:{conn.Network?.Owner?.SteamId}" ) class="avatar"/>
 							@conn.Network?.Owner?.DisplayName
 						</div>
-						<div class="info">@conn.Kills</div>
-						<div class="info">@conn.Deaths</div>
+						<div class="info">@info?.Kills</div>
+						<div class="info">@info?.Deaths</div>
 						<div class="info">@conn.Network?.Owner?.Ping</div>
 					</div>
 				}
@@ -81,16 +91,13 @@
 </root>
 
 
-@code
-{
+@code {
 	internal string CurrentMap => Game.ActiveScene.GetAllComponents<MapInstance>().FirstOrDefault()?.MapName;
-
 	public Package Map => Package.Fetch( CurrentMap, true ).Result;
 
 	private List<Client> AllClients => Game.ActiveScene.GetAll<Client>().ToList();
 
 	[Property] public List<Team> Teams { get; set; }
-
 	[Property] public Team TopTeamL { get; set; }
 	[Property] public int TopTeamLScore { get; set; }
 	[Property] public Team TopTeamR { get; set; }
@@ -102,7 +109,6 @@
 	[Property, ImageAssetPath] public string IconOveride { get; set; }
 
 	public Action<Team> TeamSelected;
-
 	public static Scoreboard Current;
 
 	protected override void OnAwake()
@@ -110,21 +116,19 @@
 		Current = this;
 	}
 
-	public string GetName( Team team )
+	public string GetName( Team team ) =>
+		!string.IsNullOrEmpty( NameOveride ) ? NameOveride : team.DisplayName;
+
+	public string GetIcon( Team team ) =>
+		!string.IsNullOrEmpty( IconOveride ) ? IconOveride : team.Image;
+
+	private BasePlayerInfo GetInfo( Client client )
 	{
-		if ( NameOveride != null && NameOveride != string.Empty )
-			return NameOveride;
-		return team.DisplayName;
+		if ( client?.Network?.Owner == null ) return null;
+		return BaseGameManager.Instance?.PlayerInfos.GetValueOrDefault( client.Network.Owner.Id );
 	}
 
-	public string GetIcon( Team team )
-	{
-		if ( IconOveride != null && IconOveride != string.Empty )
-			return IconOveride;
-		return team.Image;
-	}
-
-
-	protected override int BuildHash() => HashCode.Combine( MathF.Round( RealTime.Now * 10 ) );
+	protected override int BuildHash() =>
+		HashCode.Combine( MathF.Round( RealTime.Now * 10 ) );
 
 }

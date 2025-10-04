@@ -9,13 +9,9 @@ public partial class Client : ShrimplePawns.Client
 
 	[Sync( SyncFlags.FromHost ), Property] public long SteamId { get; set; }
 
-	[Sync, Property] public int Kills { get; set; }
-	[Sync, Property] public int Deaths { get; set; }
-
 	[Sync, Property] public string CurrentVote { get; set; }
 
 	public bool AbleToVote { get; set; } = true;
-
 
 	[Property]
 	[Sync( SyncFlags.FromHost )]
@@ -34,9 +30,12 @@ public partial class Client : ShrimplePawns.Client
 
 			Respawning = false;
 
-			if ( Networking.IsHost && TryGetPawn( out Pawn pawn ) && lastTeam != _team && BaseGameManager.Instance.IsValid() )
+			if ( Networking.IsHost && TryGetPawn( out Pawn pawn ) && lastTeam != _team &&
+			     BaseGameManager.Instance.IsValid() )
 			{
-				if (BaseGameManager.Instance.RespawnOnTeamChange || (BaseGameManager.Instance.RespawnTeams != null && BaseGameManager.Instance.RespawnTeams.Contains( _team )))
+				if ( BaseGameManager.Instance.RespawnOnTeamChange || (BaseGameManager.Instance.RespawnTeams != null &&
+				                                                      BaseGameManager.Instance.RespawnTeams.Contains(
+					                                                      _team )) )
 					Respawn( Connection );
 			}
 		}

@@ -3,14 +3,34 @@ using Sandbox;
 
 namespace Seekers;
 
-[EditorHandle("ui/input/controllers/controller_icon_ps3.png")]
+public class BasePlayerInfo
+{
+	public int Kills { get; set; }
+	public int Deaths { get; set; }
+
+	public virtual BasePlayerInfo Clone()
+	{
+		return new BasePlayerInfo();
+	}
+
+	public virtual void Reset()
+	{
+		Kills = 0;
+		Deaths = 0;
+	}
+}
+
+[EditorHandle( "ui/input/controllers/controller_icon_ps3.png" )]
 public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Component.INetworkListener
 {
-	[Property] public bool StartServer { get; set; } = true;
-	[Property, Header("Player")] public PrefabFile PlayerPrefab { get; set; }
+	[Sync( Flags = SyncFlags.FromHost ), Property]
+	public NetDictionary<Guid, BasePlayerInfo> PlayerInfos { get; set; } = new();
 
-	[Property, Header("Player")] public PrefabFile ClientPrefab { get; set; }
-	
+	[Property] public bool StartServer { get; set; } = true;
+	[Property, Header( "Player" )] public PrefabFile PlayerPrefab { get; set; }
+
+	[Property, Header( "Player" )] public PrefabFile ClientPrefab { get; set; }
+
 	[Property] [Group( "Dev" )] public readonly List<long> PlayerWhitelist = new()
 	{
 		76561198043979097, // trende
@@ -33,7 +53,33 @@ public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Comp
 
 	[Property] public List<ItemResource> StartingWeapons { get; set; }
 	[Property] public bool RespawnOnTeamChange { get; set; } = true;
-	[Property, ShowIf("RespawnOnTeamChange", false)] public List<Team> RespawnTeams { get; set; }
+
+	[Property, ShowIf( "RespawnOnTeamChange", false )]
+	public List<Team> RespawnTeams { get; set; }
+
+
+	/// <summary>
+	/// Retrieves information about the current player.
+	/// </summary>
+	/// <returns>A <see cref="PlayerInfo"/> object containing details about the player.</returns>
+	public BasePlayerInfo GetPlayerInfo( Connection connection )
+	{
+		return PlayerInfos.GetValueOrDefault( connection.Id );
+	}
+
+	private void AddPlayer( Connection channel )
+	{
+		if ( PlayerInfos.ContainsKey( channel.Id ) )
+			return;
+		PlayerInfos.Add( channel.Id, new BasePlayerInfo() );
+	}
+
+	private void RemovePlayer( Connection channel )
+	{
+		if ( !PlayerInfos.ContainsKey( channel.Id ) )
+			return;
+		PlayerInfos.Remove( channel.Id );
+	}
 
 	bool INetworkListener.AcceptConnection( Connection channel, ref string reason )
 	{
@@ -57,6 +103,8 @@ public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Comp
 		var existingClient = Scene.Components.GetAll<Client>().FirstOrDefault( x => x.Connection == channel );
 		if ( existingClient.IsValid() && !Application.IsDedicatedServer )
 			return;
+
+		AddPlayer( channel );
 
 		var clientObj = ClientPrefab.GetScene().Clone();
 		clientObj.Name = $"Client - {channel.DisplayName}";
@@ -82,6 +130,11 @@ public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Comp
 		{
 			client.Respawn( channel, weapons: StartingWeapons );
 		}
+	}
+
+	void INetworkListener.OnDisconnected( Connection channel )
+	{
+		RemovePlayer( channel );
 	}
 
 	protected override async Task OnLoad()
