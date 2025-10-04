@@ -17,6 +17,19 @@ public static partial class SoundExtensions
 		}
 	}
 
+	[Rpc.Broadcast]
+	public static void BroadcastSound( string soundName )
+	{
+		try
+		{
+			var snd = Sound.Play( soundName );
+		}
+		catch
+		{
+			Log.Warning( $"{soundName} is not a valid sound" );
+		}
+	}
+
 
 	[Rpc.Broadcast]
 	public static void BroadcastSound( string soundName, Vector3 position, float volume, float pitch,
@@ -52,6 +65,11 @@ public static partial class SoundExtensions
 	public static void BroadcastSound( SoundEvent sound, Vector3 position )
 	{
 		BroadcastSound( sound.ResourcePath, position );
+	}
+
+	public static void BroadcastSound( SoundEvent sound)
+	{
+		BroadcastSound( sound.ResourcePath );
 	}
 
 	public static void BroadcastSound( SoundEvent sound, Vector3 position, float volume = 1, float pitch = 1,

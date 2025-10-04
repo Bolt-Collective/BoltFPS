@@ -439,8 +439,10 @@ public class ZombieNPC : NPC
 			move = dis > StopDistance;
 		}
 
-		var offsetX = -1 + Noise.Perlin( (Time.Now + accRandom) * AccuracyScale, 0 ) * 2;
-		var offsetY = -1 + Noise.Perlin( (Time.Now - accRandom) * AccuracyScale, 0 ) * 2;
+		var isBarrierMult = ClosestEnemy == TargetBarrier ? 0 : 1;
+
+		var offsetX = -1 + Noise.Perlin( (Time.Now + accRandom) * AccuracyScale, 0 ) * 2 * isBarrierMult;
+		var offsetY = -1 + Noise.Perlin( (Time.Now - accRandom) * AccuracyScale, 0 ) * 2 * isBarrierMult;
 
 		var dir = new Vector3( offsetX, offsetY, 0 );
 
