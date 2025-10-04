@@ -441,12 +441,12 @@ public class ZombieNPC : NPC
 
 		var isBarrierMult = ClosestEnemy == TargetBarrier ? 0 : 1;
 
-		var offsetX = -1 + Noise.Perlin( (Time.Now + accRandom) * AccuracyScale, 0 ) * 2 * isBarrierMult;
-		var offsetY = -1 + Noise.Perlin( (Time.Now - accRandom) * AccuracyScale, 0 ) * 2 * isBarrierMult;
+		var offsetX = -1 + Noise.Perlin( (Time.Now + accRandom) * AccuracyScale, 0 ) * 2;
+		var offsetY = -1 + Noise.Perlin( (Time.Now - accRandom) * AccuracyScale, 0 ) * 2;
 
-		var dir = new Vector3( offsetX, offsetY, 0 );
+		var dir = new Vector3( offsetX, offsetY, 0 ) * isBarrierMult;
 
-		Agent.MoveTo( ClosestEnemy.Position + dir * dis * TargetAccuracy );
+		Agent.MoveTo( ClosestEnemy.Position + dir * dis * TargetAccuracy + Vector3.Up * 20 );
 
 		TryAttack( dis );
 	}
