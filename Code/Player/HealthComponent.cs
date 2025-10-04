@@ -24,8 +24,7 @@ public partial class HealthComponent : Component, IRespawnable
 	public bool IsGodMode { get; set; } = false;
 
 
-	[Property, Sync( SyncFlags.FromHost )]
-	public bool IgnorePlayerDamage { get; set; } = false;
+	[Property, Sync( SyncFlags.FromHost )] public bool IgnorePlayerDamage { get; set; } = false;
 
 	/// <summary>
 	/// An action (mainly for ActionGraphs) to respond to when a GameObject's health changes.
@@ -89,18 +88,20 @@ public partial class HealthComponent : Component, IRespawnable
 		if ( IgnorePlayerDamage && attacker.GameObject.Root.Components.TryGet<Pawn>( out var pw ) )
 			return;
 
-		if(LinkedHealth.IsValid())
+		if ( LinkedHealth.IsValid() )
 		{
-			LinkedHealth.TakeDamage( attacker, damage, inflictor, position, force, hitbox, flags, armorDamage, external, hitboxName );
+			LinkedHealth.TakeDamage( attacker, damage, inflictor, position, force, hitbox, flags, armorDamage, external,
+				hitboxName );
 			return;
 		}
+
 		if ( !Networking.IsHost )
 			return;
 
-		if ( HitboxMultipliers != null 
-		     && HitboxMultipliers.Any() 
-		     && hitbox != default 
-		     && HitboxMultipliers.TryGetValue(hitbox, out var multiplier) )
+		if ( HitboxMultipliers != null
+		     && HitboxMultipliers.Any()
+		     && hitbox != default
+		     && HitboxMultipliers.TryGetValue( hitbox, out var multiplier ) )
 		{
 			damage *= multiplier;
 		}
@@ -119,7 +120,7 @@ public partial class HealthComponent : Component, IRespawnable
 		var prevHealth = Health;
 		Health = Math.Max( 0f, Health - damageInfo.Damage );
 
-		if ( ( prevHealth > 0 && Health > 0f) ) return;
+		if ( (prevHealth > 0 && Health > 0f) ) return;
 
 		Health = 0f;
 		State = LifeState.Dead;
@@ -138,7 +139,7 @@ public partial class HealthComponent : Component, IRespawnable
 		Health = 0f;
 		State = LifeState.Dead;
 
-		Kill( new DamageInfo(null, damage) );
+		Kill( new DamageInfo( null, damage ) );
 	}
 
 	private DamageInfo WithThisAsVictim( DamageInfo damageInfo )
@@ -198,9 +199,9 @@ public partial class HealthComponent : Component, IRespawnable
 	}
 
 	[Rpc.Host]
-	public void AddHealth(float health)
+	public void AddHealth( float health )
 	{
-		Health = (Health + health).Clamp(-float.MaxValue, MaxHealth);
+		Health = (Health + health).Clamp( -float.MaxValue, MaxHealth );
 	}
 
 	[Rpc.Broadcast]
@@ -235,11 +236,11 @@ public partial class HealthComponent : Component, IRespawnable
 				Victim = this
 			};
 
-		if (attacker.IsValid() && Connection.Local.Id == attacker.Network.OwnerId )
-			AddKill();
+		if ( attacker.IsValid() && Connection.Local.Id == attacker.Network.OwnerId )
+			AddKill( Connection.Local );
 
 		if ( !IsProxy )
-			AddDeath();
+			AddDeath( Connection.Local );
 
 		Scene.Dispatch( new KillEvent( damageInfo ) );
 
@@ -251,14 +252,16 @@ public partial class HealthComponent : Component, IRespawnable
 		OnKilled?.Invoke( damageInfo );
 	}
 
-	public void AddKill()
+	[Rpc.Host]
+	public void AddKill( Connection connection )
 	{
-		Client.Local.Kills++;
+		BaseGameManager.Instance.GetPlayerInfo( connection ).Kills++;
 	}
 
-	public void AddDeath( )
+	[Rpc.Host]
+	public void AddDeath( Connection connection )
 	{
-		Client.Local.Deaths++;
+		BaseGameManager.Instance.GetPlayerInfo( connection ).Deaths++;
 	}
 }
 
