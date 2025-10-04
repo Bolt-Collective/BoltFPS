@@ -28,6 +28,7 @@
           "Rotation": "0,0,0,1"
         },
         "Bullets": 1,
+        "CanShootWhileSprinting": false,
         "Chamber": false,
         "CrosshairType": "None",
         "Damage": 70,

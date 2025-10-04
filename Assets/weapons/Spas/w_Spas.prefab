@@ -28,6 +28,7 @@
           "Rotation": "0,0,0,1"
         },
         "Bullets": 14,
+        "CanShootWhileSprinting": false,
         "Chamber": true,
         "CrosshairType": "Shotgun",
         "Damage": 5.714286,
@@ -39,6 +40,7 @@
         "HoldType": "Shotgun",
         "Icon": "icons/weapons/guns/spaghellim4_01.png",
         "ItemResource": "weapons/spas/spas.wep",
+        "LastBulletRate": 1,
         "LeftIK": {
           "Active": true,
           "GameObject": {
