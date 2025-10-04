@@ -19,6 +19,7 @@
         "__guid": "e6d6f931-f23d-4fdb-adf9-20b8273f056f",
         "__enabled": true,
         "ADS": true,
+        "ADSSpreadMult": 0.5,
         "AltShootSound": null,
         "Ammo": 7,
         "BoneOffset": {
@@ -26,6 +27,7 @@
           "Scale": "1,1,1",
           "Rotation": "0,0,0,1"
         },
+        "CanShootWhileSprinting": false,
         "Chamber": true,
         "CrosshairType": "Default",
         "Damage": 22.5,
@@ -60,7 +62,8 @@
         "RecoilPattern": {
           "Points": [
             "0,1.36"
-          ]
+          ],
+          "RecoilMult": 1
         },
         "ReloadEmpty": true,
         "ReloadEmptyTime": 2.5,

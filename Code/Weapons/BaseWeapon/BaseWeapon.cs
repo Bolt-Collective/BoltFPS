@@ -69,6 +69,8 @@ public partial class BaseWeapon : Component
 	[Feature( "Firing" )] [Property] public virtual float ADSSpreadMult { get; set; } = 0.5f;
 	[Feature( "Firing" )] [Property] public virtual float SpreadIncrease { get; set; }
 
+	[Feature( "Firing" )] [Property] public virtual bool CanShootWhileSprinting { get; set; } = false;
+
 	[Property, ShowIf( "UseProjectile", true ), Group( "Projectile" ), Feature( "Firing" )]
 	public GameObject Projectile { get; set; }
 
@@ -602,7 +604,8 @@ public partial class BaseWeapon : Component
 
 	public virtual bool CanPrimaryAttack()
 	{
-		if ( Owner == null || !Input.Down( "attack1" ) || IsReloading )
+		if ( Owner == null || !Input.Down( "attack1" ) || IsReloading ||
+		     (!CanShootWhileSprinting && Owner.Controller.IsSprinting) )
 		{
 			return false;
 		}
