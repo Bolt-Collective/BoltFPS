@@ -2,6 +2,7 @@
   "DisplayName": "Tool Gun",
   "Catagory": "Tools",
   "Duplicates": false,
+  "Reserve": 0,
   "ReplenishAmmo": false,
   "Icon": "icons/weapons/tools/toolgun.png",
   "Description": "",

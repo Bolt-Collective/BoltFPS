@@ -2,6 +2,7 @@
   "DisplayName": "Grenade",
   "Catagory": "Throwables",
   "Duplicates": false,
+  "Reserve": 0,
   "ReplenishAmmo": true,
   "Icon": "icons/3d/hegrenade.png",
   "Description": "",

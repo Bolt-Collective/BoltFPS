@@ -24,16 +24,19 @@ public class ItemResource : GameResource
 	}
 
 	[Rpc.Broadcast]
-	public static void GiveWeapon(Connection connection, ItemResource itemResource)
+	public static void GiveWeapon(Connection connection, ItemResource itemResource, int reserve = -1)
 	{
 		if ( Connection.Local != connection )
 			return;
 
-		itemResource.GiveWeapon();
+		itemResource.GiveWeapon(reserve);
 	}
 
-	public void GiveWeapon()
+	public void GiveWeapon( int reserve = -1)
 	{
+		if ( reserve == -1 )
+			reserve = Reserve;
+
 		var pawn = Pawn.Local;
 		if ( !pawn?.Inventory.IsValid() ?? true )
 			return;
@@ -57,12 +60,12 @@ public class ItemResource : GameResource
 				return;
 
 			weapon.Ammo = baseWeapon.Ammo;
-			pawn.Inventory.GiveReserve(weapon.AmmoType, Reserve);
+			pawn.Inventory.GiveReserve(weapon.AmmoType, reserve);
 
 			return;
 		}
 
-		pawn.Inventory.GiveReserve( baseWeapon.AmmoType, Reserve );
+		pawn.Inventory.GiveReserve( baseWeapon.AmmoType, reserve );
 		Pawn.Local.Inventory.Pickup( GetDetails() );
 	}
 

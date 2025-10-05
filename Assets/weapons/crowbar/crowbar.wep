@@ -2,6 +2,7 @@
   "DisplayName": "Crowbar",
   "Catagory": "Melee",
   "Duplicates": true,
+  "Reserve": 0,
   "ReplenishAmmo": false,
   "Icon": "icons/3d/crowbar.png",
   "Description": "An item.",

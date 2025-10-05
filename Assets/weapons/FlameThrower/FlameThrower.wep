@@ -2,6 +2,7 @@
   "DisplayName": "Flame Thrower",
   "Catagory": "Guns",
   "Duplicates": true,
+  "Reserve": 0,
   "ReplenishAmmo": false,
   "Icon": "icons/3d/assets.png",
   "Description": "",

@@ -22,6 +22,7 @@
         "ADSSpreadMult": 0,
         "AltShootSound": null,
         "Ammo": 5,
+        "AmmoType": "Shotgun",
         "BoneOffset": {
           "Position": "0,0,0",
           "Scale": "1,1,1",

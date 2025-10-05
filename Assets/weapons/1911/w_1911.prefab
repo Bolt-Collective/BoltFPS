@@ -22,6 +22,7 @@
         "ADSSpreadMult": 0.5,
         "AltShootSound": null,
         "Ammo": 7,
+        "AmmoType": ".45",
         "BoneOffset": {
           "Position": "2.7735,0,-4.794",
           "Scale": "1,1,1",

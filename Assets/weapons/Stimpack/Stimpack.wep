@@ -2,6 +2,7 @@
   "DisplayName": "Stimpack",
   "Catagory": "Healing",
   "Duplicates": false,
+  "Reserve": 0,
   "ReplenishAmmo": true,
   "Icon": "icons/3d/stimpack.png",
   "Description": "An item.",
