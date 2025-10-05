@@ -7,6 +7,7 @@ public class ItemResource : GameResource
 	[KeyProperty] public string DisplayName { get; set; }
 	[KeyProperty] public string Catagory { get; set; }
 	[KeyProperty] public bool Duplicates { get; set; } = true;
+	[KeyProperty] public int Reserve { get; set; } = 256;
 
 	[KeyProperty, ShowIf( "Duplicates", false )]
 	public bool ReplenishAmmo { get; set; }
@@ -22,10 +23,24 @@ public class ItemResource : GameResource
 		return Details == null ? "weapons/gun/w_gun.prefab".Replace( "gun", DisplayName ) : Details;
 	}
 
+	[Rpc.Broadcast]
+	public static void GiveWeapon(Connection connection, ItemResource itemResource)
+	{
+		if ( Connection.Local != connection )
+			return;
+
+		itemResource.GiveWeapon();
+	}
+
 	public void GiveWeapon()
 	{
 		var pawn = Pawn.Local;
 		if ( !pawn?.Inventory.IsValid() ?? true )
+			return;
+
+		var prefab = GameObject.GetPrefab( GetDetails() );
+
+		if ( !prefab.IsValid() || !prefab.Components.TryGet<BaseWeapon>( out var baseWeapon ) )
 			return;
 
 		foreach ( var weapon in pawn.Inventory.Weapons )
@@ -41,14 +56,13 @@ public class ItemResource : GameResource
 			if ( !ReplenishAmmo )
 				return;
 
-			var prefab = GameObject.GetPrefab( GetDetails() );
-
-			if ( prefab.Components.TryGet<BaseWeapon>( out var baseWeapon ) )
-				weapon.Ammo = baseWeapon.Ammo;
+			weapon.Ammo = baseWeapon.Ammo;
+			pawn.Inventory.GiveReserve(weapon.AmmoType, Reserve);
 
 			return;
 		}
 
+		pawn.Inventory.GiveReserve( baseWeapon.AmmoType, Reserve );
 		Pawn.Local.Inventory.Pickup( GetDetails() );
 	}
 

@@ -83,6 +83,7 @@ public partial class BaseWeapon : Component
 	[Feature( "Ammo" )] [Property] public bool ShowAmmo { get; set; } = true;
 	[Feature( "Ammo" )] [Property] public float ReloadTime { get; set; } = 3.0f;
 	[Feature( "Ammo" )] [Property] public bool ReloadEmpty { get; set; }
+	[Feature( "Ammo" )][Property] public string AmmoType { get; set; } = "9mm";
 
 	[Feature( "Ammo" )]
 	[Property, ShowIf( "ReloadEmpty", true )]
@@ -511,12 +512,32 @@ public partial class BaseWeapon : Component
 		}
 	}
 
-	public virtual async void OnReloadFinish()
+	public virtual void OnReloadFinish()
 	{
+		if ( !IsReloading )
+			return;
+
 		var add = Chamber ? MaxAmmo - 1 : MaxAmmo;
+		add = add.Clamp( 0, GetReserveAmmo() );
+		TakeReserveAmmo( add );
 		Ammo = Math.Clamp( Ammo + add, 0, MaxAmmo );
-		await Task.DelaySeconds( CurrentReloadTime * 0.1f );
 		IsReloading = false;
+	}
+
+	public virtual int GetReserveAmmo()
+	{
+		if ( !Owner.IsValid || !Owner.Inventory.IsValid())
+			return 0;
+
+		return Owner.Inventory.GetReserveAmmo( AmmoType );
+	}
+
+	public virtual void TakeReserveAmmo(int ammount)
+	{
+		if ( !Owner.IsValid || !Owner.Inventory.IsValid() )
+			return;
+
+		Owner.Inventory.TakeReserve( AmmoType, ammount );
 	}
 
 	public virtual void StartReloadEffects()
@@ -571,12 +592,7 @@ public partial class BaseWeapon : Component
 
 	public virtual bool CanReload()
 	{
-		if ( Owner != null && Input.Down( "reload" ) )
-		{
-			return true;
-		}
-
-		return false;
+		return Owner != null && Input.Down( "reload" ) && GetReserveAmmo() > 0 && !IsReloading;
 	}
 
 	public virtual void Reload()

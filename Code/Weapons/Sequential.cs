@@ -133,7 +133,7 @@ partial class SequentialGun : BaseWeapon
 		TimeSincePrimaryAttack = 0;
 		TimeSinceSecondaryAttack = 0;
 
-		if ( Ammo < MaxAmmo && !stopReload)
+		if ( Ammo < MaxAmmo && !stopReload && GetReserveAmmo() > 0)
 		{
 			if ( Ammo > 0 || !FirstShell )
 			{
@@ -143,6 +143,7 @@ partial class SequentialGun : BaseWeapon
 			}
 
 			Ammo++;
+			TakeReserveAmmo( 1 );
 			TimeSinceReload = 0;
 			IsReloading = true;
 		}

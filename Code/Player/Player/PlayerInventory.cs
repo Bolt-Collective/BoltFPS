@@ -7,6 +7,9 @@ public class PlayerInventory : Component, IPlayerEvent
 	[RequireComponent] public Pawn Owner { get; set; }
 	[Sync, Property] public NetList<BaseWeapon> Weapons { get; set; } = new();
 	[Sync, Property] public BaseWeapon ActiveWeapon { get; set; }
+	[Property] public bool InfiniteAmmo { get; set; }
+
+	[Property] public Dictionary<string, int> Ammo { get; set; } = new();
 
 	public Action<GameObject, float> OnShootGameObject;
 
@@ -54,12 +57,10 @@ public class PlayerInventory : Component, IPlayerEvent
 		if ( string.IsNullOrEmpty( prefabName ) )
 			return;
 
-		// Find prefab object from name
 		var prefabObject = GameObject.GetPrefab( prefabName );
 		if ( prefabObject == null )
 			return;
 
-		// Reuse second Pickup
 		Pickup( prefabObject, equip );
 	}
 
@@ -84,6 +85,45 @@ public class PlayerInventory : Component, IPlayerEvent
 		IPlayerEvent.PostToGameObject( Owner.GameObject, e => e.OnWeaponAdded( weapon ) );
 	}
 
+	public virtual int GetReserveAmmo( string ammoType = "" )
+	{
+		if ( Ammo == null )
+			Ammo = new();
+
+		if (InfiniteAmmo)
+			return int.MaxValue;
+
+		if ( !Ammo.ContainsKey( ammoType ) )
+			return 0;
+
+		return Ammo[ ammoType ];
+	}
+
+	public void TakeReserve(string ammoType, int amount)
+	{
+		if ( Ammo == null )
+			Ammo = new();
+
+		if ( !Ammo.ContainsKey( ammoType ) )
+			return;
+
+		Ammo[ ammoType ] -= amount;
+	}
+
+	public void GiveReserve( string ammoType, int amount )
+	{
+		if ( Ammo == null )
+			Ammo = new();
+
+		if ( !Ammo.ContainsKey( ammoType ) )
+		{
+			Ammo.Add( ammoType, amount );
+			return;
+		}
+
+		Ammo[ammoType] += amount;
+	}
+
 
 	public void RemoveWeapon( BaseWeapon weapon )
 	{
@@ -95,7 +135,18 @@ public class PlayerInventory : Component, IPlayerEvent
 	[ConCmd( "give" )]
 	public static void GiveWeapon( string name, string group = null )
 	{
-		Pawn.Local?.Inventory?.Pickup( $"weapons/{group ?? name}/w_{name}.prefab" );
+		FindItemByName( name )?.GiveWeapon();
+	}
+
+	public static ItemResource FindItemByName( string name )
+	{
+		foreach ( var res in ResourceLibrary.GetAll<ItemResource>() )
+		{
+			if ( res.ResourceName.Equals( name, StringComparison.OrdinalIgnoreCase ) )
+				return res;
+		}
+
+		return null;
 	}
 
 	public static void GiveWeapon( GameObject Weapon, string group = null )
