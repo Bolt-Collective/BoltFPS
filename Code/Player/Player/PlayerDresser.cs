@@ -13,11 +13,12 @@ public class PlayerDresser : Component, Component.INetworkSpawn
 		container.Height = 1;
 		container.Apply( ModelRenderer );
 
-		if (ReplacementModel.IsValid())
+		if ( ReplacementModel.IsValid() )
 			ModelRenderer.Model = ReplacementModel;
 	}
 
-	public void DisableClothingGroups(List<Clothing.BodyGroups> bodyGroups, List<Clothing.ClothingCategory> clothingCategories)
+	public void DisableClothingGroups( List<Clothing.BodyGroups> bodyGroups,
+		List<Clothing.ClothingCategory> clothingCategories )
 	{
 		if ( bodyGroups == null )
 			bodyGroups = new();
@@ -39,22 +40,23 @@ public class PlayerDresser : Component, Component.INetworkSpawn
 			{
 				foreach ( var group in bodyGroups )
 				{
-					if ( group != clothing.Clothing.HideBody )
+					if ( group != clothing?.Clothing?.HideBody )
 						continue;
-					container.Clothing.Remove( clothing );
+					container.Clothing?.Remove( clothing );
 				}
+
 				foreach ( var clothingCategory in clothingCategories )
 				{
-					if ( clothingCategory != clothing.Clothing.Category )
+					if ( clothingCategory != clothing?.Clothing?.Category )
 						continue;
-					container.Clothing.Remove( clothing );
+					container.Clothing?.Remove( clothing );
 				}
 			}
 		}
 
 		foreach ( var group in bodyGroups )
 		{
-			switch(group)
+			switch ( group )
 			{
 				case Clothing.BodyGroups.Head:
 					ModelRenderer.SetBodyGroup( "Head", 2 );

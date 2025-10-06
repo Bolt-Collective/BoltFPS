@@ -23,7 +23,6 @@ public partial class ToolGun
 
 
 		var index = tgViewmodel.Model.Materials.IndexOf( oldScreenMat );
-		Log.Info( index );
 		if ( index < 2 ) return;
 
 

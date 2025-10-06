@@ -52,7 +52,6 @@ public class HumanNPC : NPC, IGameEventHandler<BulletHitEvent>
 	Vector3 aimPoint;
 	public override void Think()
 	{
-		Log.Info( "Thinking" );
 		if ( CoverGenerator.Instance == null || !CoverGenerator.Instance.coversGenerated )
 			return;
 
