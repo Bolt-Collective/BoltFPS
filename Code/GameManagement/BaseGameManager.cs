@@ -66,7 +66,7 @@ public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Comp
 	[Property, ShowIf( "RespawnOnTeamChange", false )]
 	public List<Team> RespawnTeams { get; set; }
 
-	public virtual IPlayerInfo Info { get; set; }
+	public virtual IPlayerInfo Info { get; set; } = new BasePlayerInfo();
 
 
 	/// <summary>
