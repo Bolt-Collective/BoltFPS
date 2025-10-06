@@ -134,7 +134,7 @@ public partial class Client : ShrimplePawns.Client
 			{
 				foreach ( var weapon in weapons )
 				{
-					ItemResource.GiveWeapon( channel, weapon );
+					ItemResource.GiveWeapon( channel.Id.ToString(), weapon.ResourcePath );
 				}
 			}
 

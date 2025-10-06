@@ -24,16 +24,22 @@ public class ItemResource : GameResource
 	}
 
 	[Rpc.Broadcast]
-	public static void GiveWeapon(Connection connection, ItemResource itemResource, int reserve = -1)
+	public static void GiveWeapon(string connection, string itemResourcePath, int reserve = -1)
 	{
-		if ( Connection.Local != connection )
+		Log.Info( connection );
+		if ( Connection.Local.Id.ToString() != connection )
+			return;
+
+		if ( !ResourceLibrary.TryGet<ItemResource>( itemResourcePath, out var itemResource ) )
 			return;
 
 		itemResource.GiveWeapon(reserve);
 	}
 
+
 	public void GiveWeapon( int reserve = -1)
 	{
+		Log.Info( "swah" );
 		if ( reserve == -1 )
 			reserve = Reserve;
 
