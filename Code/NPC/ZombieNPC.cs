@@ -194,10 +194,15 @@ public class ZombieNPC : NPC
 			Pulling();
 
 		if (move)
-			Agent.Velocity = (Body.RootMotion.Position / Time.Delta) * Body.WorldRotation * (vaulting ? 1.5f : 1);
+			Agent.Velocity = (Body.RootMotion.Position / Time.Delta) * Body.WorldRotation;
 	}
 
 	private bool pulling { get; set; }
+
+	private bool doorWalk { get; set; }
+
+	private Vector3 doorStart { get; set; }
+	private Vector3 doorExit { get; set; }
 	public override void Think()
 	{
 		// if finishedattack event is not caught then reset cannotAttack
@@ -217,6 +222,24 @@ public class ZombieNPC : NPC
 		}
 
 		Agent.UpdatePosition = true;
+
+		if (doorWalk)
+		{
+			WorldRotation = WorldRotation.SlerpTo( VaultLinkObject.WorldRotation, 10 * Time.Delta );
+			Agent.UpdatePosition = false;
+			var vel = (Body.RootMotion.Position / Time.Delta) * Body.PlaybackRate * Body.WorldRotation * 1.5f;
+			WorldPosition += vel * Time.Delta;
+			
+			if ( HasPassedThrough( WorldPosition ) )
+			{
+				doorWalk = false;
+				Agent.Enabled = false;
+				Agent.Enabled = true;
+				Agent.UpdatePosition = true;
+			}
+			else
+				return;
+		}
 
 		if ( rightLegDis.Health <= 0 || leftLegDis.Health <= 0 )
 			Crawl = true;
@@ -280,6 +303,16 @@ public class ZombieNPC : NPC
 		}
 
 		Attacking();
+	}
+
+	bool HasPassedThrough( Vector3 position )
+	{
+		var doorDir = (doorExit - doorStart).Normal;
+		var toPoint = position - doorStart;
+		var projected = Vector3.Dot( toPoint, doorDir );
+
+		float doorLength = (doorExit - doorStart).Length;
+		return projected > doorLength;
 	}
 
 	public RealTimeSince timePulling;
@@ -574,6 +607,13 @@ public class ZombieNPC : NPC
 		rightLegDis.invinsible = false;
 		VaultAnim();
 		ExitVault = VaultTime / Body.PlaybackRate;
+	}
+
+	public void DoorLink( DoorLink doorLink, Vector3 start, Vector3 end )
+	{
+		doorWalk = true;
+		doorStart = start;
+		doorExit = end;
 	}
 
 	[Rpc.Broadcast]

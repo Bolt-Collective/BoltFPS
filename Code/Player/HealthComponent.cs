@@ -252,12 +252,18 @@ public partial class HealthComponent : Component, IRespawnable
 
 	public void AddKill()
 	{
-		BaseGameManager.Instance.GetPlayerInfo( Connection.Local ).Kills++;
+		var playerInfo = BaseGameManager.Instance?.GetPlayerInfo( Connection.Local );
+		if ( playerInfo == null )
+			return;
+		playerInfo.Kills++;
 	}
 
 	public void AddDeath()
 	{
-		BaseGameManager.Instance.GetPlayerInfo( Connection.Local ).Deaths++;
+		var playerInfo = BaseGameManager.Instance?.GetPlayerInfo( Connection.Local );
+		if ( playerInfo == null )
+			return;
+		playerInfo.Deaths++;
 	}
 }
 

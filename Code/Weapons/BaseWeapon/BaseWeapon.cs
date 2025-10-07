@@ -288,6 +288,18 @@ public partial class BaseWeapon : Component
 			Transform = Owner.Controller.WorldTransform
 		} );
 
+		if (BaseGameManager.DisableGunHands)
+		{
+			foreach(var child in go.Children)
+			{
+				if ( child.Name != "viewmodel" )
+					continue;
+
+				child.Enabled = false;
+				break;
+			}
+		}
+
 		go.NetworkSpawn();
 	}
 

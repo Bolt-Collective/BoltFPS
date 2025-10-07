@@ -68,6 +68,8 @@ public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Comp
 
 	public virtual IPlayerInfo Info { get; set; } = new BasePlayerInfo();
 
+	public static bool DisableGunHands;
+
 
 	/// <summary>
 	/// Retrieves information about the current player.
