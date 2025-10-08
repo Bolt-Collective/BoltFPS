@@ -62,20 +62,35 @@
         "__type": "Seekers.ViewModel",
         "__guid": "7a43d9c7-418c-4aad-904a-d0b9b4813c24",
         "__enabled": true,
-        "AimPosCurve": {
-          "rangex": "0,0",
-          "rangey": "0,0"
-        },
-        "AimRotCurve": {
-          "rangex": "0,0",
-          "rangey": "0,0"
-        },
+        "AimPosCurve": [
+          {
+            "x": 0.5,
+            "y": 0.5,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          }
+        ],
+        "AimRotCurve": [
+          {
+            "x": 0.5,
+            "y": 0.5,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          }
+        ],
         "AimTime": 2,
         "AnimParamTranslate": {},
         "AttachmentTranslate": {},
         "BobCycleTime": 7,
         "BobDirection": "0,1,0.5",
+        "BulletGroupName": "Ammo",
+        "BulletGroups": false,
         "Distance": 0,
+        "Distance120": 0,
+        "Distance60": 0,
+        "EjectEffect": null,
         "InertiaDamping": 20,
         "IronSightBack": null,
         "IronSightPoint": null,
@@ -98,8 +113,11 @@
         "JumpDownTime": 0.25,
         "JumpOffset": "0,0,-1",
         "JumpTime": 0.5,
+        "MaxBulletGroup": 4,
         "MaxOffsetLength": 10,
         "Offset": "-3,0,0",
+        "OffsetAt120": 0,
+        "OffsetAt60": 0,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -110,6 +128,8 @@
         "procedualAim": false,
         "ReturnSpeed": 5,
         "RotateAround": null,
+        "ScopeCost": 10,
+        "ScopePoint": null,
         "SprintHold": false,
         "SwayType": "Graph",
         "SwingInfluence": 0.05,
@@ -151,7 +171,7 @@
             "MaterialGroup": null,
             "MaterialOverride": null,
             "Materials": null,
-            "Model": "models/first_person/first_person_arms.vmdl",
+            "Model": "models/first_person/v_first_person_arms_human.vmdl",
             "Morphs": {},
             "OnComponentDestroy": null,
             "OnComponentDisabled": null,
@@ -212,6 +232,7 @@
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
   "__references": [
+    "facepunch.v_first_person_arms_human#122024",
     "facepunch.v_spaghellim4#90536"
   ],
   "__version": 2
