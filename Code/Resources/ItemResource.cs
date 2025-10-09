@@ -16,7 +16,7 @@ public class ItemResource : GameResource
 
 	[KeyProperty, TextArea] public string Description { get; set; } = "An item.";
 
-	public string Details { get; set; }
+	[ResourceType( "prefab" )] public string Details { get; set; }
 
 	public string GetDetails()
 	{
@@ -33,11 +33,10 @@ public class ItemResource : GameResource
 		if ( !ResourceLibrary.TryGet<ItemResource>( itemResourcePath, out var itemResource ) )
 			return;
 
-		itemResource.GiveWeapon(reserve);
+		itemResource.GiveWeapon( reserve );
 	}
 
-
-	public void GiveWeapon( int reserve = -1)
+	public void GiveWeapon( int reserve = -1 )
 	{
 		Log.Info( "swah" );
 		if ( reserve == -1 )
@@ -66,7 +65,7 @@ public class ItemResource : GameResource
 				return;
 
 			weapon.Ammo = baseWeapon.Ammo;
-			pawn.Inventory.GiveReserve(weapon.AmmoType, reserve);
+			pawn.Inventory.GiveReserve( weapon.AmmoType, reserve );
 
 			return;
 		}

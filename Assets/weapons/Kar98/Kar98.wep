@@ -2,6 +2,7 @@
   "DisplayName": "Kar98k",
   "Catagory": "BoltZ Guns",
   "Duplicates": true,
+  "Reserve": 256,
   "ReplenishAmmo": false,
   "Icon": "icons/3d/shotgun.png",
   "Description": "",
