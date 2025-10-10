@@ -31,7 +31,7 @@ partial class BasicMelee : BaseWeapon
 		}
 	}
 
-	private bool MeleeAttack()
+	public bool MeleeAttack()
 	{
 		var ray = Owner.AimRay;
 
@@ -60,13 +60,13 @@ partial class BasicMelee : BaseWeapon
 		return hit;
 	}
 
-	private void OnMeleeMiss()
+	public void OnMeleeMiss()
 	{
 		ViewModel?.Renderer?.Set( "b_attack_has_hit", false );
 		ViewModel?.Renderer?.Set( "b_attack", true );
 	}
 
-	private void OnMeleeHit()
+	public void OnMeleeHit()
 	{
 		ViewModel?.Renderer?.Set( "b_attack_has_hit", true );
 		ViewModel?.Renderer?.Set( "b_attack", true );

@@ -1,0 +1,12 @@
+{
+  "DisplayName": "1911",
+  "Catagory": "BoltZ Guns",
+  "Duplicates": true,
+  "Reserve": 256,
+  "ReplenishAmmo": false,
+  "Icon": "icons/3d/magnum.png",
+  "Description": "",
+  "Details": "weapons/quickknife/w_quickknife.prefab",
+  "__references": [],
+  "__version": 0
+}

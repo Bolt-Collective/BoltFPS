@@ -159,6 +159,7 @@ public class PlayerInventory : Component, IPlayerEvent
 
 	public void SetActiveSlot( int i )
 	{
+		Log.Info( CanChange );
 		if ( !CanChange )
 			return;
 
@@ -239,38 +240,26 @@ public class PlayerInventory : Component, IPlayerEvent
 			weapon.DestroyGameObject();
 	}
 
-	public void GiveTemporaryWeapon(ItemResource weapon, float duration = 5f)
+	[Rpc.Owner]
+	public void ForceGive(ItemResource itemResource)
 	{
-		GiveTemporaryWeapon( weapon.ResourcePath, duration );
-	}
-
-	public async void GiveTemporaryWeapon( string prefabName, float duration = 5f )
-	{
-		var prevSlot = GetActiveSlot();
-
-		var prefabObject = GameObject.GetPrefab( prefabName );
-		if ( !prefabObject.IsValid() )
+		if ( !Owner.Renderer.IsValid() )
 			return;
+
+		Owner.Renderer.GameObject.Enabled = true;
+
+		var prefabObject = GameObject.GetPrefab( itemResource.GetDetails() );
 
 		var prefab = prefabObject.Clone( global::Transform.Zero, Owner.Renderer.GameObject, false );
 		prefab.NetworkSpawn( false, Network.Owner );
 
-		if ( !prefab.Components.TryGet<BaseWeapon>( out var weapon ) )
-			return;
+		var weapon = prefab.Components.Get<BaseWeapon>( true );
+		Assert.NotNull( weapon );
 
 		Weapons.Add( weapon );
+
 		SetActiveSlot( Weapons.Count - 1 );
 
 		IPlayerEvent.PostToGameObject( Owner.GameObject, e => e.OnWeaponAdded( weapon ) );
-
-		await Task.DelaySeconds( duration );
-
-		if ( weapon.IsValid() )
-		{
-			if ( ActiveWeapon == weapon )
-				SetActiveSlot( prevSlot );
-
-			RemoveWeapon( weapon );
-		}
 	}
 }

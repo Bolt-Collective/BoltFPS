@@ -87,7 +87,7 @@
 						enable_scale = false
 						source_filename = "models/knife/animations/knife_arms_swing_1.fbx"
 						start_frame = -1
-						end_frame = -1
+						end_frame = 21
 						framerate = -1.0
 						take = 0
 						reverse = false
@@ -133,10 +133,24 @@
 					},
 				]
 			},
+			{
+				_class = "BoneMarkupList"
+				children = 
+				[
+					{
+						_class = "BoneMarkup"
+						target_bone = "ik_hand_gun"
+						ignore_Translation = false
+						ignore_rotation = false
+						do_not_discard = false
+					},
+				]
+				bone_cull_type = "Aggressive"
+			},
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
-		anim_graph_name = ""
+		anim_graph_name = "models/Knife/quickknife.vanmgrph"
 		base_model_name = ""
 	}
 }
