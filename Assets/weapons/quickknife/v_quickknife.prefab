@@ -118,10 +118,7 @@
         "Distance": 13.7,
         "Distance120": 0,
         "Distance60": 0,
-        "EjectEffect": {
-          "_type": "gameobject",
-          "go": "fbd065b5-0c03-4501-81f2-07aa168350eb"
-        },
+        "EjectEffect": null,
         "InertiaDamping": 20,
         "IronSightBack": null,
         "IronSightPoint": {
@@ -188,11 +185,11 @@
       {
         "__guid": "1fcc71ef-7a7f-411d-932c-dc63c2673eab",
         "__version": 1,
-        "Flags": 1028,
+        "Flags": 4,
         "Name": "upperarm_l",
-        "Position": "2.659871,7.081014,58.45227",
-        "Rotation": "-0.1587103,0.2066212,0.4101779,0.8739982",
-        "Scale": "0,0,0",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
         "Tags": "",
         "Enabled": true,
         "NetworkMode": 2,
@@ -514,6 +511,206 @@
                         ]
                       }
                     ]
+                  },
+                  {
+                    "__guid": "f7ed820a-1044-4aee-b91b-7e54d4f9706f",
+                    "__version": 1,
+                    "Flags": 0,
+                    "Name": "gun",
+                    "Position": "4.248589,1.96441,-0.0000038445",
+                    "Rotation": "-0.06875587,-0.06875587,0.7037561,0.7037561",
+                    "Scale": "0.6251349,0.6251349,0.6251349",
+                    "Tags": "",
+                    "Enabled": true,
+                    "NetworkMode": 2,
+                    "NetworkInterpolation": true,
+                    "NetworkOrphaned": 0,
+                    "OwnerTransfer": 1,
+                    "Components": [
+                      {
+                        "__type": "Sandbox.SkinnedModelRenderer",
+                        "__guid": "a2955561-eeb3-44d0-905b-b9ae3f923ec2",
+                        "__enabled": true,
+                        "AnimationGraph": null,
+                        "BodyGroups": 18446744073709551615,
+                        "BoneMergeTarget": null,
+                        "CreateAttachments": false,
+                        "CreateBoneObjects": true,
+                        "LodOverride": null,
+                        "MaterialGroup": null,
+                        "MaterialOverride": null,
+                        "Materials": null,
+                        "Model": "models/knife/knife.vmdl",
+                        "Morphs": {},
+                        "OnComponentDestroy": null,
+                        "OnComponentDisabled": null,
+                        "OnComponentEnabled": null,
+                        "OnComponentFixedUpdate": null,
+                        "OnComponentStart": null,
+                        "OnComponentUpdate": null,
+                        "Parameters": {
+                          "bools": {},
+                          "ints": {},
+                          "floats": {},
+                          "vectors": {},
+                          "rotations": {}
+                        },
+                        "PlaybackRate": 1,
+                        "RenderOptions": {
+                          "GameLayer": false,
+                          "OverlayLayer": true,
+                          "BloomLayer": false,
+                          "AfterUILayer": false
+                        },
+                        "RenderType": "Off",
+                        "Sequence": {
+                          "Name": null,
+                          "Looping": true,
+                          "Blending": false
+                        },
+                        "Tint": "1,1,1,1",
+                        "UseAnimGraph": true
+                      }
+                    ],
+                    "Children": [
+                      {
+                        "__guid": "921a92b5-601b-4894-93ee-e1b31aa7f363",
+                        "__version": 1,
+                        "Flags": 0,
+                        "Name": "body",
+                        "Position": "6.308287,3.044648,-0.555824",
+                        "Rotation": "-0.0000001246629,0.707107,-0.7071065,-0.00000009305283",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": [
+                          {
+                            "__guid": "558744c1-7833-4e3a-9dce-2f7e29a11382",
+                            "__version": 1,
+                            "Flags": 0,
+                            "Name": "Muzzle",
+                            "Position": "-6.800001,-0.55,0",
+                            "Rotation": "0.0000001534354,-0.7071071,0.7071065,-0.00000007971721",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          },
+                          {
+                            "__guid": "ac708daf-b676-4ead-90b3-155eb65a37d4",
+                            "__version": 1,
+                            "Flags": 0,
+                            "Name": "Eject",
+                            "Position": "-1.705606,-0.9950192,0.5382079",
+                            "Rotation": "-0.0000002270538,-0.3826847,0.9238816,0.00000009458416",
+                            "Scale": "1,1,1",
+                            "Tags": "",
+                            "Enabled": true,
+                            "NetworkMode": 2,
+                            "NetworkInterpolation": true,
+                            "NetworkOrphaned": 0,
+                            "OwnerTransfer": 1,
+                            "Components": [],
+                            "Children": []
+                          }
+                        ]
+                      },
+                      {
+                        "__guid": "43b49afd-b619-49c2-b82f-46f7cdd771d1",
+                        "__version": 1,
+                        "Flags": 0,
+                        "Name": "mag",
+                        "Position": "4.898046,3.044648,-4.689491",
+                        "Rotation": "0.5611721,0.5611722,0.4302161,0.430216",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": []
+                      },
+                      {
+                        "__guid": "46adc760-2539-414d-9748-6989eb397f74",
+                        "__version": 1,
+                        "Flags": 0,
+                        "Name": "trigger",
+                        "Position": "8.091833,3.044642,-2.298502",
+                        "Rotation": "0.4787948,0.4787948,0.5203416,0.5203418",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": []
+                      },
+                      {
+                        "__guid": "23660b48-3803-4376-866c-b787a2f25263",
+                        "__version": 1,
+                        "Flags": 0,
+                        "Name": "slide",
+                        "Position": "6.898435,3.044646,0.2040841",
+                        "Rotation": "0.4999999,0.4999996,-0.5000002,0.5000003",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": []
+                      },
+                      {
+                        "__guid": "666f6032-9dd2-4dad-a927-e10bbbdebede",
+                        "__version": 1,
+                        "Flags": 0,
+                        "Name": "hammer",
+                        "Position": "4.743053,3.04266,-0.9550577",
+                        "Rotation": "0.7029296,-0.07674659,0.07674588,0.7029296",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": []
+                      },
+                      {
+                        "__guid": "5c66182f-736f-4007-a3f4-9cbcc010f64a",
+                        "__version": 1,
+                        "Flags": 0,
+                        "Name": "Object",
+                        "Position": "12.85433,3.041173,0.6307469",
+                        "Rotation": "0,0,0,1",
+                        "Scale": "1,1,1",
+                        "Tags": "",
+                        "Enabled": true,
+                        "NetworkMode": 2,
+                        "NetworkInterpolation": true,
+                        "NetworkOrphaned": 0,
+                        "OwnerTransfer": 1,
+                        "Components": [],
+                        "Children": []
+                      }
+                    ]
                   }
                 ]
               }
@@ -541,11 +738,11 @@
       {
         "__guid": "108cb63a-c2c1-43b6-9115-46d0763aa4d7",
         "__version": 1,
-        "Flags": 4,
+        "Flags": 1028,
         "Name": "upperarm_r",
-        "Position": "0,0,0",
-        "Rotation": "0,0,0,1",
-        "Scale": "1,1,1",
+        "Position": "2.910636,-6.966679,58.4523",
+        "Rotation": "0.3835031,0.8883024,0.1810256,-0.1762776",
+        "Scale": "0,0,0",
         "Tags": "",
         "Enabled": true,
         "NetworkMode": 2,
@@ -906,264 +1103,7 @@
         "NetworkOrphaned": 0,
         "OwnerTransfer": 1,
         "Components": [],
-        "Children": [
-          {
-            "__guid": "f7ed820a-1044-4aee-b91b-7e54d4f9706f",
-            "__version": 1,
-            "Flags": 0,
-            "Name": "gun",
-            "Position": "-1.30021,1.656811,0.2257172",
-            "Rotation": "-1,0.00000000000000000000007764702,-0.000000000000001776357,-0.00000004371139",
-            "Scale": "0.6251349,0.6251349,0.6251349",
-            "Tags": "",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkInterpolation": true,
-            "NetworkOrphaned": 0,
-            "OwnerTransfer": 1,
-            "Components": [
-              {
-                "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "a2955561-eeb3-44d0-905b-b9ae3f923ec2",
-                "__enabled": true,
-                "AnimationGraph": null,
-                "BodyGroups": 18446744073709551615,
-                "BoneMergeTarget": null,
-                "CreateAttachments": false,
-                "CreateBoneObjects": true,
-                "LodOverride": null,
-                "MaterialGroup": null,
-                "MaterialOverride": null,
-                "Materials": null,
-                "Model": "models/knife/knife.vmdl",
-                "Morphs": {},
-                "OnComponentDestroy": null,
-                "OnComponentDisabled": null,
-                "OnComponentEnabled": null,
-                "OnComponentFixedUpdate": null,
-                "OnComponentStart": null,
-                "OnComponentUpdate": null,
-                "Parameters": {
-                  "bools": {},
-                  "ints": {},
-                  "floats": {},
-                  "vectors": {},
-                  "rotations": {}
-                },
-                "PlaybackRate": 1,
-                "RenderOptions": {
-                  "GameLayer": false,
-                  "OverlayLayer": true,
-                  "BloomLayer": false,
-                  "AfterUILayer": false
-                },
-                "RenderType": "Off",
-                "Sequence": {
-                  "Name": null,
-                  "Looping": true,
-                  "Blending": false
-                },
-                "Tint": "1,1,1,1",
-                "UseAnimGraph": true
-              }
-            ],
-            "Children": [
-              {
-                "__guid": "921a92b5-601b-4894-93ee-e1b31aa7f363",
-                "__version": 1,
-                "Flags": 0,
-                "Name": "body",
-                "Position": "6.308287,3.044648,-0.555824",
-                "Rotation": "-0.0000001246629,0.707107,-0.7071065,-0.00000009305283",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": [
-                  {
-                    "__guid": "558744c1-7833-4e3a-9dce-2f7e29a11382",
-                    "__version": 1,
-                    "Flags": 0,
-                    "Name": "Muzzle",
-                    "Position": "-6.800001,-0.55,0",
-                    "Rotation": "0.0000001534354,-0.7071071,0.7071065,-0.00000007971721",
-                    "Scale": "1,1,1",
-                    "Tags": "",
-                    "Enabled": true,
-                    "NetworkMode": 2,
-                    "NetworkInterpolation": true,
-                    "NetworkOrphaned": 0,
-                    "OwnerTransfer": 1,
-                    "Components": [],
-                    "Children": []
-                  },
-                  {
-                    "__guid": "ac708daf-b676-4ead-90b3-155eb65a37d4",
-                    "__version": 1,
-                    "Flags": 0,
-                    "Name": "Eject",
-                    "Position": "-1.705606,-0.9950192,0.5382079",
-                    "Rotation": "-0.0000002270538,-0.3826847,0.9238816,0.00000009458416",
-                    "Scale": "1,1,1",
-                    "Tags": "",
-                    "Enabled": true,
-                    "NetworkMode": 2,
-                    "NetworkInterpolation": true,
-                    "NetworkOrphaned": 0,
-                    "OwnerTransfer": 1,
-                    "Components": [],
-                    "Children": []
-                  }
-                ]
-              },
-              {
-                "__guid": "43b49afd-b619-49c2-b82f-46f7cdd771d1",
-                "__version": 1,
-                "Flags": 0,
-                "Name": "mag",
-                "Position": "4.898046,3.044648,-4.689491",
-                "Rotation": "0.5611721,0.5611722,0.4302161,0.430216",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": []
-              },
-              {
-                "__guid": "46adc760-2539-414d-9748-6989eb397f74",
-                "__version": 1,
-                "Flags": 0,
-                "Name": "trigger",
-                "Position": "8.091833,3.044642,-2.298502",
-                "Rotation": "0.4787948,0.4787948,0.5203416,0.5203418",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": []
-              },
-              {
-                "__guid": "23660b48-3803-4376-866c-b787a2f25263",
-                "__version": 1,
-                "Flags": 0,
-                "Name": "slide",
-                "Position": "6.898435,3.044646,0.2040841",
-                "Rotation": "0.4999999,0.4999996,-0.5000002,0.5000003",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": []
-              },
-              {
-                "__guid": "666f6032-9dd2-4dad-a927-e10bbbdebede",
-                "__version": 1,
-                "Flags": 0,
-                "Name": "hammer",
-                "Position": "4.743053,3.04266,-0.9550577",
-                "Rotation": "0.7029296,-0.07674659,0.07674588,0.7029296",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": []
-              },
-              {
-                "__guid": "5c66182f-736f-4007-a3f4-9cbcc010f64a",
-                "__version": 1,
-                "Flags": 0,
-                "Name": "Object",
-                "Position": "12.85433,3.041173,0.6307469",
-                "Rotation": "0,0,0,1",
-                "Scale": "1,1,1",
-                "Tags": "",
-                "Enabled": true,
-                "NetworkMode": 2,
-                "NetworkInterpolation": true,
-                "NetworkOrphaned": 0,
-                "OwnerTransfer": 1,
-                "Components": [],
-                "Children": []
-              }
-            ]
-          },
-          {
-            "__guid": "fbd065b5-0c03-4501-81f2-07aa168350eb",
-            "__version": 1,
-            "__Prefab": "prefabs/eject.prefab",
-            "__PrefabInstancePatch": {
-              "AddedObjects": [],
-              "RemovedObjects": [],
-              "PropertyOverrides": [
-                {
-                  "Target": {
-                    "Type": "GameObject",
-                    "IdValue": "f7a38793-ba2c-4000-9544-c97ed49e57ac"
-                  },
-                  "Property": "Name",
-                  "Value": "Eject"
-                },
-                {
-                  "Target": {
-                    "Type": "GameObject",
-                    "IdValue": "f7a38793-ba2c-4000-9544-c97ed49e57ac"
-                  },
-                  "Property": "Position",
-                  "Value": "2.701277,-6.495135,0.3735944"
-                },
-                {
-                  "Target": {
-                    "Type": "GameObject",
-                    "IdValue": "f7a38793-ba2c-4000-9544-c97ed49e57ac"
-                  },
-                  "Property": "Rotation",
-                  "Value": "0.3826835,0.00000001672763,0.9238795,-0.00000004038406"
-                },
-                {
-                  "Target": {
-                    "Type": "Component",
-                    "IdValue": "09d6e509-ec56-4599-84d7-526b00ab81af"
-                  },
-                  "Property": "Choices",
-                  "Value": [
-                    {
-                      "Model": "models/ammunation/45_casing.vmdl",
-                      "MaterialGroup": null,
-                      "BodyGroups": 18446744073709551615
-                    }
-                  ]
-                }
-              ],
-              "MovedObjects": []
-            },
-            "__PrefabIdToInstanceId": {
-              "f7a38793-ba2c-4000-9544-c97ed49e57ac": "fbd065b5-0c03-4501-81f2-07aa168350eb",
-              "36d2e6d1-2bee-4fbf-a3c6-f78a40a1f569": "77fe26ef-49b2-4544-ab75-26a24497cd85",
-              "09d6e509-ec56-4599-84d7-526b00ab81af": "8e6b50e5-0b83-4fac-8b47-bc5b25da78ae",
-              "b0207031-e5a5-4db7-b78d-2a768a3d153a": "c9b5a2f7-ea0d-48b6-b21a-955e87f77b1c"
-            }
-          }
-        ]
+        "Children": []
       },
       {
         "__guid": "fed94392-d529-4488-a6be-1c783a42b8b3",

@@ -19,6 +19,9 @@ partial class QuickMelee : BasicMelee
 		if ( IsProxy )
 			return;
 
+		SoundExtensions.BroadcastSound( ShootSound, WorldPosition, ShootSound.Volume.FixedValue,
+			spacialBlend: Owner.IsValid() && Owner.IsMe ? 0 : 1 );
+
 		Owner.Inventory.CanChange = false;
 
 		await Task.DelaySeconds( HitDelay );

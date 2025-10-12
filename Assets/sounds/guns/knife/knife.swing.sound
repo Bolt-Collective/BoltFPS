@@ -5,7 +5,7 @@
   "Decibels": 80,
   "SelectionMode": "Random",
   "Sounds": [
-    "sounds/guns/knife/knife.swing.vsnd"
+    "sounds/guns/knife.swing.vsnd"
   ],
   "Occlusion": false,
   "AirAbsorption": true,
@@ -43,6 +43,10 @@
       "mode": "Mirrored"
     }
   ],
+  "DefaultMixer": {
+    "Name": "unknown",
+    "Id": "00000000-0000-0000-0000-000000000000"
+  },
   "__references": [],
   "__version": 1
 }

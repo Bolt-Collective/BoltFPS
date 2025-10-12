@@ -268,7 +268,7 @@
 					}
 					m_sNote = ""
 					m_tagSpans = [  ]
-					m_sequenceName = "Swing2"
+					m_sequenceName = "QuickSwing2"
 					m_playbackSpeed = 1.0
 					m_bLoop = false
 				}
@@ -282,14 +282,14 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -464.0, -48.0 ]
+					m_vecPosition = [ -480.0, -48.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1983925388
 					}
 					m_sNote = ""
 					m_tagSpans = [  ]
-					m_sequenceName = "Swing1"
+					m_sequenceName = "QuickSwing1"
 					m_playbackSpeed = 1.0
 					m_bLoop = false
 				}

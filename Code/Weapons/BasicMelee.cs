@@ -12,7 +12,7 @@ partial class BasicMelee : BaseWeapon
 	}
 
 	[Rpc.Broadcast]
-	private void BroadcastAttack()
+	public void BroadcastAttack()
 	{
 		Owner?.Renderer?.Set( "b_attack", true );
 	}

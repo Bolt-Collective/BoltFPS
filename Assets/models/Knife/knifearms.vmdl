@@ -71,7 +71,7 @@
 					},
 					{
 						_class = "AnimFile"
-						name = "Swing1"
+						name = "QuickSwing1"
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
@@ -85,8 +85,8 @@
 						disable_compression = false
 						disable_interpolation = false
 						enable_scale = false
-						source_filename = "models/knife/animations/knife_arms_swing_1.fbx"
-						start_frame = -1
+						source_filename = "models/knife/animations/quickswing1.fbx"
+						start_frame = 3
 						end_frame = 21
 						framerate = -1.0
 						take = 0
@@ -94,7 +94,7 @@
 					},
 					{
 						_class = "AnimFile"
-						name = "Swing2"
+						name = "QuickSwing2"
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
@@ -108,7 +108,7 @@
 						disable_compression = false
 						disable_interpolation = false
 						enable_scale = false
-						source_filename = "models/knife/animations/knife_arms_swing_2.fbx"
+						source_filename = "models/knife/animations/quickswing2.fbx"
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
