@@ -6,7 +6,6 @@
   "Friction": 0.8,
   "Elasticity": 0.05,
   "Density": 2000,
-  "Thickness": -1,
   "RollingResistance": 0,
   "BounceThreshold": 35,
   "Dampening": 0,
