@@ -18,13 +18,17 @@
         "__type": "Seekers.Pistol",
         "__guid": "abb9f231-0776-4973-95c6-0a95fcf36de3",
         "__enabled": true,
-        "ADS": false,
+        "ADS": true,
+        "ADSSpreadMult": 0.5,
+        "AltShootSound": null,
         "Ammo": 15,
+        "AmmoType": "9mm",
         "BoneOffset": {
           "Position": "2.7735,0,-4.794",
           "Scale": "1,1,1",
           "Rotation": "0,0,0,1"
         },
+        "CanShootWhileSprinting": false,
         "Chamber": true,
         "CrosshairType": "Default",
         "Damage": 22.5,
@@ -59,13 +63,16 @@
         "RecoilPattern": {
           "Points": [
             "0,0.68"
-          ]
+          ],
+          "RecoilMult": 1
         },
+        "ReloadEmpty": false,
+        "ReloadEmptyTime": 0,
         "ReloadShortSound": "sounds/weapons/reloads/uspreloadc.sound",
         "ReloadSound": "sounds/weapons/reloads/uspreload.sound",
         "ReloadTime": 1.5,
-        "RemoveClothingCategories": null,
-        "RemoveGroups": null,
+        "RemoveClothingCategories": [],
+        "RemoveGroups": [],
         "SecondaryRate": 1,
         "ShootSound": "sounds/guns/m1911/pistol_shoot.sound",
         "ShowAmmo": true,

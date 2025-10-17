@@ -101,7 +101,12 @@
         },
         "AimTime": 0.2,
         "AnimParamTranslate": {},
-        "AttachmentTranslate": {},
+        "AttachmentTranslate": {
+          "muzzle": {
+            "_type": "gameobject",
+            "go": "24f30d17-7edc-4597-98ad-ec35194be6b3"
+          }
+        },
         "BobCycleTime": 7,
         "BobDirection": "0,0,0",
         "BulletGroupName": "Ammo",
@@ -1059,6 +1064,23 @@
             "UseAnimGraph": true
           }
         ],
+        "Children": []
+      },
+      {
+        "__guid": "24f30d17-7edc-4597-98ad-ec35194be6b3",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Muzzle",
+        "Position": "36.45703,-5.507135,60.91084",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
         "Children": []
       }
     ],

@@ -62,14 +62,24 @@
         "__type": "Seekers.ViewModel",
         "__guid": "1a378c00-e605-44bf-8713-51d7724f8d63",
         "__enabled": true,
-        "AimPosCurve": {
-          "rangex": "0,0",
-          "rangey": "0,0"
-        },
-        "AimRotCurve": {
-          "rangex": "0,0",
-          "rangey": "0,0"
-        },
+        "AimPosCurve": [
+          {
+            "x": 0.5,
+            "y": 0.5,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          }
+        ],
+        "AimRotCurve": [
+          {
+            "x": 0.5,
+            "y": 0.5,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          }
+        ],
         "AimTime": 2,
         "AnimParamTranslate": {},
         "AttachmentTranslate": {},
@@ -193,6 +203,23 @@
             "UseAnimGraph": true
           }
         ],
+        "Children": []
+      },
+      {
+        "__guid": "eb1da9be-47e0-48a1-8570-232f30209295",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Muzzle",
+        "Position": "20.34911,0,7.388841",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [],
         "Children": []
       }
     ],
