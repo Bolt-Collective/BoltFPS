@@ -863,6 +863,8 @@ public partial class BaseWeapon : Component
 
 			surface.DoBulletImpact( tr, !hitSurfaces.Contains( surface ) || shots < 3 );
 			DoTracer( tr.StartPosition, tr.EndPosition, tr.Distance, true );
+			
+			Owner?.Inventory.OnShootGameObject.Invoke( tr.GameObject );
 
 			hitSurfaces.Add( surface );
 

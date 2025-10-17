@@ -11,7 +11,7 @@ public class PlayerInventory : Component, IPlayerEvent
 
 	[Property] public Dictionary<string, int> Ammo { get; set; } = new();
 
-	public Action<GameObject, float> OnShootGameObject;
+	public Action<GameObject> OnShootGameObject;
 
 	public bool CanChange = true;
 
