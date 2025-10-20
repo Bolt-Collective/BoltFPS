@@ -172,8 +172,18 @@ public partial class BaseGameManager : SingletonComponent<BaseGameManager>, Comp
 		if ( !Networking.IsActive )
 			return;
 	}
+	public IEnumerable<Client> AllClients;
+	public IEnumerable<Pawn> AllPawns;
 
 	protected override void OnFixedUpdate()
+	{
+		AllClients = Game.ActiveScene.GetAll<Client>();
+		AllPawns = Game.ActiveScene.GetAll<Pawn>();
+
+		HandleRespawn();
+	}
+
+	public virtual void HandleRespawn()
 	{
 		foreach ( var client in Scene.Components.GetAll<Client>( FindMode.EnabledInSelfAndChildren ) )
 		{
