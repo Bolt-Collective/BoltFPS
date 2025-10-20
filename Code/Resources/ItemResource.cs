@@ -24,7 +24,7 @@ public class ItemResource : GameResource
 	}
 
 	[Rpc.Broadcast]
-	public static void GiveWeapon(string connection, string itemResourcePath, int reserve = -1)
+	public static void GiveWeapon(string connection, string itemResourcePath, int reserve = -1, bool duplicateOverride = true)
 	{
 		Log.Info( connection );
 		if ( Connection.Local.Id.ToString() != connection )
@@ -33,10 +33,10 @@ public class ItemResource : GameResource
 		if ( !ResourceLibrary.TryGet<ItemResource>( itemResourcePath, out var itemResource ) )
 			return;
 
-		itemResource.GiveWeapon( reserve );
+		itemResource.GiveWeapon( reserve, duplicateOverride );
 	}
 
-	public void GiveWeapon( int reserve = -1 )
+	public void GiveWeapon( int reserve = -1, bool duplicateOverride = true )
 	{
 		Log.Info( "swah" );
 		if ( reserve == -1 )
@@ -53,7 +53,7 @@ public class ItemResource : GameResource
 
 		foreach ( var weapon in pawn.Inventory.Weapons )
 		{
-			if ( Duplicates )
+			if ( Duplicates && duplicateOverride )
 				break;
 
 			if ( weapon.ItemResource != this )
