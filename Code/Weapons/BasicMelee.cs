@@ -52,7 +52,7 @@ partial class BasicMelee : BaseWeapon
 
 			var damage = Damage;
 
-			var calcForce = forward * 250000 * damage;
+			var calcForce = forward * 25000 * damage;
 
 			DoDamage( tr.GameObject, damage, calcForce, tr.HitPosition, hitboxTags, Owner, this );
 		}

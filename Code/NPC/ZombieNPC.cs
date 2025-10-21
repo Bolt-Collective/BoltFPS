@@ -6,11 +6,8 @@ using Sandbox.VR;
 using static Sandbox.UI.PanelTransform;
 
 namespace Seekers;
-public class ZombieNPC : NPC
+public class ZombieNPC : AnimAttackBox
 {
-
-	[Group( "References" )]
-	[Property] public SkinnedModelRenderer Body { get; set; }
 
 	[Group( "References" )]
 	[Property] public Dismemberment Dismemberment { get; set; }
@@ -23,18 +20,6 @@ public class ZombieNPC : NPC
 
 	[Group( "References" )]
 	[Property] public GameObject RightShoulder { get; set; }
-
-	[Group( "Movement" )]
-	[Property] public float WalkSpeed { get; set; } = 23.3f;
-
-	[Group( "Movement" )]
-	[Property] public float RunSpeed { get; set; } = 70f;
-
-	[Group( "Movement" )]
-	[Property] public float CrawlSpeed { get; set; } = 30f;
-
-	[Group( "Movement" )]
-	[Property] public float Crawl1Speed { get; set; } = 30f;
 
 	[Group( "Movement" )]
 	[Property] public RangedFloat WonderTime { get; set; } = new RangedFloat( 10, 30 );
@@ -64,9 +49,6 @@ public class ZombieNPC : NPC
 
 	[Group( "Combat" )]
 	[Property] public float CrawlAttackAttemptDistance { get; set; } = 60f;
-
-	[Group( "Combat" )]
-	[Property] public float MaxAttackAngle { get; set; } = 75f;
 	[Group( "Combat" )]
 	[Property] public float AttackAttemptDistance { get; set; } = 60f;
 
@@ -84,9 +66,6 @@ public class ZombieNPC : NPC
 
 	[Group( "Combat" )]
 	[Property] public List<int> RightCrawlAttacks { get; set; }
-
-	[Group( "Combat" )]
-	[Property] public float Damage { get; set; } = 25;
 
 	[Group( "Targeting" )]
 	[Property] public float TargetAccuracy { get; set; } = 0.12f;
@@ -114,28 +93,16 @@ public class ZombieNPC : NPC
 
 	float stamina = 0;
 	bool regen = true;
-	bool cannotAttack = false;
 	float accRandom;
 	float type;
 	float regenTime;
 	float decayTime;
-	bool hit;
 	bool move;
 	bool run;
 
 	[Sync]
-	float attackDistance { get; set; }
-
-	[Sync]
-	float attackHeight { get; set; }
-
-	[Sync]
-	float attackOffset { get; set; }
-
-	[Sync]
 	float attackAttemptDistance { get; set; }
 
-	TimeUntil attackDuration;
 	TimeUntil nextIdleSound;
 	RealTimeSince attackTime;
 	RealTimeSince sinceCantAttack;
@@ -150,7 +117,6 @@ public class ZombieNPC : NPC
 	protected override void OnStart()
 	{
 		type = Game.Random.Next( 0, 101 ) / 100f;
-		Body.OnGenericEvent += Event;
 		accRandom = Game.Random.Next( 0, 1000 );
 		regenTime = StaminaRegenTime.GetValue();
 		decayTime = StaminaDecayTime.GetValue();
@@ -164,22 +130,6 @@ public class ZombieNPC : NPC
 		rightLegDis.invinsible = true;
 
 		base.OnStart();
-	}
-
-	public void Event(SceneModel.GenericEvent genericEvent)
-	{
-		if ( genericEvent.Type == "Attack" )
-			SetAttack(genericEvent.Float);
-
-		if ( genericEvent.Type == "FinishedAttack" )
-			cannotAttack = false;
-	}
-	
-	public void SetAttack(float duration)
-	{
-		alreadyHit = new List<GameObject>();
-		attackDuration = duration;
-		hit = false;
 	}
 
 	protected override void OnUpdate()
@@ -394,66 +344,6 @@ public class ZombieNPC : NPC
 		nextIdleSound = IdleSoundTime.GetValue();
 	}
 
-	protected override void OnFixedUpdate()
-	{
-		if ( attackDuration > 0 )
-			AttackBox();
-		else
-			hit = false;
-
-		base.OnFixedUpdate();
-	}
-
-
-	List<GameObject> alreadyHit = new();
-	public void AttackBox()
-	{
-
-		var pos = WorldPosition + WorldTransform.Forward * (attackDistance * 0.5f + attackOffset) + Vector3.Up * attackHeight / 2;
-
-		var size = new Vector3( attackDistance, attackDistance, attackHeight );
-
-		for (int i = 0; i < 5; i++ )
-		{
-			var rayBuilt = Scene.Trace.Ray( pos, pos )
-			.UseHitboxes()
-			.WithAnyTags( "solid", "player", "npc", "glass" )
-			.WithoutTags( "playercontroller", "debris", "movement" )
-			.IgnoreStatic()
-			.IgnoreGameObjectHierarchy( GameObject )
-			.Size( size );
-
-			foreach(var hit in alreadyHit)
-				rayBuilt = rayBuilt.IgnoreGameObjectHierarchy( hit.Root );
-
-			var ray = rayBuilt.Run();
-
-			if ( !ray.Hit )
-				break;
-
-			alreadyHit.Add( ray.GameObject );
-
-			var dir = (ray.HitPosition - WorldPosition).WithZ(0).Normal;
-
-			if ( MathF.Abs(Vector3.GetAngle( WorldTransform.Forward.WithZ( 0 ).Normal, dir )) > MaxAttackAngle )
-				return;
-
-			if ( !Team.IsEnemy( ray.GameObject ) )
-				continue;
-
-			if ( ray.GameObject.IsProxy )
-				continue;
-
-			if (Components.TryGet<FireEffect>(out var fireEffect))
-			{
-				FireEffect.ApplyFireTo(ray.GameObject, this, fireEffect.Duration, fireEffect.Damage );
-			}
-
-			hit = true;
-			BaseWeapon.DoDamage( ray.GameObject, Damage, WorldTransform.Forward * 100000, ray.EndPosition, ownerTeam: Team, attacker: this );
-		}
-	}
-
 	public void None()
 	{
 		Agent.MaxSpeed = 0;
@@ -573,16 +463,11 @@ public class ZombieNPC : NPC
 	{
 		Gizmo.Draw.Color = Color.Red;
 
-		var pos = Vector3.Forward * AttackDistance * 0.5f + Vector3.Up * AttackHeight / 2;
-		var size = new Vector3( AttackDistance, AttackDistance, AttackHeight );
-		Gizmo.Draw.LineBBox(BBox.FromPositionAndSize(pos, size));
+		DrawAttackBox( AttackDistance, AttackHeight );
 
 		Gizmo.Draw.Color = Color.Green;
 
-		pos = Vector3.Forward * (CrawlAttackDistance * 0.5f + CrawlAttackOffset) + Vector3.Up * CrawlAttackHeight / 2;
-		size = new Vector3( CrawlAttackDistance, CrawlAttackDistance, CrawlAttackHeight );
-
-		Gizmo.Draw.LineBBox( BBox.FromPositionAndSize( pos, size ) );
+		DrawAttackBox( CrawlAttackDistance, CrawlAttackHeight, CrawlAttackOffset );
 
 		Gizmo.Draw.Color = Color.Blue;
 		Gizmo.Draw.IgnoreDepth = true;
