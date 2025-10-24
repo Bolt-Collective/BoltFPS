@@ -18,7 +18,7 @@ WeaponWheel {
     align-items: center;
     justify-content: flex-end;
     width: 228px;
-    height: 77px;
+    height: 90px;
     border-radius: 8px;
     background-color: rgba(black, 0.5);
     backdrop-filter: blur(50px);
@@ -79,8 +79,7 @@ WeaponWheel {
     }
 
     &.active {
-      height: 77px;
-      width: 283px;
+      width: 300px;
     }
   }
 }
