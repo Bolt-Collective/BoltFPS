@@ -192,6 +192,7 @@ public class Footsteps : Component
 			DebugOverlay.Sphere( new Sphere( position, finalVolume ), duration: 10, overlay: true );
 			DebugOverlay.Text( position, $"{sound.ResourceName} p:{pitch:0.00}", size: 14, flags: TextFlag.LeftTop,
 				duration: 10, overlay: true );
+			Log.Info( $"{sound.ResourceName} p:{pitch:0.00} vol:{finalVolume:0.00}" );
 		}
 	}
 

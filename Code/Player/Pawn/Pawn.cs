@@ -171,10 +171,10 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 		Owner = client as Client;
 	}
 
-	[Property] public float StaminaDecay { get; set; } = 0.1f;
-	[Property] public float StaminaDecayBoost { get; set; } = 1f;
-	[Property] public float StaminaRegen { get; set; } = 0.05f;
-	[Property] public float StaminaDelay { get; set; } = 5f;
+	[Property, Group("Stamina")] public float StaminaDecay { get; set; } = 0.1f;
+	[Property, Group("Stamina")] public float StaminaDecayBoost { get; set; } = 1f;
+	[Property, Group("Stamina")] public float StaminaRegen { get; set; } = 0.05f;
+	[Property, Group("Stamina")] public float StaminaDelay { get; set; } = 5f;
 
 	RealTimeSince _staminaUsedTime;
 
