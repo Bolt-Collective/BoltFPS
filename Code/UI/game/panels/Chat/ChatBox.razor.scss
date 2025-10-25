@@ -35,10 +35,11 @@
 Chatbox {
   position: absolute;
   bottom: 300px;
-  left: 50px;
-  width: 379px;
+  left: 90px;
+  width: 400px;
   height: 400px;
   max-height: 400px;
+  z-index: 10;
   flex-direction: column;
   font-family: Work Sans;
 

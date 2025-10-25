@@ -8,15 +8,20 @@
 
 <root>
 	<h4>Spectating</h4>
-	<h5>@( SpectatedPawn?.Network?.Owner?.DisplayName )</h5>
-	<div class="hints">
-		<InputHint Size=@InputGlyphSize.Small @Action="Attack1" @CustomText="Forward"/>
-		<InputHint Size=@InputGlyphSize.Small @Action="Attack2" @CustomText="Backward"/>
-	</div>
-	<div class="hints">
-		<InputHint Size=@InputGlyphSize.Medium @Action="jump" @CustomText="Freecam"/>
-		<InputHint Size=@InputGlyphSize.Medium @Action="reload" @CustomText="Toggle Orbit"/>
-	</div>
+	
+	@if ( SpectatedPawn.IsValid() )
+	{
+		<h5>@( SpectatedPawn?.Network?.Owner?.DisplayName )</h5>
+		<div class="hints">
+			<InputHint Size=@InputGlyphSize.Small @Action="Attack1" @CustomText="Forward"/>
+			<InputHint Size=@InputGlyphSize.Small @Action="Attack2" @CustomText="Backward"/>
+		</div>
+		<div class="hints">
+			<InputHint Size=@InputGlyphSize.Medium @Action="jump" @CustomText="Freecam"/>
+			<InputHint Size=@InputGlyphSize.Medium @Action="reload" @CustomText="Toggle Orbit"/>
+		</div>
+	}
+
 </root>
 
 @code

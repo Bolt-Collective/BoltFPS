@@ -214,9 +214,9 @@ ServerSettings, MapSelector, ServerBrowser {
     flex-shrink: 0;
 
     .card-package {
+      border: 7px;
       max-width: 100%;
       min-width: 100%;
-      height: 402px;
       width: 100%;
       margin: 0;
       color: white;
@@ -225,8 +225,14 @@ ServerSettings, MapSelector, ServerBrowser {
       background-size: 200%;
       background-position: bottom left;
       box-shadow: 0 4px 15px rgba(black, 0.25);
-      border: 1px;
-      border-color: #444444;
+      
+      .supported {
+        border-color: #2dad13;
+      }
+      
+      .unsupported {
+        border-color: #cb0b0b;
+      }
 
       &:hover {
       }
@@ -257,7 +263,7 @@ ServerSettings, MapSelector, ServerBrowser {
         margin-top: 0;
         width: 100%;
         gap: 0;
-        padding: 5px;
+        padding: 15px;
 
         .title {
           font-family: Work Sans;
@@ -267,7 +273,7 @@ ServerSettings, MapSelector, ServerBrowser {
           flex-grow: 0;
           text-overflow: clip;
           font-weight: bolder;
-          font-size: 28px;
+          font-size: 32px;
         }
 
         .orgname {
@@ -276,7 +282,7 @@ ServerSettings, MapSelector, ServerBrowser {
           opacity: 0.3;
           justify-content: flex-start;
           align-items: flex-start;
-          font-size: 20px;
+          font-size: 16px;
         }
 
         &:hover {
@@ -307,6 +313,7 @@ ServerSettings, MapSelector, ServerBrowser {
     border: 1px;
     border-color: #3D3D3D;
     padding: 19px;
+    align-items: center;
     gap: 19px;
 
     &.switch {
@@ -433,11 +440,10 @@ ServerSettings, MapSelector, ServerBrowser {
       align-items: center;
       text-align: center;
       width: 100%;
-      color: white;
       font-size: 21px;
       gap: 5px;
       color: $color-2;
-      opacity: 0.75;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 
       .grey {
         color: white;
