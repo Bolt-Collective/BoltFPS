@@ -117,6 +117,11 @@ public sealed class SpectatorPawn : Pawn
 		var moveDirection = Vector3.Zero;
 		moveDirection += Input.AnalogMove * Speed * Time.Delta;
 
+		if ( Input.Down( "run" ) )
+		{
+			moveDirection *= 2;
+		}
+
 		WorldPosition += WorldRotation * moveDirection;
 	}
 
