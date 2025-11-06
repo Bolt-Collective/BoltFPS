@@ -350,7 +350,6 @@ public class ViewModel : Component
 		var rot = new Angles( pitchIntertia + yawIntertia );
 		LocalTransform = LocalTransform.RotateAround(rotateAroundPoint, rot);
 
-		var vel = 0f;
 		if ( !pawn.Controller.IsGrounded )
 			jumpOffsetSmooth += Time.Delta * 1 / JumpTime;
 		else
@@ -373,8 +372,6 @@ public class ViewModel : Component
 	{
 		if ( !procedualAim ) return;
 
-
-		var vel = 0f;
 		aimSmooth += (Aiming && !GetBool("b_sprint") && !pawn.Inventory.ActiveWeapon.IsReloading ? Time.Delta : -Time.Delta) * 1 / AimTime;
 		aimSmooth = aimSmooth.Clamp( 0, 1 );
 

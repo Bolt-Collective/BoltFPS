@@ -122,7 +122,7 @@ public partial class MapLoader : MapInstance
 
 		if ( mapPackage == null ) return;
 
-		var primaryAsset = mapPackage.GetMeta<string>( "PrimaryAsset" );
+		var primaryAsset = mapPackage.PrimaryAsset;
 
 		if ( primaryAsset.EndsWith( ".scene" ) )
 		{
