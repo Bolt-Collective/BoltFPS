@@ -292,6 +292,8 @@ ServerSettings, MapSelector, ServerBrowser {
   }
 
   .mapDisplay {
+    flex-direction: column;
+    gap: 8px;
   }
 
   .lobbyname {
