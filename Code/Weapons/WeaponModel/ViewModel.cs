@@ -1,8 +1,3 @@
-using Sandbox;
-using ShrimplePawns;
-using System.Net.Mail;
-using System.Security.Cryptography;
-
 namespace Seekers;
 
 [Icon( "pan_tool" )]
@@ -26,23 +21,23 @@ public class ViewModel : Component
 
 	[Property, Group( "Particles" )] public GameObject EjectEffect { get; set; }
 
-	[Property, Group( "SwingAndBob" ), ShowIf("swingAndBob", true)] public float SwingInfluence { get; set; } = 0.05f;
+	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float SwingInfluence { get; set; } = 0.05f;
 	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float ReturnSpeed { get; set; } = 5.0f;
 	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float MaxOffsetLength { get; set; } = 10.0f;
 	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float BobCycleTime { get; set; } = 7;
-	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public Vector3 BobDirection { get; set; } = new(0.0f, 1.0f, 0.5f);
+	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public Vector3 BobDirection { get; set; } = new( 0.0f, 1.0f, 0.5f );
 	[Property, Group( "SwingAndBob" ), ShowIf( "swingAndBob", true )] public float InertiaDamping { get; set; } = 20.0f;
 
-	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public Angles YawInertiaAngle { get; set; } = new Angles(0, 30, 20);
+	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public Angles YawInertiaAngle { get; set; } = new Angles( 0, 30, 20 );
 	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public Angles PitchInertiaAngle { get; set; } = new Angles( 30, 0, 0 );
-	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public Curve JumpCurve { get; set; } = Curve.Ease;	
+	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public Curve JumpCurve { get; set; } = Curve.Ease;
 	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public float JumpTime { get; set; } = 0.5f;
 	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public float JumpDownTime { get; set; } = 0.25f;
 	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public Vector3 JumpOffset { get; set; } = new Vector3( 0, 0, -1 );
 	[Property, Group( "ProcedualSway" ), ShowIf( "procedualSway", true )] public GameObject RotateAround { get; set; }
 
 
-	[Property, ToggleGroup("ProcedualAim")] public bool procedualAim { get; set; }
+	[Property, ToggleGroup( "ProcedualAim" )] public bool procedualAim { get; set; }
 
 	[Property, Group( "ProcedualAim" )] public float AimTime { get; set; } = 2;
 	[Property, Group( "ProcedualAim" )] public Curve AimPosCurve { get; set; }
@@ -115,6 +110,8 @@ public class ViewModel : Component
 	[Property] public Dictionary<string, TranslatedAnim> AnimParamTranslate { get; set; }
 	[Property] public Dictionary<string, GameObject> AttachmentTranslate { get; set; }
 
+	[Property] public float PlaybackRate { get; set; } = 1.0f;
+
 	public enum SwayTypes
 	{
 		Graph,
@@ -126,11 +123,11 @@ public class ViewModel : Component
 	{
 		[KeyProperty] public string Param { get; set; }
 		public bool Reset { get; set; }
-		[ShowIf("Reset", true)] public float ResetDelay { get; set; }
+		[ShowIf( "Reset", true )] public float ResetDelay { get; set; }
 	}
-	public Transform GetAttachment(string name)
+	public Transform GetAttachment( string name )
 	{
-		if (AttachmentTranslate != null && AttachmentTranslate.ContainsKey(name))
+		if ( AttachmentTranslate != null && AttachmentTranslate.ContainsKey( name ) )
 			return AttachmentTranslate[name].WorldTransform;
 		return Renderer?.GetAttachment( name ) ?? WorldTransform;
 	}
@@ -148,7 +145,7 @@ public class ViewModel : Component
 		return name;
 	}
 
-	public async void Reset(string anim, float delay)
+	public async void Reset( string anim, float delay )
 	{
 		await Task.DelaySeconds( delay );
 		Renderer?.Set( anim, false );
@@ -178,7 +175,7 @@ public class ViewModel : Component
 	protected override void OnStart()
 	{
 		Scope = ScopePoint?.GetComponent<Scope>();
-		foreach(var renderer in Renderers)
+		foreach ( var renderer in Renderers )
 			renderer.OnGenericEvent += Event;
 
 		if ( !EjectEffect.IsValid() )
@@ -188,7 +185,7 @@ public class ViewModel : Component
 		ejectEmitter = EjectEffect.GetComponent<ParticleEmitter>();
 	}
 
-	public void Event(SceneModel.GenericEvent @event)
+	public void Event( SceneModel.GenericEvent @event )
 	{
 		if ( @event.Type.ToLower() == "refill ammo" )
 			OverrideFill = @event.Float;
@@ -236,6 +233,8 @@ public class ViewModel : Component
 			pawn.Controller.Camera.LocalRotation = bone.Rotation * 2;
 		}
 
+		Renderer?.PlaybackRate = PlaybackRate;
+
 		var newPitch = WorldRotation.Pitch();
 		var newYaw = WorldRotation.Yaw();
 
@@ -250,7 +249,7 @@ public class ViewModel : Component
 		pIntertiaSmooth = pIntertiaSmooth.LerpTo( PitchInertia, 10 * Time.Delta );
 		yIntertiaSmooth = yIntertiaSmooth.LerpTo( YawInertia, 10 * Time.Delta );
 
-		ProcedualAim(pawn);
+		ProcedualAim( pawn );
 
 		if ( swingAndBob )
 		{
@@ -273,10 +272,10 @@ public class ViewModel : Component
 			);
 		}
 
-		switch (SwayType)
+		switch ( SwayType )
 		{
 			case SwayTypes.Graph:
-				GraphSway(pawn);
+				GraphSway( pawn );
 				break;
 			case SwayTypes.SwingAndBob:
 				DoSwingAndBob( newPitch, pitchDelta, yawDelta );
@@ -295,7 +294,7 @@ public class ViewModel : Component
 		YawInertia = YawInertia.LerpTo( 0, Time.Delta * InertiaDamping );
 		PitchInertia = PitchInertia.LerpTo( 0, Time.Delta * InertiaDamping );
 
-		DoBulletGroups(pawn);
+		DoBulletGroups( pawn );
 	}
 
 	public void Eject()
@@ -317,7 +316,7 @@ public class ViewModel : Component
 	}
 
 	float smoothedVel;
-	public void GraphSway(Pawn pawn)
+	public void GraphSway( Pawn pawn )
 	{
 		var velocity = pawn.Controller.IsGrounded
 				? GetPercentageBetween( pawn.Controller.Velocity.Length, 0, pawn.Controller.WalkSpeed )
@@ -348,7 +347,7 @@ public class ViewModel : Component
 		var yawIntertia = (yIntertiaSmooth / 180) * YawInertiaAngle.AsVector3();
 
 		var rot = new Angles( pitchIntertia + yawIntertia );
-		LocalTransform = LocalTransform.RotateAround(rotateAroundPoint, rot);
+		LocalTransform = LocalTransform.RotateAround( rotateAroundPoint, rot );
 
 		if ( !pawn.Controller.IsGrounded )
 			jumpOffsetSmooth += Time.Delta * 1 / JumpTime;
@@ -368,16 +367,16 @@ public class ViewModel : Component
 	private bool Aiming;
 	private float aimSmooth;
 	private float steadySmooth;
-	public void ProcedualAim(Pawn pawn)
+	public void ProcedualAim( Pawn pawn )
 	{
 		if ( !procedualAim ) return;
 
-		aimSmooth += (Aiming && !GetBool("b_sprint") && !pawn.Inventory.ActiveWeapon.IsReloading ? Time.Delta : -Time.Delta) * 1 / AimTime;
+		aimSmooth += (Aiming && !GetBool( "b_sprint" ) && !pawn.Inventory.ActiveWeapon.IsReloading ? Time.Delta : -Time.Delta) * 1 / AimTime;
 		aimSmooth = aimSmooth.Clamp( 0, 1 );
 
-		var goingSteady = ScopePoint.IsValid() && pawn.Stamina > 0 && Input.Down( "Walk" ) && Input.Down("attack2") && pawn.Inventory.ActiveWeapon.TimeSincePrimaryAttack > 1 / pawn.Inventory.ActiveWeapon.PrimaryRate;
+		var goingSteady = ScopePoint.IsValid() && pawn.Stamina > 0 && Input.Down( "Walk" ) && Input.Down( "attack2" ) && pawn.Inventory.ActiveWeapon.TimeSincePrimaryAttack > 1 / pawn.Inventory.ActiveWeapon.PrimaryRate;
 		if ( goingSteady )
-			pawn.TakeStamina(Time.Delta * ScopeCost);
+			pawn.TakeStamina( Time.Delta * ScopeCost );
 
 		if ( pawn.Stamina < 0.1f )
 			goingSteady = false;
@@ -404,7 +403,7 @@ public class ViewModel : Component
 		var ironPointPos = GameObject.Parent.WorldTransform.PointToLocal( IronSightPoint.WorldPosition );
 		var scopePosRel = GameObject.Parent.WorldTransform.PointToLocal( ScopePoint?.WorldPosition ?? IronSightPoint.WorldPosition );
 
-		targetPosOffset -= ironPointPos.LerpTo(scopePosRel, steadySmooth).WithX(ironPointPos.x);
+		targetPosOffset -= ironPointPos.LerpTo( scopePosRel, steadySmooth ).WithX( ironPointPos.x );
 		targetPosOffset += Vector3.Forward * (Distance + AimOffset);
 
 		LocalPosition += targetPosOffset * AimPosCurve.Evaluate( aimSmooth );
@@ -415,7 +414,7 @@ public class ViewModel : Component
 	{
 		var anim = GetAnim( name );
 
-		foreach(var renderer in Renderers )
+		foreach ( var renderer in Renderers )
 			renderer?.Set( anim, value );
 	}
 
@@ -447,7 +446,7 @@ public class ViewModel : Component
 
 	public float GetFloat( string name )
 	{
-		return Renderer?.GetFloat( GetAnim( name )) ?? 0;
+		return Renderer?.GetFloat( GetAnim( name ) ) ?? 0;
 	}
 
 	public int GetInt( string name )
@@ -472,7 +471,7 @@ public class ViewModel : Component
 		Set( "aim_yaw_inertia", yawInertia );
 		Set( "aim_pitch_inertia", pitchInertia );
 		Set( "move_bob", velocity );
-		Set("b_sprint", sprint );
+		Set( "b_sprint", sprint );
 		Set( "b_grounded", grounded );
 		Set( "b_empty", empty );
 	}
@@ -508,7 +507,7 @@ public class ViewModel : Component
 		offset += CalcBobbingOffset( bobSpeed );
 
 		WorldPosition += WorldRotation * offset + (player.Controller.Camera.WorldTransform.PointToWorld( Offset ) -
-		                                           player.Controller.Camera.WorldPosition);
+												   player.Controller.Camera.WorldPosition);
 	}
 
 	protected Vector3 CalcSwingOffset( float pitchDelta, float yawDelta )
@@ -543,6 +542,6 @@ public class ViewModel : Component
 	{
 		Gizmo.Draw.IgnoreDepth = true;
 		if ( ScopePoint.IsValid() )
-			Gizmo.Draw.Line( WorldTransform.PointToLocal( ScopePoint.WorldPosition ), WorldTransform.PointToLocal( ScopePoint.WorldPosition + ScopePoint.WorldTransform.Backward * 200 ));
+			Gizmo.Draw.Line( WorldTransform.PointToLocal( ScopePoint.WorldPosition ), WorldTransform.PointToLocal( ScopePoint.WorldPosition + ScopePoint.WorldTransform.Backward * 200 ) );
 	}
 }
