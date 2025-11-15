@@ -7,7 +7,8 @@ public class PlayerInventory : Component, IPlayerEvent
 	[RequireComponent] public Pawn Owner { get; set; }
 	[Sync, Property] public NetList<BaseWeapon> Weapons { get; set; } = new();
 	[Sync, Property] public BaseWeapon ActiveWeapon { get; set; }
-	[Property] public bool InfiniteAmmo { get; set; }
+
+	[ConVar( "bolt_infiniteammo", ConVarFlags.GameSetting | ConVarFlags.Admin )] public static bool InfiniteAmmo { get; set; }
 
 	[Property] public Dictionary<string, int> Ammo { get; set; } = new();
 
@@ -90,16 +91,16 @@ public class PlayerInventory : Component, IPlayerEvent
 		if ( Ammo == null )
 			Ammo = new();
 
-		if (InfiniteAmmo)
+		if ( InfiniteAmmo )
 			return int.MaxValue;
 
 		if ( !Ammo.ContainsKey( ammoType ) )
 			return 0;
 
-		return Ammo[ ammoType ];
+		return Ammo[ammoType];
 	}
 
-	public void TakeReserve(string ammoType, int amount)
+	public void TakeReserve( string ammoType, int amount )
 	{
 		if ( Ammo == null )
 			Ammo = new();
@@ -107,7 +108,7 @@ public class PlayerInventory : Component, IPlayerEvent
 		if ( !Ammo.ContainsKey( ammoType ) )
 			return;
 
-		Ammo[ ammoType ] -= amount;
+		Ammo[ammoType] -= amount;
 	}
 
 	public void GiveReserve( string ammoType, int amount )
@@ -241,7 +242,7 @@ public class PlayerInventory : Component, IPlayerEvent
 	}
 
 	[Rpc.Owner]
-	public void ForceGive(ItemResource itemResource)
+	public void ForceGive( ItemResource itemResource )
 	{
 		if ( !Owner.Renderer.IsValid() )
 			return;
