@@ -139,7 +139,7 @@ public partial class Pawn : ShrimplePawns.Pawn, IPlayerEvent
 
 		var bodyModel = Controller.BodyModelRenderer;
 		bodyModel.GameObject.SetParent( Game.ActiveScene );
-		bodyModel.AddComponent<TimedDestroyComponent>().Time = 5;
+		bodyModel.GameObject.DestroyAsync(5f);
 		bodyModel.UseAnimGraph = false;
 
 		foreach ( var skinnedModelRenderer in bodyModel.Components.GetAll<SkinnedModelRenderer>() )

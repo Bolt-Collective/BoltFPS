@@ -169,9 +169,10 @@ public abstract partial class NPC : Knowable
 			return;
 
 		body.GameObject.SetParent( Game.ActiveScene );
-		body.AddComponent<TimedDestroyComponent>().Time = 15;
+		body.GameObject.DestroyAsync(15f);
 		body.UseAnimGraph = false;
 		body.RenderType = ModelRenderer.ShadowRenderType.On;
+
 		if ( replacement.IsValid() )
 			body.Model = replacement;
 		body.Tags.Add( "ragdoll" );
