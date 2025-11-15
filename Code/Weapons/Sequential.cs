@@ -31,10 +31,13 @@ partial class SequentialGun : BaseWeapon
 			return false;
 		}
 
-		var rate = PrimaryRate;
-		if ( rate <= 0 ) return true;
+                var rate = PrimaryRate;
+                if ( rate <= 0f )
+                {
+                        return true;
+                }
 
-		return TimeSincePrimaryAttack > (1 / rate);
+                return TimeSincePrimaryAttack > 1f / rate;
 	}
 
 	public override void AttackPrimary()
@@ -43,7 +46,8 @@ partial class SequentialGun : BaseWeapon
 
 		Ammo--;
 
-		TimeSincePrimaryAttack = Ammo <= 0 ? 1 / (PrimaryRate - LastBulletRate) : 0;
+                var finalRate = PrimaryRate - LastBulletRate;
+                TimeSincePrimaryAttack = Ammo <= 0 && finalRate > 0f ? 1f / finalRate : 0f;
 		TimeSinceSecondaryAttack = 0;
 		
 
@@ -160,5 +164,24 @@ partial class SequentialGun : BaseWeapon
 	}
 
 	public override string StatDamage => $"{Damage}x10";
-	public override float StatDPS => MathF.Round( (Damage * 10 * MaxAmmo) / ((MaxAmmo / PrimaryRate) + ReloadTime) );
+        public override float StatDPS
+        {
+                get
+                {
+                        if ( Damage <= 0f || PrimaryRate <= 0f || MaxAmmo <= 0 )
+                        {
+                                return 0f;
+                        }
+
+                        var fireDuration = MaxAmmo / PrimaryRate;
+                        var totalCycleTime = fireDuration + MathF.Max( ReloadTime, 0f );
+
+                        if ( totalCycleTime <= 0f )
+                        {
+                                return 0f;
+                        }
+
+                        return MathF.Round( (Damage * 10 * MaxAmmo) / totalCycleTime );
+                }
+        }
 }

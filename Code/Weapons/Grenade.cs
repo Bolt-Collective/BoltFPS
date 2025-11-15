@@ -10,8 +10,8 @@ partial class Grenade : BaseWeapon, Component.ICollisionListener
 
 	public override bool CanReload() => false;
 
-	public override bool CanSecondaryAttack() =>
-		base.CanSecondaryAttack() && TimeSincePrimaryAttack > 1 / PrimaryRate && Ammo > 0;
+        public override bool CanSecondaryAttack() =>
+                base.CanSecondaryAttack() && TimeSincePrimaryAttack > BulletTime && Ammo > 0;
 
 	protected override void OnUpdate()
 	{

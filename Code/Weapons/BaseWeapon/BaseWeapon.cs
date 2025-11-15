@@ -136,7 +136,7 @@ public partial class BaseWeapon : Component
 	public RealTimeSince LastShot { get; set; }
 	public Vector2 Recoil { get; set; }
 	public virtual float RecoilTime => 0.05f.Clamp( 0, BulletTime );
-	public float BulletTime => 1 / PrimaryRate;
+        public float BulletTime => PrimaryRate > 0f ? 1f / PrimaryRate : float.PositiveInfinity;
 
 	public virtual bool UseProjectile => false;
 
@@ -144,7 +144,26 @@ public partial class BaseWeapon : Component
 
 	public virtual string StatDamage => Damage.ToString();
 	public virtual float StatFirerate => PrimaryRate;
-	public virtual float StatDPS => MathF.Round( Damage * MaxAmmo / (MaxAmmo / PrimaryRate + CurrentReloadTime) );
+        public virtual float StatDPS
+        {
+                get
+                {
+                        if ( Damage <= 0f || PrimaryRate <= 0f || MaxAmmo <= 0 )
+                        {
+                                return 0f;
+                        }
+
+                        var fireDuration = MaxAmmo / PrimaryRate;
+                        var totalCycleTime = fireDuration + MathF.Max( CurrentReloadTime, 0f );
+
+                        if ( totalCycleTime <= 0f )
+                        {
+                                return 0f;
+                        }
+
+                        return MathF.Round( Damage * MaxAmmo / totalCycleTime );
+                }
+        }
 
 	public Transform Attachment( string name )
 	{
